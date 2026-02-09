@@ -4,359 +4,507 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>貿易之巔 - 全球領先的交易系統</title>
-    <meta name="description" content="最先進的貿易入口，帶您進入全球市場的中心。">
-    <!-- 引入 Google Fonts: Outfit & Inter -->
+    <title>貿易之域 | 旗艦交易系統</title>
+    <meta name="description" content="沉浸式貿易體驗，引領未來交易新紀元。">
+    <!-- Google Fonts: Syncopate (Title), Outfit (UI), Inter (Content) -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet">
-    <!-- 引入 Font Awesome 圖示 -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --accent: #22d3ee;
-            --bg-dark: #020617;
-            --card-bg: rgba(15, 23, 42, 0.6);
-            --border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
+            --primary: #818cf8;
+            --secondary: #c084fc;
+            --accent: #2dd4bf;
+            --bg: #030712;
+            --card: rgba(17, 24, 39, 0.45);
+            --border: rgba(255, 255, 255, 0.08);
+            --gold: #fbbf24;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        h1,
-        h2,
-        h3,
-        .brand {
-            font-family: 'Outfit', sans-serif;
+            cursor: none;
+            /* 使用自訂鼠標 */
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            background-image:
-                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
         }
 
-        /* 動態背景網格 */
-        .bg-grid {
+        /* 顆粒質感疊加 */
+        body::before {
+            content: "";
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.15;
+            z-index: 1000;
             pointer-events: none;
-            z-index: -1;
-            opacity: 0.3;
-            mask-image: radial-gradient(circle at center, black, transparent 80%);
         }
 
-        /* 導航欄 */
+        /* 背景畫布 */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 動態流體背景 */
+        .ambient-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(129, 140, 248, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(192, 132, 252, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.05) 0%, transparent 60%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        /* 自訂鼠標 */
+        #custom-cursor {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.15s ease-out;
+        }
+
+        #custom-cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* 導航 */
         nav {
-            padding: 1.5rem 10%;
+            height: 90px;
+            padding: 0 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
             position: fixed;
-            width: 100%;
             top: 0;
+            width: 100%;
             z-index: 100;
             border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
         }
 
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--accent), var(--primary));
+        .logo {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        /* 主容器 */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 主要場景 */
         main {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 100px 20px;
+            perspective: 1000px;
+            padding: 120px 20px;
         }
 
-        .hero-card {
-            max-width: 900px;
+        .scene-container {
             width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--border);
-            border-radius: 2.5rem;
-            padding: 4rem 2rem;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
-            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 1100px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
         }
 
-        @keyframes slideUp {
+        .main-card {
+            background: var(--card);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--border);
+            border-radius: 3rem;
+            padding: 5rem 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
+        }
+
+        .main-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: rotate(45deg);
+            animation: reflect 10s infinite linear;
+        }
+
+        @keyframes reflect {
             from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
+                transform: translateX(-100%) rotate(45deg);
             }
 
             to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateX(100%) rotate(45deg);
             }
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1.25rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 999px;
+        .label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
             color: var(--accent);
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
             text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 2rem;
+            display: block;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
             margin-bottom: 1.5rem;
+            line-height: 1.2;
             letter-spacing: -2px;
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--primary) 100%);
+        .glow-text {
+            color: #fff;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.5);
+        }
+
+        .description {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            margin: 0 auto 3.5rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* 按鈕升級 */
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-premium {
+            position: relative;
+            padding: 1.5rem 4rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #000;
+            background: #fff;
+            border-radius: 1.2rem;
+            text-decoration: none;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(129, 140, 248, 0.3);
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-premium .shimmer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-premium:hover .shimmer {
+            left: 100%;
+        }
+
+        .btn-outline {
+            padding: 1.5rem 4rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            border-radius: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 精緻統計區 */
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            margin-top: 5rem;
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card {
+            background: rgba(17, 24, 39, 0.4);
+            padding: 2.5rem 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .stat-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.5));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-dim);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            line-height: 1.6;
-        }
-
-        /* 按鈕設計 */
-        .btn-group {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .primary-btn {
-            background: var(--text-main);
-            color: var(--bg-dark);
-            padding: 1.2rem 3rem;
-            border-radius: 1rem;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .primary-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(255, 255, 255, 0.2);
-            filter: brightness(1.1);
-        }
-
-        .secondary-btn {
-            background: transparent;
-            color: var(--text-main);
-            padding: 1.2rem 3rem;
-            border-radius: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1.1rem;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .secondary-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* 特色數據 */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 4rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .stat-item h3 {
-            font-size: 1.5rem;
-            color: var(--text-main);
-        }
-
-        .stat-item p {
-            font-size: 0.85rem;
-            color: var(--text-dim);
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--accent);
             text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        /* 裝飾光暈 */
-        .glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--primary);
-            filter: blur(120px);
-            opacity: 0.2;
-            z-index: -1;
-            border-radius: 50%;
-        }
-
-        .glow-1 {
-            top: -100px;
-            left: -100px;
-        }
-
-        .glow-2 {
-            bottom: -100px;
-            right: -100px;
-            background: var(--secondary);
+            letter-spacing: 3px;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
-            .stats {
+            .grid-stats {
                 grid-template-columns: 1fr;
             }
 
-            .hero-card {
-                padding: 3rem 1.5rem;
+            .description {
+                font-size: 1rem;
             }
 
             nav {
-                padding: 1.5rem 5%;
+                height: 70px;
             }
-        }
 
-        /* 滑鼠跟隨效果 */
-        #cursor-glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s;
+            .main-card {
+                padding: 4rem 1.5rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id="cursor-glow"></div>
-    <div class="bg-grid"></div>
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-follower"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-light"></div>
 
     <nav>
-        <div class="brand">
-            <i class="fa-solid fa-cube"></i>
-            LAB TRADING
-        </div>
-        <div class="nav-links">
-            <span style="color: var(--text-dim); font-size: 0.9rem;">v2.0 Premium Edition</span>
+        <div class="logo">META TRADING</div>
+        <div class="systen-status">
+            <span class="status-dot"></span>
+            <span style="font-size: 0.7rem; letter-spacing: 2px; font-weight: 600;">SYSTEM OPERATIONAL</span>
         </div>
     </nav>
 
     <main>
-        <div class="hero-card">
-            <div class="glow glow-1"></div>
-            <div class="glow glow-2"></div>
+        <div class="scene-container" id="scene">
+            <div class="main-card">
+                <span class="label">Evolution of Commerce</span>
+                <h1 class="glow-text">界限不再，<br>唯有 貿易 的無限。</h1>
+                <p class="description">
+                    在這個融合了數位美學與極致效率的空間中，我們重塑了交易的本質。從毫秒級的執行到全域市場的洞察，這不僅是工具，這是您的貿易殿堂。
+                </p>
 
-            <div class="badge">Next Generation Interface</div>
-
-            <h1>
-                跨越邊界<br>
-                <span class="gradient-text">前往貿易之巔</span>
-            </h1>
-
-            <p class="subtitle">
-                這不僅僅是一個入口，而是您掌握全球市場脈動、實現資產增長的數位空間。體驗前所未有的流暢與專業。
-            </p>
-
-            <div class="btn-group">
-                <a href="#" class="primary-btn">
-                    立即開始貿易
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-                <a href="#" class="secondary-btn">系統文件</a>
-            </div>
-
-            <div class="stats">
-                <div class="stat-item">
-                    <h3>0.01s</h3>
-                    <p>極速成交</p>
+                <div class="btn-wrapper">
+                    <a href="#" class="btn-premium">
+                        進入貿易之門
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                        <div class="shimmer"></div>
+                    </a>
+                    <a href="#" class="btn-outline">探索技術維度</a>
                 </div>
-                <div class="stat-item">
-                    <h3>99.9%</h3>
-                    <p>系統穩定性</p>
-                </div>
-                <div class="stat-item">
-                    <h3>24/7</h3>
-                    <p>全球支援</p>
+
+                <div class="grid-stats">
+                    <div class="stat-card">
+                        <span class="stat-val">0.001s</span>
+                        <span class="stat-label">終極時耗</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val">100%</span>
+                        <span class="stat-label">加密安全</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val">∞</span>
+                        <span class="stat-label">市場深度</span>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        // 滑鼠跟隨裝飾效果
-        const glow = document.getElementById('cursor-glow');
+        // --- 1. 背景粒子系統 ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 150; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 2. 自訂鼠標與傾斜效果 ---
+        const cursor = document.getElementById('custom-cursor');
+        const follower = document.getElementById('custom-cursor-follower');
+        const scene = document.getElementById('scene');
+
         document.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
+            // 鼠標移動
+            cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            follower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
+
+            // 3D 傾斜
+            const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
+            scene.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
 
-        // 點擊按鈕效果
-        document.querySelector('.primary-btn').addEventListener('click', (e) => {
+        // 交互縮放
+        const interactiveElements = document.querySelectorAll('a, .logo');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.transform += ' scale(2)';
+                follower.style.borderColor = 'var(--accent)';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.transform = follower.style.transform.replace(' scale(2)', '');
+                follower.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            });
+        });
+
+        // 點擊效果
+        document.querySelector('.btn-premium').addEventListener('click', (e) => {
             e.preventDefault();
             const btn = e.currentTarget;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 正在連線...';
-            btn.style.opacity = '0.7';
+            btn.style.transform = 'scale(0.95)';
             setTimeout(() => {
-                alert('歡迎進入貿易系統！系統初始化中...');
-                btn.innerHTML = '立即開始貿易 <i class="fa-solid fa-arrow-right"></i>';
-                btn.style.opacity = '1';
-            }, 1000);
+                alert('Meta Trading 系統授權成功。歡迎來到未來。');
+                btn.style.transform = 'scale(1)';
+            }, 500);
         });
     </script>
 </body>
