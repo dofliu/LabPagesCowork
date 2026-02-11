@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究專案與技術發展 | NCUT IAE Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        .projects-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .project-section {
+            margin-bottom: 4rem;
+        }
+        .project-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-beta { background: #dbeafe; color: #1e40af; }
+        .status-dev { background: #f3e8ff; color: #6b21a8; }
+        .status-legacy { background: #f1f5f9; color: #475569; }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-color);
+        }
+        .project-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        .tech-tag {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">IAE LAB<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#about">關於實驗室</a></li>
+                <li><a href="projects.html" style="color: var(--primary-color);">研究專案</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="index.html#team">成員介紹</a></li>
+                <li><a href="index.html#contact">聯絡我們</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" style="height: 40vh; min-height: 300px; background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 100%);">
+        <div class="hero-content">
+            <h1>Current Research & Projects</h1>
+            <p>從自動控制到生成式 AI，我們持續探索技術的邊界。</p>
+        </div>
+    </header>
+
+    <main class="projects-container">
+        
+        <!-- 主力研究 -->
+        <section class="project-section">
+            <h2>🟢 主力研究 (Core Research) <span class="status-badge status-active">Active</span></h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-title">ResearchTopic: 智慧運維與控制</div>
+                    <p class="project-desc">
+                        本實驗室的核心研究項目，涵蓋離岸風電運維、自動化控制系統優化，以及基於 AI 的故障預測模型開發。
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Auto Control</span>
+                        <span class="tech-tag">Wind Energy</span>
+                        <span class="tech-tag">AI/ML</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 原型與測試 -->
+        <section class="project-section">
+            <h2>🔵 原型與新技術 (Prototype & Beta) <span class="status-badge status-beta">Beta</span></h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-title">LabPages Cowork</div>
+                    <p class="project-desc">
+                        實驗室的開源協作網頁平台，整合 GitHub Pages 自動化部署，提供成員練習 Git Flow 與 Web 開發的實戰場域。
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">HTML/CSS</span>
+                        <span class="tech-tag">GitHub Actions</span>
+                        <span class="tech-tag">Web Dev</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-title">Local AI Assistant</div>
+                    <p class="project-desc">
+                        探索本地端大語言模型 (Local LLM) 的應用，構建隱私安全且具備特定領域知識的 AI 助理原型。
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">LLM</span>
+                        <span class="tech-tag">RAG</span>
+                        <span class="tech-tag">Python</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 工具開發 -->
+        <section class="project-section">
+            <h2>🟣 工具與助理開發 (Tools & Assistants) <span class="status-badge status-dev">Dev</span></h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-title">PersonalHelper</div>
+                    <p class="project-desc">
+                        一系列提升研究與開發效率的個人化小工具集合。未來將逐步封裝為 MCP (Model Context Protocol) 伺服器或 Agent Skills。
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Automation</span>
+                        <span class="tech-tag">Scripting</span>
+                        <span class="tech-tag">MCP</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-title">MCP Servers</div>
+                    <p class="project-desc">
+                        基於 Model Context Protocol 標準開發的工具伺服器，旨在讓 AI 模型能安全地與外部數據和工具進行互動。
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">MCP Standard</span>
+                        <span class="tech-tag">API Integration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 教學相關 -->
+        <section class="project-section">
+            <h2>🟡 課程教學資源 (Course Materials) <span class="status-badge status-legacy">Teaching</span></h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-title">Course Related</div>
+                    <p class="project-desc">
+                        包含自動控制、程式語言、人工智慧等課程的教學範例、投影片與學生作業參考資源。
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Education</span>
+                        <span class="tech-tag">Demo Code</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            <p>國立勤益科技大學 智慧自動化工程系 | 誠樸館 G309</p>
+        </div>
+    </footer>
+</body>
+</html>
