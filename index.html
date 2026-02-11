@@ -1,512 +1,104 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>貿易之域 | 旗艦交易系統</title>
-    <meta name="description" content="沉浸式貿易體驗，引領未來交易新紀元。">
-    <!-- Google Fonts: Syncopate (Title), Outfit (UI), Inter (Content) -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #818cf8;
-            --secondary: #c084fc;
-            --accent: #2dd4bf;
-            --bg: #030712;
-            --card: rgba(17, 24, 39, 0.45);
-            --border: rgba(255, 255, 255, 0.08);
-            --gold: #fbbf24;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-            /* 使用自訂鼠標 */
-        }
-
-        body {
-            background-color: var(--bg);
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* 顆粒質感疊加 */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.15;
-            z-index: 1000;
-            pointer-events: none;
-        }
-
-        /* 背景畫布 */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -2;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* 動態流體背景 */
-        .ambient-light {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 10% 20%, rgba(129, 140, 248, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(192, 132, 252, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.05) 0%, transparent 60%);
-            z-index: -1;
-            filter: blur(80px);
-        }
-
-        /* 自訂鼠標 */
-        #custom-cursor {
-            width: 20px;
-            height: 20px;
-            background: #fff;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transition: transform 0.15s ease-out;
-        }
-
-        #custom-cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* 導航 */
-        nav {
-            height: 90px;
-            padding: 0 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-        }
-
-        .logo {
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            background: linear-gradient(to right, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 10px var(--accent);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.5);
-                opacity: 0.5;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* 主要場景 */
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-            padding: 120px 20px;
-        }
-
-        .scene-container {
-            width: 100%;
-            max-width: 1100px;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-        }
-
-        .main-card {
-            background: var(--card);
-            backdrop-filter: blur(40px);
-            border: 1px solid var(--border);
-            border-radius: 3rem;
-            padding: 5rem 3rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
-        }
-
-        .main-card::after {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
-            transform: rotate(45deg);
-            animation: reflect 10s infinite linear;
-        }
-
-        @keyframes reflect {
-            from {
-                transform: translateX(-100%) rotate(45deg);
-            }
-
-            to {
-                transform: translateX(100%) rotate(45deg);
-            }
-        }
-
-        .label {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 2rem;
-            display: block;
-        }
-
-        h1 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            letter-spacing: -2px;
-        }
-
-        .glow-text {
-            color: #fff;
-            text-shadow: 0 0 30px rgba(129, 140, 248, 0.5);
-        }
-
-        .description {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.6);
-            max-width: 700px;
-            margin: 0 auto 3.5rem;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        /* 按鈕升級 */
-        .btn-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn-premium {
-            position: relative;
-            padding: 1.5rem 4rem;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #000;
-            background: #fff;
-            border-radius: 1.2rem;
-            text-decoration: none;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-premium:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(129, 140, 248, 0.3);
-            background: var(--accent);
-            color: #000;
-        }
-
-        .btn-premium .shimmer {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-premium:hover .shimmer {
-            left: 100%;
-        }
-
-        .btn-outline {
-            padding: 1.5rem 4rem;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #fff;
-            background: transparent;
-            border: 1.5px solid var(--border);
-            border-radius: 1.2rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline:hover {
-            border-color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* 精緻統計區 */
-        .grid-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: var(--border);
-            margin-top: 5rem;
-            border-radius: 2rem;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .stat-card {
-            background: rgba(17, 24, 39, 0.4);
-            padding: 2.5rem 1.5rem;
-            transition: all 0.4s ease;
-        }
-
-        .stat-card:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .stat-val {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.5));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .grid-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .description {
-                font-size: 1rem;
-            }
-
-            nav {
-                height: 70px;
-            }
-
-            .main-card {
-                padding: 4rem 1.5rem;
-            }
-        }
-    </style>
+    <title>智慧自動化工程實驗室 | NCUT IAE Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
-    <div id="custom-cursor"></div>
-    <div id="custom-cursor-follower"></div>
-    <canvas id="bg-canvas"></canvas>
-    <div class="ambient-light"></div>
-
-    <nav>
-        <div class="logo">META TRADING</div>
-        <div class="systen-status">
-            <span class="status-dot"></span>
-            <span style="font-size: 0.7rem; letter-spacing: 2px; font-weight: 600;">SYSTEM OPERATIONAL</span>
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">IAE LAB<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">關於實驗室</a></li>
+                <li><a href="#research">研究領域</a></li>
+                <li><a href="#team">成員介紹</a></li>
+                <li><a href="#contact">聯絡我們</a></li>
+            </ul>
         </div>
     </nav>
 
-    <main>
-        <div class="scene-container" id="scene">
-            <div class="main-card">
-                <span class="label">Evolution of Commerce</span>
-                <h1 class="glow-text">界限不再，<br>唯有 貿易 的無限。</h1>
-                <p class="description">
-                    在這個融合了數位美學與極致效率的空間中，我們重塑了交易的本質。從毫秒級的執行到全域市場的洞察，這不僅是工具，這是您的貿易殿堂。
-                </p>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Intelligent Automation<br><span class="highlight">Engineering Lab</span></h1>
+            <p>致力於人工智慧、自動控制與數位孿生技術的深度整合研究。</p>
+            <a href="#contact" class="btn-primary">加入我們</a>
+        </div>
+    </header>
 
-                <div class="btn-wrapper">
-                    <a href="#" class="btn-premium">
-                        進入貿易之門
-                        <i class="fa-solid fa-bolt-lightning"></i>
-                        <div class="shimmer"></div>
-                    </a>
-                    <a href="#" class="btn-outline">探索技術維度</a>
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">關於我們</h2>
+            <div class="about-grid">
+                <div class="card">
+                    <h3>創新與實作</h3>
+                    <p>我們結合學術理論與工程實務，強調動手實作，將 AI 演算法落地應用於真實的工業場景。</p>
                 </div>
+                <div class="card">
+                    <h3>跨領域整合</h3>
+                    <p>融合機械、電機與資工技術，探索機電整合與智慧製造的無限可能。</p>
+                </div>
+                <div class="card">
+                    <h3>開放協作</h3>
+                    <p>擁抱 Open Source 精神，鼓勵團隊成員使用 GitHub 進行專案協作與知識分享。</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="grid-stats">
-                    <div class="stat-card">
-                        <span class="stat-val">0.001s</span>
-                        <span class="stat-label">終極時耗</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-val">100%</span>
-                        <span class="stat-label">加密安全</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-val">∞</span>
-                        <span class="stat-label">市場深度</span>
+    <section id="research" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">研究領域</h2>
+            <div class="research-items">
+                <div class="item">
+                    <span class="icon">🤖</span>
+                    <h4>AI 代理人系統</h4>
+                    <p>Agentic AI, RAG, Expert Systems</p>
+                </div>
+                <div class="item">
+                    <span class="icon">🏭</span>
+                    <h4>智慧工廠與 IoT</h4>
+                    <p>Digital Twin, Predictive Maintenance</p>
+                </div>
+                <div class="item">
+                    <span class="icon">⚡</span>
+                    <h4>綠能與自動控制</h4>
+                    <p>Wind Energy O&M, Automatic Control</p>
+                </div>
+                <div class="item">
+                    <span class="icon">💻</span>
+                    <h4>軟體工程與開發</h4>
+                    <p>Full-stack Dev, Cloud Computing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="section">
+        <div class="container">
+            <h2 class="section-title">指導教授</h2>
+            <div class="team-member">
+                <div class="member-info">
+                    <h3>劉瑞弘 教授 (Dof Liu)</h3>
+                    <p class="role">Principal Investigator</p>
+                    <p class="bio">專注於程式開發、專案管理、論文發表以及學生指導。帶領實驗室探索 AI 與工程的邊界。</p>
+                    <div class="links">
+                        <a href="https://github.com/dofliu" target="_blank">GitHub</a>
+                        <a href="mailto:dofliu@gm.ncut.edu.tw">Email</a>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <script>
-        // --- 1. 背景粒子系統 ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.size = Math.random() * 2;
-                this.alpha = Math.random() * 0.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 150; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // --- 2. 自訂鼠標與傾斜效果 ---
-        const cursor = document.getElementById('custom-cursor');
-        const follower = document.getElementById('custom-cursor-follower');
-        const scene = document.getElementById('scene');
-
-        document.addEventListener('mousemove', (e) => {
-            // 鼠標移動
-            cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
-            follower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
-
-            // 3D 傾斜
-            const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
-            scene.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        // 交互縮放
-        const interactiveElements = document.querySelectorAll('a, .logo');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                follower.style.transform += ' scale(2)';
-                follower.style.borderColor = 'var(--accent)';
-            });
-            el.addEventListener('mouseleave', () => {
-                follower.style.transform = follower.style.transform.replace(' scale(2)', '');
-                follower.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-            });
-        });
-
-        // 點擊效果
-        document.querySelector('.btn-premium').addEventListener('click', (e) => {
-            e.preventDefault();
-            const btn = e.currentTarget;
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                alert('Meta Trading 系統授權成功。歡迎來到未來。');
-                btn.style.transform = 'scale(1)';
-            }, 500);
-        });
-    </script>
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            <p>國立勤益科技大學 智慧自動化工程系 | 誠樸館 G309</p>
+        </div>
+    </footer>
 </body>
-
 </html>
