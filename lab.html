@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Light Simulator</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --bulb-color: #475569;
+            --glow-color: transparent;
+            --switch-bg: #334155;
+            --switch-circle: #cbd5e1;
+            --text-color: #94a3b8;
+            --transition-speed: 0.4s;
+        }
+
+        body.light-on {
+            --bg-color: #f8fafc;
+            --bulb-color: #fbbf24;
+            --glow-color: rgba(251, 191, 36, 0.4);
+            --switch-bg: #fbbf24;
+            --switch-circle: #ffffff;
+            --text-color: #1e293b;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        /* Lightbulb Styling */
+        .lightbulb-wrapper {
+            position: relative;
+            width: 120px;
+            height: 180px;
+            margin: 0 auto 3rem;
+        }
+
+        .lightbulb {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background-color: var(--bulb-color);
+            border-radius: 50%;
+            margin: 0 auto;
+            transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            box-shadow: 0 0 50px var(--glow-color);
+            z-index: 2;
+        }
+
+        .lightbulb::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(to bottom, #94a3b8 20%, #475569 100%);
+            border-radius: 0 0 10px 10px;
+            z-index: 1;
+        }
+
+        /* Toggle Switch Styling */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            background-color: var(--switch-bg);
+            border-radius: 16px;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .switch::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--switch-circle);
+            border-radius: 50%;
+            transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-on .switch::before {
+            transform: translateX(28px);
+        }
+
+        .status-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Subtle Glow on Ground */
+        .ground-glow {
+            position: absolute;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 100px;
+            background: radial-gradient(ellipse at center, var(--glow-color) 0%, transparent 70%);
+            transition: opacity var(--transition-speed) ease;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 id="title">Laboratory Dark Mode</h1>
+
+        <div class="lightbulb-wrapper">
+            <div class="lightbulb"></div>
+            <div class="ground-glow"></div>
+        </div>
+
+        <div class="switch-container" id="toggle-switch">
+            <div class="switch"></div>
+            <span class="status-text" id="status">Off</span>
+        </div>
+    </div>
+
+    <script>
+        const body = document.body;
+        const toggle = document.getElementById('toggle-switch');
+        const statusText = document.getElementById('status');
+        const title = document.getElementById('title');
+
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('light-on');
+
+            const isOn = body.classList.contains('light-on');
+            statusText.textContent = isOn ? 'On' : 'Off';
+            title.textContent = isOn ? 'Laboratory Light Mode' : 'Laboratory Dark Mode';
+
+            // Add a small scale effect on click
+            toggle.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                toggle.style.transform = 'scale(1)';
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
