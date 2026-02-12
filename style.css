@@ -445,7 +445,7 @@ body {
 /* Improved Grid Layout for Tools */
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Use auto-fit with min-width */
     gap: 2rem;
     width: 100%;
 }
@@ -457,13 +457,13 @@ body {
     border-radius: 12px;
     padding: 1.5rem;
     display: flex;
-    gap: 1.2rem;
+    gap: 1.2rem; /* Increased gap */
     transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     text-decoration: none;
     color: inherit;
     position: relative;
     overflow: hidden;
-    height: 100%;
+    height: 100%; /* Uniform height */
     flex-direction: row;
     align-items: flex-start;
 }
@@ -491,7 +491,7 @@ body {
 
 .tool-info {
     flex-grow: 1;
-    min-width: 0;
+    min-width: 0; /* Critical for text overflow handling */
     display: flex;
     flex-direction: column;
 }
@@ -501,7 +501,7 @@ body {
     font-weight: 700;
     color: var(--text-white);
     margin-bottom: 0.4rem;
-    white-space: normal;
+    white-space: normal; /* Allow wrapping */
     line-height: 1.3;
 }
 
@@ -509,8 +509,8 @@ body {
     font-size: 0.9rem;
     color: var(--text-gray);
     line-height: 1.5;
-    margin-bottom: auto;
-    display: block;
+    margin-bottom: auto; /* Push meta to bottom */
+    display: block; /* Remove truncation for clarity */
 }
 
 .tool-meta {
@@ -628,7 +628,7 @@ body {
     }
 
     .tools-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack on mobile */
     }
     
     .tool-card {
