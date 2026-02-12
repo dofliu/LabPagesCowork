@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NCUT IAE Lab - Research Projects">
-    <title>研究專案 | NCUT IAE Lab</title>
+    <meta name="description" content="NCUT IAE Lab - Research Projects & Tools">
+    <title>研究與工具 | NCUT IAE Lab</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Projects Page Specific Styles */
+        /* Projects & Tools Page Styles */
         .page-header {
             padding: 8rem 0 4rem;
             background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
@@ -21,100 +21,114 @@
             color: var(--text-white);
         }
 
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2.5rem;
-            padding: 2rem 0;
+        /* Tool Grid (App Store Style) */
+        .tool-category {
+            margin-bottom: 4rem;
         }
 
-        .project-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border-color: var(--primary-color);
-        }
-
-        .project-img {
-            height: 200px;
-            background-color: #334155;
+        .category-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: rgba(255,255,255,0.2);
-            position: relative;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
         }
 
-        .project-status {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(0,0,0,0.6);
+        .category-header h2 {
+            font-size: 1.8rem;
+            color: var(--text-white);
+            margin-right: 1rem;
+        }
+
+        .category-badge {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--primary-color);
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.8rem;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-        }
-
-        .project-content {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .project-title {
-            font-size: 1.4rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-white);
-        }
-
-        .project-desc {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .tag {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            color: var(--text-gray);
-        }
-
-        .project-link {
-            text-decoration: none;
-            color: var(--primary-color);
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: gap 0.3s;
         }
 
-        .project-link:hover {
-            gap: 0.8rem;
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            border: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0;
+        }
+
+        .tool-info {
+            flex-grow: 1;
+            min-width: 0; /* Prevent text overflow */
+        }
+
+        .tool-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tool-desc {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tool-meta {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+
+        .meta-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Research Projects Section */
+        .research-section {
+            margin-top: 6rem;
         }
     </style>
 </head>
@@ -126,7 +140,7 @@
             <button class="menu-toggle"><i class="fas fa-bars"></i></button>
             <ul class="nav-links">
                 <li><a href="index.html">首頁</a></li>
-                <li><a href="projects.html" class="active">研究專案</a></li>
+                <li><a href="projects.html" class="active">研究與工具</a></li>
                 <li><a href="publications.html">著作發表</a></li>
                 <li><a href="lab.html">成員介紹</a></li>
             </ul>
@@ -135,106 +149,157 @@
 
     <header class="page-header">
         <div class="container">
-            <h1>Featured Projects</h1>
-            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">探索我們在智慧製造、綠能科技與人工智慧領域的最新研究成果與實作專案。</p>
+            <h1>Research & Tools</h1>
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">探索實驗室開發的 AI 線上工具與前瞻研究專案。</p>
         </div>
     </header>
 
     <section class="section">
         <div class="container">
-            <div class="project-grid">
-                
-                <!-- Project 1 -->
-                <article class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-wind"></i>
-                        <span class="project-status">進行中</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">風力發電 SCADA 故障預警系統</h3>
-                        <p class="project-desc">利用 Random Forest 與 XGBoost 演算法，分析風力機 SCADA 數據，建立故障預警模型，有效降低非預期停機時間。</p>
-                        <div class="project-tags">
-                            <span class="tag">Machine Learning</span>
-                            <span class="tag">Python</span>
-                            <span class="tag">SCADA</span>
+            
+            <!-- Online Tools Showcase -->
+            <div class="tool-category">
+                <div class="category-header">
+                    <h2>工程模擬與分析</h2>
+                    <span class="category-badge">Engineering & Simulation</span>
+                </div>
+                <div class="tools-grid">
+                    <a href="https://windsimu.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-wind"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">Wind Energy Simulator</h3>
+                            <p class="tool-desc">風力發電能量產出模擬器，支援多種風況參數設定與發電量預測。</p>
+                            <div class="tool-meta"><span class="meta-tag">Simulation</span><span class="meta-tag">Web App</span></div>
                         </div>
-                        <a href="#" class="project-link">了解更多 <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Project 2 -->
-                <article class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-spider"></i>
-                        <span class="project-status">已完成</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">仿生爬攀維修機器人</h3>
-                        <p class="project-desc">針對風力機塔架維修需求，開發具備壁虎仿生黏附機制的爬攀機器人，可搭載檢測儀器進行高空作業。</p>
-                        <div class="project-tags">
-                            <span class="tag">Robotics</span>
-                            <span class="tag">Mechatronics</span>
-                            <span class="tag">Bionics</span>
+                    </a>
+                    <a href="https://mechanics.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-cogs"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">Mechanics Analyzer</h3>
+                            <p class="tool-desc">力學分析與計算工具，視覺化呈現應力分佈與結構負載。</p>
+                            <div class="tool-meta"><span class="meta-tag">Physics</span><span class="meta-tag">Analysis</span></div>
                         </div>
-                        <a href="#" class="project-link">觀看展示 <i class="fas fa-play-circle"></i></a>
-                    </div>
-                </article>
-
-                <!-- Project 3 -->
-                <article class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-glasses"></i>
-                        <span class="project-status">進行中</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">AR 輔助維修決策平台</h3>
-                        <p class="project-desc">結合擴增實境 (AR) 眼鏡與後端 AI 診斷系統，為現場維修人員提供即時的設備狀態資訊與維修步驟指引。</p>
-                        <div class="project-tags">
-                            <span class="tag">Augmented Reality</span>
-                            <span class="tag">Unity 3D</span>
-                            <span class="tag">IoT</span>
+                    </a>
+                    <a href="https://autoplc.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">PLC ST Code Auto</h3>
+                            <p class="tool-desc">自動化生成 PLC Structured Text (ST) 控制碼，加速工業自動化開發。</p>
+                            <div class="tool-meta"><span class="meta-tag">Automation</span><span class="meta-tag">Code Gen</span></div>
                         </div>
-                        <a href="#" class="project-link">專案詳情 <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Project 4 -->
-                <article class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-comment-dots"></i>
-                        <span class="project-status">Beta</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">LLM 風機警報分析助手</h3>
-                        <p class="project-desc">運用大型語言模型 (LLM) 自動解析複雜的風機警報日誌，生成自然語言的維修建議報告，輔助工程師決策。</p>
-                        <div class="project-tags">
-                            <span class="tag">Generative AI</span>
-                            <span class="tag">NLP</span>
-                            <span class="tag">RAG</span>
-                        </div>
-                        <a href="#" class="project-link">GitHub Repo <i class="fab fa-github"></i></a>
-                    </div>
-                </article>
-
-                <!-- Project 5 -->
-                <article class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-paint-brush"></i>
-                        <span class="project-status">Live</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">AI Graphic Studio</h3>
-                        <p class="project-desc">實驗室自研工具，可快速將文字或連結轉換為高品質的資訊圖卡與摘要海報，支援多種藝術風格。</p>
-                        <div class="project-tags">
-                            <span class="tag">Web Tool</span>
-                            <span class="tag">Image Gen</span>
-                            <span class="tag">React</span>
-                        </div>
-                        <a href="https://infocard.doflab.cc/" target="_blank" class="project-link">立即試用 <i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </article>
-
+                    </a>
+                </div>
             </div>
+
+            <div class="tool-category">
+                <div class="category-header">
+                    <h2>AI 生產力工具</h2>
+                    <span class="category-badge">AI Productivity</span>
+                </div>
+                <div class="tools-grid">
+                    <a href="https://documind.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">DocuMind (RAG Architect)</h3>
+                            <p class="tool-desc">基於 RAG 技術的文檔智慧分析助手，能快速讀取並總結大量技術文件。</p>
+                            <div class="tool-meta"><span class="meta-tag">LLM</span><span class="meta-tag">RAG</span></div>
+                        </div>
+                    </a>
+                    <a href="https://aiemail.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-envelope-open-text"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">AI Email Assistant</h3>
+                            <p class="tool-desc">智慧郵件助手，自動撰寫、摘要與優化電子郵件內容。</p>
+                            <div class="tool-meta"><span class="meta-tag">NLP</span><span class="meta-tag">Office</span></div>
+                        </div>
+                    </a>
+                    <a href="https://infocard.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-image"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">Instant Infographic Generator</h3>
+                            <p class="tool-desc">快速生成資訊圖卡與摘要海報，支援多種藝術風格與排版。</p>
+                            <div class="tool-meta"><span class="meta-tag">Image Gen</span><span class="meta-tag">Design</span></div>
+                        </div>
+                    </a>
+                    <a href="https://mygit.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fab fa-git-alt"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">MyGit QuickView</h3>
+                            <p class="tool-desc">Git 儲存庫快速瀏覽與統計工具，視覺化呈現提交紀錄與貢獻。</p>
+                            <div class="tool-meta"><span class="meta-tag">DevTool</span><span class="meta-tag">Git</span></div>
+                        </div>
+                    </a>
+                    <a href="https://avatarfusion.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-user-astronaut"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">Avatar Fusion</h3>
+                            <p class="tool-desc">AI 虛擬替身生成與合成工具，創造個人化的數位形象。</p>
+                            <div class="tool-meta"><span class="meta-tag">GenAI</span><span class="meta-tag">Avatar</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="tool-category">
+                <div class="category-header">
+                    <h2>智慧教育</h2>
+                    <span class="category-badge">Smart Education</span>
+                </div>
+                <div class="tools-grid">
+                    <a href="https://aicourse.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">AI Course Adventure</h3>
+                            <p class="tool-desc">互動式 AI 課程學習平台，透過冒險遊戲化的方式學習人工智慧。</p>
+                            <div class="tool-meta"><span class="meta-tag">Education</span><span class="meta-tag">Gamification</span></div>
+                        </div>
+                    </a>
+                    <a href="https://iaecourse.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">UniCourse AI Online</h3>
+                            <p class="tool-desc">大學課程 AI 輔助系統，提供課程大綱、教材與智慧問答。</p>
+                            <div class="tool-meta"><span class="meta-tag">LMS</span><span class="meta-tag">Assistant</span></div>
+                        </div>
+                    </a>
+                    <a href="https://onlineaiexam.doflab.cc" target="_blank" class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-file-signature"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">Online AI Exam</h3>
+                            <p class="tool-desc">線上 AI 測驗系統，支援自動出題與評分，適用於教學評量。</p>
+                            <div class="tool-meta"><span class="meta-tag">Exam</span><span class="meta-tag">Evaluation</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Research Projects (Compact) -->
+            <div class="research-section">
+                <div class="category-header">
+                    <h2>近期研究專案</h2>
+                    <span class="category-badge">Research Projects</span>
+                </div>
+                <!-- Reuse previous project cards but in a simpler layout if needed, or keep grid -->
+                 <div class="tools-grid"> <!-- Reusing grid for consistency -->
+                    <div class="tool-card" style="border-left: 4px solid var(--accent-color);">
+                        <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">風力發電 SCADA 故障預警</h3>
+                            <p class="tool-desc">利用 ML 演算法分析大數據，提前預測設備故障。</p>
+                            <div class="tool-meta"><span class="meta-tag">Research</span><span class="meta-tag">2025</span></div>
+                        </div>
+                    </div>
+                    <div class="tool-card" style="border-left: 4px solid var(--accent-color);">
+                        <div class="tool-icon"><i class="fas fa-spider"></i></div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">仿生爬攀維修機器人</h3>
+                            <p class="tool-desc">具備壁虎黏附機制的風力機塔架爬攀機器人。</p>
+                            <div class="tool-meta"><span class="meta-tag">Research</span><span class="meta-tag">Robot</span></div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
         </div>
     </section>
 
