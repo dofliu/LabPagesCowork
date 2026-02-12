@@ -1,192 +1,289 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>研究成果與著作發表 | NCUT IAE Lab</title>
+    <meta name="description" content="NCUT IAE Lab - Publications">
+    <title>著作發表 | NCUT IAE Lab</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .publications-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+        /* Publications Page Specific Styles */
+        .page-header {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
+            text-align: center;
         }
-        .pub-section {
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        .publication-section {
             margin-bottom: 4rem;
         }
-        .pub-section h2 {
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            color: var(--secondary-color);
+
+        .pub-list {
+            list-style: none;
         }
+
         .pub-item {
-            background: var(--white);
+            background: var(--bg-card);
+            border-radius: 12px;
             padding: 1.5rem;
-            border-radius: 8px;
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--accent);
-            transition: transform 0.2s;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--secondary-color);
+            transition: transform 0.3s;
         }
+
         .pub-item:hover {
             transform: translateX(5px);
+            border-color: var(--primary-color);
         }
-        .pub-title {
-            font-size: 1.1rem;
+
+        .pub-year {
             font-weight: 700;
-            color: var(--text-color);
+            color: var(--accent-color);
             margin-bottom: 0.5rem;
-        }
-        .pub-authors {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            font-style: italic;
-        }
-        .pub-meta {
-            font-size: 0.85rem;
-            color: var(--secondary-color);
-        }
-        .tag {
             display: inline-block;
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 2px 8px;
+            background: rgba(245, 158, 11, 0.1);
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 5px;
+            font-size: 0.85rem;
         }
-        .tag.scie {
-            background: #dcfce7;
-            color: #15803d;
+
+        .pub-status {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            background: rgba(14, 165, 233, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+
+        .pub-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
+            line-height: 1.4;
+        }
+
+        .pub-authors {
+            font-style: italic;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .pub-journal {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .pub-links {
+            margin-top: 1rem;
+        }
+
+        .pub-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+
+        .pub-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tab.active, .filter-tab:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">IAE LAB<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
             <ul class="nav-links">
-                <li><a href="index.html#about">關於實驗室</a></li>
-                <li><a href="index.html#research">研究領域</a></li>
-                <li><a href="publications.html" style="color: var(--primary-color);">著作發表</a></li>
-                <li><a href="index.html#team">成員介紹</a></li>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="projects.html">研究專案</a></li>
+                <li><a href="publications.html" class="active">著作發表</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
             </ul>
         </div>
     </nav>
 
-    <header class="hero" style="height: 40vh; min-height: 300px;">
-        <div class="hero-content">
-            <h1>Research & Publications</h1>
-            <p>探索我們在風電運維、自動控制與人工智慧領域的學術貢獻。</p>
+    <header class="page-header">
+        <div class="container">
+            <h1>Publications</h1>
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">包含國際期刊論文 (SCI/SCIE)、研討會論文與專書著作。</p>
         </div>
     </header>
 
-    <main class="publications-container">
-        
-        <section class="pub-section">
-            <h2>2022 ~ 2026 期刊論文 (Journal Articles)</h2>
-            
-            <div class="pub-item">
-                <div class="pub-title">Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines: A Multi-Physics Coupling Theoretical Framework</div>
-                <div class="pub-authors">Rong-Mao Lee, Jien-Chen Chen, Jui-Hung Liu*</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Engineering Failure Analysis 181 (2025) 109945 (IF: 5.7, Q1)
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <div class="pub-title">Application of the Power Law Process in the Reliability Analysis of a Wind Farm: A Case Study Approach</div>
-                <div class="pub-authors">Jui-Hung Liu*, Nelson T. Corbita Jr., Glenn B. Paclijan</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Accepted Mar., 2025, JCSME (IF: 0.211, Q4)
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <div class="pub-title">Design Improvement and Strength Analysis of a Pin Lock Structure for Wind Turbine Hub</div>
-                <div class="pub-authors">Rong-Mao Lee, Jien-Chen Chen, Nelson T. Corbita Jr., Jui-Hung Liu*</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Accepted, May, 2025, JCSME (IF: 0.211, Q4)
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <div class="pub-title">Design and Implementation of an Augmented Reality-based Interactive and Real-time Wind Turbine Maintenance Auxiliary Platform System</div>
-                <div class="pub-authors">Jui-Hung Liu*, Chen-Yi Tsai, Jia-Zhou Li, Chun-Chieh Wang</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Sens. Mater., Vol. 35, No. 11(4), Nov. 2023 (IF: 1.0, Q4)
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <div class="pub-title">Analysis and Comparison of Turbulence models on Wind Turbine Performance using SCADA data and Machine Learning Technique</div>
-                <div class="pub-authors">Jui-Hung Liu*, Jien-Chen Chen, Nelson T. Corbita Jr</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Cogent Engineering, 2023, 10:1 (IF: 2.5, Q2)
-                </div>
-            </div>
-
-             <div class="pub-item">
-                <div class="pub-title">A Wind Turbine Tower Climbing Robot Prototype Operating at Various Speeds and Payload Capacity: Development and Validation</div>
-                <div class="pub-authors">Kathleen Padrigalan, Jui-Hung Liu*</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Applied Sciences. 2023; 13(3):1381 (IF: 2.5, Q2)
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <div class="pub-title">Wind Turbine Anomaly Detection Using Mahalanobis Distance and SCADA Alarm Data</div>
-                <div class="pub-authors">Jui-Hung Liu*, Nelson T. Corbita Jr., Rong-Mao Lee, Chun-Chieh Wang</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Applied Sciences, 2022, 12, 8661 (IF: 2.5, Q2)
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <div class="pub-title">The Kinematic Analysis of a Wind Turbine Climbing Robot Mechanism</div>
-                <div class="pub-authors">Jui-Hung Liu*, Kathleen Padrigalan</div>
-                <div class="pub-meta">
-                    <span class="tag scie">SCIE</span> Applied Sciences, 2022, 12(3), 1210 (IF: 2.5, Q2)
-                </div>
-            </div>
-        </section>
-
-        <section class="pub-section">
-            <h2>國內期刊 (Domestic Journals)</h2>
-            
-            <div class="pub-item">
-                <div class="pub-title">無人電廠雲端報警系統研製 (Development of a Cloud-based Alarm System for Unmanned Power Plant)</div>
-                <div class="pub-authors">李榮茂、劉瑞弘*</div>
-                <div class="pub-meta">
-                    <span class="tag">國內期刊</span> 機械工業雜誌 113年五月號, May, 2024
-                </div>
-            </div>
-             <div class="pub-item">
-                <div class="pub-title">整合小波演算法之智能振動感測器應用於風力發電傳動鏈故障偵測</div>
-                <div class="pub-authors">劉瑞弘, 徐茂林, 葉書麟, 楊佩宜, 陳錦城</div>
-                <div class="pub-meta">
-                    <span class="tag">國內期刊</span> 機械工業雜誌, 489期, p.75~86, Dec., 2023
-                </div>
-            </div>
-            <!-- 更多國內期刊可依此類推加入 -->
-        </section>
-
-        <div style="text-align: center; margin-top: 4rem;">
-            <p>更多早期著作與詳細列表，請參考 <a href="https://sites.google.com/view/jui-hung-liu/" target="_blank" style="color: var(--primary-color);">Google Scholar</a> 或 <a href="https://sites.google.com/view/jui-hung-liu/" target="_blank" style="color: var(--primary-color);">ResearchGate</a>。</p>
-        </div>
-
-    </main>
-
-    <footer>
+    <section class="section">
         <div class="container">
-            <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
-            <p>國立勤益科技大學 智慧自動化工程系 | 誠樸館 G309</p>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="2025">2025-2026</button>
+                <button class="filter-tab" data-filter="2023">2023-2024</button>
+                <button class="filter-tab" data-filter="before">Before 2022</button>
+            </div>
+
+            <div class="publication-section">
+                
+                <!-- 2025-2026 -->
+                <h2 class="section-title" style="font-size: 1.8rem; text-align: left; left: 0; transform: none; margin-bottom: 2rem;">2025 - 2026</h2>
+                <ul class="pub-list">
+                    <li class="pub-item">
+                        <span class="pub-year">2026</span>
+                        <span class="pub-status">In Preparation</span>
+                        <div class="pub-title">Utilizing Large Language Models for Automated Wind Turbine Alarm Log Analysis and Maintenance Decision Support</div>
+                        <div class="pub-authors">Jui-Hung Liu*, et al.</div>
+                        <div class="pub-journal">IEEE Transactions on Sustainable Energy (Target)</div>
+                    </li>
+
+                    <li class="pub-item">
+                        <span class="pub-year">2025</span>
+                        <span class="pub-status">Submitted</span>
+                        <div class="pub-title">Empirical Evaluation of 10-Minute SCADA Data Effectiveness for Multi-Subsystem Wind Turbine Condition Monitoring Using Machine Learning</div>
+                        <div class="pub-authors">Jui-Hung Liu*</div>
+                        <div class="pub-journal">Wind Engineering</div>
+                    </li>
+
+                    <li class="pub-item">
+                        <span class="pub-year">2025</span>
+                        <span class="pub-status">Accepted</span>
+                        <div class="pub-title">Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines: A Multi-Physics Coupling Theoretical Framework</div>
+                        <div class="pub-authors">Rong Mao Lee, Jien-Chen Chen, Jui-Hung Liu*</div>
+                        <div class="pub-journal">Engineering Failure Analysis, Vol. 181, 109945 (SCIE, IF 5.7/Q1)</div>
+                    </li>
+
+                    <li class="pub-item">
+                        <span class="pub-year">2025</span>
+                        <span class="pub-status">Accepted</span>
+                        <div class="pub-title">Application of the Power Law Process in the Reliability Analysis of a Wind Farm: A Case Study Approach</div>
+                        <div class="pub-authors">Jui-Hung Liu*, Nelson T. Corbita Jr., Glenn B. Paclijan</div>
+                        <div class="pub-journal">JCSME (SCIE)</div>
+                    </li>
+
+                    <li class="pub-item">
+                        <span class="pub-year">2025</span>
+                        <span class="pub-status">Conference</span>
+                        <div class="pub-title">Application of Large Language Models in Wind Turbine Alarm Analysis</div>
+                        <div class="pub-authors">Jui-Hung Liu, Chun-Chieh Wang</div>
+                        <div class="pub-journal">The 10th International Conference on Advanced Technology Innovation 2025 (ICATI2025), Japan</div>
+                    </li>
+                </ul>
+
+                <!-- 2023-2024 -->
+                <h2 class="section-title" style="font-size: 1.8rem; text-align: left; left: 0; transform: none; margin-bottom: 2rem; margin-top: 3rem;">2023 - 2024</h2>
+                <ul class="pub-list">
+                    <li class="pub-item">
+                        <span class="pub-year">2023</span>
+                        <div class="pub-title">Design and Implementation of an Augmented Reality-based Interactive and Real-time Wind Turbine Maintenance Auxiliary Platform System</div>
+                        <div class="pub-authors">Jui-Hung Liu*, Chen-Yi Tsai, Jia-Zhou Li, Chun-Chieh Wang</div>
+                        <div class="pub-journal">Sensors and Materials, Vol. 35, No. 11(4), p.3969-3984 (SCIE)</div>
+                        <div class="pub-links">
+                            <a href="#" target="_blank"><i class="fas fa-link"></i> DOI</a>
+                        </div>
+                    </li>
+
+                    <li class="pub-item">
+                        <span class="pub-year">2023</span>
+                        <div class="pub-title">Analysis and Comparison of Turbulence models on Wind Turbine Performance using SCADA data and Machine Learning Technique</div>
+                        <div class="pub-authors">Jui-Hung Liu*, Jien-Chen Chen, Nelson T. Corbita Jr.</div>
+                        <div class="pub-journal">Cogent Engineering, 10:1 (ESCI)</div>
+                    </li>
+
+                    <li class="pub-item">
+                        <span class="pub-year">2023</span>
+                        <div class="pub-title">A Wind Turbine Tower Climbing Robot Prototype Operating at Various Speeds and Payload Capacity: Development and Validation</div>
+                        <div class="pub-authors">Kathleen Padrigalan, Jui-Hung Liu*</div>
+                        <div class="pub-journal">Applied Sciences, 13(3):1381 (SCIE)</div>
+                    </li>
+                </ul>
+
+                 <!-- Before 2022 -->
+                 <h2 class="section-title" style="font-size: 1.8rem; text-align: left; left: 0; transform: none; margin-bottom: 2rem; margin-top: 3rem;">Selected Prior Works</h2>
+                 <ul class="pub-list">
+                     <li class="pub-item">
+                         <span class="pub-year">2022</span>
+                         <div class="pub-title">Wind Turbine Anomaly Detection Using Mahalanobis Distance and SCADA Alarm Data</div>
+                         <div class="pub-authors">Jui-Hung Liu*, Nelson T. Corbita Jr., Rong-Mao Lee, Chun-Chieh Wang</div>
+                         <div class="pub-journal">Applied Sciences, 12, 8661 (SCIE)</div>
+                     </li>
+ 
+                     <li class="pub-item">
+                         <span class="pub-year">2022</span>
+                         <div class="pub-title">The Kinematic Analysis of a Wind Turbine Climbing Robot Mechanism</div>
+                         <div class="pub-authors">Jui-Hung Liu*, Kathleen Padrigalan</div>
+                         <div class="pub-journal">Applied Sciences, 12(3), 1210 (SCIE)</div>
+                     </li>
+                     
+                     <li class="pub-item">
+                        <span class="pub-year">2021</span>
+                        <div class="pub-title">Design and Development of a Climbing Robot for Wind Turbine Maintenance</div>
+                        <div class="pub-authors">Jui-Hung Liu*, Kathleen Padrigalan</div>
+                        <div class="pub-journal">Applied Sciences, 11(5), 2328 (SCIE)</div>
+                    </li>
+                 </ul>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
         </div>
     </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Simple filter script (optional enhancement)
+        const tabs = document.querySelectorAll('.filter-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // Filter logic would go here
+            });
+        });
+    </script>
 </body>
 </html>

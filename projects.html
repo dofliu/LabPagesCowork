@@ -1,208 +1,255 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>研究專案與技術發展 | NCUT IAE Lab</title>
+    <meta name="description" content="NCUT IAE Lab - Research Projects">
+    <title>研究專案 | NCUT IAE Lab</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .projects-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+        /* Projects Page Specific Styles */
+        .page-header {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
+            text-align: center;
         }
-        .project-section {
-            margin-bottom: 4rem;
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
         }
-        .project-section h2 {
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .status-badge {
-            font-size: 0.8rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            vertical-align: middle;
-        }
-        .status-active { background: #dcfce7; color: #166534; }
-        .status-beta { background: #dbeafe; color: #1e40af; }
-        .status-dev { background: #f3e8ff; color: #6b21a8; }
-        .status-legacy { background: #f1f5f9; color: #475569; }
 
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 0;
         }
-        
+
         .project-card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            transition: transform 0.2s;
-        }
-        .project-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text-color);
-        }
-        .project-desc {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-        .tech-stack {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: auto;
+            flex-direction: column;
         }
-        .tech-tag {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            color: #64748b;
-            padding: 2px 8px;
-            border-radius: 12px;
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: var(--primary-color);
+        }
+
+        .project-img {
+            height: 200px;
+            background-color: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .project-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.6);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-white);
+        }
+
+        .project-desc {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
             font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            color: var(--text-gray);
+        }
+
+        .project-link {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s;
+        }
+
+        .project-link:hover {
+            gap: 0.8rem;
         }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">IAE LAB<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
             <ul class="nav-links">
-                <li><a href="index.html#about">關於實驗室</a></li>
-                <li><a href="projects.html" style="color: var(--primary-color);">研究專案</a></li>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="projects.html" class="active">研究專案</a></li>
                 <li><a href="publications.html">著作發表</a></li>
-                <li><a href="index.html#team">成員介紹</a></li>
-                <li><a href="index.html#contact">聯絡我們</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
             </ul>
         </div>
     </nav>
 
-    <header class="hero" style="height: 40vh; min-height: 300px; background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 100%);">
-        <div class="hero-content">
-            <h1>Current Research & Projects</h1>
-            <p>從自動控制到生成式 AI，我們持續探索技術的邊界。</p>
+    <header class="page-header">
+        <div class="container">
+            <h1>Featured Projects</h1>
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">探索我們在智慧製造、綠能科技與人工智慧領域的最新研究成果與實作專案。</p>
         </div>
     </header>
 
-    <main class="projects-container">
-        
-        <!-- 主力研究 -->
-        <section class="project-section">
-            <h2>🟢 主力研究 (Core Research) <span class="status-badge status-active">Active</span></h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-title">ResearchTopic: 智慧運維與控制</div>
-                    <p class="project-desc">
-                        本實驗室的核心研究項目，涵蓋離岸風電運維、自動化控制系統優化，以及基於 AI 的故障預測模型開發。
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Auto Control</span>
-                        <span class="tech-tag">Wind Energy</span>
-                        <span class="tech-tag">AI/ML</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 原型與測試 -->
-        <section class="project-section">
-            <h2>🔵 原型與新技術 (Prototype & Beta) <span class="status-badge status-beta">Beta</span></h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-title">LabPages Cowork</div>
-                    <p class="project-desc">
-                        實驗室的開源協作網頁平台，整合 GitHub Pages 自動化部署，提供成員練習 Git Flow 與 Web 開發的實戰場域。
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">HTML/CSS</span>
-                        <span class="tech-tag">GitHub Actions</span>
-                        <span class="tech-tag">Web Dev</span>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-title">Local AI Assistant</div>
-                    <p class="project-desc">
-                        探索本地端大語言模型 (Local LLM) 的應用，構建隱私安全且具備特定領域知識的 AI 助理原型。
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">LLM</span>
-                        <span class="tech-tag">RAG</span>
-                        <span class="tech-tag">Python</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 工具開發 -->
-        <section class="project-section">
-            <h2>🟣 工具與助理開發 (Tools & Assistants) <span class="status-badge status-dev">Dev</span></h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-title">PersonalHelper</div>
-                    <p class="project-desc">
-                        一系列提升研究與開發效率的個人化小工具集合。未來將逐步封裝為 MCP (Model Context Protocol) 伺服器或 Agent Skills。
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Automation</span>
-                        <span class="tech-tag">Scripting</span>
-                        <span class="tech-tag">MCP</span>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-title">MCP Servers</div>
-                    <p class="project-desc">
-                        基於 Model Context Protocol 標準開發的工具伺服器，旨在讓 AI 模型能安全地與外部數據和工具進行互動。
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">MCP Standard</span>
-                        <span class="tech-tag">API Integration</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 教學相關 -->
-        <section class="project-section">
-            <h2>🟡 課程教學資源 (Course Materials) <span class="status-badge status-legacy">Teaching</span></h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-title">Course Related</div>
-                    <p class="project-desc">
-                        包含自動控制、程式語言、人工智慧等課程的教學範例、投影片與學生作業參考資源。
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Education</span>
-                        <span class="tech-tag">Demo Code</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
+    <section class="section">
         <div class="container">
-            <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
-            <p>國立勤益科技大學 智慧自動化工程系 | 誠樸館 G309</p>
+            <div class="project-grid">
+                
+                <!-- Project 1 -->
+                <article class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-wind"></i>
+                        <span class="project-status">進行中</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">風力發電 SCADA 故障預警系統</h3>
+                        <p class="project-desc">利用 Random Forest 與 XGBoost 演算法，分析風力機 SCADA 數據，建立故障預警模型，有效降低非預期停機時間。</p>
+                        <div class="project-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">SCADA</span>
+                        </div>
+                        <a href="#" class="project-link">了解更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-spider"></i>
+                        <span class="project-status">已完成</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">仿生爬攀維修機器人</h3>
+                        <p class="project-desc">針對風力機塔架維修需求，開發具備壁虎仿生黏附機制的爬攀機器人，可搭載檢測儀器進行高空作業。</p>
+                        <div class="project-tags">
+                            <span class="tag">Robotics</span>
+                            <span class="tag">Mechatronics</span>
+                            <span class="tag">Bionics</span>
+                        </div>
+                        <a href="#" class="project-link">觀看展示 <i class="fas fa-play-circle"></i></a>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-glasses"></i>
+                        <span class="project-status">進行中</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">AR 輔助維修決策平台</h3>
+                        <p class="project-desc">結合擴增實境 (AR) 眼鏡與後端 AI 診斷系統，為現場維修人員提供即時的設備狀態資訊與維修步驟指引。</p>
+                        <div class="project-tags">
+                            <span class="tag">Augmented Reality</span>
+                            <span class="tag">Unity 3D</span>
+                            <span class="tag">IoT</span>
+                        </div>
+                        <a href="#" class="project-link">專案詳情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-comment-dots"></i>
+                        <span class="project-status">Beta</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">LLM 風機警報分析助手</h3>
+                        <p class="project-desc">運用大型語言模型 (LLM) 自動解析複雜的風機警報日誌，生成自然語言的維修建議報告，輔助工程師決策。</p>
+                        <div class="project-tags">
+                            <span class="tag">Generative AI</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">RAG</span>
+                        </div>
+                        <a href="#" class="project-link">GitHub Repo <i class="fab fa-github"></i></a>
+                    </div>
+                </article>
+
+                <!-- Project 5 -->
+                <article class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-paint-brush"></i>
+                        <span class="project-status">Live</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">AI Graphic Studio</h3>
+                        <p class="project-desc">實驗室自研工具，可快速將文字或連結轉換為高品質的資訊圖卡與摘要海報，支援多種藝術風格。</p>
+                        <div class="project-tags">
+                            <span class="tag">Web Tool</span>
+                            <span class="tag">Image Gen</span>
+                            <span class="tag">React</span>
+                        </div>
+                        <a href="https://infocard.doflab.cc/" target="_blank" class="project-link">立即試用 <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
         </div>
     </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
