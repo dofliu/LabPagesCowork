@@ -1,309 +1,208 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<html lang="en">
-
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>前進德國</title>
+    <meta name="description" content="NCUT IAE Lab - Members">
+    <title>成員介紹 | NCUT IAE Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-    <title>Lab Light Simulator</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --bulb-color: #475569;
-            --glow-color: transparent;
-            --switch-bg: #334155;
-            --switch-circle: #cbd5e1;
-            --text-color: #94a3b8;
-            --transition-speed: 0.4s;
-        }
-
-        body.light-on {
-            --bg-color: #f8fafc;
-            --bulb-color: #fbbf24;
-            --glow-color: rgba(251, 191, 36, 0.4);
-            --switch-bg: #fbbf24;
-            --switch-circle: #ffffff;
-            --text-color: #1e293b;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
-        }
-
-        .container {
+        /* Lab Members Page Specific Styles */
+        .page-header {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
             text-align: center;
-            animation: fadeIn 1.5s ease-out;
         }
 
-        h1 {
-            font-size: 5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #ffd700, #ffcc00, #dd0000, #000000);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 4s ease infinite;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-            letter-spacing: 0.2em;
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
         }
 
-        .subtitle {
-            margin-top: 1.5rem;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            letter-spacing: 0.5em;
-            animation: slideUp 1s ease-out 0.5s both;
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .flag {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            animation: slideUp 1s ease-out 0.8s both;
+        .member-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s;
         }
 
-        .flag-stripe {
-            width: 80px;
-            height: 20px;
-            animation: pulse 2s ease-in-out infinite;
+        .member-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
         }
 
-        .flag-stripe:nth-child(1) {
-            background: #000000;
-            border-radius: 4px 4px 0 0;
-        }
-
-        .flag-stripe:nth-child(2) {
-            background: #dd0000;
-        }
-
-        .flag-stripe:nth-child(3) {
-            background: #ffcc00;
-            border-radius: 0 0 4px 4px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes gradientShift {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scaleX(1);
-            }
-
-            50% {
-                transform: scaleX(1.05);
-            }
-            position: relative;
-        }
-
-        h1 {
-            margin-bottom: 2rem;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-        }
-
-        /* Lightbulb Styling */
-        .lightbulb-wrapper {
-            position: relative;
+        .member-avatar {
             width: 120px;
-            height: 180px;
-            margin: 0 auto 3rem;
-        }
-
-        .lightbulb {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            background-color: var(--bulb-color);
+            height: 120px;
+            background: #334155;
             border-radius: 50%;
-            margin: 0 auto;
-            transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-            box-shadow: 0 0 50px var(--glow-color);
-            z-index: 2;
-        }
-
-        .lightbulb::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 50px;
-            background: linear-gradient(to bottom, #94a3b8 20%, #475569 100%);
-            border-radius: 0 0 10px 10px;
-            z-index: 1;
-        }
-
-        /* Toggle Switch Styling */
-        .switch-container {
+            margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            user-select: none;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.2);
+            border: 2px solid var(--primary-color);
         }
 
-        .switch {
-            position: relative;
-            width: 60px;
-            height: 32px;
-            background-color: var(--switch-bg);
-            border-radius: 16px;
-            transition: background-color var(--transition-speed) ease;
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
         }
 
-        .switch::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 24px;
-            height: 24px;
-            background-color: var(--switch-circle);
-            border-radius: 50%;
-            transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        .member-role {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
-        body.light-on .switch::before {
-            transform: translateX(28px);
+        .member-research {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
         }
 
-        .status-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        .member-links a {
+            color: var(--text-gray);
+            margin: 0 0.5rem;
+            transition: color 0.3s;
         }
 
-        /* Subtle Glow on Ground */
-        .ground-glow {
-            position: absolute;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            height: 100px;
-            background: radial-gradient(ellipse at center, var(--glow-color) 0%, transparent 70%);
-            transition: opacity var(--transition-speed) ease;
-            pointer-events: none;
+        .member-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .section-category {
+            margin-bottom: 4rem;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            color: var(--text-white);
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>前進德國</h1>
-        <p class="subtitle">GO TO GERMANY</p>
-        <div class="flag">
-            <div style="display: flex; flex-direction: column;">
-                <div class="flag-stripe"></div>
-                <div class="flag-stripe"></div>
-                <div class="flag-stripe"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">IAE LAB<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="projects.html">研究專案</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="lab.html" class="active">成員介紹</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Meet the Team</h1>
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">這是一群對技術充滿熱情、致力於解決實際問題的研究團隊。</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            
+            <!-- Professor -->
+            <div class="section-category">
+                <h2 class="category-title">指導教授 Principal Investigator</h2>
+                <div class="member-card" style="max-width: 400px; margin: 0 auto;">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="member-name">劉瑞弘 副教授 (Dof Liu)</h3>
+                    <p class="member-role">實驗室主持人 / Ph.D.</p>
+                    <p class="member-research">研究領域：AI 代理人系統、風力發電運維、智慧機電整合、SCADA 數據分析。</p>
+                    <div class="member-links">
+                        <a href="https://github.com/dofliu"><i class="fab fa-github"></i></a>
+                        <a href="mailto:dofliu@gm.ncut.edu.tw"><i class="fas fa-envelope"></i></a>
+                        <a href="https://iae.ncut.edu.tw/"><i class="fas fa-university"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Master Students -->
+            <div class="section-category">
+                <h2 class="category-title">碩士生 Master Students</h2>
+                <div class="member-grid">
+                    
+                    <div class="member-card">
+                        <div class="member-avatar"><i class="fas fa-user-graduate"></i></div>
+                        <h3 class="member-name">王小明 (範例)</h3>
+                        <p class="member-role">碩士班二年級</p>
+                        <p class="member-research">專題：基於深度學習之風力機葉片瑕疵檢測系統開發</p>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar"><i class="fas fa-user-graduate"></i></div>
+                        <h3 class="member-name">陳大文 (範例)</h3>
+                        <p class="member-role">碩士班一年級</p>
+                        <p class="member-research">專題：應用大型語言模型於工業維修手冊之自動問答系統</p>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar"><i class="fas fa-user-graduate"></i></div>
+                        <h3 class="member-name">李小花 (範例)</h3>
+                        <p class="member-role">碩士班一年級</p>
+                        <p class="member-research">專題：AR 擴增實境輔助維修介面之使用者體驗研究</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Alumni -->
+            <div class="section-category">
+                <h2 class="category-title">畢業校友 Alumni</h2>
+                <div class="member-grid">
+                    <div class="member-card" style="opacity: 0.7;">
+                        <h3 class="member-name">張志偉</h3>
+                        <p class="member-role">113 級碩士</p>
+                        <p class="member-research">現職：台積電 設備工程師</p>
+                    </div>
+                    <div class="member-card" style="opacity: 0.7;">
+                        <h3 class="member-name">林雅婷</h3>
+                        <p class="member-role">112 級碩士</p>
+                        <p class="member-research">現職：工研院 副工程師</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
             </div>
         </div>
-    </div>
-</body>
-
-</html>
-
-    <div class="container">
-        <h1 id="title">Laboratory Dark Mode</h1>
-
-        <div class="lightbulb-wrapper">
-            <div class="lightbulb"></div>
-            <div class="ground-glow"></div>
-        </div>
-
-        <div class="switch-container" id="toggle-switch">
-            <div class="switch"></div>
-            <span class="status-text" id="status">Off</span>
-        </div>
-    </div>
+    </footer>
 
     <script>
-        const body = document.body;
-        const toggle = document.getElementById('toggle-switch');
-        const statusText = document.getElementById('status');
-        const title = document.getElementById('title');
-
-        toggle.addEventListener('click', () => {
-            body.classList.toggle('light-on');
-
-            const isOn = body.classList.contains('light-on');
-            statusText.textContent = isOn ? 'On' : 'Off';
-            title.textContent = isOn ? 'Laboratory Light Mode' : 'Laboratory Dark Mode';
-
-            // Add a small scale effect on click
-            toggle.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                toggle.style.transform = 'scale(1)';
-            }, 100);
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
         });
     </script>
 </body>
-
 </html>
