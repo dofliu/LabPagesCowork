@@ -13,13 +13,13 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">IAE LAB<span class="dot">.</span></a>
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
             <button class="menu-toggle" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links">
                 <li><a href="index.html#about">關於實驗室</a></li>
-                <li><a href="projects.html">研究專案</a></li>
+                <li><a href="projects.html">研究與工具</a></li>
                 <li><a href="publications.html">著作發表</a></li>
                 <li><a href="lab.html">成員介紹</a></li>
                 <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
@@ -30,8 +30,8 @@
     <header class="hero">
         <div class="hero-bg"></div>
         <div class="hero-content">
-            <h1>Intelligent Automation<br><span class="highlight">Engineering Lab</span></h1>
-            <p class="tagline">致力於人工智慧、自動控制與綠能科技的深度整合研究。</p>
+            <h1>國立勤益科技大學<br>智慧自動化工程系<br><span class="highlight">劉瑞弘 副教授</span></h1>
+            <p class="tagline">風力發電、自動化、與生成式 AI 研究專家<br>專注於風電運維、智慧監控、與自動化軟體生成技術</p>
             <div class="hero-buttons">
                 <a href="projects.html" class="btn-primary">探索研究成果 <i class="fas fa-arrow-right"></i></a>
                 <a href="https://infocard.doflab.cc/" target="_blank" class="btn-secondary">試用 AI 工具 <i class="fas fa-magic"></i></a>
@@ -41,77 +41,69 @@
 
     <section id="about" class="section">
         <div class="container">
-            <h2 class="section-title">關於我們</h2>
+            <h2 class="section-title">核心研究領域</h2>
             <div class="about-grid">
                 <div class="card">
                     <div class="card-icon"><i class="fas fa-wind"></i></div>
-                    <h3>綠能科技</h3>
-                    <p>專注於風力發電系統的智慧運維 (O&M)，利用 SCADA 數據與 AI 模型進行故障預警與功率預測。</p>
+                    <h3>風電運維系統</h3>
+                    <p>開發風力發電機組監控與維護系統，結合 SCADA 數據分析與 ML 模型，提高再生能源設備的可靠性。</p>
                 </div>
                 <div class="card">
                     <div class="card-icon"><i class="fas fa-robot"></i></div>
-                    <h3>機電整合</h3>
-                    <p>開發具備仿生黏附技術的風力機爬攀機器人與自動化檢測系統，解決高空作業難題。</p>
+                    <h3>生成式 AI 應用</h3>
+                    <p>運用最新的 LLM 技術，開發智慧化的自動化解決方案，如 PLC 程式碼自動生成與 MCP 多平台整合系統。</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><i class="fas fa-vr-cardboard"></i></div>
-                    <h3>智慧人機介面</h3>
-                    <p>結合 AR 擴增實境與 LLM 大型語言模型，打造新一代的維修輔助決策平台。</p>
+                    <div class="card-icon"><i class="fas fa-eye"></i></div>
+                    <h3>智慧監控平台</h3>
+                    <p>整合 AR 技術與 IoT 感測器，實現設備狀態的可視化管理與直觀的維修輔助介面。</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="research" class="section bg-light">
+    <section id="videos" class="section bg-light">
         <div class="container">
-            <h2 class="section-title">核心研究領域</h2>
+            <h2 class="section-title">技術展示</h2>
+            <div class="about-grid"> <!-- Reusing grid layout -->
+                <div class="card">
+                    <div class="card-icon" style="color: #ff0000;"><i class="fab fa-youtube"></i></div>
+                    <h3>AI 程式碼自動生成</h3>
+                    <p>展示 AI 自動生成控制程式碼並上傳到控制板的完整流程。</p>
+                    <a href="https://www.youtube.com/watch?v=azV1FP1blbE" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
+                        觀看影片 <i class="fas fa-play-circle"></i>
+                    </a>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="color: #ff0000;"><i class="fab fa-youtube"></i></div>
+                    <h3>MCP 多平台整合</h3>
+                    <p>整合 LINE、行事曆、設備通訊即時資料的智慧系統展示。</p>
+                    <a href="https://www.youtube.com/watch?v=YgxlgmIXzqc" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
+                        觀看影片 <i class="fas fa-play-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="updates" class="section">
+        <div class="container">
+            <h2 class="section-title">最新消息與成果</h2>
             <div class="research-items">
-                <div class="item">
-                    <span class="icon">🤖</span>
-                    <h4>AI 代理人與 RAG</h4>
-                    <p>Agentic AI, Retrieval-Augmented Generation</p>
+                <div class="item" style="text-align: left; border-left: 4px solid var(--accent-color);">
+                    <span style="color: var(--accent-color); font-weight: bold; font-size: 0.9rem;">2025.05</span>
+                    <h4 style="margin: 0.5rem 0;">SCIE 期刊發表</h4>
+                    <p>論文 "Application of the Power Law Process in the Reliability Analysis of a Wind Farm" 獲 JCSME 刊登。</p>
                 </div>
-                <div class="item">
-                    <span class="icon">🏭</span>
-                    <h4>智慧製造與診斷</h4>
-                    <p>Smart Manufacturing, Fault Diagnosis</p>
+                <div class="item" style="text-align: left; border-left: 4px solid var(--accent-color);">
+                    <span style="color: var(--accent-color); font-weight: bold; font-size: 0.9rem;">2025.05</span>
+                    <h4 style="margin: 0.5rem 0;">SCIE 期刊發表</h4>
+                    <p>論文 "Design Improvement and Strength Analysis of a Pin Lock Structure for Wind Turbine Hub" 獲 JCSME 刊登。</p>
                 </div>
-                <div class="item">
-                    <span class="icon">⚡</span>
-                    <h4>離岸風電運維</h4>
-                    <p>Offshore Wind O&M, SCADA Analysis</p>
-                </div>
-                <div class="item">
-                    <span class="icon">💻</span>
-                    <h4>全端系統開發</h4>
-                    <p>Full-stack Dev, Cloud Computing</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="professor" class="section">
-        <div class="container">
-            <h2 class="section-title">指導教授</h2>
-            <div class="team-member-featured">
-                <div class="member-img">
-                    <i class="fas fa-user-tie" style="font-size: 5rem; color: var(--primary-color);"></i>
-                </div>
-                <div class="member-info">
-                    <h3>劉瑞弘 副教授 (Dof Liu, Ph.D.)</h3>
-                    <p class="role">Principal Investigator</p>
-                    <p class="bio">國立勤益科技大學 智慧自動化工程系副教授。擁有豐富的產學合作經驗（曾任職工研院綠能所/機械所），專長於將業界實務痛點轉化為前瞻學術研究。帶領實驗室團隊探索 AI、綠能與自動化的無限可能。</p>
-                    <div class="tags">
-                        <span>#風力發電</span>
-                        <span>#機器學習</span>
-                        <span>#自動控制</span>
-                        <span>#機電整合</span>
-                    </div>
-                    <div class="links">
-                        <a href="https://github.com/dofliu" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="mailto:dofliu@gm.ncut.edu.tw"><i class="fas fa-envelope"></i> Email</a>
-                        <a href="https://iae.ncut.edu.tw/p/404-1062-78482.php" target="_blank"><i class="fas fa-university"></i> 校方簡介</a>
-                    </div>
+                <div class="item" style="text-align: left; border-left: 4px solid var(--primary-color);">
+                    <span style="color: var(--primary-color); font-weight: bold; font-size: 0.9rem;">實驗室招募</span>
+                    <h4 style="margin: 0.5rem 0;">研究生招募中</h4>
+                    <p>歡迎對生成式 AI、自動化、風電運維有興趣的同學加入！請洽誠樸館 G309。</p>
                 </div>
             </div>
         </div>
@@ -121,18 +113,21 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <h3>NCUT IAE Lab</h3>
+                    <h3>NCUT IAE Lab (DOF Lab)</h3>
                     <p>國立勤益科技大學 智慧自動化工程系</p>
-                    <p>誠樸館 G309 研究室</p>
+                    <p>風電運維自動化技術研究室 (G309)</p>
                 </div>
                 <div class="footer-contact">
                     <p><i class="fas fa-map-marker-alt"></i> 411 台中市太平區坪林里中山路二段 57 號</p>
-                    <p><i class="fas fa-phone"></i> 04-23924505 ext. 8059</p>
                     <p><i class="fas fa-envelope"></i> dofliu@gm.ncut.edu.tw</p>
+                    <p>
+                        <a href="https://github.com/dofliu" target="_blank" style="color: var(--text-gray); margin-right: 10px;"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://sites.google.com/view/jui-hung-liu" target="_blank" style="color: var(--text-gray);"><i class="fas fa-globe"></i> Google Sites</a>
+                    </p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 NCUT IAE Lab. All rights reserved. | <a href="https://infocard.doflab.cc/" target="_blank">AI Graphic Studio</a></p>
+                <p>&copy; 2026 DOF Lab. All rights reserved. | <a href="https://infocard.doflab.cc/" target="_blank">AI Graphic Studio</a></p>
             </div>
         </div>
     </footer>
