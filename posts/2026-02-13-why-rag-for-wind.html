@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>當 LLM 遇上風力發電機：為什麼我們需要 RAG？ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">當 LLM 遇上風力發電機：為什麼我們需要 RAG？</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-13</span> • 
+                <span><i class="fas fa-user"></i> 劉瑞弘 (Dof Liu)</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>隨著 GPT-5.3 與 Gemini 3 的發布，大型語言模型 (LLM) 的能力已無庸置疑。它們能寫詩、寫程式，甚至通過律師考試。但在風力發電這種高度專業且容錯率極低的工業領域，單靠 LLM 的「幻覺 (Hallucination)」是極度危險的。</p>
+
+            <p>想像一下，當一位維修工程師在離岸 20 公里的海上，面對一台報警代碼為 "Error 204" 的風機時，詢問 AI：「這個代碼是什麼意思？」。如果 AI 因為訓練數據過舊或混淆了不同廠牌的定義，給出了錯誤的維修建議，後果可能是不堪設想的。</p>
+
+            <h2>什麼是 RAG (檢索增強生成)？</h2>
+            <p>這就是為什麼 RAG (Retrieval-Augmented Generation) 成為了解決工業級知識問答的關鍵技術。RAG 的核心概念很簡單：<strong>在回答問題之前，先去翻閱「正確的參考書」</strong>。</p>
+            
+            <p>在我們的應用場景中，這個流程是這樣的：</p>
+            <ul>
+                <li><strong>檢索 (Retrieval)</strong>：系統先從我們建立的「風機維修手冊向量資料庫」中，找出與 "Error 204" 相關的段落。</li>
+                <li><strong>增強 (Augmentation)</strong>：將這些正確的段落作為「提示詞 (Prompt)」的一部分，餵給 LLM。</li>
+                <li><strong>生成 (Generation)</strong>：LLM 根據這些事實，用通順的語言回答工程師。</li>
+            </ul>
+
+            <h2>DOF Lab 的研究方向</h2>
+            <p>我們實驗室目前正致力於開發一套專門針對風力發電運維的 RAG 系統。我們不只關注文字檢索，更在嘗試結合 **SCADA 數據**。未來的 AI 助手不僅能讀手冊，還能看懂即時的傳感器數據，告訴你：「根據手冊這是齒輪箱過熱，而我剛剛檢查了過去 10 分鐘的數據，發現油溫確實異常上升了 5 度。」</p>
+
+            <p>這才是真正的工業智慧。</p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
