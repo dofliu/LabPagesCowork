@@ -7,174 +7,6 @@
     <title>著作發表 | NCUT IAE Lab</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Publications Page Specific Styles */
-        .page-header {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-
-        /* Stats Dashboard */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-        }
-
-        .stat-item p {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Publication List Styles */
-        .pub-section-header {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-white);
-            margin-bottom: 1.5rem;
-            margin-top: 3rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .pub-section-header i {
-            color: var(--accent-color);
-        }
-
-        .pub-row {
-            display: flex;
-            align-items: flex-start;
-            padding: 1.2rem;
-            border-bottom: 1px solid var(--border-color);
-            transition: background 0.2s;
-            flex-wrap: wrap;
-        }
-
-        .pub-row:hover {
-            background: rgba(255,255,255,0.02);
-        }
-
-        .pub-year-badge {
-            flex: 0 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-gray);
-            font-weight: 700;
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            margin-right: 1.5rem;
-            font-size: 0.9rem;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .pub-content {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .pub-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-white);
-            margin-bottom: 0.4rem;
-            line-height: 1.5;
-        }
-
-        .pub-meta {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-        }
-
-        .journal-name {
-            font-weight: 600;
-            color: var(--secondary-color);
-        }
-
-        .tag-scie {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.15);
-            color: #818cf8;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 0.5rem;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .pub-link {
-            display: inline-block;
-            margin-left: 0.5rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
-        
-        .pub-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Filter Tabs */
-        .filter-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-tab {
-            padding: 0.6rem 1.5rem;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-gray);
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-
-        .filter-tab:hover, .filter-tab.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        @media (max-width: 768px) {
-            .pub-row {
-                flex-direction: column;
-            }
-            .pub-year-badge {
-                margin-bottom: 0.8rem;
-            }
-        }
-    </style>
 </head>
 <body>
 
@@ -203,7 +35,7 @@
     <section class="section" style="padding-top: 0;">
         <div class="container">
             
-            <!-- Stats Dashboard -->
+            <!-- Stats Dashboard (Horizontal) -->
             <div class="stats-grid">
                 <div class="stat-item">
                     <h3>18+</h3>
@@ -223,12 +55,15 @@
                 </div>
             </div>
 
-            <div class="filter-tabs">
-                <button class="filter-tab active" onclick="filterPubs('all')">全部顯示</button>
-                <button class="filter-tab" onclick="filterPubs('journal')">期刊論文</button>
-                <button class="filter-tab" onclick="filterPubs('conf')">研討會</button>
-                <button class="filter-tab" onclick="filterPubs('patent')">專利</button>
-                <button class="filter-tab" onclick="filterPubs('award')">獲獎</button>
+            <!-- Sticky Filter Tabs -->
+            <div class="filter-container">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterPubs('all')">全部顯示</button>
+                    <button class="filter-tab" onclick="filterPubs('journal')">期刊論文</button>
+                    <button class="filter-tab" onclick="filterPubs('conf')">研討會</button>
+                    <button class="filter-tab" onclick="filterPubs('patent')">專利</button>
+                    <button class="filter-tab" onclick="filterPubs('award')">獲獎</button>
+                </div>
             </div>
 
             <div id="pub-container">
