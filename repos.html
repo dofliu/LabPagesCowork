@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程式碼庫 | NCUT IAE Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .repo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .repo-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .repo-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .repo-visibility {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .vis-public { border: 1px solid #10b981; color: #10b981; }
+        .vis-private { border: 1px solid #f59e0b; color: #f59e0b; }
+        
+        .repo-desc {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+        .repo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+        }
+        .lang-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="projects.html">研究與工具</a></li>
+                <li><a href="repos.html" class="active">程式碼庫</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Repositories</h1>
+            <p style="color: var(--text-gray);">實驗室開源專案與內部開發工具庫 (GitHub)</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="repo-grid">
+
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            LabPagesCowork
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #e34c26"></span>
+                            HTML
+                        </span>
+                        <span>Updated: 2026/2/13</span>
+                    </div>
+                    <a href="https://github.com/dofliu/LabPagesCowork" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            InduSpect
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">一個 AI 驅動的智慧巡檢系統原型，使用 Gemini API 分析工業設備的圖像。</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Dart
+                        </span>
+                        <span>Updated: 2026/2/9</span>
+                    </div>
+                    <a href="https://github.com/dofliu/InduSpect" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            local-ai-assistant
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">一個可在本機運行的 AI 助理應用，支持 LLM API 串接（OpenAI、Ollama）、RAG 檢索增強生成、記憶壓縮與長期記憶、MCP Server 集成、Agent Skill 導入，並能存取本機檔案系統 · 使用 Manus 構建</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2026/2/4</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            rag-skill
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">A Skill dedicated to local knowledge base retrieval</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/2/3</span>
+                    </div>
+                    <a href="https://github.com/dofliu/rag-skill" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            generative-ai
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">Sample code and notebooks for Generative AI on Google Cloud, with Gemini on Vertex AI</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/30</span>
+                    </div>
+                    <a href="https://github.com/dofliu/generative-ai" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            adk-samples
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">A collection of sample agents built with Agent Development Kit (ADK) </p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/30</span>
+                    </div>
+                    <a href="https://github.com/dofliu/adk-samples" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            serviceManage
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/26</span>
+                    </div>
+                    <a href="https://github.com/dofliu/serviceManage" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            infoCardGen
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">generate infopages or infograph by geminie 3 or banana pro</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2026/1/24</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            parkingSimu
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2026/1/20</span>
+                    </div>
+                    <a href="https://github.com/dofliu/parkingSimu" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            zImageUI
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2026/1/17</span>
+                    </div>
+                    <a href="https://github.com/dofliu/zImageUI" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            localCowork
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/15</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            myGitQuickView
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">a UI connect to your github, then collect the information of all your repos and display in webpages for a through understanding.</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2026/1/13</span>
+                    </div>
+                    <a href="https://github.com/dofliu/myGitQuickView" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            embedTuned
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/13</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            attendence
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2026/1/7</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            ui-ux-pro-max-skill
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/5</span>
+                    </div>
+                    <a href="https://github.com/dofliu/ui-ux-pro-max-skill" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            RAG_Techniques
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">This repository showcases various advanced techniques for Retrieval-Augmented Generation (RAG) systems. RAG systems combine information retrieval with generative models to provide accurate and contextually rich responses.</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2026/1/2</span>
+                    </div>
+                    <a href="https://github.com/dofliu/RAG_Techniques" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            unicourseaionline
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">Uni. course system, online AI exam, homework, class student manage</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/12/19</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            RAGcompare
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">compare different strategies among RAG</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/12/18</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            BeamStrctSim
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">interactive UI for materials mechanics.</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/12/15</span>
+                    </div>
+                    <a href="https://github.com/dofliu/BeamStrctSim" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            SurfSense
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">Open source alternative to NotebookLM, Perplexity, and Glean. Connects to search engines, Slack, Linear, Jira, ClickUp, Notion, YouTube, GitHub, Discord, and more.  Join our Discord: https://discord.gg/ejRNvftDp9</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2025/12/9</span>
+                    </div>
+                    <a href="https://github.com/dofliu/SurfSense" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            ComicGen
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">generate comics by user's description</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/12/8</span>
+                    </div>
+                    <a href="https://github.com/dofliu/ComicGen" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            specDevAgent
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2025/12/8</span>
+                    </div>
+                    <a href="https://github.com/dofliu/specDevAgent" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            Text-Driven-Arduino-Generator
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2025/12/3</span>
+                    </div>
+                    <a href="https://github.com/dofliu/Text-Driven-Arduino-Generator" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            Z-Image
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2025/12/1</span>
+                    </div>
+                    <a href="https://github.com/dofliu/Z-Image" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            windTurbineLoadSimu
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">example for user to understand the load regulation</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/11/25</span>
+                    </div>
+                    <a href="https://github.com/dofliu/windTurbineLoadSimu" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            bananaFusion
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">一個功能強大的多功能網頁應用程式，使用 Google Gemini API 將您的照片或想法進行多樣化的 AI 轉換。從專業形象照、創意動漫頭像到商業 Logo 與名片設計，這個工具是您的一站式 AI 創意工作室。</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/11/24</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            kit
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">The toolkit for AI devtools context engineering. Build with codebase mapping, symbol extraction, and many kinds of code search.</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2025/11/23</span>
+                    </div>
+                    <a href="https://github.com/dofliu/kit" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            ArcadeHub
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">old smiple games</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/11/21</span>
+                    </div>
+                    <a href="https://github.com/dofliu/ArcadeHub" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            WindEnergyBasicsSimulator
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">An interactive tool to simulate and learn about wind energy generation.</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/11/20</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            mcpMachineTools
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2025/11/17</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-lock"></i>
+                            UltimaRAG-EnergyO-M
+                        </div>
+                        <span class="repo-visibility vis-private">
+                            Internal
+                        </span>
+                    </div>
+                    <p class="repo-desc">Explore the power of FileSearch,the simplest integrated RAG solution. Just upload any text file, from product manuals to dense reports, and ask away. FileSearch takes care of the rest, instantly digging through the content to find the precise answers you need.</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3178c6"></span>
+                            TypeScript
+                        </span>
+                        <span>Updated: 2025/11/17</span>
+                    </div>
+                    
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            modbusMcpAuto
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #3572A5"></span>
+                            Python
+                        </span>
+                        <span>Updated: 2025/11/17</span>
+                    </div>
+                    <a href="https://github.com/dofliu/modbusMcpAuto" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            <i class="fas fa-code-branch"></i>
+                            llm1234
+                        </div>
+                        <span class="repo-visibility vis-public">
+                            Public
+                        </span>
+                    </div>
+                    <p class="repo-desc">暫無描述</p>
+                    <div class="repo-meta">
+                        <span>
+                            <span class="lang-dot" style="background-color: #cccccc"></span>
+                            Other
+                        </span>
+                        <span>Updated: 2025/11/13</span>
+                    </div>
+                    <a href="https://github.com/dofliu/llm1234" target="_blank" style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i class="fab fa-github"></i> View Code</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
