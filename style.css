@@ -1,8 +1,11 @@
 :root {
-    --primary-color: #0ea5e9; /* Sky blue */
+    --primary-color: #0ea5e9;
+    /* Sky blue */
     --primary-hover: #0284c7;
-    --secondary-color: #6366f1; /* Indigo */
-    --accent-color: #f59e0b; /* Amber */
+    --secondary-color: #6366f1;
+    /* Indigo */
+    --accent-color: #f59e0b;
+    /* Amber */
     --bg-dark: #0f172a;
     --bg-card: #1e293b;
     --text-light: #f8fafc;
@@ -15,6 +18,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
 body {
@@ -80,7 +84,8 @@ body {
     transition: color 0.3s;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--primary-color);
 }
 
@@ -99,7 +104,8 @@ body {
     justify-content: center;
     text-align: center;
     position: relative;
-    padding-top: 60px; /* Offset for fixed navbar */
+    padding-top: 60px;
+    /* Offset for fixed navbar */
     overflow: hidden;
 }
 
@@ -120,7 +126,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -130,8 +136,13 @@ body {
 }
 
 @keyframes grid-move {
-    0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
-    100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px); }
+    0% {
+        transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px);
+    }
+
+    100% {
+        transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px);
+    }
 }
 
 .hero-content h1 {
@@ -160,7 +171,8 @@ body {
     justify-content: center;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     display: inline-block;
     padding: 0.8rem 2rem;
     border-radius: 50px;
@@ -445,7 +457,8 @@ body {
 /* Improved Grid Layout for Tools */
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Use auto-fit with min-width */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* Use auto-fit with min-width */
     gap: 2rem;
     width: 100%;
 }
@@ -457,13 +470,15 @@ body {
     border-radius: 12px;
     padding: 1.5rem;
     display: flex;
-    gap: 1.2rem; /* Increased gap */
+    gap: 1.2rem;
+    /* Increased gap */
     transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     text-decoration: none;
     color: inherit;
     position: relative;
     overflow: hidden;
-    height: 100%; /* Uniform height */
+    height: 100%;
+    /* Uniform height */
     flex-direction: row;
     align-items: flex-start;
 }
@@ -485,13 +500,14 @@ body {
     justify-content: center;
     font-size: 1.6rem;
     color: var(--primary-color);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     flex-shrink: 0;
 }
 
 .tool-info {
     flex-grow: 1;
-    min-width: 0; /* Critical for text overflow handling */
+    min-width: 0;
+    /* Critical for text overflow handling */
     display: flex;
     flex-direction: column;
 }
@@ -501,7 +517,8 @@ body {
     font-weight: 700;
     color: var(--text-white);
     margin-bottom: 0.4rem;
-    white-space: normal; /* Allow wrapping */
+    white-space: normal;
+    /* Allow wrapping */
     line-height: 1.3;
 }
 
@@ -509,8 +526,10 @@ body {
     font-size: 0.9rem;
     color: var(--text-gray);
     line-height: 1.5;
-    margin-bottom: auto; /* Push meta to bottom */
-    display: block; /* Remove truncation for clarity */
+    margin-bottom: auto;
+    /* Push meta to bottom */
+    display: block;
+    /* Remove truncation for clarity */
 }
 
 .tool-meta {
@@ -523,7 +542,7 @@ body {
 }
 
 .meta-tag {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
     padding: 3px 8px;
     border-radius: 4px;
     font-weight: 500;
@@ -565,9 +584,23 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.status-running { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); } 
-.status-planning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); } 
-.status-finished { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3); } 
+.status-running {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-planning {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-finished {
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
 
 /* Stats Dashboard (Horizontal) */
 .stats-grid {
@@ -605,7 +638,8 @@ body {
 /* Filter Tabs (Sticky Top) */
 .filter-container {
     position: sticky;
-    top: 60px; /* Below navbar */
+    top: 60px;
+    /* Below navbar */
     background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(10px);
     z-index: 900;
@@ -633,7 +667,8 @@ body {
     font-size: 0.9rem;
 }
 
-.filter-tab:hover, .filter-tab.active {
+.filter-tab:hover,
+.filter-tab.active {
     background: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
@@ -668,7 +703,7 @@ body {
 }
 
 .pub-row:hover {
-    background: rgba(255,255,255,0.02);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .pub-year-badge {
@@ -737,7 +772,7 @@ body {
     .navbar .container {
         padding: 0 2rem;
     }
-    
+
     .nav-links {
         display: flex;
     }
@@ -755,7 +790,8 @@ body {
         gap: 3rem;
     }
 
-    .member-info .links, .tags {
+    .member-info .links,
+    .tags {
         justify-content: flex-start;
     }
 }
@@ -785,25 +821,28 @@ body {
     .hero-content h1 {
         font-size: 2.5rem;
     }
-    
+
     .team-member-featured {
         padding: 2rem;
     }
 
     .tools-grid {
-        grid-template-columns: 1fr; /* Stack on mobile */
+        grid-template-columns: 1fr;
+        /* Stack on mobile */
     }
-    
+
     .tool-card {
         padding: 1.2rem;
     }
-    
+
     .pub-row {
         flex-direction: column;
     }
+
     .pub-year-badge {
         margin-bottom: 0.8rem;
     }
+
     .filter-container {
         top: 60px;
     }

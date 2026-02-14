@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -135,7 +136,7 @@
         }
 
         .count-badge {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             padding: 2px 8px;
             border-radius: 10px;
             font-size: 0.8rem;
@@ -143,7 +144,8 @@
 
         /* Markdown Content Styles */
         .article-content {
-            display: none; /* Hidden by default in list view */
+            display: none;
+            /* Hidden by default in list view */
         }
 
         @media (max-width: 768px) {
@@ -153,6 +155,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
@@ -166,7 +169,8 @@
                 <li><a href="repos.html">程式碼庫</a></li>
                 <li><a href="publications.html">著作發表</a></li>
                 <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i
+                            class="fas fa-external-link-alt"></i></a></li>
             </ul>
         </div>
     </nav>
@@ -181,7 +185,7 @@
     <section class="section" style="padding-top: 0;">
         <div class="container">
             <div class="blog-grid">
-                
+
                 <!-- Main Content -->
                 <div class="blog-main">
 
@@ -191,11 +195,14 @@
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
                             <span class="meta-tag"><i class="fas fa-tag"></i> Fine-tuning / RAG</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">教 AI 讀維修手冊：為什麼微調模型「教一遍」就夠了？</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">教 AI
+                                讀維修手冊：為什麼微調模型「教一遍」就夠了？</a></h2>
                         <div class="article-excerpt">
-                            大家都覺得 AI 訓練越久越聰明，但我們的實驗發現：在微調嵌入模型時，Epoch 1 才是巔峰！教太多遍反而會讓 AI 死背答案 (Overfitting)。本文揭露了如何用「低學習率」與「少訓練輪數」來打造最強的風機維修顧問...
+                            大家都覺得 AI 訓練越久越聰明，但我們的實驗發現：在微調嵌入模型時，Epoch 1 才是巔峰！教太多遍反而會讓 AI 死背答案
+                            (Overfitting)。本文揭露了如何用「低學習率」與「少訓練輪數」來打造最強的風機維修顧問...
                         </div>
-                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">閱讀全文 <i
+                                class="fas fa-arrow-right"></i></a>
                     </article>
 
                     <!-- Article 3 (New: Model Comparison) -->
@@ -204,24 +211,30 @@
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
                             <span class="meta-tag"><i class="fas fa-tag"></i> Model Evaluation</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">地端 RAG 大亂鬥：BGE vs E5 vs Jina，誰是檢索之王？</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">地端 RAG 大亂鬥：BGE vs
+                                E5 vs Jina，誰是檢索之王？</a></h2>
                         <div class="article-excerpt">
-                            在地端資源受限的環境下，哪一款嵌入模型 (Embedding Model) 最適合風機維修？我們讓 BGE-M3、E5 與 Jina-v3 進行了一場大亂鬥。結果顯示：BGE-M3 搭配重排序策略準確率高達 78%，但 CP 值最高的其實是...
+                            在地端資源受限的環境下，哪一款嵌入模型 (Embedding Model) 最適合風機維修？我們讓 BGE-M3、E5 與 Jina-v3 進行了一場大亂鬥。結果顯示：BGE-M3
+                            搭配重排序策略準確率高達 78%，但 CP 值最高的其實是...
                         </div>
-                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">閱讀全文 <i
+                                class="fas fa-arrow-right"></i></a>
                     </article>
-                    
+
                     <!-- Article 2 -->
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
                             <span class="meta-tag"><i class="fas fa-tag"></i> DevOps / OpenClaw</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 維運實錄：從 WMI 偵測到擊殺殭屍程序</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 維運實錄：從 WMI
+                                偵測到擊殺殭屍程序</a></h2>
                         <div class="article-excerpt">
-                            Process 存在不代表服務健康。今天早上我們的監控系統雖然顯示 Gateway 在線，但 WhatsApp 卻全面斷線 (408 Timeout)。本文紀錄了如何發現這個「殭屍程序」，以及如何使用 PowerShell WMI 技術來精準監控並擊殺異常的 Node.js 服務...
+                            Process 存在不代表服務健康。今天早上我們的監控系統雖然顯示 Gateway 在線，但 WhatsApp 卻全面斷線 (408
+                            Timeout)。本文紀錄了如何發現這個「殭屍程序」，以及如何使用 PowerShell WMI 技術來精準監控並擊殺異常的 Node.js 服務...
                         </div>
-                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">閱讀全文 <i
+                                class="fas fa-arrow-right"></i></a>
                     </article>
 
                     <!-- Article 1 -->
@@ -230,11 +243,14 @@
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-13</span>
                             <span class="meta-tag"><i class="fas fa-tag"></i> RAG & Wind Energy</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">當 LLM 遇上風力發電機：為什麼我們需要 RAG？</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">當 LLM 遇上風力發電機：為什麼我們需要
+                                RAG？</a></h2>
                         <div class="article-excerpt">
-                            隨著 GPT-5.3 與 Gemini 3 的發布，大型語言模型的能力已無庸置疑。但在風力發電這種高度專業且容錯率低的領域，單靠 LLM 的「幻覺」是危險的。這就是為什麼 RAG (檢索增強生成) 成為了解決工業級知識問答的關鍵技術...
+                            隨著 GPT-5.3 與 Gemini 3 的發布，大型語言模型的能力已無庸置疑。但在風力發電這種高度專業且容錯率低的領域，單靠 LLM 的「幻覺」是危險的。這就是為什麼 RAG
+                            (檢索增強生成) 成為了解決工業級知識問答的關鍵技術...
                         </div>
-                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">閱讀全文 <i
+                                class="fas fa-arrow-right"></i></a>
                     </article>
 
                 </div>
@@ -244,7 +260,7 @@
                     <div class="sidebar-widget">
                         <h3 class="widget-title">關於本誌</h3>
                         <p style="color: var(--text-gray); font-size: 0.95rem; line-height: 1.6;">
-                            這是劉瑞弘教授的研究筆記。我們關注如何將最新的 AI 技術（特別是 RAG 與 Agent）應用於解決真實的工程問題。
+                            這是劉瑞弘教授研究團隊的 研究筆記。我們關注如何將最新的 AI 技術（特別是 RAG 與 Agent）應用於解決真實的工程問題。
                         </p>
                     </div>
 
@@ -277,4 +293,5 @@
         });
     </script>
 </body>
+
 </html>
