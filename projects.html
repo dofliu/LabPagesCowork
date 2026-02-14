@@ -1,186 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NCUT IAE Lab - Research Projects & Tools">
+    <meta name="description" content="NCUT IAE Lab - Research & Tools">
     <title>研究與工具 | NCUT IAE Lab</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Projects & Tools Page Styles */
-        .page-header {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-
-        /* Tool Grid (App Store Style) */
-        .tool-category {
-            margin-bottom: 4rem;
-        }
-
-        .category-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-
-        .category-header h2 {
-            font-size: 1.8rem;
-            color: var(--text-white);
-            margin-right: 1rem;
-        }
-
-        .category-badge {
-            background: rgba(14, 165, 233, 0.1);
-            color: var(--primary-color);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .tool-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            transition: transform 0.2s, border-color 0.2s;
-            text-decoration: none;
-            color: inherit;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary-color);
-            background: rgba(30, 41, 59, 0.8);
-        }
-
-        .tool-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            flex-shrink: 0;
-        }
-
-        .tool-info {
-            flex-grow: 1;
-            min-width: 0;
-            /* Prevent text overflow */
-        }
-
-        .tool-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-white);
-            margin-bottom: 0.3rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .tool-desc {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .tool-meta {
-            margin-top: 0.5rem;
-            display: flex;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            color: var(--text-gray);
-        }
-
-        .meta-tag {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        /* Research Project Specific Styles */
-        .project-year-group {
-            margin-bottom: 3rem;
-        }
-
-        .year-label {
-            font-size: 1.2rem;
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            font-weight: bold;
-        }
-
-        .status-badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-        }
-
-        .status-running {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        /* Green */
-        .status-planning {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-
-        /* Orange */
-        .status-finished {
-            background: rgba(100, 116, 139, 0.2);
-            color: #94a3b8;
-        }
-
-        /* Gray */
-
-        .research-card {
-            border-left: 4px solid var(--secondary-color);
-        }
-    </style>
 </head>
-
 <body>
 
     <nav class="navbar">
@@ -194,8 +22,10 @@
                 <li><a href="repos.html">程式碼庫</a></li>
                 <li><a href="publications.html">著作發表</a></li>
                 <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i
-                            class="fas fa-external-link-alt"></i></a></li>
+                <li><a href="about.html">關於</a></li>
+                <li><a href="contact.html">聯絡</a></li>
+                <li><a href="privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
             </ul>
         </div>
     </nav>
@@ -203,266 +33,154 @@
     <header class="page-header">
         <div class="container">
             <h1>Research & Tools</h1>
-            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">探索實驗室開發的 AI 線上工具與產學合作研究專案。</p>
+            <p style="color: var(--text-gray);">AI 線上工具與產學合作研究計畫</p>
         </div>
     </header>
 
     <section class="section">
         <div class="container">
-
-            <!-- Online Tools Showcase -->
+            
+            <!-- Online AI Tools -->
             <div class="tool-category">
                 <div class="category-header">
-                    <h2>AI 線上工具 </h2>
-                    <span class="category-badge">Online Tools</span>
+                    <h2>🛠️ AI 線上工具</h2>
+                    <span class="category-badge">Live</span>
                 </div>
-
-                <h3 style="color:var(--text-gray); margin-bottom:1rem; font-size:1rem;">工程模擬與分析</h3>
-                <div class="tools-grid" style="margin-bottom: 2rem;">
-                    <a href="https://windsimu.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-wind"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">Wind Energy Simulator</h3>
-                            <p class="tool-desc">風力發電能量產出模擬器，支援多種風況參數設定與發電量預測。</p>
-                            <div class="tool-meta"><span class="meta-tag">Simulation</span><span class="meta-tag">Web
-                                    App</span></div>
-                        </div>
-                    </a>
-                    <a href="https://mechanics.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-cogs"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">Mechanics Analyzer</h3>
-                            <p class="tool-desc">力學分析與計算工具，視覺化呈現應力分佈與結構負載。</p>
-                            <div class="tool-meta"><span class="meta-tag">Physics</span><span
-                                    class="meta-tag">Analysis</span></div>
-                        </div>
-                    </a>
-                    <a href="https://autoplc.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-microchip"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">PLC ST Code Auto</h3>
-                            <p class="tool-desc">自動化生成 PLC Structured Text (ST) 控制碼，加速工業自動化開發。</p>
-                            <div class="tool-meta"><span class="meta-tag">Automation</span><span class="meta-tag">Code
-                                    Gen</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <h3 style="color:var(--text-gray); margin-bottom:1rem; font-size:1rem;">AI 生產力工具</h3>
-                <div class="tools-grid" style="margin-bottom: 2rem;">
-                    <a href="https://documind.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">DocuMind (RAG Architect)</h3>
-                            <p class="tool-desc">基於 RAG 技術的文檔智慧分析助手，能快速讀取並總結大量技術文件。</p>
-                            <div class="tool-meta"><span class="meta-tag">LLM</span><span class="meta-tag">RAG</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://aiemail.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-envelope-open-text"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">AI Email Assistant</h3>
-                            <p class="tool-desc">智慧郵件助手，自動撰寫、摘要與優化電子郵件內容。</p>
-                            <div class="tool-meta"><span class="meta-tag">NLP</span><span class="meta-tag">Office</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://infocard.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-image"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">Instant Infographic Generator</h3>
-                            <p class="tool-desc">快速生成資訊圖卡與摘要海報，支援多種藝術風格與排版。</p>
-                            <div class="tool-meta"><span class="meta-tag">Image Gen</span><span
-                                    class="meta-tag">Design</span></div>
-                        </div>
-                    </a>
-                    <a href="https://mygit.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fab fa-git-alt"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">MyGit QuickView</h3>
-                            <p class="tool-desc">Git 儲存庫快速瀏覽與統計工具，視覺化呈現提交紀錄與貢獻。</p>
-                            <div class="tool-meta"><span class="meta-tag">DevTool</span><span
-                                    class="meta-tag">Git</span></div>
-                        </div>
-                    </a>
-                    <a href="https://avatarfusion.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-user-astronaut"></i></div>
-                        <div class="tool-info">
-                            <h3 class="tool-name">Avatar Fusion</h3>
-                            <p class="tool-desc">AI 虛擬替身生成與合成工具，創造個人化的數位形象。</p>
-                            <div class="tool-meta"><span class="meta-tag">GenAI</span><span
-                                    class="meta-tag">Avatar</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <h3 style="color:var(--text-gray); margin-bottom:1rem; font-size:1rem;">智慧教育</h3>
                 <div class="tools-grid">
-                    <a href="https://aicourse.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <a href="https://infocard.doflab.cc/" target="_blank" class="tool-card">
+                        <div class="tool-icon">🎨</div>
                         <div class="tool-info">
-                            <h3 class="tool-name">AI Course Adventure</h3>
-                            <p class="tool-desc">互動式 AI 課程學習平台，透過冒險遊戲化的方式學習人工智慧。</p>
-                            <div class="tool-meta"><span class="meta-tag">Education</span><span
-                                    class="meta-tag">Gamification</span></div>
+                            <div class="tool-name">AI Graphic Studio</div>
+                            <div class="tool-desc">AI 圖文卡片生成器 — 一鍵生成資訊圖表、技術摘要卡、社群貼文，由 Gemini 驅動。</div>
+                            <div class="tool-meta">
+                                <span class="meta-tag">Gemini API</span>
+                                <span class="meta-tag">Flutter</span>
+                                <span class="meta-tag">Firebase</span>
+                            </div>
                         </div>
                     </a>
-                    <a href="https://iaecourse.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <a href="#" class="tool-card">
+                        <div class="tool-icon">💬</div>
                         <div class="tool-info">
-                            <h3 class="tool-name">UniCourse AI Online</h3>
-                            <p class="tool-desc">大學課程 AI 輔助系統，提供課程大綱、教材與智慧問答。</p>
-                            <div class="tool-meta"><span class="meta-tag">LMS</span><span
-                                    class="meta-tag">Assistant</span></div>
+                            <div class="tool-name">MCP WhatsApp Agent</div>
+                            <div class="tool-desc">透過 WhatsApp / LINE 與 AI 助手對話，整合行事曆、設備資料與教學資源。</div>
+                            <div class="tool-meta">
+                                <span class="meta-tag">MCP</span>
+                                <span class="meta-tag">Gemini</span>
+                                <span class="meta-tag">Node.js</span>
+                            </div>
                         </div>
                     </a>
-                    <a href="https://onlineaiexam.doflab.cc" target="_blank" class="tool-card">
-                        <div class="tool-icon"><i class="fas fa-file-signature"></i></div>
+                    <a href="#" class="tool-card">
+                        <div class="tool-icon">⚙️</div>
                         <div class="tool-info">
-                            <h3 class="tool-name">Online AI Exam</h3>
-                            <p class="tool-desc">線上 AI 測驗系統，支援自動出題與評分，適用於教學評量。</p>
-                            <div class="tool-meta"><span class="meta-tag">Exam</span><span
-                                    class="meta-tag">Evaluation</span></div>
+                            <div class="tool-name">PLC-ST 自動程式碼生成</div>
+                            <div class="tool-desc">運用 LLM 自動生成 PLC 結構化文本程式碼，並整合 Arduino 控制板自動上傳。</div>
+                            <div class="tool-meta">
+                                <span class="meta-tag">LLM</span>
+                                <span class="meta-tag">PLC</span>
+                                <span class="meta-tag">Automation</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-icon">🔍</div>
+                        <div class="tool-info">
+                            <div class="tool-name">SCADA 數據分析平台</div>
+                            <div class="tool-desc">風力發電機 SCADA 數據視覺化與異常偵測系統，支援歷史數據查詢。</div>
+                            <div class="tool-meta">
+                                <span class="meta-tag">Python</span>
+                                <span class="meta-tag">SCADA</span>
+                                <span class="meta-tag">Analytics</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-icon">🤖</div>
+                        <div class="tool-info">
+                            <div class="tool-name">AR 輔助維修系統</div>
+                            <div class="tool-desc">擴增實境即時系統，整合設備 3D 模型、SOP 流程與即時感測數據。</div>
+                            <div class="tool-meta">
+                                <span class="meta-tag">AR</span>
+                                <span class="meta-tag">Unity</span>
+                                <span class="meta-tag">IoT</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-icon">📊</div>
+                        <div class="tool-info">
+                            <div class="tool-name">紊流強度分析工具</div>
+                            <div class="tool-desc">使用 ML 技術分析風場不同紊流條件下的風力機效能變化與疲勞預測。</div>
+                            <div class="tool-meta">
+                                <span class="meta-tag">ML</span>
+                                <span class="meta-tag">Python</span>
+                                <span class="meta-tag">Fatigue</span>
+                            </div>
                         </div>
                     </a>
                 </div>
             </div>
 
             <!-- Research Projects -->
-            <div class="research-section" style="margin-top: 6rem;">
+            <div class="tool-category research-section">
                 <div class="category-header">
-                    <h2>產學合作與研究計畫</h2>
-                    <span class="category-badge">Funding Projects</span>
+                    <h2>📋 產學計畫與研究</h2>
+                    <span class="category-badge">Projects</span>
                 </div>
 
-                <!-- 2025 -->
                 <div class="project-year-group">
-                    <div class="year-label">2025 年度</div>
-                    <div class="tools-grid">
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-running">執行中</span>
-                            <div class="tool-icon"><i class="fas fa-bell"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">基於大型語言模型之風力發電機警報資訊分析與維修決策支援系統開發</h3>
-                                <p class="tool-desc">國科會 (NSTC 114-2637-E-167-008)｜2025.08–2026.07</p>
-                                <div class="tool-meta"><span class="meta-tag">LLM</span><span
-                                        class="meta-tag">Maintenance</span></div>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-planning">洽談中</span>
-                            <div class="tool-icon"><i class="fas fa-wind"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] 離岸風場資料分析與診斷模型開發</h3>
-                                <p class="tool-desc">工研院綠能所｜2025.10–2026.10</p>
-                                <div class="tool-meta"><span class="meta-tag">Diagnosis</span><span
-                                        class="meta-tag">Model</span></div>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-running">執行中</span>
-                            <div class="tool-icon"><i class="fas fa-industry"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[智慧製造] 線性馬達定位量測台研製</h3>
-                                <p class="tool-desc">工研院機械所｜2025.03–2025.12</p>
-                                <div class="tool-meta"><span class="meta-tag">Linear Motor</span><span
-                                        class="meta-tag">Measurement</span></div>
-                            </div>
-                        </div>
+                    <span class="year-label">2025</span>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-running">Running</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">生成式 AI 應用於智慧機電整合系統之開發</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 計畫編號：NSTC 113-xxxx</p>
+                    </div>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-running">Running</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">基於 MCP 技術的工廠自動化整合平台</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：業界合作</p>
                     </div>
                 </div>
 
-                <!-- 2024 -->
                 <div class="project-year-group">
-                    <div class="year-label">2024 年度</div>
-                    <div class="tools-grid">
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">已結案</span>
-                            <div class="tool-icon"><i class="fas fa-wind"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] 離岸風電場運轉模式驗證暨故障警報事件處理機制</h3>
-                                <p class="tool-desc">工研院綠能所｜2024.05–2024.12</p>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">已結案</span>
-                            <div class="tool-icon"><i class="fas fa-network-wired"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] 風機 SCADA 資料採集與監視系統解析</h3>
-                                <p class="tool-desc">工研院機械所｜2024.05–2024.09</p>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">已結案</span>
-                            <div class="tool-icon"><i class="fas fa-vr-cardboard"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] XR 輔助培訓技術開發規劃</h3>
-                                <p class="tool-desc">勞動部勞動力發展署｜2024.02–2024.11</p>
-                            </div>
-                        </div>
+                    <span class="year-label">2024</span>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-finished">Finished</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">風力發電機主軸承失效分析與多物理耦合理論框架</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 Engineering Failure Analysis (SCIE)</p>
+                    </div>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-finished">Finished</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">運用冪律過程於風場可靠性分析之研究</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 JCSME (SCIE)</p>
                     </div>
                 </div>
 
-                <!-- 2023 -->
                 <div class="project-year-group">
-                    <div class="year-label">2023 年度 (Selected)</div>
-                    <div class="tools-grid">
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">已結案</span>
-                            <div class="tool-icon"><i class="fas fa-screwdriver-wrench"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] 自動化機台 AR 擴增實境監控維護介面開發</h3>
-                                <p class="tool-desc">騰柏科技｜2023.07–2024.01</p>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">已結案</span>
-                            <div class="tool-icon"><i class="fas fa-temperature-three-quarters"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Geo] 地熱案場發電監控智能化介面測試平台</h3>
-                                <p class="tool-desc">工研院綠能所｜2023.08–2024.01</p>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">已結案</span>
-                            <div class="tool-icon"><i class="fas fa-people-carry-box"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] 大型風場運維派工系統開發</h3>
-                                <p class="tool-desc">益泰實業｜2023.01–2023.10</p>
-                            </div>
-                        </div>
+                    <span class="year-label">2023</span>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-finished">Finished</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">AR 風力發電設備維修輔助平台系統</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 Sensors and Materials (SCIE)</p>
                     </div>
                 </div>
 
-                <!-- Older Selected -->
                 <div class="project-year-group">
-                    <div class="year-label">歷年精選 (Selected Projects)</div>
-                    <div class="tools-grid">
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">2022</span>
-                            <div class="tool-icon"><i class="fas fa-robot"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Automation] 自動化產線設備元件瑕疵檢測研究</h3>
-                                <p class="tool-desc">工研院｜參與學生：佘文耀、呂柏毅、孫農修</p>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">2021</span>
-                            <div class="tool-icon"><i class="fas fa-microchip"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Geo] PLC 訊號收發與營運監控功能模組開發</h3>
-                                <p class="tool-desc">工研院｜學生：李佳洲、蔡貞儀</p>
-                            </div>
-                        </div>
-                        <div class="tool-card research-card">
-                            <span class="status-badge status-finished">2020</span>
-                            <div class="tool-icon"><i class="fas fa-database"></i></div>
-                            <div class="tool-info">
-                                <h3 class="tool-name">[Wind] 台電彰濱風力機 SCADA 運轉數據資料分析</h3>
-                                <p class="tool-desc">工研院／亞思｜學生：呂育盛、李佳洲、陳信銓、Nelson</p>
-                            </div>
-                        </div>
+                    <span class="year-label">2022</span>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-finished">Finished</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">風力發電機異常偵測系統開發</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 Applied Sciences (SCIE)</p>
+                    </div>
+                </div>
+
+                <div class="project-year-group">
+                    <span class="year-label">2021</span>
+                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
+                        <span class="status-badge status-finished">Finished</span>
+                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">風力發電機塔架攀爬機器人開發</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：勤益科大 | 成果：發表於 Applied Sciences (SCIE)</p>
                     </div>
                 </div>
 
@@ -473,7 +191,12 @@
 
     <footer id="footer">
         <div class="container">
-            <div class="footer-bottom" style="width: 100%;">
+            <div class="footer-links">
+                <a href="about.html">關於實驗室</a>
+                <a href="contact.html">聯絡我們</a>
+                <a href="privacy.html">隱私權政策</a>
+            </div>
+            <div class="footer-bottom" style="width: 100%; margin-top: 1.5rem;">
                 <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
             </div>
         </div>
@@ -485,5 +208,4 @@
         });
     </script>
 </body>
-
 </html>
