@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教 AI 讀維修手冊：為什麼微調模型「教一遍」就夠了？ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">教 AI 讀維修手冊：<br>為什麼微調模型「教一遍」就夠了？</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-14</span> • 
+                <span><i class="fas fa-user-graduate"></i> 蘇彥綸、鄧全志</span> •
+                <span><i class="fas fa-microchip"></i> Fine-tuning / RAG</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>大家都知道 AI 很聰明，但當你問它：「Z72 型風機的齒輪箱油溫過高怎麼辦？」時，通用的 AI 往往會給你一個模稜兩可的答案，就像一個只讀過百科全書卻沒修過風機課程的學生。</p>
+
+            <p>為了讓 AI 變成風機專家，我們實驗室（劉瑞弘教授團隊）進行了一項關於<strong>「嵌入模型微調 (Embedding Fine-tuning)」</strong>的研究，結果發現了一個有趣的現象：<strong>教 AI 其實跟教學生很像，教太多遍反而會變笨！</strong></p>
+
+            <h2>研究目標：讓 AI 讀懂「天書」</h2>
+            <p>風力發電機的維修手冊充滿了專有名詞和複雜的故障代碼。我們的目標是優化檢索增強生成 (RAG) 系統，讓它能精準地從幾千頁的手冊中找到正確的維修步驟。</p>
+            <p>我們選用了 BAAI/bge-m3 作為基準模型，並嘗試調整不同的教學參數（Epochs, Batch Size, Learning Rate）來看看怎樣教效果最好。</p>
+
+            <h2>驚人發現 1：教一遍就夠了！(Epoch 1 is King)</h2>
+            <p>通常我們訓練模型會覺得「練越久越好」，但實驗數據狠狠打了我們的臉。</p>
+            
+            <div class="highlight-box">
+                <strong>📊 實驗數據說話：</strong>
+                <ul>
+                    <li><strong>Epoch 1：</strong> MRR 分數達到最高點 (0.739) 🏆</li>
+                    <li><strong>Epoch 3：</strong> 分數開始大幅下滑 (0.689) 📉</li>
+                </ul>
+            </div>
+
+            <p>這說明了什麼？這就像考前衝刺，讀第一遍時吸收最快，讀到第三遍、第五遍時，學生（模型）開始「死背答案」了。它不再理解語意，而是機械式地記憶「題目 A 對應答案 B」，導致遇到新題目（泛化測試）時反而不會寫。</p>
+            <p><strong>結論：發現過擬合 (Overfitting) 就要果斷停止，保留模型的靈活性。</strong></p>
+
+            <h2>驚人發現 2：慢工出細活 (Low Learning Rate)</h2>
+            <p>除了讀幾遍，我們也測試了「讀書的速度」（學習率 Learning Rate）。</p>
+            <ul>
+                <li><strong>大步快跑 (1e-05)：</strong> 表現很差，甚至比沒微調還爛（負優化）。這就像讀書讀太快，跳過了重點，還把原本會的東西忘光了（災難性遺忘）。</li>
+                <li><strong>小步慢走 (2e-06)：</strong> 表現最好！MRR 提升至 0.8024。這證明了對於已經很聰明的預訓練模型，我們只需要輕輕地推它一把，讓它適應風機領域即可。</li>
+            </ul>
+
+            <h2>跨機型測試：Z72 學會了，V47 也通！</h2>
+            <p>最讓我們興奮的是，用 Z72 風機資料微調後的模型，拿去考其他型號（E40, H127, V47）的題目，表現居然也變好了！這證明模型真的學會了「風機維修的邏輯」，而不是死背 Z72 的手冊。</p>
+
+            <h2>總結</h2>
+            <p>這項研究給了所有想在工業領域落地 AI 的人一個重要啟示：<strong>不需要海量的算力去從頭訓練模型，只要用正確的方法（低學習率、少 Epochs）進行微調，就能讓通用的 AI 變身為專業的維修顧問。</strong></p>
+
+            <p><em>(本文改寫自：第十一屆台灣機電工程國際學會全國學術研討會論文 - 應用於工業設備維修之嵌入模型微調策略研究)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
