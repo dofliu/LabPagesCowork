@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,13 +86,14 @@
             justify-content: center;
             font-size: 1.8rem;
             color: var(--primary-color);
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             flex-shrink: 0;
         }
 
         .tool-info {
             flex-grow: 1;
-            min-width: 0; /* Prevent text overflow */
+            min-width: 0;
+            /* Prevent text overflow */
         }
 
         .tool-name {
@@ -123,7 +125,7 @@
         }
 
         .meta-tag {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             padding: 2px 6px;
             border-radius: 4px;
         }
@@ -132,7 +134,7 @@
         .project-year-group {
             margin-bottom: 3rem;
         }
-        
+
         .year-label {
             font-size: 1.2rem;
             color: var(--accent-color);
@@ -154,15 +156,31 @@
             right: 1rem;
         }
 
-        .status-running { background: rgba(16, 185, 129, 0.2); color: #10b981; } /* Green */
-        .status-planning { background: rgba(245, 158, 11, 0.2); color: #f59e0b; } /* Orange */
-        .status-finished { background: rgba(100, 116, 139, 0.2); color: #94a3b8; } /* Gray */
+        .status-running {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        /* Green */
+        .status-planning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        /* Orange */
+        .status-finished {
+            background: rgba(100, 116, 139, 0.2);
+            color: #94a3b8;
+        }
+
+        /* Gray */
 
         .research-card {
             border-left: 4px solid var(--secondary-color);
         }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
@@ -176,7 +194,8 @@
                 <li><a href="repos.html">程式碼庫</a></li>
                 <li><a href="publications.html">著作發表</a></li>
                 <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i
+                            class="fas fa-external-link-alt"></i></a></li>
             </ul>
         </div>
     </nav>
@@ -190,14 +209,14 @@
 
     <section class="section">
         <div class="container">
-            
+
             <!-- Online Tools Showcase -->
             <div class="tool-category">
                 <div class="category-header">
-                    <h2>AI 線上工具</h2>
+                    <h2>AI 線上工具 </h2>
                     <span class="category-badge">Online Tools</span>
                 </div>
-                
+
                 <h3 style="color:var(--text-gray); margin-bottom:1rem; font-size:1rem;">工程模擬與分析</h3>
                 <div class="tools-grid" style="margin-bottom: 2rem;">
                     <a href="https://windsimu.doflab.cc" target="_blank" class="tool-card">
@@ -205,7 +224,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">Wind Energy Simulator</h3>
                             <p class="tool-desc">風力發電能量產出模擬器，支援多種風況參數設定與發電量預測。</p>
-                            <div class="tool-meta"><span class="meta-tag">Simulation</span><span class="meta-tag">Web App</span></div>
+                            <div class="tool-meta"><span class="meta-tag">Simulation</span><span class="meta-tag">Web
+                                    App</span></div>
                         </div>
                     </a>
                     <a href="https://mechanics.doflab.cc" target="_blank" class="tool-card">
@@ -213,7 +233,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">Mechanics Analyzer</h3>
                             <p class="tool-desc">力學分析與計算工具，視覺化呈現應力分佈與結構負載。</p>
-                            <div class="tool-meta"><span class="meta-tag">Physics</span><span class="meta-tag">Analysis</span></div>
+                            <div class="tool-meta"><span class="meta-tag">Physics</span><span
+                                    class="meta-tag">Analysis</span></div>
                         </div>
                     </a>
                     <a href="https://autoplc.doflab.cc" target="_blank" class="tool-card">
@@ -221,7 +242,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">PLC ST Code Auto</h3>
                             <p class="tool-desc">自動化生成 PLC Structured Text (ST) 控制碼，加速工業自動化開發。</p>
-                            <div class="tool-meta"><span class="meta-tag">Automation</span><span class="meta-tag">Code Gen</span></div>
+                            <div class="tool-meta"><span class="meta-tag">Automation</span><span class="meta-tag">Code
+                                    Gen</span></div>
                         </div>
                     </a>
                 </div>
@@ -233,7 +255,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">DocuMind (RAG Architect)</h3>
                             <p class="tool-desc">基於 RAG 技術的文檔智慧分析助手，能快速讀取並總結大量技術文件。</p>
-                            <div class="tool-meta"><span class="meta-tag">LLM</span><span class="meta-tag">RAG</span></div>
+                            <div class="tool-meta"><span class="meta-tag">LLM</span><span class="meta-tag">RAG</span>
+                            </div>
                         </div>
                     </a>
                     <a href="https://aiemail.doflab.cc" target="_blank" class="tool-card">
@@ -241,7 +264,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">AI Email Assistant</h3>
                             <p class="tool-desc">智慧郵件助手，自動撰寫、摘要與優化電子郵件內容。</p>
-                            <div class="tool-meta"><span class="meta-tag">NLP</span><span class="meta-tag">Office</span></div>
+                            <div class="tool-meta"><span class="meta-tag">NLP</span><span class="meta-tag">Office</span>
+                            </div>
                         </div>
                     </a>
                     <a href="https://infocard.doflab.cc" target="_blank" class="tool-card">
@@ -249,7 +273,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">Instant Infographic Generator</h3>
                             <p class="tool-desc">快速生成資訊圖卡與摘要海報，支援多種藝術風格與排版。</p>
-                            <div class="tool-meta"><span class="meta-tag">Image Gen</span><span class="meta-tag">Design</span></div>
+                            <div class="tool-meta"><span class="meta-tag">Image Gen</span><span
+                                    class="meta-tag">Design</span></div>
                         </div>
                     </a>
                     <a href="https://mygit.doflab.cc" target="_blank" class="tool-card">
@@ -257,7 +282,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">MyGit QuickView</h3>
                             <p class="tool-desc">Git 儲存庫快速瀏覽與統計工具，視覺化呈現提交紀錄與貢獻。</p>
-                            <div class="tool-meta"><span class="meta-tag">DevTool</span><span class="meta-tag">Git</span></div>
+                            <div class="tool-meta"><span class="meta-tag">DevTool</span><span
+                                    class="meta-tag">Git</span></div>
                         </div>
                     </a>
                     <a href="https://avatarfusion.doflab.cc" target="_blank" class="tool-card">
@@ -265,7 +291,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">Avatar Fusion</h3>
                             <p class="tool-desc">AI 虛擬替身生成與合成工具，創造個人化的數位形象。</p>
-                            <div class="tool-meta"><span class="meta-tag">GenAI</span><span class="meta-tag">Avatar</span></div>
+                            <div class="tool-meta"><span class="meta-tag">GenAI</span><span
+                                    class="meta-tag">Avatar</span></div>
                         </div>
                     </a>
                 </div>
@@ -277,7 +304,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">AI Course Adventure</h3>
                             <p class="tool-desc">互動式 AI 課程學習平台，透過冒險遊戲化的方式學習人工智慧。</p>
-                            <div class="tool-meta"><span class="meta-tag">Education</span><span class="meta-tag">Gamification</span></div>
+                            <div class="tool-meta"><span class="meta-tag">Education</span><span
+                                    class="meta-tag">Gamification</span></div>
                         </div>
                     </a>
                     <a href="https://iaecourse.doflab.cc" target="_blank" class="tool-card">
@@ -285,7 +313,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">UniCourse AI Online</h3>
                             <p class="tool-desc">大學課程 AI 輔助系統，提供課程大綱、教材與智慧問答。</p>
-                            <div class="tool-meta"><span class="meta-tag">LMS</span><span class="meta-tag">Assistant</span></div>
+                            <div class="tool-meta"><span class="meta-tag">LMS</span><span
+                                    class="meta-tag">Assistant</span></div>
                         </div>
                     </a>
                     <a href="https://onlineaiexam.doflab.cc" target="_blank" class="tool-card">
@@ -293,7 +322,8 @@
                         <div class="tool-info">
                             <h3 class="tool-name">Online AI Exam</h3>
                             <p class="tool-desc">線上 AI 測驗系統，支援自動出題與評分，適用於教學評量。</p>
-                            <div class="tool-meta"><span class="meta-tag">Exam</span><span class="meta-tag">Evaluation</span></div>
+                            <div class="tool-meta"><span class="meta-tag">Exam</span><span
+                                    class="meta-tag">Evaluation</span></div>
                         </div>
                     </a>
                 </div>
@@ -316,7 +346,8 @@
                             <div class="tool-info">
                                 <h3 class="tool-name">基於大型語言模型之風力發電機警報資訊分析與維修決策支援系統開發</h3>
                                 <p class="tool-desc">國科會 (NSTC 114-2637-E-167-008)｜2025.08–2026.07</p>
-                                <div class="tool-meta"><span class="meta-tag">LLM</span><span class="meta-tag">Maintenance</span></div>
+                                <div class="tool-meta"><span class="meta-tag">LLM</span><span
+                                        class="meta-tag">Maintenance</span></div>
                             </div>
                         </div>
                         <div class="tool-card research-card">
@@ -325,7 +356,8 @@
                             <div class="tool-info">
                                 <h3 class="tool-name">[Wind] 離岸風場資料分析與診斷模型開發</h3>
                                 <p class="tool-desc">工研院綠能所｜2025.10–2026.10</p>
-                                <div class="tool-meta"><span class="meta-tag">Diagnosis</span><span class="meta-tag">Model</span></div>
+                                <div class="tool-meta"><span class="meta-tag">Diagnosis</span><span
+                                        class="meta-tag">Model</span></div>
                             </div>
                         </div>
                         <div class="tool-card research-card">
@@ -334,7 +366,8 @@
                             <div class="tool-info">
                                 <h3 class="tool-name">[智慧製造] 線性馬達定位量測台研製</h3>
                                 <p class="tool-desc">工研院機械所｜2025.03–2025.12</p>
-                                <div class="tool-meta"><span class="meta-tag">Linear Motor</span><span class="meta-tag">Measurement</span></div>
+                                <div class="tool-meta"><span class="meta-tag">Linear Motor</span><span
+                                        class="meta-tag">Measurement</span></div>
                             </div>
                         </div>
                     </div>
@@ -452,4 +485,5 @@
         });
     </script>
 </body>
+
 </html>
