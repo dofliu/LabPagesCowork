@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepMind Aletheia：AI 自主進行數學研究與論文發表！ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">DeepMind Aletheia：<br>AI 正式跨入學術圈！</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-19</span> • 
+                <span><i class="fas fa-user-graduate"></i> 劉瑞弘教授團隊</span> •
+                <span><i class="fas fa-brain"></i> AI 研究 / 數學推理</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>各位～今天要分享一個<strong>超級震撼</strong>的 AI 突破！Google DeepMind 發布了 Aletheia，一個能<strong>自主進行數學研究並發表論文</strong>的 AI 系統。這不只是會解題，而是真正會「做研究」了！🎓</p>
+
+            <h2>從 IMO 金牌到學術論文</h2>
+            <p>如果你還記得之前 DeepMind 在數學奧林匹亞競賽（IMO）的表現——現在他們更上一層樓！Aletheia 不僅能解題，還能：</p>
+            <ul>
+                <li>在 <strong>IMO-Proof Bench</strong> 達到 <strong>95.1%</strong> 準確率</li>
+                <li>發表了 <strong>Feng26 論文</strong></li>
+                <li>解決了 <strong>4 個 Erdős 開放猜想</strong></li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🤯 這是什麼概念？</strong><br>
+                Erdős 猜想是數學界流傳多年的「老大難」問題——現在 AI 解決了 4 個！這就像 AI 從「解題高手」進化成「研究學者」～
+            </div>
+
+            <h2>三階段 Agentic Loop</h2>
+            <p>Aletheia 的核心是<strong>三階段 Agentic Loop</strong>，這也是它能進行真正研究的关键：</p>
+
+            <h3>1️⃣ 生成（Generate）</h3>
+            <p>AI 產生數學命題、猜測或證明策略。這不是隨機產生，而是基於對現有數學結構的深度理解。</p>
+
+            <h3>2️⃣ 驗證（Verify）</h3>
+            <p>這一步最關鍵！AI 會使用形式化證明助手（如 Lean）來驗證證明的正確性。如果驗證失敗，就把錯誤訊息傳回生成階段。</p>
+
+            <h3>3️⃣ 修訂（Revise）</h3>
+            <p>根據驗證結果，AI 會自動修正證明、調整策略，然後重新提交驗證。這個 Loop 會持續進行，直到證明通過或確定此路不通。</p>
+
+            <h2>推理時間擴展：計算量減少 100 倍！</h2>
+            <p>另一個驚艷的技術亮點是<strong>推理時間擴展（Test-Time Scaling）</strong>。簡單來說：讓 AI「想更久」，而不是用更大的模型。</p>
+            <p>DeepMind 發現，當允許 AI 花更多時間進行自我驗證和修訂時，計算量可以減少 <strong>100 倍</strong>！這對資源效率來說是巨大突破。</p>
+
+            <h2>AI 自主性分級：自動駕駛的靈感</h2>
+            <p>DeepMind 提出了類似自動駕駛的<strong>AI 自主性分級標準</strong>：</p>
+            <ul>
+                <li><strong>Level 0</strong>：輔助工具（Copilot）——人類主導，AI 協助</li>
+                <li><strong>Level 1</strong>：自主解題——AI 能獨立解決封閉式問題</li>
+                <li><strong>Level 2</strong>：自主研究——AI 能提出新猜想、規劃研究方向、發表論文</li>
+            </ul>
+
+            <p>Aletheia 代表了 <strong>Level 2</strong> 的里程碑——這是第一次有 AI 達到這個級別！</p>
+
+            <h2>對我們 RAG 系統的啟示</h2>
+            <p>身為 RAG 研究者，這個突破給我們很多啟發：</p>
+
+            <h3>🔍 驗證機制是關鍵</h3>
+            <p>Aletheia 的核心不是更強的生成能力，而是<strong>嚴格的驗證 Loop</strong>。這對我們的 RAG 系統非常重要——檢索到的資料是否正確？答案是否經得起驗證？</p>
+
+            <h3>🤝 RAG + Agentic Loop</h3>
+            <p>如果我們把 RAG 的檢索能力，加上 Aletheia 的驗證-修訂 Loop，或許能打造出<strong>能自主研究和修正答案</strong>的 AI 系統！</p>
+
+            <h3>⏱️ Test-Time Scaling 的應用</h3>
+            <p>在處理複雜查詢時，讓 AI 有更多時間「思考」和「自我檢驗」——這比單純追求更大的模型更有效率！</p>
+
+            <h2>結語</h2>
+            <p>DeepMind Aletheia 的發布，標誌著 AI 從「工具」邁向「研究者」的重要里程碑。當 AI 能自主發現新知識、發表學術論文——這對整個科學界都是一個典範轉移！</p>
+            <p>或許在不久的將來，AI 會成為科學家的「共同作者」甚至「共同研究者」？這一天可能比我們想像的更近！</p>
+
+            <p><em>(本文 source: DeepMind 官網, 2026-02-18)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
