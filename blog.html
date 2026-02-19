@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,123 +9,30 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        .page-header {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-            text-align: center;
-        }
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-        .blog-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-        .article-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .article-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-color);
-        }
-        .article-meta {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            margin-bottom: 0.8rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        .meta-date {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-        .article-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-white);
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        .article-title a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .article-title a:hover {
-            color: var(--primary-color);
-        }
-        .article-excerpt {
-            color: var(--text-light);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-        }
-        .read-more {
-            display: inline-flex;
-            align-items: center;
-            color: var(--primary-color);
-            font-weight: 700;
-            text-decoration: none;
-            gap: 0.5rem;
-        }
-        .read-more:hover {
-            gap: 0.8rem;
-        }
-        .sidebar-widget {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .widget-title {
-            font-size: 1.2rem;
-            color: var(--text-white);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .topic-list {
-            list-style: none;
-        }
-        .topic-list li {
-            margin-bottom: 0.8rem;
-        }
-        .topic-list a {
-            color: var(--text-gray);
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            transition: color 0.2s;
-        }
-        .topic-list a:hover {
-            color: var(--primary-color);
-        }
-        .count-badge {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-        }
-        @media (max-width: 768px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .page-header { padding: 8rem 0 4rem; background: linear-gradient(to bottom, var(--bg-dark), #1e293b); text-align: center; }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text-white); }
+        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-top: 2rem; }
+        .article-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; transition: transform 0.2s, border-color 0.2s; }
+        .article-card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
+        .article-meta { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 0.8rem; display: flex; gap: 1rem; align-items: center; }
+        .meta-date { color: var(--accent-color); font-weight: 600; }
+        .article-title { font-size: 1.8rem; font-weight: 800; color: var(--text-white); margin-bottom: 1rem; line-height: 1.3; }
+        .article-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
+        .article-title a:hover { color: var(--primary-color); }
+        .article-excerpt { color: var(--text-light); line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .read-more { display: inline-flex; align-items: center; color: var(--primary-color); font-weight: 700; text-decoration: none; gap: 0.5rem; }
+        .read-more:hover { gap: 0.8rem; }
+        .sidebar-widget { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .widget-title { font-size: 1.2rem; color: var(--text-white); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        .topic-list { list-style: none; }
+        .topic-list li { margin-bottom: 0.8rem; }
+        .topic-list a { color: var(--text-gray); text-decoration: none; display: flex; justify-content: space-between; transition: color 0.2s; }
+        .topic-list a:hover { color: var(--primary-color); }
+        .count-badge { background: rgba(255, 255, 255, 0.05); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
+        @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
@@ -142,18 +48,27 @@
             </ul>
         </div>
     </nav>
-
     <header class="page-header">
         <div class="container">
             <h1>Research Blog</h1>
             <p style="color: var(--text-gray);">分享 RAG 技術、智慧風機運維與最新的 AI 應用研究！</p>
         </div>
     </header>
-
     <section class="section" style="padding-top: 0;">
         <div class="container">
             <div class="blog-grid">
                 <div class="blog-main">
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-20</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-20-sarvam-ai-india-llm.html">Sarvam AI：印度首款自主研發的超強 LLM 來襲！30B 模型竟然打敗 GPT-4？</a></h2>
+                        <div class="article-excerpt">
+                            各位小伙伴們，AI 界又有大新聞了！🎉 印度的 Sarvam AI 在上週的 India AI Summit 發表了兩款全新的 LLM 模型，而且一推出就直接在多項基準測試中打敗了 GPT-4 和 DeepSeek-R1！這到底是怎麼做到的？讓我們一起來看看。...
+                        </div>
+                        <a href="posts/2026-02-20-sarvam-ai-india-llm.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-19</span>
@@ -165,7 +80,6 @@
                         </div>
                         <a href="posts/2026-02-19-deepmind-aletheia.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-18</span>
@@ -177,7 +91,6 @@
                         </div>
                         <a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
@@ -189,7 +102,6 @@
                         </div>
                         <a href="posts/2026-02-17-neuromorphic-computers.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
@@ -201,7 +113,6 @@
                         </div>
                         <a href="posts/2026-02-17-bharatgen-multilingual-ai.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
@@ -213,7 +124,6 @@
                         </div>
                         <a href="posts/2026-02-16-ai-agent-skills.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-15</span>
@@ -225,7 +135,6 @@
                         </div>
                         <a href="posts/2026-02-15-ai-self-talk.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
@@ -237,7 +146,6 @@
                         </div>
                         <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
@@ -249,7 +157,6 @@
                         </div>
                         <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
@@ -261,7 +168,6 @@
                         </div>
                         <a href="posts/2026-02-14-openscholar.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
@@ -273,7 +179,6 @@
                         </div>
                         <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                     <article class="article-card">
                         <div class="article-meta">
                             <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-13</span>
@@ -285,9 +190,7 @@
                         </div>
                         <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
                 </div>
-
                 <aside class="blog-sidebar">
                     <div class="sidebar-widget">
                         <h3 class="widget-title">關於我們</h3>
@@ -295,7 +198,6 @@
                             我們是劉瑞弘教授的研究團隊，研究筆記主要專注於各種 AI 技術（特別是 RAG 與 Agent）於工業應用實務問題的解決。
                         </p>
                     </div>
-
                     <div class="sidebar-widget">
                         <h3 class="widget-title">主題專區</h3>
                         <ul class="topic-list">
@@ -306,11 +208,9 @@
                         </ul>
                     </div>
                 </aside>
-
             </div>
         </div>
     </section>
-
     <footer id="footer">
         <div class="container">
             <div class="footer-bottom" style="width: 100%;">
@@ -318,7 +218,6 @@
             </div>
         </div>
     </footer>
-
     <script>
         document.querySelector('.menu-toggle').addEventListener('click', () => {
             document.querySelector('.nav-links').classList.toggle('active');
