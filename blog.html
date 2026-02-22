@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,156 +7,32 @@
     <title>研究日誌 | DOF Lab</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* Blog Page Styles */
-        .page-header {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        /* Main Article List */
-        .article-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .article-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-color);
-        }
-
-        .article-meta {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            margin-bottom: 0.8rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .meta-date {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .article-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-white);
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-
-        .article-title a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .article-title a:hover {
-            color: var(--primary-color);
-        }
-
-        .article-excerpt {
-            color: var(--text-light);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-        }
-
-        .read-more {
-            display: inline-flex;
-            align-items: center;
-            color: var(--primary-color);
-            font-weight: 700;
-            text-decoration: none;
-            gap: 0.5rem;
-        }
-
-        .read-more:hover {
-            gap: 0.8rem;
-        }
-
-        /* Sidebar */
-        .sidebar-widget {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .widget-title {
-            font-size: 1.2rem;
-            color: var(--text-white);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .topic-list {
-            list-style: none;
-        }
-
-        .topic-list li {
-            margin-bottom: 0.8rem;
-        }
-
-        .topic-list a {
-            color: var(--text-gray);
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            transition: color 0.2s;
-        }
-
-        .topic-list a:hover {
-            color: var(--primary-color);
-        }
-
-        .count-badge {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-        }
-
-        /* Markdown Content Styles */
-        .article-content {
-            display: none;
-            /* Hidden by default in list view */
-        }
-
-        @media (max-width: 768px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .page-header { padding: 8rem 0 4rem; background: linear-gradient(to bottom, var(--bg-dark), #1e293b); text-align: center; }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text-white); }
+        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-top: 2rem; }
+        .article-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; transition: transform 0.2s, border-color 0.2s; }
+        .article-card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
+        .article-meta { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 0.8rem; display: flex; gap: 1rem; align-items: center; }
+        .meta-date { color: var(--accent-color); font-weight: 600; }
+        .article-title { font-size: 1.8rem; font-weight: 800; color: var(--text-white); margin-bottom: 1rem; line-height: 1.3; }
+        .article-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
+        .article-title a:hover { color: var(--primary-color); }
+        .article-excerpt { color: var(--text-light); line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .read-more { display: inline-flex; align-items: center; color: var(--primary-color); font-weight: 700; text-decoration: none; gap: 0.5rem; }
+        .read-more:hover { gap: 0.8rem; }
+        .sidebar-widget { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .widget-title { font-size: 1.2rem; color: var(--text-white); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        .topic-list { list-style: none; }
+        .topic-list li { margin-bottom: 0.8rem; }
+        .topic-list a { color: var(--text-gray); text-decoration: none; display: flex; justify-content: space-between; transition: color 0.2s; }
+        .topic-list a:hover { color: var(--primary-color); }
+        .count-badge { background: rgba(255, 255, 255, 0.05); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
+        @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-
 <body>
-
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
@@ -167,200 +42,197 @@
                 <li><a href="blog.html" class="active">研究日誌</a></li>
                 <li><a href="projects.html">研究與工具</a></li>
                 <li><a href="repos.html">程式碼庫</a></li>
-                <li><a href="publications.html">著作發表</a></li>
-                <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i
-                            class="fas fa-external-link-alt"></i></a></li>
+                <li><a href="publications.html">學術發表</a></li>
+                <li><a href="lab.html">實驗室簡介</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
             </ul>
         </div>
     </nav>
-
     <header class="page-header">
         <div class="container">
             <h1>Research Blog</h1>
-            <p style="color: var(--text-gray);">探索 RAG 技術、風力發電與工業自動化的前沿觀點。</p>
+            <p style="color: var(--text-gray);">分享 RAG 技術、智慧風機運維與最新的 AI 應用研究！</p>
         </div>
     </header>
-
     <section class="section" style="padding-top: 0;">
         <div class="container">
             <div class="blog-grid">
-
-                <!-- Main Content -->
                 <div class="blog-main">
-
-                    <!-- Article: NVIDIA Enterprise RAG Blueprint -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-18</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> RAG / 企業 AI</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-22</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-22-ai-race-gemini-gpt.html">AI 巨頭大對決：Google Gemini 3 Deep Think vs OpenAI GPT-5.3，誰是 2026 年程式碼王者？</a></h2>
+                        <div class="article-excerpt">
+                            各位小伙伴們，AI 界又迎來了一場精彩的「世紀對決」！就在昨天，Google 和 OpenAI 幾乎同時發布了重磅更新：Google Gemini 3 Deep Think 和 OpenAI GPT-5.3-Codex-Spark。這場對決不僅僅是技術的較量...
+                        </div>
+                        <a href="posts/2026-02-22-ai-race-gemini-gpt.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-21</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-21-gemini-3-1-pro.html">Google Gemini 3.1 Pro 發布：100 萬 Token 上下文來襲！AI Agent 時代正式來臨？</a></h2>
+                        <div class="article-excerpt">
+                            各位小伙伴們，Google 又有大動作了！Gemini 3.1 Pro 正式發布，這次的升級簡直是為 AI Agent 量身打造的！100 萬 Token 上下文 + 77.1% ARC-AGI-2 推理能力...
+                        </div>
+                        <a href="posts/2026-02-21-gemini-3-1-pro.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-20-webmcp-ai-agents.html">Google 推出 WebMCP：AI 代理的「萬能翻譯器」來了！從此告別螢幕截圖</a></h2>
+                        <div class="article-excerpt">
+                            有了 WebMCP，網站可以向 AI 暴露「這裡有什麼工具」——比如「訂機票」、「查詢天氣」、「加入購物車」等。AI 不再需要看圖猜測，而是直接看到結構化的工具清單！...
+                        </div>
+                        <a href="posts/2026-02-20-webmcp-ai-agents.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-19-sarvam-ai-india-llm.html">Sarvam AI：印度首款自主研發的超強 LLM 來襲！30B 模型竟然打敗 GPT-4？</a></h2>
+                        <div class="article-excerpt">
+                            各位小伙伴們，AI 界又有大新聞了！🎉 印度的 Sarvam AI 在上週的 India AI Summit 發表了兩款全新的 LLM 模型，而且一推出就直接在多項基準測試中打敗了 GPT-4 和 DeepSeek-R1！這到底是怎麼做到的？讓我們一起來看看。...
+                        </div>
+                        <a href="posts/2026-02-19-sarvam-ai-india-llm.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
                         </div>
                         <h2 class="article-title"><a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html">NVIDIA 企業級多模態 RAG 藍圖：五招打造下一代 AI 知識庫！</a></h2>
                         <div class="article-excerpt">
-                            NVIDIA 發布 Enterprise RAG Blueprint，專門針對複雜的企業文件（財報表格、工程圖表、掃描文件）設計。開啟推理模式後，準確率提升 5%，元資料過濾達到 100% 精準率！
+                            如果維修人員問：「這颱風季要特別注意哪些設備的定檢？」——這需要從多個文件（天氣資料、設備歷史、維修手冊）湊答案。Query Decomposition 正好派上用場！...
                         </div>
                         <a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article: BharatGen -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> AI 趨勢 / 多語言 AI</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-17-bharatgen-multilingual-ai.html">印度開發 BharatGen：22 種語言的 AI 革命！</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-18-deepmind-aletheia.html">DeepMind Aletheia：從數學奧林匹亞到自主研究發表，AI 正式跨入學術圈！</a></h2>
                         <div class="article-excerpt">
-                            印度政府投入 ₹980 億盧比（約 340 億台幣），由 IIT Bombay 領導開發涵蓋 22 種語言的多模態 LLM。這對多語言 RAG 研究有什麼啟示？一起來看看！
+                            把「驗證」和「生成」分開是關鍵！研究團隊發現，明確分離驗證步驟能幫助模型識別它一開始忽略的錯誤。這對我們設計 RAG 系統時的「事後驗證」機制很有啟發！...
                         </div>
-                        <a href="posts/2026-02-17-bharatgen-multilingual-ai.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-18-deepmind-aletheia.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article: Neuromorphic Computers -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> AI 硬體 / 計算機架構</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
                         </div>
                         <h2 class="article-title"><a href="posts/2026-02-17-neuromorphic-computers.html">科幻成真！神經形態電腦如何顛覆 AI 硬體？</a></h2>
                         <div class="article-excerpt">
-                            根據 ScienceDaily 報導，神經形態電腦已能解決過往只有超級電腦才能處理的複雜物理模擬方程式。這種模仿人類大腦結構的計算機，將如何顛覆 AI 的未來？
+                            神經形態電腦的突破，讓我們看到了 AI 硬體的未來可能。當軟體（演算法）已經大幅進步，硬體的創新將是下一個關鍵戰場。...
                         </div>
                         <a href="posts/2026-02-17-neuromorphic-computers.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 7 (New: AI Agent Skills) -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> AI Agent / 趨勢?��?</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-17-bharatgen-multilingual-ai.html">印度開發 BharatGen：22 種語言的 AI 革命！</a></h2>
+                        <div class="article-excerpt">
+                            這不是開玩笑的——印度有 14 億人口，說著數百種語言和方言。對大多數印度人來說，英語 LLM 根本派不上用場。...
+                        </div>
+                        <a href="posts/2026-02-17-bharatgen-multilingual-ai.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
                         </div>
                         <h2 class="article-title"><a href="posts/2026-02-16-ai-agent-skills.html">2026 AI Agent 技能框架：AI 也要學新把戲！</a></h2>
                         <div class="article-excerpt">
-                            2026 年是 AI Agent 技能的關鍵年份！根據 OpenDataScience 的報導，AI Agent 技能框架就像是一個「工具箱」——讓 AI 能根據不同任務快速叫出相應能力。一起來看看 AI 是如何「學功夫」的！
+                            還記得當年我們學寫程式的時候，總是要一步一步教電腦做事嗎？如今，AI Agent 也在經歷類似的進化——而且它們學新技能的 방식（方式），可能比你我還快！😎...
                         </div>
-                        <a href="posts/2026-02-16-ai-agent-skills.html" class="read-more">閱讀全文 <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-16-ai-agent-skills.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 8 (New: OpenClaw Skills) -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> OpenClaw / Skills</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-16-openclaw-skills.html">OpenClaw Skills ?��?壓縮工具：�? MCP ??Skill ?��???/a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-15-ai-self-talk.html">AI 也會自言自語？研究發現：讓 AI「內部對話」學習效果更好！</a></h2>
                         <div class="article-excerpt">
-                            今天?�們探索�? Dropbox 中�? MCP 工具資�?夾�??�現了�??��?�??工具，�???zImage AI ?��??��???docTools ?�件?��??��?終�??�們選?��??��?壓縮?�能?��???OpenClaw Skill，使??PIL/Pillow ?��??��?壓縮，測試�??��??��? 570KB ?��?壓縮??303KB，�???46.9% 空�?�?
+                            你有沒有過這種經驗？考試前自己對著空氣解題，或者在心裡自言自語地分析問題？沒想到，人類的「思考習慣」，現在也被證明對 AI 有效了！...
                         </div>
-                        <a href="posts/2026-02-16-openclaw-skills.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-15-ai-self-talk.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 7 (New: AI Self-Talk) -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-15</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> LLM / ?�究?�知</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> General</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-15-ai-self-talk.html">AI 也�??��??��?？�?究發?��?�?AI?�內?��?話」學習�??�更好�?</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 維運實錄：從 WMI 偵測到擊殺殭屍程序</a></h2>
                         <div class="article-excerpt">
-                            科學家發?��???AI 被�?許「�??�己?�天?��?，學習�??��?大�??��??�這�??�現?�能徹�??��? AI 訓練?��?，�?給�??��?RAG ?�究?��??��?�?
+                            這篇文章記錄了我們如何利用 PowerShell WMI 技術來監控 Node.js 服務，以及如何應對「殭屍程序 (Zombie Process)」的挑戰。...
                         </div>
-                        <a href="posts/2026-02-15-ai-self-talk.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 6 (New: OpenScholar) -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> LLM / 學�?</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 蘇宥騏</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-openscholar.html">?��? AI ?�襲學�??��?OpenScholar 如�??��? ChatGPT�?/a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">地端 RAG 大亂鬥：BGE vs E5 vs Jina，誰是風機維修的檢索之王？</a></h2>
                         <div class="article-excerpt">
-                            OpenScholar ?��??��??�學術�??�設計�??��? AI ?��?，在?�獻?�顧任�?上�??��? GPT-4！�?如�??�到？�?許�??�可以借�??��?術�??��??�們�? RAG 系統...
+                            在風力發電機的運維現場，網路往往不穩定，甚至根本沒有網路。這意味著我們不能依賴 OpenAI 的 API，必須把強大的檢索增強生成 (RAG) 系統搬到「地端 (On-Premise)」運行。...
                         </div>
-                        <a href="posts/2026-02-14-openscholar.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 5 (Fine-tuning) -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> Fine-tuning / RAG</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> General</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">??AI
-                                讀維修?��?：為什麼微調模?�「�?一?�」就夠�?�?/a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-openscholar.html">開源 AI 逆襲學術界：OpenScholar 如何打敗 ChatGPT？</a></h2>
                         <div class="article-excerpt">
-                            大家?�覺�?AI 訓練越�?越聰?��?但�??��?實�??�現：在微調嵌入模�??��?Epoch 1 ?�是巔峰！�?太�??��??��?�?AI 死�?答�?
-                            (Overfitting)?�本?�揭?��?如�??�「�?學�??�」�??��?訓練輪數?��??�造�?強�?風�?維修顧�?...
+                            大家有沒有過這種經驗？寫論文時被大量的文獻淹沒，想找一個相關的研究結果，但 Google Scholar 搜出來的文章多到不知道從何讀起。這時候如果你問 ChatGPT：「這個領域最近有什麼突破？」它可能會給你一個看起來很專業但其實有點「幻覺」的答案——這就是學術界一直頭痛的問題。...
                         </div>
-                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-openscholar.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 4 (New: Model Comparison) -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> Model Evaluation</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> 蘇彥綸、鄧全志</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">?�端 RAG 大�?鬥�?BGE vs
-                                E5 vs Jina，誰?�檢索�??��?</a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">教 AI 讀維修手冊：為什麼微調模型「教一遍」就夠了？</a></h2>
                         <div class="article-excerpt">
-                            ?�地端�?源�??��??��?下�??��?款�??�模??(Embedding Model) ?�?��?風�?維修？�??��? BGE-M3?�E5 ??Jina-v3 ?��?了�??�大亂鬥?��??�顯示�?BGE-M3
-                            ?��??��?序�??��?確�?高�? 78%，�? CP ?��?高�??�實??..
+                            大家都知道 AI 很聰明，但當你問它：「Z72 型風機的齒輪箱油溫過高怎麼辦？」時，通用的 AI 往往會給你一個模稜兩可的答案，就像一個只讀過百科全書卻沒修過風機課程的學生。...
                         </div>
-                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 3 -->
                     <article class="article-card">
                         <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> DevOps / OpenClaw</span>
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-01-01</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> General</span>
                         </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 維�?實�?：�? WMI
-                                ?�測?��?殺殭屍�?�?/a></h2>
+                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">當 LLM 遇上風力發電機：為什麼我們需要 RAG？</a></h2>
                         <div class="article-excerpt">
-                            Process 存在不代表�??�健康。�?天早上�??��???��系統?�然顯示 Gateway ?��?，�? WhatsApp ?�全?�斷�?(408
-                            Timeout)?�本?��??��?如�??�現?�個「殭屍�?序」�?以�?如�?使用 PowerShell WMI ?�術�?精�???��並�?殺異常�? Node.js ?��?...
+                            隨著 GPT-5.3 與 Gemini 3 的發布，大型語言模型 (LLM) 的能力已無庸置疑。它們能寫詩、寫程式，甚至通過律師考試。但在風力發電這種高度專業且容錯率極低的工業領域，單靠 LLM 的「幻覺 (Hallucination)」是極度危險的。...
                         </div>
-                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
+                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
                     </article>
-
-                    <!-- Article 2 -->
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-13</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> RAG & Wind Energy</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">??LLM ?��?風�??�電機�??��?麼�??��?�?
-                                RAG�?/a></h2>
-                        <div class="article-excerpt">
-                            ?��? GPT-5.3 ??Gemini 3 ?�發布�?大�?語�?模�??�能?�已?�庸置�??��??�風?�發?�這種高度專業且容?��?低�??��?，單??LLM ?�「幻覺」是?�險?�。這就?�為什�?RAG
-                            (檢索增強?��?) ?�為了解決工業�??��??��??��??��?�?..
-                        </div>
-                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">?��??��? <i
-                                class="fas fa-arrow-right"></i></a>
-                    </article>
-
                 </div>
-
-                <!-- Sidebar -->
                 <aside class="blog-sidebar">
                     <div class="sidebar-widget">
-                        <h3 class="widget-title">?�於?��?</h3>
+                        <h3 class="widget-title">關於我們</h3>
                         <p style="color: var(--text-gray); font-size: 0.95rem; line-height: 1.6;">
-                            ?�是?��?弘�??��?究�??��? ?�究筆�??��??��?注�?何�??�?��? AI ?�術�??�別??RAG ??Agent）�??�於�?��?�實?�工程�?題�?
+                            我們是劉瑞弘教授的研究團隊，研究筆記主要專注於各種 AI 技術（特別是 RAG 與 Agent）於工業應用實務問題的解決。
                         </p>
                     </div>
-
                     <div class="sidebar-widget">
-                        <h3 class="widget-title">?��?主�?</h3>
+                        <h3 class="widget-title">主題專區</h3>
                         <ul class="topic-list">
                             <li><a href="#">Industrial RAG <span class="count-badge">1</span></a></li>
                             <li><a href="#">Wind Energy O&M <span class="count-badge">1</span></a></li>
@@ -369,11 +241,9 @@
                         </ul>
                     </div>
                 </aside>
-
             </div>
         </div>
     </section>
-
     <footer id="footer">
         <div class="container">
             <div class="footer-bottom" style="width: 100%;">
@@ -381,12 +251,10 @@
             </div>
         </div>
     </footer>
-
     <script>
         document.querySelector('.menu-toggle').addEventListener('click', () => {
             document.querySelector('.nav-links').classList.toggle('active');
         });
     </script>
 </body>
-
 </html>
