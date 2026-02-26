@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google 推出 WebMCP：AI 代理的「萬能翻譯器」來了！從此告別螢幕截圖 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">Google 推出 WebMCP：<br>AI 代理的「萬能翻譯器」來了！</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-20</span> • 
+                <span><i class="fas fa-user-graduate"></i> 劉瑞弘教授團隊</span> • 
+                <span><i class="fas fa-brain"></i> AI 趨勢 / WebMCP</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>各位小伙伴們，AI 界又有超級大新聞了！🎉 Google 近日宣布推出了 <strong>WebMCP</strong>（Web Model Context Protocol），這可能是近年來最重要的 web 標準之一。簡單來說，這個協議讓網站可以「直接跟 AI 對話」，而不需要再讓 AI 看著螢幕截圖「猜」應該怎麼操作。</p>
+
+            <h2>🤔 現有 AI 瀏覽器的痛點</h2>
+            <p>不知道大家有沒有看過 AI 操作的影片？它通常是這樣工作的：</p>
+            <ul>
+                <li>對著網頁截圖</li>
+                <li>把截圖傳給視覺模型</li>
+                <li>模型「猜」哪個按鈕是「提交」</li>
+                <li>如果按鈕移動了 5 像素，可能就失敗了</li>
+            </ul>
+            <p>這種方式不僅<strong>慢</strong>（每次都要處理圖片），還<strong>容易出錯</strong>（看錯就點錯），更是<strong>超級耗費運算資源</strong>。簡直就像是讓一個盲人靠觸摸猜測來操作電腦！</p>
+
+            <h2>🚀 WebMCP：網站直接告訴 AI 能做什麼</h2>
+            <p>WebMCP 的核心概念很簡單：<strong>不要讓 AI 猜，讓網站自己說</strong>。</p>
+            <p>有了 WebMCP，網站可以向 AI 暴露「這裡有什麼工具」——比如「訂機票」、「查詢天氣」、「加入購物車」等。AI 不再需要看圖猜測，而是直接看到結構化的工具清單！</p>
+
+            <div class="highlight-box">
+                <strong>📊 驚人的效率提升：</strong><br><br>
+                • 延遲降低：不需等待截圖上傳和處理<br>
+                • 準確率飆升：接近 98%（結構化資料幾乎零錯誤）<br>
+                • 成本大減：傳文字比傳圖片便宜太多<br>
+                • Token 節省：比截圖方式節省 89%！
+            </div>
+
+            <h2>🔧 開發者兩條路徑：簡單或深入都可以</h2>
+            
+            <h3>方式一：宣告式 API（HTML）</h3>
+            <p>這是最簡單的方法！網頁開發者只需要在 HTML 標籤中加入新屬性：</p>
+            <ul>
+                <li><code>toolname</code>：工具名稱</li>
+                <li><code>tooldescription</code>：工具描述</li>
+            </ul>
+            <p>Chrome 會自動解讀這些標籤，幫你生成 AI 可以理解的 schema。舉例來說，一個「訂機票」的表單，AI 會直接把它視為一個有特定輸入欄位的工具。</p>
+
+            <h3>方式二：命令式 API（JavaScript）</h3>
+            <p>對於複雜的應用，你可以用 <code>navigator.modelContext.registerTool()</code> 來深度客製化：</p>
+            <ul>
+                <li>定義工具名稱、描述和輸入的 JSON schema</li>
+                <li>當 AI 代理想「加入購物車」時，它會直接呼叫你註冊的 JavaScript 函式</li>
+                <li>不需要重新登入或繞過安全 header</li>
+            </ul>
+
+            <h2>🛡️ 安全第一：權限在用戶手中</h2>
+            <p>大家可能會問：讓 AI 自動操作網站，會不會很危險？</p>
+            <p>Google 說：放心！WebMCP 是「權限優先」的設計。AI 不能隨便執行工具，瀏覽器會在中間擔任守門員。很多情況下，Chrome 會跳出提示問用戶：「允許 AI 預訂這班機票嗎？」確認後才會執行。這種設計讓 AI 幫你做事，但最終決定權還是在人類手上！</p>
+
+            <h2>⏰ 什麼時候可以用？</h2>
+            <p>目前 WebMCP 已在 <strong>Chrome 146</strong> 的 Canary 版本中預覽（需要開啟特定 flag）。Google 正在透過 Early Preview Program (EPP) 收集開發者的回饋，預計 <strong>2026 年中正式發布</strong>。</p>
+            <p>Microsoft 也參與了這個標準的制定，Edge 瀏覽器的支援應該也會在未來跟上。</p>
+
+            <h2>🤔 對我們的啟示</h2>
+            <p>WebMCP 的出現告訴我們幾件事：</p>
+            <ol>
+                <li><strong>「代理的網路」正在成形</strong>——未來的網站不只給人看，也要給 AI 看</li>
+                <li><strong>前端工程師的新技能</strong>——懂得設計「AI-Friendly」的介面會越來越重要</li>
+                <li><strong>RAG + Agent 的結合</strong>——WebMCP 讓 AI agent 可以直接操作網站，或許未來可以結合 RAG 做出更強大的應用</li>
+            </ol>
+
+            <p>想象一下：未來你可以叫 AI 幫你「在這個網站上找最便宜的機票」、「自動填寫這份表格」、「監控這個儀表板的數據」……這些都將因為 WebMCP 而變得更加可靠！</p>
+
+            <p>好啦，今天的分享就到這裡。如果你對 WebMCP 有什麼看法，歡迎在下面留言討論！我們下期再見～ 👋</p>
+
+            <p><em>(本文 source: MarkTechPost, Google Developer Blog, WebMCP Official)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
