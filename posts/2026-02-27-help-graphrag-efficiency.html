@@ -1,0 +1,139 @@
+'''<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphRAG 加速 28 倍！HELP 框架登場，告別昂貴的圖遍歷 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">GraphRAG 加速 28 倍！<br>HELP 框架登場，告別昂貴的圖遍歷</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-27</span> • 
+                <span><i class="fas fa-user-graduate"></i> 劉瑞弘教授團隊</span> •
+                <span><i class="fas fa-cogs"></i> RAG / GraphRAG / 知識圖譜 / 效率</span>
+            </div>
+        </header>
+        <div class="article-content">
+            <p>各位鑽研 RAG 技術的夥伴們，Graph-based RAG（GraphRAG）透過知識圖譜來增強檢索，解決了傳統 RAG 難以進行多步推理的痛點，這點我們都懂。但它最大的問題就是——慢！昂貴的圖遍歷和 LLM 生成的語意雜訊，讓我們在準確度和效率之間陷入兩難。</p>
+            <p>現在，一篇剛出爐的論文《HELP: HyperNode Expansion and Logical Path-Guided Evidence Localization for Accurate and Efficient GraphRAG》給了我們一個全新的解方！這個名為 <strong>HELP</strong> 的框架，旨在實現準確性與實用效率的完美平衡，而且成果驚人。</p>
+            <h2>GraphRAG 的兩難：準確還是快？</h2>
+            <p>現有的 GraphRAG 方法，總是在天平的兩端搖擺：</p>
+            <ul>
+                <li><strong>追求準確：</strong> 像 HippoRAG 或 ToG 這類方法，透過複雜的圖遍歷來保留豐富的關聯資訊，推理能力很強，但計算開銷和延遲也相當驚人。</li>
+                <li><strong>追求效率：</strong> 像 LinearRAG 這類方法，簡化了圖的拓撲結構，雖然檢索速度飛快，但犧牲了精準多步推理所必需的語意依賴性。</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>🚀 HELP 框架的兩大創新策略：</strong>
+                <ul>
+                    <li><strong>超節點擴展 (HyperNode Expansion)：</strong> 將知識三元組迭代地串聯成連貫的推理路徑，並將其抽象為「超節點」(HyperNode)，以捕捉複雜的結構依賴關係。</li>
+                    <li><strong>邏輯路徑引導的證據定位 (Logical Path-Guided Evidence Localization)：</strong> 利用預先計算好的圖譜-文本關聯，將推理路徑直接映射回原始語料庫，實現極致的檢索效率。</li>
+                </ul>
+            </div>
+            <h2>HELP 如何實現「魚與熊掌兼得」？</h2>
+            <p>HELP 的聰明之處在於它分兩步走：先在結構化的圖譜空間中規劃好「推理路徑」，然後才去文本大海中精準地「定位證據」。</p>
+            <ol>
+                <li><strong>建構推理路徑：</strong> 首先，它引入了「超節點」這個核心單元。每個檢索到的知識三元組都被實例化為一個超節點，然後透過迭代擴展，將這些超節點串聯起來，形成從事實到事實的邏輯鏈。這個過程就像是先規劃好偵探小說的劇情線。</li>
+                <li><strong>精準定位證據：</strong> 接著，利用一開始就建好的「三元組-段落索引」，將最終構成推理路徑的超節點們，直接、快速地映射回它們在原始文本中對應的段落。這避免了昂貴的隨機遊走和語意失真，大大降低了檢索延遲。</li>
+            </ol>
+            <h2>驚人的 28.8 倍加速！</h2>
+            <p>實驗數據勝於雄辯。在多個簡單及多步問答的基準測試中，HELP 的表現都相當出色。最令人振奮的是效率的提升：</p>
+            <ul>
+                <li>在處理複雜的 2Wiki 數據集時，HELP 取得了驚人的 <strong>28.8 倍</strong> 加速！傳統方法需要超過 20 分鐘才能完成的任務，HELP 在 90 秒內就搞定了。</li>
+                <li>與前代領先的 GraphRAG 方法 HippoRAG2 相比，HELP 的平均 F1 分數也相對提升了 1.3%，證明其準確性並未因效率提升而妥協。</li>
+            </ul>
+            <h2>對工程實踐的啟示</h2>
+            <p>HELP 框架的成功，為 GraphRAG 的實際落地應用掃除了一大障礙。它證明了我們不必在準確性和效率之間做出痛苦的抉擇。透過「超節點擴展」和「邏輯路徑引導」這兩大武器，我們可以在保留知識圖譜結構化推理優勢的同時，將檢索效率提升到一個全新的水平。</p>
+            <p>對於正在開發或優化 RAG 系統的團隊來說，HELP 提供了一個極具價值的工程藍圖。它讓我們看到，一個更準確、也更快速的 GraphRAG 時代，已經來臨。</p>
+            <p><em>(本文靈感來源: arXiv - HELP: HyperNode Expansion and Logical Path-Guided Evidence Localization for Accurate and Efficient GraphRAG, 2026-02-24)</em></p>
+        </div>
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>'''
