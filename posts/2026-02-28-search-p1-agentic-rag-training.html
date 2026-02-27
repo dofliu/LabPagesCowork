@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RAG 訓練革命：騰訊 Search-P1 登場，用「路徑中心獎勵」告別低效！ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">Agentic RAG 訓練革命：<br>騰訊 Search-P1 登場，用「路徑中心獎勵」告別低效！</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-28</span> • 
+                <span><i class="fas fa-user-graduate"></i> 劉瑞弘教授團隊</span> •
+                <span><i class="fas fa-cogs"></i> RAG / Agent / 強化學習</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>各位 AI 工程師與研究者們，還在為 Agentic RAG 模型的訓練效率低落而苦惱嗎？傳統基於強化學習（RL）的訓練方法，往往因為獎勵稀疏、樣本效率低，導致模型收斂緩慢且效果不彰。現在，來自騰訊的研究團隊為我們帶來了突破性的解決方案！</p>
+
+            <p>這篇於 2026 年 2 月 26 日發布在 arXiv 上的論文《Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training》，提出了一個名為 <strong>Search-P1</strong> 的全新框架，其核心思想是「路徑中心獎勵塑造」（Path-Centric Reward Shaping），旨在解決當前 Agentic RAG 訓練的三大痛點。</p>
+
+            <h2>傳統 Agentic RAG 訓練的困境</h2>
+            <p>Agentic RAG 讓 LLM 能夠動態決定何時、何地進行檢索，以處理複雜的多步推理問題。然而，目前主流的 RL 訓練方法（如 Search-R1）通常只看最終答案是否正確來給予二元獎勵（對或錯），這帶來了三個嚴重問題：</p>
+            <ul>
+                <li><strong>獎勵稀疏：</strong> 忽略了中間推理過程的品質，即使過程中有部分是正確的，也無法得到獎勵。</li>
+                <li><strong>樣本效率低：</strong> 大量「失敗」的樣本（最終答案錯誤）被浪費，它們的訓練價值幾乎為零。</li>
+                <li><strong>收斂緩慢：</strong> 由於大部分樣本得到的獎勵都是 0 或 1，梯度信號微弱，導致模型收斂極其緩慢。</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 Search-P1 的兩大創新武器：</strong>
+                <ul>
+                    <li><strong>路徑中心獎勵 (Path-Centric Reward)：</strong> 不再只看結果，而是評估整個推理「路徑」的結構品質，即使最終答案錯誤，也能從部分正確的步驟中提取學習信號。</li>
+                    <li><strong>雙軌路徑評分 (Dual-Track Path Scoring)：</strong> 從「自我一致性」（是否遵循自己制定的計畫）和「參考對齊」（是否與離線生成的優質計畫相似）兩個維度評估推理路徑，提供更密集的訓練信號。</li>
+                </ul>
+            </div>
+
+            <h2>Search-P1 如何運作？</h2>
+            <p>Search-P1 的核心是重新設計了獎勵函數。它不再是一個簡單的 0 或 1，而是一個綜合性的評分，包含了對推理路徑和最終結果的細膩評估。</p>
+            <ol>
+                <li><strong>明確計畫：</strong> 首先，模型需要明確生成一個推理計畫（Planner），這讓後續的評估有了依據。</li>
+                <li><strong>雙軌評分：</strong> 接著，系統會從兩個軌道評估執行過程：<br>
+                    - **自我一致性軌道：** 評估模型執行的步驟是否與它自己最初的計畫一致。<br>
+                    - **參考對齊軌道：** 將模型的執行步驟與一個離線生成的高品質「參考計畫」進行比較，評估其覆蓋率。
+                </li>
+                <li><strong>軟性結果評分 (Soft Outcome Scoring)：</strong> 對於最終答案錯誤的樣本，系統會給予「部分分數」，而不是直接給零分。這個分數取決於答案的準確程度和推理過程的品質，從而將失敗樣本轉化為有價值的訓練信號。</li>
+            </ol>
+            <p>透過這種方式，Search-P1 為模型提供了更密集、更細緻的梯度，極大地加速了收斂速度並提升了最終性能。</p>
+
+            <h2>驚人的實驗結果</h2>
+            <p>實驗結果令人振奮！在多個公開的問答（QA）基準測試中，與 Search-R1 等強大的基線模型相比，Search-P1 取得了顯著的進步，平均準確率提升了 <strong>7.7 個百分點</strong>！</p>
+            <p>更值得注意的是，在一個複雜的內部廣告業務問答數據集（AD-QA）上，Search-P1 的性能提升更是高達 <strong>20.6 個百分點</strong>，充分證明了其在真實工業場景中的巨大潛力。</p>
+
+            <h2>對我們實驗室的啟示</h2>
+            <p>Search-P1 的成功，為我們正在開發的 Agentic RAG 系統提供了寶貴的經驗。我們可以借鏡其核心思想，優化我們的訓練流程：</p>
+            <ul>
+                <li><strong>引入路徑評估：</strong> 在我們的訓練框架中，增加對推理路徑本身的評估，而不僅僅是最終結果。</li>
+                <li><strong>設計軟性獎勵機制：</strong> 為失敗的案例設計部分獎勵機制，以提高樣本的利用效率。</li>
+                <li><strong>生成參考計畫：</strong> 探索離線生成高品質推理路徑作為「專家指導」，引導模型學習更優的推理策略。</li>
+            </ul>
+
+            <h2>結語</h2>
+            <p>Search-P1 的提出，是 Agentic RAG 領域的一個重要里程碑。它有效地解決了 RL 訓練中的核心難題，為開發更穩定、更高效的 Agentic RAG 系統鋪平了道路。這不僅是騰訊在 AI Agent 領域的又一力作，也為所有從事相關研究的我們提供了強大的新工具和新思路。</p>
+
+            <p><em>(本文靈感來源: arXiv - Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training, 2026-02-26)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
