@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Scite MCP：讓 AI 讀懂科學文獻！250+ 萬論文成為你的研究助理 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+    <article class="article-container">
+        <a href="../blog.html">← 返回部落格</a>
+        <header class="article-header">
+            <h1 class="article-title">Scite MCP：讓 AI 讀懂科學文獻！250+ 萬論文成為你的研究助理</h1>
+            <p>2026-02-28 • 劉瑞弘教授團隊 • AI / RAG / Scientific Research</p>
+        </header>
+        <div class="article-content">
+各位小伙伴們，AI 又有新花樣了！這次是**Scite MCP**——讓你的 AI 工具直接存取 2.5 億篇科學論文！📚
+
+## 🔬 問題：AI 不知道誰對誰錯
+
+相信大家都有過這種經驗：問 AI 一個研究問題，它回答得頭頭是道，但仔細一查發現——
+
+- 這個發現後來被推翻惹 😱
+- 那是「少數意見」不是「共識」
+- 來源論文根本沒有說 AI 講的那回事！
+
+傳統 LLM 的痛點：
+1. **覆蓋有限** — 訓練資料有時效性，無法涵蓋最新研究
+2. **無法判斷信任度** — 不曉得某個發現是被「支持」還是「反駁」
+3. **沒有引用來源** — 回答得像在編故事
+
+## 🚀 Scite MCP 出招！
+
+2026 年 2 月，Research Solutions 推出了 **Scite MCP**，直接解決這些問題！
+
+### 核心能力
+
+| 功能 | 說明 |
+|------|------|
+| **Smart Citations** | 分析引用文獻，判斷是「支持」「提及」還是「對比」 |
+| **2.5億+ 論文庫** | 涵蓋期刊論文、預印本、書籍章節、數據集 |
+| **MCP 標準相容** | 支援 ChatGPT、Claude、Copilot、Cursor 等主流 AI |
+| **可驗證回答** | 每個答案都有具體論文來源，而非憑空生成 |
+
+簡單來說：**以前 AI 是「猜」答案，現在 AI 是「查」論文！**
+
+### 三大亮點
+
+1. **答案有根據** — 不是生成，而是從真實論文擷取
+2. **引用脈絡** — 不只知道被引用，還知道後續研究怎麼看這篇論文
+3. **跨工具相容** — 用你熟悉的 AI 工具就能存取
+
+## 🧠 對我們研究的啟示
+
+這項技術與我們實驗室的 RAG 研究高度相關！
+
+### RAG 系統的新方向
+
+傳統 RAG 的問題：
+- 檢索到的資料「真假難辨」
+- 無法判斷資訊的可信度
+- 容易被「幻覺」誤導
+
+Scite 的做法給了我們啟示：
+1. **引用分類** — 不只檢索，還要評估「支持度」
+2. **脈絡擴展** — 檢索時一併取得「後續驗證」
+3. **可信度評分** — 讓 RAG 輸出有能力標記「此資訊有爭議」
+
+### ISME 2026 投稿相關
+
+我們的 RAG01、RAG02 投稿（截止日 3/16）可以借鑒：
+
+- **多層次引用評估** — 不只是「相關」，而是「支持/反駁/中立」
+- **動態知識庫更新** — 利用 MCP 架構即時存取最新文獻
+- **研究領域適配** — 風電運維、SCADA 資料分析的專業術語處理
+
+## ⚠️ 限制與挑戰
+
+目前 Scite MCP 還有一些限制：
+
+1. **僅開放取用** — 目前只支援 Open Access 論文，付費期刊還在洽談中
+2. **覆蓋範圍** — 並非所有領域都有完整引用資料
+3. **即時性** — 預印本更新有延遲
+
+但這些都會隨著時間改善！
+
+## 🤔 結論：研究 AI 的新時代
+
+Scite MCP 代表了一個重要趨勢：**AI 不再只是「生成」，而是「研究」**。
+
+未來的研究流程可能是：
+1. 問 AI 一個問題
+2. AI 去論文庫檢索 + 評估可信度
+3. 回傳「某研究支持這個結論，但另一研究反駁...」
+
+這正是我們實驗室 RAG 系統發展的方向！
+
+各位小伙伴們，你們覺得這種「AI 研究助理」實用嗎？歡迎留言討論！💬
+
+📝 備註：本文由 AI 輔助撰寫，內容經過人工校對。資料來源：PRNewswire, Scite AI。
+
+(本文 source: PRNewswire, 2026-02-26)
+        </div>
+    </article>
+</body>
+</html>
