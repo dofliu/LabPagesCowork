@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>研究日誌 | Lab Pages</title>
+  <style>
+    :root {
+      --bg: #0a122a;
+      --bg-soft: #1d2a45;
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f4f7ff;
+      --text-muted: #a8b7d6;
+      --accent: #38bdf8;
+      --warm: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Inter", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #1a2338 0, var(--bg) 86px);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 46px 28px 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 28px;
+    }
+    .post-list { display: grid; gap: 24px; }
+    .card, .panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .card { padding: 32px 40px; }
+    .meta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      color: var(--warm);
+      font-weight: 700;
+      margin-bottom: 14px;
+      font-size: 18px;
+    }
+    .tag {
+      color: #b7c6e4;
+      background: rgba(255,255,255,.08);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-weight: 600;
+    }
+    h2 {
+      margin: 0 0 20px;
+      font-size: 54px;
+      line-height: 1.2;
+      letter-spacing: .5px;
+    }
+    .excerpt {
+      margin: 0 0 30px;
+      color: #e6ecfb;
+      font-size: 21px;
+      line-height: 1.7;
+    }
+    .read-more {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .side { display: grid; gap: 18px; height: fit-content; }
+    .panel { padding: 28px 24px; }
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 46px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+      line-height: 1.2;
+    }
+    .about p {
+      color: var(--text-muted);
+      font-size: 30px;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .stats {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 27px;
+    }
+    .stats strong { color: var(--text); font-weight: 800; }
+    .topic-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 0;
+      color: var(--text-muted);
+      font-size: 25px;
+    }
+    .count {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.06);
+      font-size: 24px;
+      color: #bdd3ff;
+    }
+    .empty {
+      color: var(--text-muted);
+      font-size: 24px;
+      margin: 0;
+    }
+    @media (max-width: 1120px) {
+      .wrap { grid-template-columns: 1fr; }
+      .panel h3 { font-size: 34px; }
+      .about p,.stats,.topic-item,.count { font-size: 21px; }
+      h2 { font-size: 40px; }
+      .excerpt { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="post-list" id="post-list"></section>
+
+    <aside class="side">
+      <section class="panel about">
+        <h3>關於我們</h3>
+        <p>我們是劉瑞弘教授的研究團隊，研究筆記主要專注於各種 AI 技術（特別是 RAG 與 Agent）於工業應用實務問題的解決。</p>
+      </section>
+
+      <section class="panel">
+        <h3>主題專區</h3>
+        <ul class="stats" id="global-stats"></ul>
+        <div id="topic-list"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const postListEl = document.getElementById('post-list');
+    const globalStatsEl = document.getElementById('global-stats');
+    const topicListEl = document.getElementById('topic-list');
+
+    const fallbackTopics = ['Industrial RAG', 'Wind Energy O&M', 'LLM Agents', 'PLC Automation'];
+
+    const formatDate = (value) => {
+      if (!value) return '未知';
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return d.toISOString().slice(0, 10);
+    };
+
+    const parseFrontMatter = (text = '') => {
+      const match = text.match(/^---\n([\s\S]*?)\n---/);
+      if (!match) return {};
+      const entries = {};
+      match[1].split('\n').forEach(line => {
+        const idx = line.indexOf(':');
+        if (idx < 0) return;
+        const key = line.slice(0, idx).trim();
+        const raw = line.slice(idx + 1).trim();
+        const val = raw.replace(/^['"]|['"]$/g, '');
+        entries[key] = val;
+      });
+      return entries;
+    };
+
+    const buildPostFromText = (url, text) => {
+      const fm = parseFrontMatter(text);
+      const title = fm.title || text.match(/^#\s+(.+)/m)?.[1] || '未命名文章';
+      const date = fm.date || fm.updated || fm.lastmod || '';
+      const category = fm.category || fm.topic || fm.tag || '未分類';
+      const excerpt = fm.excerpt || text.replace(/^---[\s\S]*?---/, '').replace(/[#>*`\-]/g, '').trim().slice(0, 120) + '…';
+      return { title, date, category, excerpt, url };
+    };
+
+    const loadFromJsonSources = async () => {
+      const sources = ['/post/index.json', '/post/posts.json', '/post/manifest.json'];
+      for (const src of sources) {
+        try {
+          const res = await fetch(src);
+          if (!res.ok) continue;
+          const data = await res.json();
+          const posts = Array.isArray(data) ? data : (data.posts || data.items || []);
+          if (!posts.length) continue;
+          return posts.map(p => ({
+            title: p.title || p.name || '未命名文章',
+            date: p.date || p.updated || p.lastmod || '',
+            category: p.category || p.topic || p.tag || '未分類',
+            excerpt: p.excerpt || p.summary || '',
+            url: p.url || p.path || p.href || '#'
+          }));
+        } catch (_) {}
+      }
+      return [];
+    };
+
+    const loadFromPostDirectory = async () => {
+      try {
+        const res = await fetch('/post/');
+        if (!res.ok) return [];
+        const html = await res.text();
+        const links = [...html.matchAll(/href=["']([^"']+\.(?:md|markdown|html))["']/gi)]
+          .map(m => m[1])
+          .filter(h => !h.startsWith('..'))
+          .map(h => h.startsWith('http') ? h : `/post/${h.replace(/^\//, '')}`);
+        if (!links.length) return [];
+        const posts = await Promise.all(links.map(async (url) => {
+          try {
+            const r = await fetch(url);
+            if (!r.ok) return null;
+            const text = await r.text();
+            return buildPostFromText(url, text);
+          } catch (_) {
+            return null;
+          }
+        }));
+        return posts.filter(Boolean);
+      } catch (_) {
+        return [];
+      }
+    };
+
+    const renderPosts = (posts) => {
+      if (!posts.length) {
+        postListEl.innerHTML = '<article class="card"><p class="empty">目前讀取不到 /post 的文章資料，請確認部署環境可存取文章索引。</p></article>';
+        return;
+      }
+
+      posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+      postListEl.innerHTML = posts.map(post => `
+        <article class="card">
+          <div class="meta">📅 ${formatDate(post.date)} <span class="tag">🏷️ ${post.category}</span></div>
+          <h2>🤖 ${post.title}</h2>
+          <p class="excerpt">${post.excerpt || '點擊下方連結閱讀完整內容。'}</p>
+          <a class="read-more" href="${post.url}">閱讀全文 →</a>
+        </article>
+      `).join('');
+    };
+
+    const renderStats = (posts) => {
+      const total = posts.length;
+      const sorted = [...posts].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+      const lastUpdated = sorted[0]?.date ? formatDate(sorted[0].date) : '未知';
+      const topicCount = posts.reduce((acc, post) => {
+        const key = post.category || '未分類';
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {});
+
+      globalStatsEl.innerHTML = `
+        <li>文章總數：<strong>${total}</strong></li>
+        <li>最後更新：<strong>${lastUpdated}</strong></li>
+      `;
+
+      const merged = { ...Object.fromEntries(fallbackTopics.map(t => [t, 0])), ...topicCount };
+      const items = Object.entries(merged).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+      topicListEl.innerHTML = items.map(([topic, count]) => `
+        <div class="topic-item"><span>${topic}</span><span class="count">${count}</span></div>
+      `).join('');
+    };
+
+    (async () => {
+      let posts = await loadFromJsonSources();
+      if (!posts.length) posts = await loadFromPostDirectory();
+      renderPosts(posts);
+      renderStats(posts);
+    })();
+  </script>
+</body>
+</html>
