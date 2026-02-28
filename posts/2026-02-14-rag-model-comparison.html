@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地端 RAG 大亂鬥：BGE vs E5 vs Jina，誰是風機維修的檢索之王？ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">地端 RAG 大亂鬥：<br>BGE vs E5 vs Jina，誰是風機維修的檢索之王？</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-14</span> • 
+                <span><i class="fas fa-user-graduate"></i> 蘇宥騏</span> •
+                <span><i class="fas fa-search"></i> Model Evaluation</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>在風力發電機的運維現場，網路往往不穩定，甚至根本沒有網路。這意味著我們不能依賴 OpenAI 的 API，必須把強大的檢索增強生成 (RAG) 系統搬到「地端 (On-Premise)」運行。</p>
+
+            <p>但地端資源有限，沒有輝達 (NVIDIA) 的 H100 伺服器，我們該如何選擇最適合的嵌入模型 (Embedding Model)？蘇宥騏同學針對 Z72 風機手冊，進行了一場精彩的「地端模型大亂鬥」，這場比賽的選手有：</p>
+            <ul>
+                <li><strong>選手 1：BGE-M3 (BAAI)</strong> - 全能型選手，支援多功能、多語言。</li>
+                <li><strong>選手 2：E5-large-instruct</strong> - 指令微調專家，聽得懂你的任務描述。</li>
+                <li><strong>選手 3：Jina-v3</strong> - 針對 RAG 任務特化的新星。</li>
+            </ul>
+
+            <h2>第一回合：基礎檢索 (Basic Strategy)</h2>
+            <p>最簡單直接的比拼，只比「向量相似度」。</p>
+            <p>結果顯示：<strong>BGE-M3</strong> 以超低延遲 (0.009s) 奪冠，但在準確率 (Hit@1) 上表現普普，只有 53%。這說明如果只靠向量，模型還是會被那些複雜的專有名詞（如 SCADA 2041, PLC 542A001）搞混。</p>
+
+            <h2>第二回合：關鍵字補強 (Hybrid Strategy)</h2>
+            <p>我們加入了傳統的關鍵字檢索 (BM25) 來幫忙，就像給模型配了一本字典。</p>
+            <p>神奇的事情發生了！<strong>Hybrid 策略讓所有選手的成績都大幅提升！</strong> 特別是對於那些冷門的錯誤代碼，關鍵字檢索補足了語意模型的盲點。這被我們評為「CP 值最高的策略」，因為它幾乎不增加運算成本，準確率卻提升了 13% 以上。</p>
+
+            <h2>第三回合：終極重排序 (Reranking Strategy)</h2>
+            <p>最後，我們祭出了大絕招：<strong>二階段重排序 (Reranking)</strong>。先用基礎檢索撈出一堆候選者，再請一位精明的評審 (Cross-Encoder) 重新打分數。</p>
+
+            <div class="highlight-box">
+                <strong>👑 最終王者誕生：BGE-M3 + Rerank</strong>
+                <ul>
+                    <li><strong>Hit@1：</strong> 78.6% (準確率第一)</li>
+                    <li><strong>MRR：</strong> 85.1% (排序品質第一)</li>
+                </ul>
+                <p>但代價是：檢索時間增加了 27 倍 (0.246s)。不過對於人類來說，0.2 秒的延遲完全無感，換來的是接近 8 成的精準回答！</p>
+            </div>
+
+            <h2>結論：怎麼選？</h2>
+            <ul>
+                <li><strong>要快、資源少：</strong> 選 <strong>BGE-M3 + Hybrid</strong>。這是 CP 值之王，兼顧速度與準度。</li>
+                <li><strong>要準、不在乎算力：</strong> 選 <strong>BGE-M3 + Rerank</strong>。這是追求極致準確度的不二之選。</li>
+            </ul>
+
+            <p>這場大亂鬥證明了，在地端環境下，透過正確的策略組合，我們完全可以打造出媲美雲端 API 的工業級檢索系統！</p>
+
+            <p><em>(本文改寫自：2026 第十一屆台灣機電工程國際學會全國學術研討會論文 - 本地端嵌入模型於風力機運維的 RAG 檢索應用)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

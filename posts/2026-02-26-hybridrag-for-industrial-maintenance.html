@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HybridRAG 降臨：當知識圖譜遇上多維檢索，工業維護的未來已來！ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">HybridRAG 降臨：<br>當知識圖譜遇上多維檢索，工業維護的未來已來！</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-26</span> • 
+                <span><i class="fas fa-user-graduate"></i> 劉瑞弘教授團隊</span> •
+                <span><i class="fas fa-cogs"></i> RAG / 工業 AI / 知識圖譜</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>各位專注於工業 AI 的夥伴們，我們都清楚，在處理複雜設備的故障診斷時，傳統的 RAG（檢索增強生成）系統常常力不從心。它們要嘛看不懂結構化的故障關聯，要嘛在茫茫的文本大海中迷失。現在，一篇發表於《Scientific Reports》的最新研究為我們帶來了曙光！</p>
+
+            <p>這篇名為《An intelligent guided troubleshooting method for aircraft based on HybridRAG》的論文，提出了一個名為 <strong>HybridRAG</strong> 的智慧導引故障排除框架。雖然應用場景是飛機維修，但其核心思想對於我們實驗室專注的風力發電機運維，乃至整個工業維護領域，都具有極高的參考價值！</p>
+
+            <h2>傳統 RAG 的困境：單維度的視野</h2>
+            <p>傳統 RAG 系統在面對工業維護時，通常會遇到兩大挑戰：</p>
+            <ul>
+                <li><strong>結構化知識的盲點：</strong> 設備的故障模式、原因與解決方案之間，存在著複雜的因果與關聯。這些知識以圖譜（Graph）形式表達最為有效，但傳統 RAG 的向量檢索難以完全捕捉。</li>
+                <li><strong>非結構化文本的噪音：</strong> 維修手冊、歷史報告等大量非結構化文本，雖然包含了豐富的經驗，但也充滿了噪音與不一致性，單純的關鍵字或向量檢索容易產生偏差。</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🚀 HybridRAG 的三大核心武器：</strong>
+                <ul>
+                    <li><strong>知識圖譜（Knowledge Graph）：</strong> 將故障模式、原因、解決方案等結構化為圖譜，讓 AI 能進行邏輯推理。</li>
+                    <li><strong>多維度文本檢索：</strong> 同時使用向量檢索（語意相似）與 BM25 檢索（關鍵字匹配），互補長短。</li>
+                    <li><strong>Agent 智慧體：</strong> 透過 Agent 架構，實現多輪對話、上下文理解，提供更具互動性的診斷導引。</li>
+                </ul>
+            </div>
+
+            <h2>HybridRAG 如何運作？</h2>
+            <p>HybridRAG 的高明之處在於它不偏廢任何一種資訊來源，而是將它們巧妙地融合在一起。當一個故障查詢進來時，系統會同步啟動三路徑檢索：</p>
+            <ol>
+                <li><strong>圖譜路徑：</strong> 在預先建構好的故障知識圖譜上進行圖探索，找出最相關的故障鏈路與節點。</li>
+                <li><strong>向量路徑：</strong> 將查詢轉換為向量，在手冊、報告等文本資料庫中，尋找語意上最接近的段落。</li>
+                <li><strong>關鍵字路徑：</strong> 使用 BM25 演算法，捕捉那些精確但可能語意不強的術語或代碼。</li>
+            </ol>
+            <p>檢索到的結果會經過一個 Cross-Encoder 模型進行重新排序，確保最終送入大型語言模型（LLM）的，是最高品質、最相關的資訊。如此一來，LLM 就能夠基於全面且精準的上下文，生成可靠的診斷建議。</p>
+
+            <h2>驚人的實驗結果</h2>
+            <p>實驗證明，HybridRAG 的效果斐然。與主流的 RAG 基線相比，它在 F1-score（綜合評估準確率與召回率的指標）上提升了至少 <strong>4%</strong>，並且將模型的「幻覺」（Hallucination）比率降低了超過 <strong>7%</strong>！這在要求高可靠性的工業領域，是極其關鍵的進步。</p>
+
+            <h2>對我們實驗室的啟示</h2>
+            <p>HybridRAG 的成功，為我們正在進行的風力發電機運維 RAG 系統提供了明確的優化方向。我們可以借鏡其核心思想：</p>
+            <ul>
+                <li><strong>建構風機故障知識圖譜：</strong> 將風機的各種故障代碼、感測器數據模式、維修歷史與零件更換記錄，建構成一個完整的知識圖譜。</li>
+                <li><strong>引入混合檢索策略：</strong> 除了現有的向量檢索，應整合 BM25 與圖譜查詢，提升檢索的全面性與精準度。</li>
+                <li><strong>發展 Agent 互動診斷：</strong> 讓系統能透過多輪對話，引導現場工程師逐步排查問題，而不僅僅是單次的問答。</li>
+            </ul>
+
+            <h2>結語</h2>
+            <p>HybridRAG 的出現，標誌著 RAG 技術在專業領域的應用，正從單純的「檢索-生成」邁向更為成熟的「理解-推理-互動」階段。這不僅是一篇優秀的學術論文，更是一份極具價值的工程藍圖。讓我們一起期待，將這套方法應用於我們的研究中，為工業 AI 的發展貢獻一份心力！</p>
+
+            <p><em>(本文靈感來源: Scientific Reports - An intelligent guided troubleshooting method for aircraft based on HybirdRAG, 2025-05-22)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

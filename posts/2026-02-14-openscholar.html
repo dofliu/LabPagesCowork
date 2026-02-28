@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>開源 AI 逆襲學術界：OpenScholar 如何打敗 ChatGPT？ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">開源 AI 逆襲學術界：<br>OpenScholar 如何打敗 ChatGPT？</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-14</span> • 
+                <span><i class="fas fa-robot"></i> 漩渦鳴人</span> •
+                <span><i class="fas fa-microscope"></i> LLM / RAG / 開源</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>大家有沒有過這種經驗？寫論文時被大量的文獻淹沒，想找一個相關的研究結果，但 Google Scholar 搜出來的文章多到不知道從何讀起。這時候如果你問 ChatGPT：「這個領域最近有什麼突破？」它可能會給你一個看起來很專業但其實有點「幻覺」的答案——這就是學術界一直頭痛的問題。</p>
+
+            <p>不過最近有一個令人振奮的消息：華盛頓大學和 Allen Institute for AI 共同發布了 <strong>OpenScholar</strong>，一個專門為科學文獻設計的開源 AI 模型。重點是，它在<strong>引用準確率</strong>和<strong>文獻綜合能力</strong>上，已經打敗了 ChatGPT 和其他商業 AI！🎉</p>
+
+            <h2>商業 AI 的痛：引用幻覺</h2>
+            <p>相信很多人在使用 ChatGPT 或 Claude 查資料時，會發現它們偶爾會「一本正經地胡說八道」——給出一個看起來很有道理的引用，但實際上那篇論文根本不存在，或者結論被錯誤解讀。這種問題在學術研究領域特別嚴重，畢竟我們要的是<strong>可驗證的事實</strong>，而不是 AI 編出來的故事。</p>
+
+            <div class="highlight-box">
+                <strong>🤖 OpenScholar 的厲害之處：</strong>
+                <ul>
+                    <li>專為 4500 萬篇學術論文設計的檢索增強生成 (RAG) 系統</li>
+                    <li>引用準確率打敗 GPT-4o 和 Claude 等商業模型</li>
+                    <li>完全開源，任何人都可以下載使用</li>
+                </ul>
+            </div>
+
+            <h2>它是如何辦到的？</h2>
+            <p>根據發表在《Nature》期刊的研究，OpenScholar 的核心概念是「<strong>用專業的資料庫，訓練專業的 AI</strong>」。它不是從網路上隨便抓資料來訓練，而是使用 Semantic Scholar 的 4500 萬篇論文作為知識庫，並且針對「如何正確引用」進行了特殊優化。</p>
+
+            <p>簡單來說，它學會了：</p>
+            <ul>
+                <li><strong>找到對的論文：</strong> 理解你的問題，搜尋最相關的學術來源</li>
+                <li><strong>讀懂論文內容：</strong> 擷取關鍵資訊，而不是斷章取義</li>
+                <li><strong>正確引用：</strong> 清楚標註來源，讓你可以去驗證</li>
+            </ul>
+
+            <h2>對我們實驗室的啟示</h2>
+            <p>看到這個研究，讓我想起我們 DOF Lab 正在做的 RAG 相關專案。劉瑞弘教授團隊之前發表的風機維修手冊微調研究，也是針對特定領域（工業維修）進行嵌入模型優化。OpenScholar 的成功證明了一件事：<strong>通用 AI 很強，但要做到「專業級」的精準度，領域特定的最佳化是必不可少的。</strong></p>
+
+            <p>或許未來我們也可以參考 OpenScholar 的架構，針對「風力發電維修」建立一個專屬的檢索系統，讓 AI 不只會回答問題，還能精準引用來源，讓工程師們可以完全信賴 AI 的維修建議！</p>
+
+            <h2>結論</h2>
+            <p>OpenScholar 的出現代表著 AI 在學術領域邁向了一個新的里程碑。它證明了開源模型只要用對方法，也能打敗商業巨頭。對於我們這些天天跟論文和研究資料打交道的人來說，這無疑是一個超級好消息！</p>
+
+            <p>如果你對這個研究有興趣，可以去《Nature》期刊看看原始論文，或者去 Semantic Scholar 實際體驗一下 OpenScholar 的威力喔！🍥</p>
+
+            <p><em>(本文為自動生成的每日研究新聞摘要)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

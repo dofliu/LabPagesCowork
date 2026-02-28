@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarvam AI：印度首款自主研發的超強 LLM 來襲！30B 模型竟然打敗 GPT-4？ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">學術發表</a></li>
+                <li><a href="../lab.html">實驗室簡介</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">Sarvam AI：印度首款自主研發的超強 LLM 來襲！30B 模型竟然打敗 GPT-4？</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-19</span>
+                <span><i class="fas fa-user-graduate"></i> DOF Lab</span>
+                <span><i class="fas fa-tag"></i> LLM 研究</span>
+            </div>
+        </header>
+
+        <article class="article-content">
+            <p>各位小伙伴們，AI 界又有大新聞了！🎉 印度的 Sarvam AI 在上週的 India AI Summit 發表了兩款全新的 LLM 模型，而且一推出就直接在多項基準測試中打敗了 GPT-4 和 DeepSeek-R1！這到底是怎麼做到的？讓我們一起來看看。</p>
+
+            <h2>🇮🇳 印度 AI 重大突破：從零開始的自主研發</h2>
+            
+            <p>Sarvam AI 這次推出了兩個重量級模型：</p>
+            <ul>
+                <li><strong>Sarvam 30B</strong>：300 億參數，預訓練使用 16 兆個 tokens，支援 32K 上下文長度</li>
+                <li><strong>Sarvam 105B</strong>：1050 億參數，90 億活躍參數，128K 上下文長度</li>
+            </ul>
+
+            <p>重點是，這兩個模型都是從頭開始訓練的！而且 Sarvam AI 是在 2025 年 4 月被印度政府選中，參與 IndiaAI Mission 計劃，要開發印度第一個「主權級」LLM。才短短一年就拿出這麼厲害的成果，實在令人驚艷。</p>
+
+            <div class="highlight-box">
+                <strong>🚀 小知識：什麼是 Mixture-of-Experts (MoE)？</strong><br><br>
+                MoE 是一種「專家混合」架構，模型包含很多「專家網路」，但每次只會啟動其中一部分來處理輸入。這樣可以大幅降低推理成本，同時保持強大的模型能力。Sarvam 30B 雖然有 300 億參數，但實際運算時只會啟動 10 億個參數，簡直是省電又高效！
+            </div>
+
+            <h2>💪 效能超越 GPT-4 和 DeepSeek？</h2>
+
+            <p>老實說，一開始看到「打敗 GPT-4」這種標題我也是半信半疑，但看完詳細的基準測試結果後，我服了！Sarvam 30B 在多項測試中表現優於：</p>
+            <ul>
+                <li>OpenAI 的 GPT-OSS-20B</li>
+                <li>阿里巴巴的 Qwen3-30B</li>
+                <li>Mistral-3.2-24B</li>
+                <li>Google 的 Gemma 2-7B</li>
+            </ul>
+
+            <p>而且 Sarvam 105B 更猛——它竟然打敗了擁有 6000 億參數的 DeepSeek-R1！Sarvam 共同創辦人 Pratyush Kumar 說：「我們的模型只有 DeepSeek-R1 的六分之一大小，但智慧程度卻差不多。」這簡直是不可思議！</p>
+
+            <h2>🗣️ 印度語言才是最大亮點</h2>
+
+            <p>除了效能之外，Sarvam 最大的優勢在於——<strong>印度語言處理</strong>！</p>
+            <p>測試顯示，Sarvam 105B 在印度語言任務上的表現，甚至比 Google 的 Gemini 2.5 Flash 還要強！而且它特別擅長處理「Code-mixed」格式——比如印度人常說的「Hinglish」（混合印地語和英語），這對其他國際大模型來說可是個大難題。</p>
+
+            <p>專家分析，未來這些模型可以幫助：</p>
+            <ul>
+                <li>偏遠地區的民眾用當地語言獲得政府服務</li>
+                <li>用印度方言進行客服對話</li>
+                <li>將法律和學術研究翻譯成地方語言</li>
+            </ul>
+
+            <h2>🔓 開源來襲！開發者可以直接上手</h2>
+
+            <p>最讓人振奮的是——Sarvam 將會開源 30B 和 105B 這兩個模型！這意味著全世界的研究者、開發者都可以自由使用、修改、甚至在上面构建自己的應用程式。</p>
+
+            <p>雖然目前官方還沒有公佈具體的開源時間表，但這個消息已經讓 AI 社群炸開了鍋。想像一下，未來可以用一個「印度本土版」的 LLM 來構建多語言客服机器人，這將會是多麼酷的事情！</p>
+
+            <h2>🤔 對我們的啟示</h2>
+
+            <p>Sarvam AI 的成功告訴我們幾件事：</p>
+            <ol>
+                <li><strong>MoE 架構是未來趨勢</strong>——用更少的計算資源達到同等智慧</li>
+                <li><strong>本地化數據是關鍵</strong>——deep learning 時代，誰擁有高品質的本地語言數據，誰就有優勢</li>
+                <li><strong>開源生態系統越來越重要</strong>——Sarvam 選擇開源，也是希望建立自己的開發者生態</li>
+            </ol>
+
+            <p>或許未來我們在台灣，也可以借鏡這種模式，訓練一個專精於台灣文化、語言的本土 LLM？這絕對是值得期待的方向！</p>
+
+            <p>好啦，今天的分享就到這裡。如果你對這則新聞有什麼看法，歡迎在下面留言討論！我們下期再見～ 👋</p>
+        </article>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回部落格</a>
+    </div>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
