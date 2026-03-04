@@ -1,632 +1,324 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>研究日誌 | Lab Pages</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NCUT IAE Lab - Research Blog">
+  <title>研究日誌 | DOF Lab</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a122a;
-      --bg-soft: #1d2a45;
-      --line: rgba(255, 255, 255, 0.08);
-      --text: #f4f7ff;
-      --text-muted: #a8b7d6;
-      --accent: #38bdf8;
-      --warm: #f59e0b;
+    .page-header {
+      padding: 8rem 0 4rem;
+      background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
+      text-align: center;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Noto Sans TC", "Inter", system-ui, -apple-system, sans-serif;
-      background: linear-gradient(180deg, #1a2338 0, var(--bg) 86px);
-      color: var(--text);
+    .page-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--text-white);
     }
-    .wrap {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 46px 28px 64px;
+    .page-header p { color: var(--text-gray); }
+    .blog-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 28px;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+      align-items: start;
     }
-    .post-list { display: grid; gap: 24px; }
-    .card, .panel {
-      background: var(--bg-soft);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    .article-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.6rem;
+      margin-bottom: 1.4rem;
     }
-    .card { padding: 32px 40px; }
-    .meta {
+    .article-meta {
+      color: var(--text-gray);
       display: flex;
-      gap: 14px;
-      align-items: center;
-      color: var(--warm);
-      font-weight: 700;
-      margin-bottom: 14px;
-      font-size: 18px;
+      gap: 1rem;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
     }
-    .tag {
-      color: #b7c6e4;
-      background: rgba(255,255,255,.08);
-      border-radius: 8px;
-      padding: 4px 10px;
-      font-weight: 600;
+    .meta-date { color: var(--accent-color); font-weight: 600; }
+    .meta-category {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      padding: 0.1rem 0.7rem;
     }
-    h2 {
-      margin: 0 0 20px;
-      font-size: 54px;
-      line-height: 1.2;
-      letter-spacing: .5px;
-    }
-    .excerpt {
-      margin: 0 0 30px;
-      color: #e6ecfb;
-      font-size: 21px;
-      line-height: 1.7;
-    }
+    .article-title { margin: 0 0 0.8rem; font-size: 1.5rem; line-height: 1.4; }
+    .article-title a { color: var(--text-white); text-decoration: none; }
+    .article-title a:hover { color: var(--primary-color); }
+    .article-excerpt { color: var(--text-light); line-height: 1.7; margin: 0 0 1rem; }
     .read-more {
-      color: var(--accent);
+      color: var(--primary-color);
       text-decoration: none;
       font-weight: 700;
-      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .side { display: grid; gap: 18px; height: fit-content; }
-    .panel { padding: 28px 24px; }
-    .panel h3 {
-      margin: 0 0 14px;
-      font-size: 46px;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 10px;
-      line-height: 1.2;
+    .sidebar-widget {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
     }
-    .about p {
-      color: var(--text-muted);
-      font-size: 30px;
-      line-height: 1.6;
-      margin: 0;
+    .widget-title {
+      color: var(--text-white);
+      font-size: 1.1rem;
+      margin: 0 0 0.8rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.6rem;
     }
-    .stats {
+    .stats-list, .topic-list {
       list-style: none;
       margin: 0;
       padding: 0;
-      display: grid;
-      gap: 10px;
-      color: var(--text-muted);
-      font-size: 27px;
     }
-    .stats strong { color: var(--text); font-weight: 800; }
-    .topic-item {
+    .stats-list li, .topic-list li {
+      color: var(--text-gray);
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 0;
-      color: var(--text-muted);
-      font-size: 25px;
+      gap: 1rem;
+      padding: 0.4rem 0;
     }
-    .count {
-      min-width: 40px;
-      height: 40px;
+    .topic-list .count {
+      background: rgba(255, 255, 255, 0.06);
       border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,.06);
-      font-size: 24px;
-      color: #bdd3ff;
+      min-width: 1.9rem;
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 0.1rem 0.5rem;
     }
-    .empty {
-      color: var(--text-muted);
-      font-size: 24px;
-      margin: 0;
+    .empty-state {
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      border-radius: 10px;
+      padding: 1rem;
+      background: rgba(127, 29, 29, 0.25);
     }
-    @media (max-width: 1120px) {
-      .wrap { grid-template-columns: 1fr; }
-      .panel h3 { font-size: 34px; }
-      .about p,.stats,.topic-item,.count { font-size: 21px; }
-      h2 { font-size: 40px; }
-      .excerpt { font-size: 18px; }
+    @media (max-width: 900px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .page-header h1 { font-size: 2.4rem; }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="post-list" id="post-list"></section>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+      <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+      <ul class="nav-links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="blog.html" class="active">研究日誌</a></li>
+        <li><a href="projects.html">研究與工具</a></li>
+        <li><a href="repos.html">程式碼庫</a></li>
+        <li><a href="publications.html">學術發表</a></li>
+        <li><a href="lab.html">實驗室簡介</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <aside class="side">
-      <section class="panel about">
-        <h3>關於我們</h3>
-        <p>我們是劉瑞弘教授的研究團隊，研究筆記主要專注於各種 AI 技術（特別是 RAG 與 Agent）於工業應用實務問題的解決。</p>
-      </section>
+  <header class="page-header">
+    <div class="container">
+      <h1>研究日誌</h1>
+      <p>自動整理 posts/post 文章，顯示連結與分類統計。</p>
+    </div>
+  </header>
 
-      <section class="panel">
-        <h3>主題專區</h3>
-        <ul class="stats" id="global-stats"></ul>
-        <div id="topic-list"></div>
-      </section>
-    </aside>
+  <main class="container">
+    <div class="blog-grid">
+      <section id="post-list"></section>
+      <aside>
+        <section class="sidebar-widget">
+          <h2 class="widget-title">文章統計</h2>
+          <ul class="stats-list" id="global-stats"></ul>
+        </section>
+        <section class="sidebar-widget">
+          <h2 class="widget-title">分類統計</h2>
+          <ul class="topic-list" id="topic-list"></ul>
+        </section>
+      </aside>
+    </div>
   </main>
 
   <script>
+    const KNOWN_POST_FILES = [
+      '2026-03-04-mcp-2-6-1-enterprise-ai-agents.html',
+      '2026-03-03-agenticocr-visual-rag.html',
+      '2026-03-03-nullclaw-lightweight-ai-agent-framework.html',
+      '2026-03-02-mcp-2-6-1-enterprise-ai-agents.html',
+      '2026-03-01-hubscan-rag-security.html',
+      '2026-02-28-search-p1-agentic-rag-training.html',
+      '2026-02-28-scite-mcp-scientific-literature.html',
+      '2026-02-27-mcp-explosive-growth.html',
+      '2026-02-27-help-graphrag-efficiency.html',
+      '2026-02-26-hybridrag-for-industrial-maintenance.html',
+      '2026-02-26.html',
+      '2026-02-25-continual-learning-ai-2026.html',
+      '2026-02-25-claude-code-remote-control.html',
+      '2026-02-25-claw-comparison.html',
+      '2026-02-24-claude-opus-4-6-adaptive-thinking.html',
+      '2026-02-23-samsung-galaxy-ai-multi-agent.html',
+      '2026-02-22-ai-race-gemini-gpt.html',
+      '2026-02-21-gemini-3-1-pro.html',
+      '2026-02-21-webmcp-ai-agents.html',
+      '2026-02-20-webmcp-ai-agents.html',
+      '2026-02-20-sarvam-ai-india-llm.html',
+      '2026-02-19-deepmind-aletheia.html',
+      '2026-02-19-sarvam-ai-india-llm.html',
+      '2026-02-18-deepmind-aletheia.html',
+      '2026-02-18-nvidia-enterprise-rag-blueprint.html',
+      '2026-02-17-neuromorphic-computers.html',
+      '2026-02-17-bharatgen-multilingual-ai.html',
+      '2026-02-16-ai-agent-skills.html',
+      '2026-02-16-openclaw-skills.md',
+      '2026-02-15-ai-self-talk.html',
+      '2026-02-14-rag-model-comparison.html',
+      '2026-02-14-watchdog-fix.html',
+      '2026-02-14-openscholar.html',
+      '2026-02-14-fine-tuning-rag.html',
+      '2026-02-13-why-rag-for-wind.html'
+    ];
+
     const postListEl = document.getElementById('post-list');
     const globalStatsEl = document.getElementById('global-stats');
     const topicListEl = document.getElementById('topic-list');
 
-    const fallbackTopics = ['Industrial RAG', 'Wind Energy O&M', 'LLM Agents', 'PLC Automation'];
-
-    const formatDate = (value) => {
-      if (!value) return '未知';
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return value;
+    const formatDate = (dateText) => {
+      if (!dateText) return '未知日期';
+      const d = new Date(dateText);
+      if (Number.isNaN(d.getTime())) return dateText;
       return d.toISOString().slice(0, 10);
     };
 
-    const parseFrontMatter = (text = '') => {
-      const match = text.match(/^---\n([\s\S]*?)\n---/);
-      if (!match) return {};
-      const entries = {};
-      match[1].split('\n').forEach(line => {
-        const idx = line.indexOf(':');
-        if (idx < 0) return;
-        const key = line.slice(0, idx).trim();
-        const raw = line.slice(idx + 1).trim();
-        const val = raw.replace(/^['"]|['"]$/g, '');
-        entries[key] = val;
-      });
-      return entries;
+    const normalizeCategory = (raw = '') => {
+      const value = raw.trim();
+      if (!value) return '未分類';
+      return value.split('/')[0].trim() || '未分類';
     };
 
-    const buildPostFromText = (url, text) => {
-      const fm = parseFrontMatter(text);
-      const title = fm.title || text.match(/^#\s+(.+)/m)?.[1] || '未命名文章';
-      const date = fm.date || fm.updated || fm.lastmod || '';
-      const category = fm.category || fm.topic || fm.tag || '未分類';
-      const excerpt = fm.excerpt || text.replace(/^---[\s\S]*?---/, '').replace(/[#>*`\-]/g, '').trim().slice(0, 120) + '…';
-      return { title, date, category, excerpt, url };
+    const parseMarkdownPost = (text, url, filename) => {
+      const title = (text.match(/^#\s+(.+)$/m) || [])[1] || filename;
+      const date = (text.match(/\*\*日期\*\*:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})/) || [])[1] || '';
+      const excerpt = text
+        .replace(/^#.+$/m, '')
+        .replace(/\*\*日期\*\*:.+$/m, '')
+        .replace(/[#>*`\-]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 120);
+      return {
+        title,
+        date,
+        category: '研究筆記',
+        excerpt: excerpt ? `${excerpt}…` : '點擊查看完整內容。',
+        url
+      };
     };
 
-    const loadFromJsonSources = async () => {
-      const sources = ['/post/index.json', '/post/posts.json', '/post/manifest.json'];
-      for (const src of sources) {
+    const parseHtmlPost = (text, url, filename) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      const title =
+        doc.querySelector('h1.article-title')?.textContent?.trim() ||
+        doc.querySelector('h1')?.textContent?.trim() ||
+        doc.querySelector('title')?.textContent?.replace(/\s*\|.*$/, '').trim() ||
+        filename;
+
+      const headerText = doc.querySelector('.article-header p')?.textContent || '';
+      const date = (headerText.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/) || [])[0] || '';
+      const segments = headerText.split('•').map(s => s.trim()).filter(Boolean);
+      const category = normalizeCategory(segments[2] || segments[1] || '未分類');
+
+      const firstParagraph =
+        doc.querySelector('.article-content p')?.textContent?.trim() ||
+        doc.querySelector('.article-content')?.textContent?.replace(/\s+/g, ' ').trim() ||
+        '';
+
+      return {
+        title,
+        date,
+        category,
+        excerpt: firstParagraph.slice(0, 140) + (firstParagraph.length > 140 ? '…' : ''),
+        url
+      };
+    };
+
+    const fetchPost = async (filename) => {
+      const baseDirs = ['posts', 'post', '/posts', '/post'];
+      for (const base of baseDirs) {
+        const url = `${base}/${filename}`;
         try {
-          const res = await fetch(src);
-          if (!res.ok) continue;
-          const data = await res.json();
-          const posts = Array.isArray(data) ? data : (data.posts || data.items || []);
-          if (!posts.length) continue;
-          return posts.map(p => ({
-            title: p.title || p.name || '未命名文章',
-            date: p.date || p.updated || p.lastmod || '',
-            category: p.category || p.topic || p.tag || '未分類',
-            excerpt: p.excerpt || p.summary || '',
-            url: p.url || p.path || p.href || '#'
-          }));
-        } catch (_) {}
+          const response = await fetch(url);
+          if (!response.ok) continue;
+          const text = await response.text();
+          return filename.endsWith('.md')
+            ? parseMarkdownPost(text, url, filename)
+            : parseHtmlPost(text, url, filename);
+        } catch (_) {
+          // ignore and try next base
+        }
       }
-      return [];
-    };
-
-    const loadFromPostDirectory = async () => {
-      try {
-        const res = await fetch('/post/');
-        if (!res.ok) return [];
-        const html = await res.text();
-        const links = [...html.matchAll(/href=["']([^"']+\.(?:md|markdown|html))["']/gi)]
-          .map(m => m[1])
-          .filter(h => !h.startsWith('..'))
-          .map(h => h.startsWith('http') ? h : `/post/${h.replace(/^\//, '')}`);
-        if (!links.length) return [];
-        const posts = await Promise.all(links.map(async (url) => {
-          try {
-            const r = await fetch(url);
-            if (!r.ok) return null;
-            const text = await r.text();
-            return buildPostFromText(url, text);
-          } catch (_) {
-            return null;
-          }
-        }));
-        return posts.filter(Boolean);
-      } catch (_) {
-        return [];
-      }
+      return null;
     };
 
     const renderPosts = (posts) => {
       if (!posts.length) {
-        postListEl.innerHTML = '<article class="card"><p class="empty">目前讀取不到 /post 的文章資料，請確認部署環境可存取文章索引。</p></article>';
+        postListEl.innerHTML = '<div class="empty-state">目前無法讀取文章，請確認網站可存取 <code>/posts</code> 或 <code>/post</code> 目錄。</div>';
         return;
       }
 
-      posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-      postListEl.innerHTML = posts.map(post => `
-        <article class="card">
-          <div class="meta">📅 ${formatDate(post.date)} <span class="tag">🏷️ ${post.category}</span></div>
-          <h2>🤖 ${post.title}</h2>
-          <p class="excerpt">${post.excerpt || '點擊下方連結閱讀完整內容。'}</p>
-          <a class="read-more" href="${post.url}">閱讀全文 →</a>
+      postListEl.innerHTML = posts.map((post) => `
+        <article class="article-card">
+          <div class="article-meta">
+            <span class="meta-date"><i class="far fa-calendar-alt"></i> ${formatDate(post.date)}</span>
+            <span class="meta-category"><i class="fas fa-tag"></i> ${post.category}</span>
+          </div>
+          <h2 class="article-title"><a href="${post.url}">${post.title}</a></h2>
+          <p class="article-excerpt">${post.excerpt || '點擊閱讀全文。'}</p>
+          <a class="read-more" href="${post.url}">閱讀全文 <i class="fas fa-arrow-right"></i></a>
         </article>
       `).join('');
     };
 
     const renderStats = (posts) => {
       const total = posts.length;
-      const sorted = [...posts].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-      const lastUpdated = sorted[0]?.date ? formatDate(sorted[0].date) : '未知';
-      const topicCount = posts.reduce((acc, post) => {
+      const newest = posts[0]?.date ? formatDate(posts[0].date) : '未知';
+      const oldest = posts[posts.length - 1]?.date ? formatDate(posts[posts.length - 1].date) : '未知';
+
+      globalStatsEl.innerHTML = `
+        <li><span>文章總數</span><strong>${total}</strong></li>
+        <li><span>最新文章日期</span><strong>${newest}</strong></li>
+        <li><span>最早文章日期</span><strong>${oldest}</strong></li>
+      `;
+
+      const categoryCount = posts.reduce((acc, post) => {
         const key = post.category || '未分類';
         acc[key] = (acc[key] || 0) + 1;
         return acc;
       }, {});
 
-      globalStatsEl.innerHTML = `
-        <li>文章總數：<strong>${total}</strong></li>
-        <li>最後更新：<strong>${lastUpdated}</strong></li>
-      `;
-
-      const merged = { ...Object.fromEntries(fallbackTopics.map(t => [t, 0])), ...topicCount };
-      const items = Object.entries(merged).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-      topicListEl.innerHTML = items.map(([topic, count]) => `
-        <div class="topic-item"><span>${topic}</span><span class="count">${count}</span></div>
-      `).join('');
+      topicListEl.innerHTML = Object.entries(categoryCount)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-Hant'))
+        .map(([name, count]) => `<li><span>${name}</span><span class="count">${count}</span></li>`)
+        .join('');
     };
 
     (async () => {
-      let posts = await loadFromJsonSources();
-      if (!posts.length) posts = await loadFromPostDirectory();
+      const uniqueFiles = [...new Set(KNOWN_POST_FILES)];
+      const loaded = await Promise.all(uniqueFiles.map(fetchPost));
+      const posts = loaded
+        .filter(Boolean)
+        .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
       renderPosts(posts);
       renderStats(posts);
     })();
   </script>
-</body>
-</html>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NCUT IAE Lab - Research Blog">
-    <title>研究日誌 | DOF Lab</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        .page-header { padding: 8rem 0 4rem; background: linear-gradient(to bottom, var(--bg-dark), #1e293b); text-align: center; }
-        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text-white); }
-        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-top: 2rem; }
-        .article-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; transition: transform 0.2s, border-color 0.2s; }
-        .article-card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
-        .article-meta { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 0.8rem; display: flex; gap: 1rem; align-items: center; }
-        .meta-date { color: var(--accent-color); font-weight: 600; }
-        .article-title { font-size: 1.8rem; font-weight: 800; color: var(--text-white); margin-bottom: 1rem; line-height: 1.3; }
-        .article-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
-        .article-title a:hover { color: var(--primary-color); }
-        .article-excerpt { color: var(--text-light); line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.05rem; }
-        .read-more { display: inline-flex; align-items: center; color: var(--primary-color); font-weight: 700; text-decoration: none; gap: 0.5rem; }
-        .read-more:hover { gap: 0.8rem; }
-        .sidebar-widget { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
-        .widget-title { font-size: 1.2rem; color: var(--text-white); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
-        .topic-list { list-style: none; }
-        .topic-list li { margin-bottom: 0.8rem; }
-        .topic-list a { color: var(--text-gray); text-decoration: none; display: flex; justify-content: space-between; transition: color 0.2s; }
-        .topic-list a:hover { color: var(--primary-color); }
-        .count-badge { background: rgba(255, 255, 255, 0.05); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
-        @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
-            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-            <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="blog.html" class="active">研究日誌</a></li>
-                <li><a href="projects.html">研究與工具</a></li>
-                <li><a href="repos.html">程式碼庫</a></li>
-                <li><a href="publications.html">學術發表</a></li>
-                <li><a href="lab.html">實驗室簡介</a></li>
-                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
-            </ul>
-        </div>
-    </nav>
-    <header class="page-header">
-        <div class="container">
-            <h1>Research Blog</h1>
-            <p style="color: var(--text-gray);">分享 RAG 技術、智慧風機運維與最新的 AI 應用研究！</p>
-        </div>
-    </header>
-    <section class="section" style="padding-top: 0;">
-        <div class="container">
-            <div class="blog-grid">
-                <div class="blog-main">
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-03-03</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-03-03-agenticocr-visual-rag.html">👁️ AgenticOCR 登場：視覺 RAG 的第三塊積木！上海 AI Lab 讓 OCR 超越人類專家</a></h2>
-                        <div class="article-excerpt">
-                            傳統視覺 RAG 把整頁 PDF 丟給 LLM，充滿無關資訊？上海 AI 實驗室提出 AgenticOCR，讓 OCR 從靜態預處理變成「查詢驅動的智能代理」，只解析你需要的區域！AgenticOCR-8B 在 MMLongBench-Doc 上達到 66.4%，超越人類專家 65.8%，已開源！
-                        </div>
-                        <a href="posts/2026-03-03-agenticocr-visual-rag.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-03-01</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-03-01-hubscan-rag-security.html">🛡️ RAG 系統的隱形殺手：Cisco HubScan 開源工具，措出向量資料庫的「萬磁王」攻擊</a></h2>
-                        <div class="article-excerpt">
-                            一個精心設計的毒化文件，就能讓你的 RAG 系統變成散播假消息的幫凇！Cisco 開源的 HubScan 揭示「中心性毒化攻擊」，單一惡意文件就能對大量無關查詢發動汙染，在 0.4% 警報預算下就能達到 100% 偵測召回率！...
-                        </div>
-                        <a href="posts/2026-03-01-hubscan-rag-security.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-28</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-28-search-p1-agentic-rag-training.html">🤖 Agentic RAG 訓練革命！騰訊 Search-P1 登場，用「路徑中心獎勵」告別低效！</a></h2>
-                        <div class="article-excerpt">
-                            傳統 RL 訓練的獎勵稀疏、樣本浪費問題讓 Agentic RAG 收斂慢得要命？騰訊 Search-P1 用「雙軌路徑評分」與「軟性結果評分」，讓失敗樣本也能貢獻訓練，在廣告 QA 內部數据集上準確率暴升 20.6 倍！...
-                        </div>
-                        <a href="posts/2026-02-28-search-p1-agentic-rag-training.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-27</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-27-mcp-explosive-growth.html">🤖 MCP 爆發式成長：從 10 萬到 9700 萬下載！AI 代理的「通用翻譯器」來襲</a></h2>
-                        <div class="article-excerpt">
-                            各位小伙伴們，AI 界又有大革命了！這次不是新的 LLM 模型，而是一個「幕後功臣」—— Model Context Protocol（MCP）！...
-                        </div>
-                        <a href="posts/2026-02-27-mcp-explosive-growth.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                        <h2 class="article-title"><a href="posts/2026-02-27-help-graphrag-efficiency.html">⚡ GraphRAG 加速 28 倍！HELP 框架登場，告別昂貴的圖遍歷</a></h2>
-                        <div class="article-excerpt">
-                            GraphRAG 準確但太慢？HELP 框架用「超節點擴展」與「邏輯路徑引導的證據定位」兩大策略，在多步問答任務上實現高達 28.8 倍加速，同時維持甚至超越 HippoRAG2 的準確率！...
-                        </div>
-                        <a href="posts/2026-02-27-help-graphrag-efficiency.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-26</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-26-hybridrag-for-industrial-maintenance.html">🔧 HybridRAG 降臨：當知識圖譜遇上多維檢索，工業維護的未來已來！</a></h2>
-                        <div class="article-excerpt">
-                            傳統 RAG 系統在工業維護場景中，常常因為看不懂結構化的故障關聯而力不從心。發表於 Scientific Reports 的最新研究 HybridRAG，結合知識圖譜、向量檢索與 BM25，讓 F1-score 提升 4%、幻覺率降低 7%！...
-                        </div>
-                        <a href="posts/2026-02-26-hybridrag-for-industrial-maintenance.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-25</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-25-claude-code-remote-control.html">🔥 Claude Code 推出 Remote Control：AI Coding Agent 的手機時代來了！</a></h2>
-                        <div class="article-excerpt">
-                            還在坐在電腦前盯著 AI 寫程式？現在你可以用手機監督它了！Claude Code 推出 Remote Control 功能，讓 AI  coding agent 擺脫終端機的限制...
-                        </div>
-                        <a href="posts/2026-02-25-claude-code-remote-control.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-25</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-25-claw-comparison.html">🦞六大「龍蝦」AI Agent 框架評測：低成本硬體首選是哪個？</a></h2>
-                        <div class="article-excerpt">
-                            從 4000 行的 Python 研究框架，到 $10 硬體就能跑的 Rust 極簡方案，再到舊手機重生的 95% AI 生成代碼——這篇帶你一次了解六個以「Claw」命名的輕量級 AI Agent 框架！...
-                        </div>
-                        <a href="posts/2026-02-25-claw-comparison.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-25</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-25-continual-learning-ai-2026.html">2026：持續學習元年！AI 終於要告別「金魚腦」時代了？</a></h2>
-                        <div class="article-excerpt">
-                            各位小伙伴們，還記得我們昨天聊的 Claude Opus 4.6 自適應思維嗎？🎯 今天要跟大家分享一個更宏大的趨勢：持續學習！根據 IBM 的最新預測，2026 年將成為「持續學習之年」！
-                        </div>
-                        <a href="posts/2026-02-25-continual-learning-ai-2026.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-24</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-24-claude-opus-4-6-adaptive-thinking.html">Claude Opus 4.6 自適應思維：AI 終於學會「思考何時需要思考」了！</a></h2>
-                        <div class="article-excerpt">
-                            各位小伙伴們，AI 界又迎來了一個里程碑時刻！🎉 就在 2026 年 2 月，Anthropic 發布了 Claude Opus 4.6 Adaptive Thinking，這不僅僅是一次普通的模型升級，更是 AI 思維方式的一次革命性突破！
-                        </div>
-                        <a href="posts/2026-02-24-claude-opus-4-6-adaptive-thinking.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-23</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-23-samsung-galaxy-ai-multi-agent.html">Galaxy AI 多代理生態系統來襲：Samsung 如何打造 AI 界的「復仇者聯盟」？</a></h2>
-                        <div class="article-excerpt">
-                            各位小伙伴們，AI 界又有大新聞了！🎉 Samsung 昨天宣布大幅擴展其 Galaxy AI 多智慧代理生態系統，這消息一出，可謂是在 AI 圈投下了一枚震撼蛋！...
-                        </div>
-                        <a href="posts/2026-02-23-samsung-galaxy-ai-multi-agent.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-22</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> DOF Lab</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-22-ai-race-gemini-gpt.html">AI 巨頭大對決：Google Gemini 3 Deep Think vs OpenAI GPT-5.3，誰是 2026 年程式碼王者？</a></h2>
-                        <div class="article-excerpt">
-                            各位小伙伴們，AI 界又迎來了一場精彩的「世紀對決」！就在昨天，Google 和 OpenAI 幾乎同時發布了重磅更新：Google Gemini 3 Deep Think 和 OpenAI GPT-5.3-Codex-Spark。這場對決不僅僅是技術的較量...
-                        </div>
-                        <a href="posts/2026-02-22-ai-race-gemini-gpt.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-21</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-21-webmcp-ai-agents.html">Google 推出 WebMCP：AI 代理的「萬能翻譯器」來了！從此告別螢幕截圖</a></h2>
-                        <div class="article-excerpt">
-                            有了 WebMCP，網站可以向 AI 暴露「這裡有什麼工具」——比如「訂機票」、「查詢天氣」、「加入購物車」等。AI 不再需要看圖猜測，而是直接看到結構化的工具清單！...
-                        </div>
-                        <a href="posts/2026-02-21-webmcp-ai-agents.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-20</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-20-sarvam-ai-india-llm.html">Sarvam AI：印度首款自主研發的超強 LLM 來襲！30B 模型竟然打敗 GPT-4？</a></h2>
-                        <div class="article-excerpt">
-                            各位小伙伴們，AI 界又有大新聞了！🎉 印度的 Sarvam AI 在上週的 India AI Summit 發表了兩款全新的 LLM 模型，而且一推出就直接在多項基準測試中打敗了 GPT-4 和 DeepSeek-R1！這到底是怎麼做到的？讓我們一起來看看。...
-                        </div>
-                        <a href="posts/2026-02-20-sarvam-ai-india-llm.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-19</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-19-deepmind-aletheia.html">DeepMind Aletheia：AI 自主研究與學術發表</a></h2>
-                        <div class="article-excerpt">
-                            如果你還記得之前 DeepMind 在數學奧林匹亞競賽（IMO）的表現—現在他們更上一層樓了！Aletheia 不僅能解題，還能...
-                        </div>
-                        <a href="posts/2026-02-19-deepmind-aletheia.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-18</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html">NVIDIA 企業級多模態 RAG 藍圖：五招打造下一代 AI 知識庫！</a></h2>
-                        <div class="article-excerpt">
-                            如果維修人員問：「這颱風季要特別注意哪些設備的定檢？」——這需要從多個文件（天氣資料、設備歷史、維修手冊）湊答案。Query Decomposition 正好派上用場！...
-                        </div>
-                        <a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-17-neuromorphic-computers.html">科幻成真！神經形態電腦如何顛覆 AI 硬體？</a></h2>
-                        <div class="article-excerpt">
-                            神經形態電腦的突破，讓我們看到了 AI 硬體的未來可能。當軟體（演算法）已經大幅進步，硬體的創新將是下一個關鍵戰場。...
-                        </div>
-                        <a href="posts/2026-02-17-neuromorphic-computers.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-16-ai-agent-skills.html">2026 AI Agent 技能框架：AI 也要學新把戲！</a></h2>
-                        <div class="article-excerpt">
-                            還記得當年我們學寫程式的時候，總是要一步一步教電腦做事嗎？如今，AI Agent 也在經歷類似的進化——而且它們學新技能的 방식（方式），可能比你我還快！😎...
-                        </div>
-                        <a href="posts/2026-02-16-ai-agent-skills.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-15</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 劉瑞弘教授團隊</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-15-ai-self-talk.html">AI 也會自言自語？研究發現：讓 AI「內部對話」學習效果更好！</a></h2>
-                        <div class="article-excerpt">
-                            你有沒有過這種經驗？考試前自己對著空氣解題，或者在心裡自言自語地分析問題？沒想到，人類的「思考習慣」，現在也被證明對 AI 有效了！...
-                        </div>
-                        <a href="posts/2026-02-15-ai-self-talk.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> General</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 維運實錄：從 WMI 偵測到擊殺殭屍程序</a></h2>
-                        <div class="article-excerpt">
-                            這篇文章記錄了我們如何利用 PowerShell WMI 技術來監控 Node.js 服務，以及如何應對「殭屍程序 (Zombie Process)」的挑戰。...
-                        </div>
-                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 蘇宥騏</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">地端 RAG 大亂鬥：BGE vs E5 vs Jina，誰是風機維修的檢索之王？</a></h2>
-                        <div class="article-excerpt">
-                            在風力發電機的運維現場，網路往往不穩定，甚至根本沒有網路。這意味著我們不能依賴 OpenAI 的 API，必須把強大的檢索增強生成 (RAG) 系統搬到「地端 (On-Premise)」運行。...
-                        </div>
-                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> General</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-openscholar.html">開源 AI 逆襲學術界：OpenScholar 如何打敗 ChatGPT？</a></h2>
-                        <div class="article-excerpt">
-                            大家有沒有過這種經驗？寫論文時被大量的文獻淹沒，想找一個相關的研究結果，但 Google Scholar 搜出來的文章多到不知道從何讀起。這時候如果你問 ChatGPT：「這個領域最近有什麼突破？」它可能會給你一個看起來很專業但其實有點「幻覺」的答案——這就是學術界一直頭痛的問題。...
-                        </div>
-                        <a href="posts/2026-02-14-openscholar.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> 蘇彥綸、鄧全志</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">教 AI 讀維修手冊：為什麼微調模型「教一遍」就夠了？</a></h2>
-                        <div class="article-excerpt">
-                            大家都知道 AI 很聰明，但當你問它：「Z72 型風機的齒輪箱油溫過高怎麼辦？」時，通用的 AI 往往會給你一個模稜兩可的答案，就像一個只讀過百科全書卻沒修過風機課程的學生。...
-                        </div>
-                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-meta">
-                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-13</span>
-                            <span class="meta-tag"><i class="fas fa-tag"></i> General</span>
-                        </div>
-                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">當 LLM 遇上風力發電機：為什麼我們需要 RAG？</a></h2>
-                        <div class="article-excerpt">
-                            隨著 GPT-5.3 與 Gemini 3 的發布，大型語言模型 (LLM) 的能力已無庸置疑。它們能寫詩、寫程式，甚至通過律師考試。但在風力發電這種高度專業且容錯率極低的工業領域，單靠 LLM 的「幻覺 (Hallucination)」是極度危險的。...
-                        </div>
-                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-                    </article>
-                </div>
-                <aside class="blog-sidebar">
-                    <div class="sidebar-widget">
-                        <h3 class="widget-title">關於我們</h3>
-                        <p style="color: var(--text-gray); font-size: 0.95rem; line-height: 1.6;">
-                            我們是劉瑞弘教授的研究團隊，研究筆記主要專注於各種 AI 技術（特別是 RAG 與 Agent）於工業應用實務問題的解決。
-                        </p>
-                    </div>
-                    <div class="sidebar-widget">
-                        <h3 class="widget-title">主題專區</h3>
-                        <ul class="topic-list">
-                            <li><a href="#">Industrial RAG <span class="count-badge">1</span></a></li>
-                            <li><a href="#">Wind Energy O&M <span class="count-badge">1</span></a></li>
-                            <li><a href="#">LLM Agents <span class="count-badge">0</span></a></li>
-                            <li><a href="#">PLC Automation <span class="count-badge">0</span></a></li>
-                        </ul>
-                    </div>
-                </aside>
-            </div>
-        </div>
-    </section>
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-bottom" style="width: 100%;">
-                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-    <script>
-        document.querySelector('.menu-toggle').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 </html>
