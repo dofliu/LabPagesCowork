@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>MCP 生態系爆發式成長：Linux Foundation 成立 AI Agent 基金會，企業 AI 應用邁向標準化 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+    <article class="article-container">
+        <a href="../blog.html">← 返回部落格</a>
+        <header class="article-header">
+            <h1 class="article-title">MCP 生態系爆發式成長：Linux Foundation 成立 AI Agent 基金會，企業 AI 應用邁向標準化</h1>
+            <p>2026-03-08 • 劉瑞弘教授團隊 • AI Agents / LLM / MCP / 標準化</p>
+        </header>
+        <div class="article-content">
+各位研究夥伴們，AI 產業標準化邁入重要里程碑！就在上個月，Linux Foundation 宣布成立 **Agentic AI Foundation (AAIF)**，以 Model Context Protocol (MCP) 為核心項目之一。這意味著什麼？讓我們一起深入了解這個即將重塑企業 AI 應用的重要協議！
+
+## 🔌 什麼是 Model Context Protocol (MCP)？
+
+MCP 是一個開放標準，旨在讓 AI 助手和 Agents 能夠安全、標準化地存取各種資料來源和工具。想像它是 AI 世界的「USB-C 介面」—— 無論是哪家厂商的 AI，都能透過同一個標準連接到各種資料庫、應用程式和服務。
+
+### MCP 的核心價值
+
+1. **統一介面** - 不再需要為每個資料源撰寫獨立的整合程式碼
+2. **安全可控** - 企業可以精細控制 AI 能存取哪些資料
+3. **生態互通** - Anthropic、OpenAI、Google 等主要廠商都支援
+
+<div class="highlight-box">
+    <strong>📊 關鍵數據：</strong>截至 2026 年 3 月，MCP 已在以下平台獲得支援：
+    <ul>
+        <li>Anthropic Claude（全系列產品）</li>
+        <li>OpenAI ChatGPT（2025年3月正式採用）</li>
+        <li>Microsoft Semantic Kernel</li>
+        <li>Azure OpenAI Service</li>
+        <li>Cloudflare（可部署 MCP Server）</li>
+    </ul>
+</div>
+
+## 🏛️ Agentic AI Foundation 成立意義
+
+Linux Foundation 於 2025 年 12 月宣布成立 AAIF，MCP 被列為創始項目之一。這個動作有幾個重要意涵：
+
+### 1. 企業級應用的成熟度
+
+過往 AI Agents 往往是「實驗性專案」，但隨著 MCP 等標準的確立，企業可以：
+- 更安全地部署 AI Agents
+- 降低供應商鎖定風險
+- 建立可複制的 AI 工作流程
+
+### 2. 跨組織協作的可能
+
+AAIF 匯集了 Anthropic、Block、OpenAI 等產業領袖，代表著：
+- 標準將更具公信力
+- 生態系將更加豐富
+- 開發者將有更明確的指引
+
+## 🔬 對我們實驗室的啟示
+
+作為專注於風電運維智慧化的研究團隊，MCP 的發展對我們有直接影響：
+
+### 風電專家系統的整合可能性
+
+我們正在開發的 RAG Architect 和風機故障診斷系統，未來可以透過 MCP：
+- **標準化資料來源** - 將 SCADA 資料、維護手冊、警報日誌統一接入
+- **工具擴展** - 讓 AI 能即時调用風機監控 API
+- **安全部署** - 企業級的安全控制，適用於電廠環境
+
+### 研究方向建議
+
+1. **MCP Server 開發** - 為風電資料建構專屬的 MCP Server
+2. **Agentic Workflows** - 探索如何用 MCP 构建自動化運維流程
+3. **混合雲部署** - 研究 MCP 在邊緣運算環境的應用
+
+## 💡 快速上手 MCP
+
+想要嘗試 MCP？以下是基本概念：
+
+```python
+# MCP Server 範例結構
+class WindTurbineMCPServer:
+    async def get_scada_data(self, turbine_id: str, time_range: str):
+        """獲取指定風機的 SCADA 資料"""
+        pass
+    
+    async def get_maintenance_logs(self, turbine_id: str):
+        """獲取維護日誌"""
+        pass
+    
+    async def trigger_inspection(self, turbine_id: str):
+        """觸發檢查流程"""
+        pass
+```
+
+透過 MCP，AI Agent 可以用統一的方式調用這些工具，無需關心底層實作。
+
+## 📈 展望未來
+
+MCP 的發展標誌著 AI 從「對話」走向「行動」的關鍵轉折。2026 年將是 Agentic AI 元年，而標準化將是這個轉型的基石。
+
+對我們實驗室而言，這意味著：
+- 風電運維智慧化將有更多可參考的標準和工具
+- 與其他研究機構或企業的系统整合將更加容易
+- 我們的成果更有機會實際落地應用
+
+讓我們持續關注這個領域的發展！🚀
+
+---
+
+*本文同步發布於 [DOF Lab Blog](https://doflab.github.io/LabPagesCowork/blog.html)*</p>
+        </div>
+    </article>
+</body>
+</html>
