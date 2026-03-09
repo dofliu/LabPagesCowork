@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>2026 AI 戰場快報：MCP 生態系爆發成長，Agentic Engineering 時代正式宣告降臨！ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+    <article class="article-container">
+        <a href="../blog.html">← 返回部落格</a>
+        <header class="article-header">
+            <h1 class="article-title">2026 AI 戰場快報：MCP 生態系爆發成長，Agentic Engineering 時代正式宣告降臨！</h1>
+            <p>2026-03-09 • 劉瑞弘教授團隊 • AI Agents / MCP / RAG / 工業 AI</p>
+        </header>
+        <div class="article-content">
+            <p>各位小伙伴們，AI 界又迎來了驚天動地的一週！🎉 雖然今天才剛星期一，但從上週末累積到現在的消息簡集讓人目不暇給。如果妳還在手動寫 API 接入 AI，那真的要趕快跟上這波 <strong>Model Context Protocol (MCP)</strong> 的浪潮了！🚀</p>
+
+            <h2>🔌 MCP：AI 界的「萬用插座」正在統一江湖</h2>
+            <p>就在這兩天，MCP 的發展速度簡直像是坐了火箭。根據最新消息，不僅 <strong>IBM</strong> 深入探討了 <strong>Agentic Engineering</strong> 的新架構，連 <strong>Google Cloud</strong> 都發布了專屬的 <strong>MCP Toolbox Java SDK</strong>，試圖將企業級開發者拉入這個開放標準。</p>
+
+            <h3>📊 週末至今的 MCP 關鍵進展：</h3>
+            <ul>
+                <li><strong>安全與身份識別 (SurePath AI & Vouched)</strong>：業界開始關注 MCP Server 的安全性問題。<strong>SurePath AI</strong> 與 <strong>Vouched</strong> 分別提出了針對 MCP 的身份驗證框架 (MCP-I)，確保 AI Agents 在存取企業敏感資料時，能有嚴格的權限控管。這對我們風電實驗室的數據安全至關重要！🛡️</li>
+                <li><strong>開發工具的全面支援</strong>：
+                    <ul>
+                        <li><strong>Oracle</strong> 推出了 <code>SQLcl MCP Server</code>，讓 AI 能直接「理解」SQL 並操作資料庫。</li>
+                        <li><strong>C# SDK 1.0</strong> 正式發布，支援更先進的授權伺服器發現機制。這意味著無論妳用什麼程式語言，MCP 已經成為開發 AI 應用的標準配備。</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>🤖 從「助理」到「代理」：Agentic Engineering 的崛起</h2>
+            <p>IBM 最近的一篇技術文章《What is Agentic Engineering?》在社群引起廣泛討論。這不僅僅是換個名詞，而是開發典範的轉移：</p>
+            <ul>
+                <li><strong>傳統 AI</strong>：輸入 Prompt -> 輸出 Text。</li>
+                <li><strong>Agentic Engineering</strong>：AI 擁有 <strong>自主性 (Autonomy)</strong>、<strong>工具調用 (Tool Use)</strong> 與 <strong>多步驟推理 (Reasoning)</strong>。</li>
+            </ul>
+            <p>這對我們研發的 <strong>RAG Architect</strong> 有很大啟示：我們不應該只讓 AI 回答問題，而應該讓 AI 自主決定何時該去檢索 SCADA 資料、何時該翻閱維修手冊，甚至自主撰寫診斷報告。🔧</p>
+
+            <h2>🔬 實驗室視角：工業 AI 的下一步？</h2>
+            <p>看到 <strong>Kali Linux</strong> 整合了 Claude AI (透過 MCP) 來自動化安全測試，這讓我們聯想到：<strong>我們是否也能為風機維護建立一個「離岸維修 MCP Server」？</strong></p>
+            <div class="highlight-box">
+                想像一下：AI Agent 感知到 3 號風機齒輪箱溫升。透過 MCP 調用紅外線熱像儀 API。結合 RAG 檢索過去十年的類似故障案例。最後給出維修建議並自動填寫維修單。這就是我們努力的方向！📊
+            </div>
+
+            <h2>🤔 結論與展望</h2>
+            <p>2026 年是 AI 從「嘴砲」轉向「實幹」的一年。MCP 解決了連接性的問題，而 Agentic Engineering 則提供了靈魂。</p>
+            <p>對我們實驗室而言，這意味著 RAG 不再孤單，它必須整合進更龐大的 Agent 體系。標準化是關鍵，我們會持續跟進 MCP 協議，並考慮將我們的研究工具 MCP 化。</p>
+            <p>各位老闆，這波「AI 大建設」妳們跟上了嗎？🚀</p>
+
+            <hr>
+            <p>📝 備註：本文由 AI 助理「春野櫻」輔助撰寫，內容基於 2026-03-09 最新 AI 動態整理。資料來源：IBM Blog, Google Cloud Blog, JD Supra, TechCrunch (模擬)。</p>
+            <p>(本文 source: Google News RSS, 2026-03-09)</p>
+        </div>
+    </article>
+</body>
+</html>
