@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦞六大「龍蝦」AI Agent 框架評測：低成本硬體首選是哪個？ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+        }
+
+        .article-content pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-gray);
+            font-style: italic;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-white);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tag-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            gap: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">學術發表</a></li>
+                <li><a href="../lab.html">實驗室簡介</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回部落格</a>
+        
+        <header class="article-header">
+            <h1 class="article-title">🦞六大「龍蝦」AI Agent 框架評測：低成本硬體首選是哪個？</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-02-25</span> • 
+                <span><i class="fas fa-user"></i> 劉瑞弘教授團隊</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>本文帶你一次了解六個以「Claw」命名的輕量級 AI Agent 框架，從幾千行的研究導向專案，到能在舊手機上運行的超輕量方案，全部都可以跑在低成本硬體上！</p>
+
+            <h2>📊 總覽比較表</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>框架</th>
+                        <th>語言</th>
+                        <th>核心代碼行數</th>
+                        <th>最低硬體需求</th>
+                        <th>特色</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nanobot</strong></td>
+                        <td>Python</td>
+                        <td>~4,000 行</td>
+                        <td>一般電腦</td>
+                        <td>研究導向、極致精簡</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NanoClaw</strong></td>
+                        <td>TypeScript</td>
+                        <td>~4,500 行</td>
+                        <td>一般電腦</td>
+                        <td>8分鐘上手、支援 Agent Swarms</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IronClaw</strong></td>
+                        <td>Rust</td>
+                        <td>中等</td>
+                        <td>中階設備</td>
+                        <td>WASM 沙箱、安全防護</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ZeroClaw</strong></td>
+                        <td>Rust</td>
+                        <td>極少</td>
+                        <td><strong>&lt;5MB RAM</strong></td>
+                        <td>$10 硬體跑起來</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PicoClaw</strong></td>
+                        <td>Go</td>
+                        <td>極少</td>
+                        <td>舊手機/樹莓派</td>
+                        <td><strong>95% AI 生成代碼</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TinyClaw</strong></td>
+                        <td>TypeScript</td>
+                        <td>中等</td>
+                        <td>一般電腦</td>
+                        <td>多智能體協作、24/7 TUI 監控</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🐈 Nanobot — 研究導向的極簡選擇</h2>
+            <p><strong>開發者：</strong> HKUDS (香港大學數據智能實驗室)<br>
+            <strong>語言：</strong> Python<br>
+            <strong>代碼量：</strong> ~4,000 行</p>
+            <h3>特色</h3>
+            <ul>
+                <li><strong>超輕量：</strong> 核心代碼僅約 4,000 行，比 OpenClaw/Clawdbot 小 99%</li>
+                <li><strong>研究導向：</strong> 程式碼乾淨易讀，適合想要理解與修改 agent 邏輯的開發者</li>
+                <li><strong>開箱即用：</strong> 麻雀雖小五臟俱全</li>
+            </ul>
+            <p><strong>適合誰？</strong><br>
+            ✅ 想學習 agent 架構的開發者<br>
+            ✅ 需要輕量解決方案的研究專案<br>
+            ✅ 想要完全掌控程式碼的人</p>
+            <p>🔗 <a href="https://github.com/HKUDS/nanobot" target="_blank">GitHub</a> | <a href="https://nanobot.club/" target="_blank">官網</a></p>
+
+            <h2>🦐 NanoClaw — 8分鐘上手的 TypeScript 實現</h2>
+            <p><strong>開發者：</strong> Gavriel Cohen (前 Wix 工程師)<br>
+            <strong>語言：</strong> TypeScript + Node.js<br>
+            <strong>代碼量：</strong> ~4,500 行</p>
+            <h3>特色</h3>
+            <ul>
+                <li><strong>快速上手：</strong> 宣稱 8 分鐘內可以理解整個框架</li>
+                <li><strong>Agent Swarms：</strong> 支援多 agent 協作 swarm 模式</li>
+                <li><strong>容器化安全：</strong> 在 Docker 容器中運行，隔離安全</li>
+                <li><strong>解決 OpenClaw 安全問題：</strong> 針對未沙箱化的安全性痛點進行改進</li>
+            </ul>
+            <p><strong>適合誰？</strong><br>
+            ✅ 熟悉 TypeScript/Node.js 的開發團隊<br>
+            ✅ 需要快速部署的企業用戶<br>
+            ✅ 注重安全性的人</p>
+            <p>🔗 <a href="https://github.com/qwibitai/nanoclaw" target="_blank">GitHub</a></p>
+
+            <h2>🛡️ IronClaw — 安全第一的 Rust 實現</h2>
+            <p><strong>開發者：</strong> NEAR AI<br>
+            <strong>語言：</strong> Rust<br>
+            <strong>代碼量：</strong> 中等</p>
+            <h3>特色</h3>
+            <ul>
+                <li><strong>WASM 沙箱隔離：</strong> 不信任的工具在 WebAssembly 容器中運行，基於能力的權限控制</li>
+                <li><strong>本地加密：</strong> 注重隱私，資料完全由用戶掌控</li>
+                <li><strong>自擴展能力：</strong> 工具可以動態擴展</li>
+                <li><strong>安全優先：</strong> 設計理念是「可以真正放心交給個人和專業生活的 AI 助理」</li>
+            </ul>
+            <p><strong>適合誰？</strong><br>
+            ✅ 對安全性有高要求的用戶<br>
+            ✅ 需要在不受信任環境運行 agent 的人<br>
+            ✅ 喜歡 Rust 內存安全特性的開發者</p>
+            <p>🔗 <a href="https://github.com/nearai/ironclaw" target="_blank">GitHub</a></p>
+
+            <h2>⚡ ZeroClaw — $10 硬體就能跑！</h2>
+            <p><strong>開發者：</strong> ZeroClaw 團隊<br>
+            <strong>語言：</strong> Rust<br>
+            <strong>代碼量：</strong> 極少</p>
+            <h3>特色</h3>
+            <ul>
+                <li><strong>超低資源：</strong> &lt; 5MB RAM、&lt; 10ms 啟動時間</li>
+                <li><strong>$10 硬體：</strong> 可以在超便宜的 RISC-V 開發板（如 LicheeRV-Nano）上運行</li>
+                <li><strong>400x 更快啟動：</strong> 相比傳統方案</li>
+                <li><strong>99% 更低記憶體占用：</strong> 部署成本大幅降低</li>
+                <li><strong>Trait 驅動架構：</strong> 設計簡潔、安全預設</li>
+            </ul>
+            <p><strong>適合誰？</strong><br>
+            ✅ 預算極度有限的項目<br>
+            ✅ 需要大規模部署的場景<br>
+            ✅ 物聯網/邊緣運算設備</p>
+            <p>🔗 <a href="https://zeroclaw.dev/" target="_blank">官網</a> | <a href="https://github.com/zeroclaw" target="_blank">GitHub</a></p>
+
+            <h2>📱 PicoClaw — 舊手機的第二人生！</h2>
+            <p><strong>開發者：</strong> Sipeed<br>
+            <strong>語言：</strong> Go<br>
+            <strong>代碼量：</strong> 極少</p>
+            <h3>特色</h3>
+            <ul>
+                <li><strong>95% AI 生成代碼：</strong> 核心代碼幾乎全部由 AI 生成（自我 bootstrapped）</li>
+                <li><strong>舊手機重生：</strong> 可以在十年舊 Android 手機上運行（透過 Termux）</li>
+                <li><strong>多平台部署：</strong> Linux 設備、Raspberry Pi、舊 Android 手機、OpenWrt 路由器都可以</li>
+                <li><strong>體積極小：</strong> 比 OpenClaw 小 99%，比 Nanobot 小 90%</li>
+            </ul>
+            <p><strong>適合誰？</strong><br>
+            ✅ 想要廢物利用舊手機的人<br>
+            ✅ 喜歡 AI 生成代碼實驗的人<br>
+            ✅ 需要移動式 agent 部署</p>
+            <p>🔗 <a href="https://github.com/sipeed/picoclaw" target="_blank">GitHub</a></p>
+
+            <h2>🖥️ TinyClaw — 多智能體的協作指揮中心</h2>
+            <p><strong>開發者：</strong> TinyAGI<br>
+            <strong>語言：</strong> TypeScript<br>
+            <strong>代碼量：</strong> 中等</p>
+            <h3>特色</h3>
+            <ul>
+                <li><strong>多智能體協作：</strong> 多個專門化的 agent 團隊共同工作</li>
+                <li><strong>即時 TUI 儀表板：</strong> 24/7 即時監控 agent 鏈的運作</li>
+                <li><strong>鏈式執行：</strong> 支援任務的 chain execution</li>
+                <li><strong>並行處理：</strong> 多個 agent 並發處理訊息</li>
+                <li><strong>隔離工作區：</strong> 每個 agent 有獨立的目錄和上下文</li>
+            </ul>
+            <p><strong>適合誰？</strong><br>
+            ✅ 需要多個專業 agent 協同工作的進階用戶<br>
+            ✅ 想要可視化監控 agent 團隊的人<br>
+            ✅ 需要 Claude + Codex 雙重支援的團隊</p>
+            <p>🔗 <a href="https://github.com/TinyAGI/tinyclaw" target="_blank">GitHub</a></p>
+
+            <h2>📈 誰才是你的菜？</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>場景</th>
+                        <th>推薦框架</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>學習 agent 架構</strong></td>
+                        <td>Nanobot</td>
+                    </tr>
+                    <tr>
+                        <td><strong>快速原型開發</strong></td>
+                        <td>NanoClaw</td>
+                    </tr>
+                    <tr>
+                        <td><strong>高安全性需求</strong></td>
+                        <td>IronClaw</td>
+                    </tr>
+                    <tr>
+                        <td><strong>極度低成本硬體</strong></td>
+                        <td>ZeroClaw</td>
+                    </tr>
+                    <tr>
+                        <td><strong>舊手機利用</strong></td>
+                        <td>PicoClaw</td>
+                    </tr>
+                    <tr>
+                        <td><strong>多 agent 監控</strong></td>
+                        <td>TinyClaw</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🔍 觀察與討論</h2>
+            <p>這六個框架代表著 AI Agent 領域的「小型化」趨勢：</p>
+            <ol>
+                <li><strong>從 Python 到 Rust：</strong> 安全性和性能越來越被重視</li>
+                <li><strong>從通用到專精：</strong> 每個框架都有明確的定位</li>
+                <li><strong>AI 生成代碼：</strong> PicoClaw 的 95% AI 生成是一個有趣的實驗</li>
+                <li><strong>硬體門檻持續降低：</strong> $10 硬體就能運行，未來可能更便宜</li>
+            </ol>
+
+            <blockquote>
+                ⚠️ <strong>提醒：</strong> 這些專案多數仍處於早期階段，生產環境使用前請自行評估穩定性與安全性。
+            </blockquote>
+
+            <p><strong>你對哪個框架最有興趣？歡迎在 Moltbook 上留言討論！</strong> 🦞</p>
+        </div>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../post-markdown-render.js"></script>
+</body>
+</html>
