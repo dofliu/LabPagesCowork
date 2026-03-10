@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NCUT IAE Lab - Research Blog">
+    <title>研究日誌 | DOF Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .page-header { padding: 8rem 0 4rem; background: linear-gradient(to bottom, var(--bg-dark), #1e293b); text-align: center; }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text-white); }
+        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-top: 2rem; }
+        .article-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; transition: transform 0.2s, border-color 0.2s; }
+        .article-card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
+        .article-meta { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 0.8rem; display: flex; gap: 1rem; align-items: center; }
+        .meta-date { color: var(--accent-color); font-weight: 600; }
+        .article-title { font-size: 1.8rem; font-weight: 800; color: var(--text-white); margin-bottom: 1rem; line-height: 1.3; }
+        .article-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
+        .article-title a:hover { color: var(--primary-color); }
+        .article-excerpt { color: var(--text-light); line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .read-more { display: inline-flex; align-items: center; color: var(--primary-color); font-weight: 700; text-decoration: none; gap: 0.5rem; }
+        .read-more:hover { gap: 0.8rem; }
+        .sidebar-widget { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .widget-title { font-size: 1.2rem; color: var(--text-white); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        .topic-list { list-style: none; }
+        .topic-list li { margin-bottom: 0.8rem; }
+        .topic-list a { color: var(--text-gray); text-decoration: none; display: flex; justify-content: space-between; transition: color 0.2s; }
+        .topic-list a:hover { color: var(--primary-color); }
+        .count-badge { background: rgba(255, 255, 255, 0.05); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
+        .article-content { display: none; }
+        @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="blog.html" class="active">研究日誌</a></li>
+                <li><a href="projects.html">研究與工具</a></li>
+                <li><a href="repos.html">程式碼庫</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Research Blog</h1>
+            <p style="color: var(--text-gray);">探索 RAG 技術、風力發電與工業自動化的前沿觀點。</p>
+        </div>
+    </header>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="blog-grid">
+                <div class="blog-main">
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-18</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> RAG / 企業 AI</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html">NVIDIA 企業級多模態 RAG 藍圖：五招打造下一代 AI 知識庫！</a></h2>
+                        <div class="article-excerpt">NVIDIA 發布 Enterprise RAG Blueprint，專門針對複雜的企業文件（財報表格、工程圖表、掃描文件）設計。開啟推理模式後，準確率提升 5%，元資料過濾達到 100% 精準率！</div>
+                        <a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> AI 趨勢 / 多語言 AI</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-17-bharatgen-multilingual-ai.html">印度開發 BharatGen：22 種語言的 AI 革命！</a></h2>
+                        <div class="article-excerpt">印度政府投入 ₹980 億盧比（約 340 億台幣），由 IIT Bombay 領導開發涵蓋 22 種語言的多模態 LLM。這對多語言 RAG 研究有什麼啟示？一起來看看！</div>
+                        <a href="posts/2026-02-17-bharatgen-multilingual-ai.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> AI 硬體 / 計算機架構</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-17-neuromorphic-computers.html">科幻成真！神經形態電腦如何顛覆 AI 硬體？</a></h2>
+                        <div class="article-excerpt">根據 ScienceDaily 報導，神經形態電腦已能解決過往只有超級電腦才能處理的複雜物理模擬方程式。這種模仿人類大腦結構的計算機，將如何顛覆 AI 的未來？</div>
+                        <a href="posts/2026-02-17-neuromorphic-computers.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> AI Agent / 趨勢</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-16-ai-agent-skills.html">2026 AI Agent 技能框架：AI 也要學新把戲！</a></h2>
+                        <div class="article-excerpt">2026 年是 AI Agent 技能的關鍵年份！根據 OpenDataScience 的報導，AI Agent 技能框架就像是一個「工具箱」——讓 AI 能根據不同任務快速叫出相應能力。</div>
+                        <a href="posts/2026-02-16-ai-agent-skills.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> OpenClaw / Skills</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-16-openclaw-skills.md">OpenClaw Skills 圖片壓縮工具：MCP 的 Skill 實作</a></h2>
+                        <div class="article-excerpt">今天我們探索 Dropbox 中的 MCP 工具資訊夾，發現了多個有用的工具，包括 zImage AI 圖片生成和 docTools 文件處理工具。最終我們選擇建立圖片壓縮功能的 OpenClaw Skill。</div>
+                        <a href="posts/2026-02-16-openclaw-skills.md" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-15</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> LLM / 研究新知</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-15-ai-self-talk.html">AI 也會自言自語？研究發現 AI「內部對話」學習更好！</a></h2>
+                        <div class="article-excerpt">科學家發現當 AI 被允許「和自己對話」，學習效果大幅提升！這個發現可能徹底改變 AI 訓練方式，並帶給我們 RAG 研究很多啟發。</div>
+                        <a href="posts/2026-02-15-ai-self-talk.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> LLM / 學術</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-openscholar.html">開源 AI 來襲學術界！OpenScholar 如何打敗 ChatGPT</a></h2>
+                        <div class="article-excerpt">OpenScholar 是一款專為學術文獻設計的 AI 工具，在文獻摘要任務上打敗 GPT-4！是如何辦到的？或許我們可以借鏡學術搜尋的技術，優化我們的 RAG 系統...</div>
+                        <a href="posts/2026-02-14-openscholar.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> Fine-tuning / RAG</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">教 AI 讀維修手冊：為什麼微調模型「一次」就夠了？</a></h2>
+                        <div class="article-excerpt">大家都覺得 AI 訓練越久越聰明——但研究顯示：在微調嵌入模型時，Epoch 1 就是巔峰！太過頭反而會讓 AI 死記答案 (Overfitting)。</div>
+                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> Model Evaluation</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">本地端 RAG 大亂鬥：BGE vs E5 vs Jina，誰的檢索最準？</a></h2>
+                        <div class="article-excerpt">在地端開源環境下，測試了三款嵌入模型誰最適合風力維修檢索？BGE-M3、E5 和 Jina-v3 來了大亂鬥！結果顯示 BGE-M3 在排序準確度高達 78%...</div>
+                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> DevOps / OpenClaw</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 維修實錄：使用 WMI 監測秒殺殭屍程序</a></h2>
+                        <div class="article-excerpt">Process 存在不代表它健康。今天早上發現系統突然顯示 Gateway 當掉，但 WhatsApp 卻完全中斷 (408 Timeout)。本文將揭示如何發現這個「殭屍程序」。</div>
+                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-13</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> RAG & Wind Energy</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">為什麼 LLM 需要風力發電機？什麼是 RAG？</a></h2>
+                        <div class="article-excerpt">當 GPT-5.3 和 Gemini 3 發布後，大型語言模型能已經不容置疑——但對風力發電這種高度專業且容錯率低的領域，單靠 LLM 有「幻覺」是危險的。這就是為什麼RAG (檢索增強生成) 成為了解決工業應用...</div>
+                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">閱讀全文 <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                </div>
+
+                <aside class="blog-sidebar">
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">關於</h3>
+                        <p style="color: var(--text-gray); font-size: 0.95rem; line-height: 1.6;">這是劉瑞弘教授的研究筆記，研究筆者注動機何於 AI 技術（特別是 RAG 與 Agent）於工業應用的實務工程問題。</p>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">主題</h3>
+                        <ul class="topic-list">
+                            <li><a href="#">Industrial RAG <span class="count-badge">1</span></a></li>
+                            <li><a href="#">Wind Energy O&M <span class="count-badge">1</span></a></li>
+                            <li><a href="#">LLM Agents <span class="count-badge">0</span></a></li>
+                            <li><a href="#">PLC Automation <span class="count-badge">0</span></a></li>
+                        </ul>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
