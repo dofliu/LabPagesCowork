@@ -1,0 +1,391 @@
+﻿﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NCUT IAE Lab - Research Blog">
+    <title>?弦?亥? | DOF Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Blog Page Styles */
+        .page-header {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Main Article List */
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-color);
+        }
+
+        .article-meta {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 0.8rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .meta-date {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .article-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .article-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .article-title a:hover {
+            color: var(--primary-color);
+        }
+
+        .article-excerpt {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-decoration: none;
+            gap: 0.5rem;
+        }
+
+        .read-more:hover {
+            gap: 0.8rem;
+        }
+
+        /* Sidebar */
+        .sidebar-widget {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            margin-bottom: 0.8rem;
+        }
+
+        .topic-list a {
+            color: var(--text-gray);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            transition: color 0.2s;
+        }
+
+        .topic-list a:hover {
+            color: var(--primary-color);
+        }
+
+        .count-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Markdown Content Styles */
+        .article-content {
+            display: none;
+            /* Hidden by default in list view */
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="index.html">擐?</a></li>
+                <li><a href="blog.html" class="active">?弦?亥?</a></li>
+                <li><a href="projects.html">?弦?極??/a></li>
+                <li><a href="repos.html">蝔?蝣澆澈</a></li>
+                <li><a href="publications.html">???潸”</a></li>
+                <li><a href="lab.html">?隞晶</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i
+                            class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Research Blog</h1>
+            <p style="color: var(--text-gray);">?Ｙ揣 RAG ?銵◢??餉?撌交平?芸????窒閫暺?/p>
+        </div>
+    </header>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="blog-grid">
+
+                <!-- Main Content -->
+                <div class="blog-main">
+
+                    <!-- Article: NVIDIA Enterprise RAG Blueprint -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-18</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> RAG / 隡平 AI</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html">NVIDIA 隡平蝝?璅⊥? RAG ??嚗?????銝隞?AI ?亥?摨恬?</a></h2>
+                        <div class="article-excerpt">
+                            NVIDIA ?澆? Enterprise RAG Blueprint嚗????銴???璆剜?隞塚?鞎∪銵冽?極蝔?銵具???隞塚?閮剛?????芋撘?嚗?蝣箇??? 5%嚗?鞈??蕪? 100% 蝎暹???
+                        </div>
+                        <a href="posts/2026-02-18-nvidia-enterprise-rag-blueprint.html" class="read-more">?梯??冽? <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article: BharatGen -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> AI 頞典 / 憭?閮 AI</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-17-bharatgen-multilingual-ai.html">?啣漲? BharatGen嚗?2 蝔株?閮??AI ?拙嚗?/a></h2>
+                        <div class="article-excerpt">
+                            ?啣漲?踹?? ??80 ?瘥?蝝?340 ?撟??嚗 IIT Bombay ???瘨菔? 22 蝔株?閮??璅⊥? LLM??憭?閮 RAG ?弦??暻澆?蝷綽?銝韏瑚???嚗?                        </div>
+                        <a href="posts/2026-02-17-bharatgen-multilingual-ai.html" class="read-more">?梯??冽? <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article: Neuromorphic Computers -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-17</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> AI 蝖祇? / 閮?璈瑽?/span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-17-neuromorphic-computers.html">蝘劂??嚗?蝬耦??血?雿?閬?AI 蝖祇?嚗?/a></h2>
+                        <div class="article-excerpt">
+                            ?寞? ScienceDaily ?勗?嚗?蝬耦??血歇?質圾瘙粹?敺?芣?頞??餉???????芋?祆蝔??車璅∩遛鈭粹?憭扯蝯???蝞?嚗?憒?憿? AI ?靘?
+                        </div>
+                        <a href="posts/2026-02-17-neuromorphic-computers.html" class="read-more">?梯??冽? <i class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 7 (New: AI Agent Skills) -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> AI Agent / 頞典?嚙踝蕭?</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-16-ai-agent-skills.html">2026 AI Agent ??賣??塚?AI 銋?摮豢?嚗?/a></h2>
+                        <div class="article-excerpt">
+                            2026 撟湔 AI Agent ??賜??撟港遢嚗??OpenDataScience ?撠?AI Agent ??賣??嗅停?銝?極?瑞拳?? AI ?賣???遙?翰??箇???韏瑚??? AI ?臬?雿飛?井??嚗?                        </div>
+                        <a href="posts/2026-02-16-ai-agent-skills.html" class="read-more">?梯??冽? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 8 (New: OpenClaw Skills) -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-16</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> OpenClaw / Skills</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-16-openclaw-skills.html">OpenClaw Skills ?嚙踝蕭?憯葬撌亙嚗蕭? MCP ??Skill ?嚙踝蕭???/a></h2>
+                        <div class="article-excerpt">
+                            隞予?嚙賢蝝ｇ蕭? Dropbox 銝哨蕭? MCP 撌亙鞈蕭?憭橘蕭??嚙賜鈭蕭??嚙踝蕭?嚙??撌亙嚗蕭???zImage AI ?嚙踝蕭??嚙踝蕭???docTools ?嚙賭辣?嚙踝蕭??嚙踝蕭?蝯蕭??嚙賢?嚙踝蕭??嚙踝蕭?憯葬?嚙質?嚙踝蕭???OpenClaw Skill嚗蝙??PIL/Pillow ?嚙踝蕭??嚙踝蕭?憯葬嚗葫閰佗蕭??嚙踝蕭??嚙踝蕭? 570KB ?嚙踝蕭?憯葬??303KB嚗蕭???46.9% 蝛綽蕭?嚙?
+                        </div>
+                        <a href="posts/2026-02-16-openclaw-skills.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 7 (New: AI Self-Talk) -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-15</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> LLM / ?嚙賜弦?嚙賜</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-15-ai-self-talk.html">AI 銋蕭??嚙踝蕭??嚙踝蕭?嚗蕭?蝛嗥?嚙踝蕭?嚙?AI?嚙賢?嚙踝蕭?閰晞飛蝧蕭??嚙賣憟踝蕭?</a></h2>
+                        <div class="article-excerpt">
+                            蝘飛摰嗥?嚙踝蕭???AI 鋡恬蕭?閮晞蕭??嚙賢楛?嚙賢予?嚙踝蕭?嚗飛蝧蕭??嚙踝蕭?憭改蕭??嚙踝蕭??嚙賡蕭??嚙賜?嚙質敺對蕭??嚙踝蕭? AI 閮毀?嚙踝蕭?嚗蕭?蝯佗蕭??嚙踝蕭?RAG ?嚙賜弦?嚙踝蕭??嚙踝蕭?嚙?
+                        </div>
+                        <a href="posts/2026-02-15-ai-self-talk.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 6 (New: OpenScholar) -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> LLM / 摮賂蕭?</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-openscholar.html">?嚙踝蕭? AI ?嚙質必摮賂蕭??嚙踝蕭?OpenScholar 憒蕭??嚙踝蕭? ChatGPT嚙?/a></h2>
+                        <div class="article-excerpt">
+                            OpenScholar ?嚙踝蕭??嚙踝蕭??嚙賢飛銵蕭??嚙質身閮蕭??嚙踝蕭? AI ?嚙踝蕭?嚗?嚙賜?嚙賡“隞鳴蕭?銝蕭??嚙踝蕭? GPT-4嚗蕭?憒蕭??嚙賢嚗蕭?閮梧蕭??嚙賢隞亙蕭??嚙踝蕭?銵蕭??嚙踝蕭??嚙賢蕭? RAG 蝟餌絞...
+                        </div>
+                        <a href="posts/2026-02-14-openscholar.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 5 (Fine-tuning) -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> Fine-tuning / RAG</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-fine-tuning-rag.html">??AI
+                                霈蝬凋耨?嚙踝蕭?嚗隞暻澆凝隤踵芋?嚙賬蕭?銝?嚙賬停憭蕭?嚙?/a></h2>
+                        <div class="article-excerpt">
+                            憭批振?嚙質死嚙?AI 閮毀頞蕭?頞?嚙踝蕭?雿蕭??嚙踝蕭?撖佗蕭??嚙賜嚗敺株矽撋璅∴蕭??嚙踝蕭?Epoch 1 ?嚙賣撌陸嚗蕭?憭迎蕭??嚙踝蕭??嚙踝蕭?嚙?AI 甇鳴蕭?蝑蕭?
+                            (Overfitting)?嚙賣?嚙賣?嚙踝蕭?憒蕭??嚙賬蕭?摮賂蕭??嚙賬蕭??嚙踝蕭?閮毀頛芣?嚙踝蕭??嚙賡蕭?撘瘀蕭?憸剁蕭?蝬凋耨憿改蕭?...
+                        </div>
+                        <a href="posts/2026-02-14-fine-tuning-rag.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 4 (New: Model Comparison) -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> Model Evaluation</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-rag-model-comparison.html">?嚙賜垢 RAG 憭改蕭?擛伐蕭?BGE vs
+                                E5 vs Jina嚗狐?嚙賣炎蝝ｇ蕭??嚙踝蕭?</a></h2>
+                        <div class="article-excerpt">
+                            ?嚙賢蝡荔蕭?皞蕭??嚙踝蕭??嚙踝蕭?銝蕭??嚙踝蕭?甈橘蕭??嚙賣芋??(Embedding Model) ?嚙?嚙踝蕭?憸剁蕭?蝬凋耨嚗蕭??嚙踝蕭? BGE-M3?嚙瘟5 ??Jina-v3 ?嚙踝蕭?鈭蕭??嚙賢之鈭洛?嚙踝蕭??嚙賡＊蝷綽蕭?BGE-M3
+                            ?嚙踝蕭??嚙踝蕭?摨蕭??嚙踝蕭?蝣綽蕭?擃蕭? 78%嚗蕭? CP ?嚙踝蕭?擃蕭??嚙賢祕??..
+                        </div>
+                        <a href="posts/2026-02-14-rag-model-comparison.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 3 -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-14</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> DevOps / OpenClaw</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-14-watchdog-fix.html">OpenClaw 蝬哨蕭?撖佗蕭?嚗蕭? WMI
+                                ?嚙賣葫?嚙踝蕭?畾箸悌撅蕭?嚙?/a></h2>
+                        <div class="article-excerpt">
+                            Process 摮銝誨銵剁蕭??嚙賢摨瑯蕭?憭拇銝蕭??嚙踝蕭???嚙踝蕭蝟餌絞?嚙賜憿舐內 Gateway ?嚙踝蕭?嚗蕭? WhatsApp ?嚙賢?嚙賣嚙?(408
+                            Timeout)?嚙賣?嚙踝蕭??嚙踝蕭?憒蕭??嚙賜?嚙賢悌撅蕭?摨蕭?隞伐蕭?憒蕭?雿輻 PowerShell WMI ?嚙質?嚙?蝎橘蕭???嚙踝蕭銝佗蕭?畾箇撣賂蕭? Node.js ?嚙踝蕭?...
+                        </div>
+                        <a href="posts/2026-02-14-watchdog-fix.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                    <!-- Article 2 -->
+                    <article class="article-card">
+                        <div class="article-meta">
+                            <span class="meta-date"><i class="far fa-calendar-alt"></i> 2026-02-13</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> RAG & Wind Energy</span>
+                        </div>
+                        <h2 class="article-title"><a href="posts/2026-02-13-why-rag-for-wind.html">??LLM ?嚙踝蕭?憸剁蕭??嚙賡璈蕭??嚙踝蕭?暻潘蕭??嚙踝蕭?嚙?
+                                RAG嚙?/a></h2>
+                        <div class="article-excerpt">
+                            ?嚙踝蕭? GPT-5.3 ??Gemini 3 ?嚙賜撣蕭?憭改蕭?隤蕭?璅∴蕭??嚙質?嚙賢歇?嚙賢爾蝵殷蕭??嚙踝蕭??嚙賡◢?嚙賜?嚙賡車擃漲撠平銝捆?嚙踝蕭?雿蕭??嚙踝蕭?嚗??LLM ?嚙賬劂閬箝?嚙賡?嚙賬停?嚙賜隞嚙?RAG
+                            (瑼Ｙ揣憓撥?嚙踝蕭?) ?嚙賜鈭圾瘙箏極璆哨蕭??嚙踝蕭??嚙踝蕭??嚙踝蕭??嚙踝蕭?嚙?..
+                        </div>
+                        <a href="posts/2026-02-13-why-rag-for-wind.html" class="read-more">?嚙踝蕭??嚙踝蕭? <i
+                                class="fas fa-arrow-right"></i></a>
+                    </article>
+
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="blog-sidebar">
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">?嚙賣?嚙踝蕭?</h3>
+                        <p style="color: var(--text-gray); font-size: 0.95rem; line-height: 1.6;">
+                            ?嚙賣?嚙踝蕭?撘蕭??嚙踝蕭?蝛塚蕭??嚙踝蕭? ?嚙賜弦蝑蕭??嚙踝蕭??嚙踝蕭?瘜剁蕭?雿蕭??嚙?嚙踝蕭? AI ?嚙質?嚙??嚙賢??RAG ??Agent嚗蕭??嚙賣嚙?嚙踝蕭?嚙賢祕?嚙賢極蝔蕭?憿蕭?
+                        </p>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">?嚙踝蕭?銝鳴蕭?</h3>
+                        <ul class="topic-list">
+                            <li><a href="#">Industrial RAG <span class="count-badge">1</span></a></li>
+                            <li><a href="#">Wind Energy O&M <span class="count-badge">1</span></a></li>
+                            <li><a href="#">LLM Agents <span class="count-badge">0</span></a></li>
+                            <li><a href="#">PLC Automation <span class="count-badge">0</span></a></li>
+                        </ul>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
+
