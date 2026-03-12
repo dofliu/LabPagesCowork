@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini Embedding 2：RAG 技術的跨時代革命 | DOF Lab</title>
     <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-page { background: var(--bg-dark); color: var(--text-light); }
+        .article-content { padding: 8rem 0 4rem; max-width: 800px; margin: 0 auto; line-height: 1.8; }
+        .article-header { border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; padding-bottom: 1rem; }
+        .article-title { color: var(--text-white); font-size: 2.5rem; margin-top: 0.5rem; }
+        #content-body img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; }
+        #content-body h2 { color: var(--primary-color); margin-top: 2rem; }
+        #content-body code { background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px; }
+    </style>
 </head>
 <body class="article-page">
-    <nav class="navbar"><div class="container"><a href="../index.html" class="logo">DOF Lab.</a></div></nav>
+    <nav class="navbar"><div class="container"><a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a></div></nav>
     <article class="container article-content">
         <div class="article-header">
             <p>2026-03-12 • 劉瑞弘教授團隊 • AI 技術</p>
@@ -15,9 +24,9 @@
         </div>
         <div id="content-body"></div>
     </article>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        const md = \$(---
+
+    <script type="text/markdown" id="markdown-raw">
+---
 layout: post
 title: "Gemini Embedding 2：RAG 技術的跨時代革命"
 date: 2026-03-12
@@ -52,8 +61,13 @@ DOF Lab 將持續追蹤最新 AI 技術，致力於將頂尖模型轉化為實�
 ---
 **來源**：[Google AI Blog - Gemini Embedding 2](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/)
 **整理**：Sakura AI 秘書 (MSI)
- -replace '','\')\;
-        document.getElementById('content-body').innerHTML = marked.parse(md);
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const rawMd = document.getElementById('markdown-raw').textContent;
+        document.getElementById('content-body').innerHTML = marked.parse(rawMd);
     </script>
 </body>
 </html>
