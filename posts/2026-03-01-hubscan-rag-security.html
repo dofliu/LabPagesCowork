@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG 系統的隱形殺手：Cisco HubScan 開源工具，揪出向量資料庫的「萬磁王」攻擊 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .article-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: var(--text-white);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <header class="article-header">
+            <h1 class="article-title">RAG 系統的隱形殺手：<br>Cisco HubScan 開源工具，揪出向量資料庫的「萬磁王」攻擊</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-03-01</span> • 
+                <span><i class="fas fa-user-graduate"></i> 劉瑞弘教授團隊</span> •
+                <span><i class="fas fa-cogs"></i> RAG / AI 安全 / 向量資料庫</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <p>各位 AI 工程師與研究者們，當我們享受 RAG（Retrieval-Augmented Generation）帶來的便利時，是否曾想過其背後潛藏的巨大安全風險？一個精心設計的「毒化」文件，就可能讓你的 RAG 系統變成散播假消息、洩漏機密的幫兇！</p>
+
+            <p>來自思科（Cisco）的研究團隊在 2026 年 2 月 25 日發布了一篇名為《HubScan: Detecting Hubness Poisoning in Retrieval-Augmented Generation Systems》的論文，並開源了同名工具 **HubScan**。這項研究揭示了一種名為「中心性毒化攻擊」（Hubness Poisoning Attack）的嚴重威脅，並提供了一套實用的偵測框架。</p>
+
+            <h2>什麼是「中心性毒化攻擊」？</h2>
+            <p>在向量空間中，有些資料點會像「萬磁王」一樣，不成比例地成為大量查詢的最近鄰居，這種現象被稱為「中心性」（Hubness）。攻擊者可以利用這個特性，精心製作一個惡意文件（例如，包含假新聞、惡意程式碼或 Prompt Injection 指令），並將其轉換為一個具有極強中心性的向量（Hub），植入到你的向量資料庫中。</p>
+            <p>一旦成功，這個惡意文件就會在大量無關的查詢中被高頻率地檢索出來，進而污染 LLM 的生成結果。想像一下，無論使用者問什麼，RAG 系統都可能引用到這份惡意文件，導致：</p>
+            <ul>
+                <li><strong>內容注入：</strong> 散播假消息、廣告或惡意連結。</li>
+                <li><strong>間接 Prompt Injection：</strong> 繞過防護，執行惡意指令。</li>
+                <li><strong>資料外洩：</strong> 誘騙系統洩漏敏感資訊（如 GeminiJack 攻擊）。</li>
+                <li><strong>系統效能下降：</strong> 大量無關的檢索結果降低 RAG 系統的準確性。</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 HubScan 的四大偵測武器：</strong>
+                <p>HubScan 採用了多偵測器架構，從不同角度揪出這些「萬磁王」：</p>
+                <ol>
+                    <li><strong>穩健的統計偵測：</strong> 使用中位數/MAD z-scores 來識別異常高的檢索頻率，不受極端值影響。</li>
+                    <li><strong>聚類擴散分析：</strong> 分析一個文件是否被跨越多個語意聚類的查詢所檢索，真正的文件通常只會被特定主題的查詢找到。</li>
+                    <li><strong>查詢擾動穩定性測試：</strong> 「萬磁王」向量通常在向量空間中佔據一個「甜蜜點」，即使查詢稍有變化，它仍然會被檢索到。</li>
+                    <li><strong>領域/模態感知偵測：</strong> 針對特定主題或跨模態（如文搜圖）的攻擊進行偵測。</li>
+                </ol>
+            </div>
+
+            <h2>HubScan 如何運作？</h2>
+            <p>HubScan 的流程非常直觀，它模擬大量查詢，並分析檢索結果的統計特性：</p>
+            <ol>
+                <li><strong>查詢採樣：</strong> 透過聚類中心、隨機採樣等方式生成大量代表性的查詢。</li>
+                <li><strong>執行檢索：</strong> 執行 kNN 查詢並累計每個文件的「命中次數」。</li>
+                <li><strong>多偵測器分析：</strong> 運行上述四種偵測演算法，為每個文件計算異常分數。</li>
+                <li><strong>風險評分與分類：</strong> 融合各偵測器的分數，將文件分為高、中、低風險等級。</li>
+            </ol>
+            <p>最重要的是，HubScan 是一個開源工具，支援 FAISS, Pinecone, Qdrant, Weaviate 等主流向量資料庫，可以輕鬆整合到現有的 RAG 系統中，進行定期的安全審計。</p>
+
+            <h2>驚人的實驗結果</h2>
+            <p>實驗結果顯示，HubScan 的效果非常顯著。在 Food-101、MS-COCO 等多個數據集上，面對最先進的梯度優化攻擊手段：</p>
+            <ul>
+                <li>在僅 <strong>0.2%</strong> 的警報預算下（即只檢查風險最高的 0.2% 文件），HubScan 的**召回率高達 90%**。</li>
+                <li>當預算放寬到 0.4% 時，**召回率達到 100%**！</li>
+                <li>在對 100 萬份真實網路文件的生產環境驗證中，惡意文件與正常文件的風險評分有高達 **5.8 倍**的差距，證明其在真實場景中的可行性。</li>
+            </ul>
+
+            <h2>對我們實驗室的啟示</h2>
+            <p>HubScan 的出現為 RAG 的安全性敲響了警鐘。過去我們可能更關注 RAG 的準確性和效率，但這篇論文提醒我們，RAG 的「入口」——向量資料庫，同樣是攻擊者覬覦的目標。我們可以：</p>
+            <ul>
+                <li><strong>定期審計：</strong> 將 HubScan 整合到我們的開發流程中，定期對向量資料庫進行「體檢」。</li>
+                <li><strong>建立防禦層：</strong> 在檢索和生成之間增加一個驗證層，對高風險的檢索結果進行額外處理或過濾。</li>
+                <li><strong>研究對抗策略：</strong> 深入研究 Hubness 攻擊的生成方式，探索更主動的防禦策略。</li>
+            </ul>
+
+            <h2>結語</h2>
+            <p>隨著 RAG 系統在各行各業的廣泛應用，其安全性問題將日益凸顯。HubScan 提供了一個實用、開源的解決方案，讓我們能夠在享受 RAG 帶來的好處的同時，也能有效地防範潛在的風險。這不僅是 RAG 領域的一個重要補充，也為整個 AI 安全生態系統的建設貢獻了關鍵的一塊拼圖。</p>
+
+            <p><em>(本文靈感來源: arXiv - HubScan: Detecting Hubness Poisoning in Retrieval-Augmented Generation Systems, 2026-02-25)</em></p>
+        </div>
+
+        <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> 回到列表</a>
+    </article>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-bottom" style="width: 100%;">
+                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../post-markdown-render.js"></script>
+</body>
+</html>

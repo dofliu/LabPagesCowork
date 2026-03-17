@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>MCP 2.6.1 新版本發布：企業級 AI Agent 的標準化時代來臨！ | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+            </ul>
+        </div>
+    </nav>
+    <article class="article-container">
+        <a href="../blog.html">← 返回部落格</a>
+        <header class="article-header">
+            <h1 class="article-title">MCP 2.6.1 新版本發布：企業級 AI Agent 的標準化時代來臨！</h1>
+            <p>2026-03-02 • 劉瑞弘教授團隊 • AI / MCP / Agents</p>
+        </header>
+        <div class="article-content">
+各位研究夥伴們，AI 界又有重大更新！**Model Context Protocol (MCP) 已經來到 2.6.1 版本**，這次的更新讓企業級 AI Agent 的部署更加安全、穩定。讓我們一起來看看這次的重點吧！🚀
+
+## 🔧 MCP 是什麼？快速回顧
+
+還不熟悉 MCP 的朋友們，讓我們快速複習一下：
+
+MCP（Model Context Protocol）是一個專為 AI Agent 設計的標準化通訊協定，讓 AI 可以：
+- **安全地存取外部工具** — 不需要把 API 金鑰直接給 AI
+- **標準化工具呼叫** — 一次開發，到處可用
+- **實現真正的 Agent 能力** — AI 不再只是回答問題，而是能夠「做事」
+
+簡單來說，MCP 就是 AI 世界的 USB-C 埠——統一的標準，讓所有裝置都能互相連接！
+
+## 🆕 2.6.1 版本的重點更新
+
+根據最新消息，這次版本的重點包括：
+
+### 1. 安全性大幅強化
+- **認證機制全面升級** — 支援 OAuth 2.0 和 API Key 雙重認證
+- **傳輸加密** — 正式支援 TLS 1.3，確保企業資料安全
+- **權限控制更精細** — 可以設定工具存取的 Scope，避免過度授權
+
+### 2. 監控與可觀測性
+- **內建效能追蹤** — 自動記錄每次工具呼叫的延遲和成功率
+- **使用模式分析** — 幫助 IT 團隊優化 Agent 行為
+- **日誌標準化** — 支援多種日誌格式，方便整合既有系統
+
+### 3. 效能優化
+- **連線池管理** — 減少重複連線的開銷
+- **請求批次處理** — 一次處理多個工具呼叫
+- **快取機制** — 避免重複的昂貴運算
+
+## 🏢 企業應用案例：Infobip AgentOS
+
+說到 MCP 的應用，最新案例是 **Infobip 推出的 AgentOS**！
+
+這是一個專為客戶服務設計的 AI Agent 平台，特色包括：
+- **15+ 溝通渠道原生整合** — 電話、訊息、Email、社交媒體一次搞定
+- **MCP 伺服器內建** — AI Agent 可以自動存取溝通工具
+- **大規模自主運作** — 能夠處理數十萬同時對話
+
+簡單來說，以後客服 Agent 不只能回答問題，還能幫你發訊息、安排會議、管理客戶關係！
+
+## 🎓 對我們研究的啟示
+
+作為 AI 研究團隊，MCP 2.6.1 帶給我們什麼啟示呢？
+
+### 1. RAG + MCP = 完美組合
+結合我們實驗室正在研究的 RAG 系統，MCP 可以讓：
+- AI 更安全地存取向量資料庫
+- 文件檢索工具標準化
+- 多個 RAG 系統之間互相溝通
+
+### 2. 教學新方向
+- 讓學生學習 MCP 協定設計
+- 實作自己的 MCP 伺服器
+- 整合現有工具到 AI Agent
+
+### 3. 產業合作機會
+- 幫企業部署 MCP 解決方案
+- 開發特定領域的 MCP 工具
+- 顧問服務與技術轉移
+
+## 🔧 實作小技巧：Spring AI MCP
+
+Java 開發者有福了！**Spring AI 現在支援 MCP Annotations**，讓你可以用宣告式的方式定義 MCP 端點：
+
+```java
+@McpTool(description = "取得目前天氣")
+public WeatherResult getCurrentWeather(@ToolParam String city) {
+    // ...
+}
+
+@McpResource(uri = "weather://cities")
+public List<String> getSupportedCities() {
+    // ...
+}
+```
+
+這樣一來，AI 客戶端可以自動發現可用的工具和資源，完全不需要手動設定！
+
+## 📚 結語
+
+MCP 2.6.1 的發布標誌著 AI Agent 進入「企業級標準化」時代。隨著安全性、監控性和效能的全面提升，我們可以預期：
+
+- **更多企業會採用 MCP** — 因為部署風險降低了
+- **工具生態系會爆發** — 每個 SaaS 服務都會提供 MCP 介面
+- **AI Agent 應用會更廣** — 從客服延伸到各行各業
+
+各位同學，如果對 MCP 有興趣，可以從官方文件開始：
+- <a href="https://modelcontextprotocol.io/" target="_blank">MCP 官方網站</a>
+- <a href="https://github.com/modelcontextprotocol" target="_blank">GitHub 專案</a>
+
+我們實驗室也正在評估如何將 MCP 整合到現有研究中，敬請期待後續分享！🌸
+
+---
+
+*💡 備註：如果你想了解如何用 MCP 強化 RAG 系統，可以參考我們之前的文章「RAG 系統的那些架構」系列。*
+
+        </div>
+    </article>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../post-markdown-render.js"></script>
+</body>
+</html>
