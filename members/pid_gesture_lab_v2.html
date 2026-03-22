@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>✋ Hand Gesture PID Lab</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117; color: #e6edf3;
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    overflow-x: hidden; touch-action: none;
+  }
+  .header {
+    padding: 8px 12px; display: flex; justify-content: space-between;
+    align-items: center; background: #161b22;
+    border-bottom: 1px solid #30363d;
+  }
+  .header h1 { font-size: 15px; color: #58a6ff; font-weight: 800; }
+  .status { font-size: 11px; padding: 3px 8px; border-radius: 10px; }
+  .status.off { background: #f8514922; color: #f85149; }
+  .status.on { background: #3fb95022; color: #3fb950; }
+  .status.loading { background: #d2992222; color: #d29922; }
+
+  .camera-section {
+    position: relative; width: 100%; background: #000; overflow: hidden;
+    max-height: 35vh;
+  }
+  .camera-section video {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scaleX(-1); max-height: 35vh;
+  }
+  .camera-section .overlay-canvas {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    transform: scaleX(-1); pointer-events: none;
+  }
+  .gesture-badge {
+    position: absolute; top: 8px; left: 8px;
+    padding: 4px 10px; border-radius: 6px; font-size: 11px;
+    font-weight: 700; z-index: 10;
+    background: rgba(0,0,0,0.75); color: #e3b341;
+    backdrop-filter: blur(4px);
+  }
+  .finger-dot {
+    position: absolute; width: 22px; height: 22px; border-radius: 50%;
+    border: 3px solid #58a6ff; background: rgba(88,166,255,0.15);
+    transform: translate(-50%, -50%) scaleX(-1);
+    pointer-events: none; z-index: 10; transition: all 0.06s linear;
+  }
+  .finger-dot.grab {
+    border-color: #f85149; background: rgba(248,81,73,0.25);
+    width: 30px; height: 30px;
+  }
+
+  .panels { display: flex; flex-direction: column; gap: 5px; padding: 5px; }
+  .panel {
+    background: #161b22; border-radius: 8px;
+    border: 1px solid #30363d; overflow: hidden;
+  }
+  .panel-hdr {
+    padding: 4px 10px; font-size: 11px; font-weight: 700;
+    border-bottom: 1px solid #30363d;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .panel canvas { width: 100%; display: block; }
+
+  .ctrls {
+    padding: 6px 8px; display: flex; gap: 5px; flex-wrap: wrap;
+    align-items: center;
+    background: #161b22; border-bottom: 1px solid #30363d;
+  }
+  .cg { display: flex; flex-direction: column; gap: 1px; }
+  .cg label { font-size: 9px; color: #8b949e; font-weight: 600; text-transform: uppercase; }
+  .cg input[type=number] {
+    width: 62px; padding: 3px 4px; background: #0d1117;
+    border: 1px solid #30363d; border-radius: 4px;
+    color: #e6edf3; font-size: 12px; font-family: 'Courier New', monospace;
+  }
+  .btn {
+    padding: 6px 12px; border-radius: 6px; border: 1px solid;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    background: transparent; white-space: nowrap;
+  }
+
+  .sys-bar {
+    display: flex; gap: 3px; padding: 5px 6px;
+    background: #161b22; border-bottom: 1px solid #30363d;
+  }
+  .sys-btn {
+    flex: 1; padding: 5px 2px; border-radius: 6px;
+    border: 1px solid #30363d; background: transparent;
+    color: #8b949e; font-size: 11px; font-weight: 600; cursor: pointer;
+  }
+  .sys-btn.active { border-color: #58a6ff; color: #58a6ff; background: rgba(88,166,255,0.08); }
+
+  .tip-bar {
+    padding: 5px 10px; background: #0d1117;
+    border-bottom: 1px solid #30363d;
+    font-size: 10px; color: #8b949e; line-height: 1.5;
+  }
+  .tip-bar strong { color: #e3b341; }
+  .tip-bar .em { color: #58a6ff; }
+
+  /* Modal for setup guide */
+  .modal-bg {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85); z-index: 100;
+    justify-content: center; align-items: center; padding: 20px;
+  }
+  .modal-bg.show { display: flex; }
+  .modal {
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 12px; padding: 20px; max-width: 360px;
+    width: 100%; max-height: 80vh; overflow-y: auto;
+  }
+  .modal h2 { color: #58a6ff; font-size: 16px; margin-bottom: 12px; }
+  .modal p { font-size: 13px; line-height: 1.6; margin-bottom: 10px; color: #e6edf3; }
+  .modal .step {
+    background: #0d1117; padding: 10px; border-radius: 8px;
+    margin-bottom: 8px; border-left: 3px solid #58a6ff;
+  }
+  .modal .step-num { color: #58a6ff; font-weight: 800; font-size: 14px; }
+  .modal .note { color: #d29922; font-size: 11px; margin-top: 8px; }
+  .modal .close-btn {
+    width: 100%; padding: 10px; margin-top: 12px;
+    background: #58a6ff22; border: 1px solid #58a6ff;
+    color: #58a6ff; border-radius: 8px; font-size: 14px;
+    font-weight: 700; cursor: pointer;
+  }
+  .modal .alt-btn {
+    width: 100%; padding: 10px; margin-top: 8px;
+    background: #3fb95022; border: 1px solid #3fb950;
+    color: #3fb950; border-radius: 8px; font-size: 13px;
+    font-weight: 600; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- Setup Guide Modal -->
+<div class="modal-bg" id="setupModal">
+  <div class="modal">
+    <h2>📷 相機權限解決方案</h2>
+    <p>手機瀏覽器需要 <strong>HTTPS</strong> 才能使用相機。本地 file:// 無法取得權限。</p>
+
+    <div class="step">
+      <span class="step-num">方案 A — 最快</span><br>
+      <strong>不用相機，直接觸控拖動！</strong><br>
+      關掉這個提示，直接在下方極零點圖上<strong>用手指拖動 × 極點</strong>，效果完全一樣。
+    </div>
+
+    <div class="step">
+      <span class="step-num">方案 B — 手勢控制</span><br>
+      把這個檔案放到網路上，用 HTTPS 開啟：<br>
+      ① 到 <strong>github.com</strong> 開一個 repo<br>
+      ② 上傳此 HTML 檔案<br>
+      ③ 到 Settings → Pages → 啟用 GitHub Pages<br>
+      ④ 用手機開啟產生的 https:// 網址<br>
+      <div class="note">⏱ 約需 5 分鐘設定，之後相機即可正常使用</div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">方案 C — 電腦測試</span><br>
+      在電腦上開終端機執行：<br>
+      <code style="background:#0d1117;padding:3px 6px;border-radius:4px;font-size:11px;color:#3fb950;">
+        python3 -m http.server 8000
+      </code><br>
+      然後用瀏覽器開 <strong>http://localhost:8000</strong><br>
+      localhost 也算安全環境，相機可正常使用。
+    </div>
+
+    <button class="close-btn" onclick="closeModal()">👆 好，先用觸控模式</button>
+    <button class="alt-btn" onclick="closeModal(); setTimeout(tryCamera, 300);">🎥 我已經用 HTTPS 開啟了，試試相機</button>
+  </div>
+</div>
+
+<div class="header">
+  <h1>✋ PID 手勢實驗室</h1>
+  <span class="status off" id="camStatus">📷 關閉</span>
+</div>
+
+<div class="tip-bar">
+  <strong>操作：</strong>直接在極零點圖上<span class="em">觸摸拖動 × 極點</span> → 即時看響應變化 |
+  開相機後可用<span class="em">手勢捏合</span>控制
+</div>
+
+<div class="sys-bar">
+  <button class="sys-btn active" onclick="switchSys('spring')" id="sb-spring">🚗 懸吊</button>
+  <button class="sys-btn" onclick="switchSys('pendulum')" id="sb-pendulum">🎯 倒單擺</button>
+  <button class="sys-btn" onclick="switchSys('ballbeam')" id="sb-ballbeam">⚖️ 球桿</button>
+</div>
+
+<div class="camera-section" id="camSec" style="display:none;">
+  <video id="video" autoplay playsinline muted></video>
+  <canvas class="overlay-canvas" id="handCv"></canvas>
+  <div class="gesture-badge" id="badge">等待手勢...</div>
+  <div class="finger-dot" id="fdot" style="display:none;"></div>
+</div>
+
+<div class="ctrls">
+  <button class="btn" style="border-color:#58a6ff;color:#58a6ff;" id="camBtn" onclick="onCamBtn()">📷 相機</button>
+  <button class="btn" style="border-color:#3fb950;color:#3fb950;" onclick="runSim()">▶ 模擬</button>
+  <button class="btn" style="border-color:#d29922;color:#d29922;" id="modeBtn" onclick="togglePID()">🔓 開迴路</button>
+  <button class="btn" style="border-color:#8b949e;color:#8b949e;" onclick="resetPoles()">↺ 重置</button>
+  <div class="cg"><label>Kp</label><input type="number" id="iKp" value="5000" onchange="readPID()"></div>
+  <div class="cg"><label>Ki</label><input type="number" id="iKi" value="500" onchange="readPID()"></div>
+  <div class="cg"><label>Kd</label><input type="number" id="iKd" value="2000" onchange="readPID()"></div>
+</div>
+
+<div class="panels">
+  <div class="panel">
+    <div class="panel-hdr" style="color:#bc8cff">
+      <span>🎯 極零點圖 — 拖動極點！</span>
+      <span id="pzInfo" style="font-size:10px;color:#8b949e"></span>
+    </div>
+    <canvas id="pzCv" height="280"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr" style="color:#3fb950">
+      <span>📈 時間響應</span>
+      <span id="trInfo" style="font-size:10px;color:#8b949e"></span>
+    </div>
+    <canvas id="trCv" height="200"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr" style="color:#d29922">🏭 設備動畫</div>
+    <canvas id="anCv" height="180"></canvas>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let camActive = false, mpReady = false;
+let usePID = false, curSys = 'spring';
+let fingerPos = null, pinching = false, grabbed = null;
+let simData = { time:[], output:[], ref:[] };
+
+const SYS = {
+  spring: {
+    name:'懸吊', range:8,
+    defPoles:[{re:-1.67,im:3.73},{re:-1.67,im:-3.73}],
+    pid:{Kp:5000,Ki:500,Kd:2000},
+    initX:0, inputFn: t => t>=0.5?0.1:0,
+  },
+  pendulum: {
+    name:'倒單擺', range:10,
+    defPoles:[{re:3.13,im:0},{re:-3.13,im:0}],
+    pid:{Kp:50,Ki:10,Kd:15},
+    initX:0.3, inputFn: t=>0,
+  },
+  ballbeam: {
+    name:'球桿', range:8,
+    defPoles:[{re:0,im:0.01},{re:0,im:-0.01}],
+    pid:{Kp:15,Ki:1,Kd:8},
+    initX:0.2, inputFn: t=>0,
+  }
+};
+
+let S = SYS[curSys];
+let poles = S.defPoles.map(p=>({...p}));
+
+// ══════════════════════════════════════════════════════
+// CAMERA
+// ══════════════════════════════════════════════════════
+function onCamBtn() {
+  if (camActive) { stopCam(); return; }
+  // Check if secure context
+  if (!window.isSecureContext && location.protocol === 'file:') {
+    document.getElementById('setupModal').classList.add('show');
+    return;
+  }
+  tryCamera();
+}
+
+function closeModal() {
+  document.getElementById('setupModal').classList.remove('show');
+}
+
+async function tryCamera() {
+  const btn = document.getElementById('camBtn');
+  const st = document.getElementById('camStatus');
+  btn.textContent = '⏳ 載入...';
+  st.className = 'status loading'; st.textContent = '⏳ 載入中...';
+
+  try {
+    // Step 1: Get camera stream directly first
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode:'user', width:{ideal:640}, height:{ideal:480} }
+    });
+    const video = document.getElementById('video');
+    video.srcObject = stream;
+    await video.play();
+    document.getElementById('camSec').style.display = 'block';
+
+    // Step 2: Load MediaPipe
+    if (!mpReady) {
+      st.textContent = '⏳ 載入 AI 模型...';
+      await loadMediaPipe();
+    }
+
+    camActive = true;
+    btn.textContent = '⏹ 關閉';
+    st.className = 'status on'; st.textContent = '✅ 追蹤中';
+
+    // Start detection loop
+    detectLoop();
+
+  } catch(err) {
+    console.error('Camera error:', err);
+    btn.textContent = '📷 相機';
+    st.className = 'status off'; st.textContent = '❌ 失敗';
+
+    if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
+      document.getElementById('setupModal').classList.add('show');
+    } else {
+      alert('相機啟動失敗: ' + err.message + '\n\n請確認瀏覽器已授予相機權限。');
+    }
+  }
+}
+
+let handsInstance = null;
+async function loadMediaPipe() {
+  return new Promise((resolve, reject) => {
+    // Load scripts dynamically
+    const scripts = [
+      'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js',
+      'https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124/drawing_utils.js',
+    ];
+    let loaded = 0;
+    scripts.forEach(src => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.crossOrigin = 'anonymous';
+      s.onload = () => { loaded++; if(loaded===scripts.length) initHands().then(resolve).catch(reject); };
+      s.onerror = () => reject(new Error('Failed to load MediaPipe'));
+      document.head.appendChild(s);
+    });
+  });
+}
+
+async function initHands() {
+  handsInstance = new Hands({
+    locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${f}`
+  });
+  handsInstance.setOptions({
+    maxNumHands: 1,
+    modelComplexity: 0,
+    minDetectionConfidence: 0.6,
+    minTrackingConfidence: 0.5
+  });
+  handsInstance.onResults(onHands);
+  await handsInstance.initialize();
+  mpReady = true;
+}
+
+let detecting = false;
+async function detectLoop() {
+  if (!camActive || !handsInstance) return;
+  if (detecting) { requestAnimationFrame(detectLoop); return; }
+  detecting = true;
+  try {
+    const video = document.getElementById('video');
+    if (video.readyState >= 2) {
+      await handsInstance.send({image: video});
+    }
+  } catch(e) { console.warn(e); }
+  detecting = false;
+  if (camActive) requestAnimationFrame(detectLoop);
+}
+
+function stopCam() {
+  camActive = false;
+  const video = document.getElementById('video');
+  if (video.srcObject) {
+    video.srcObject.getTracks().forEach(t=>t.stop());
+    video.srcObject = null;
+  }
+  document.getElementById('camSec').style.display = 'none';
+  document.getElementById('camBtn').textContent = '📷 相機';
+  document.getElementById('camStatus').className = 'status off';
+  document.getElementById('camStatus').textContent = '📷 關閉';
+  fingerPos = null; pinching = false; grabbed = null;
+  document.getElementById('fdot').style.display = 'none';
+}
+
+// ══════════════════════════════════════════════════════
+// HAND RESULTS
+// ══════════════════════════════════════════════════════
+function onHands(results) {
+  const cv = document.getElementById('handCv');
+  const video = document.getElementById('video');
+  cv.width = video.videoWidth || 640;
+  cv.height = video.videoHeight || 480;
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+
+  const badge = document.getElementById('badge');
+  const fdot = document.getElementById('fdot');
+
+  if (!results.multiHandLandmarks || results.multiHandLandmarks.length===0) {
+    fingerPos = null; pinching = false; grabbed = null;
+    badge.textContent = '🖐️ 未偵測到手'; badge.style.color='#8b949e';
+    fdot.style.display = 'none';
+    return;
+  }
+
+  const lm = results.multiHandLandmarks[0];
+
+  // Draw skeleton
+  if (typeof drawConnectors !== 'undefined') {
+    drawConnectors(ctx, lm, HAND_CONNECTIONS, {color:'#58a6ff44', lineWidth:2});
+    drawLandmarks(ctx, lm, {color:'#58a6ff', lineWidth:1, radius:2});
+  }
+
+  const idx = lm[8]; // index finger tip
+  const thb = lm[4]; // thumb tip
+
+  // Highlight key fingers
+  ctx.fillStyle = '#3fb950';
+  ctx.beginPath(); ctx.arc(idx.x*cv.width, idx.y*cv.height, 7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#d29922';
+  ctx.beginPath(); ctx.arc(thb.x*cv.width, thb.y*cv.height, 7, 0, Math.PI*2); ctx.fill();
+
+  // Pinch line
+  const dx = thb.x-idx.x, dy = thb.y-idx.y;
+  const dist = Math.sqrt(dx*dx+dy*dy);
+  const wasPinch = pinching;
+  pinching = dist < 0.06;
+
+  ctx.strokeStyle = pinching ? '#f85149' : '#58a6ff55';
+  ctx.lineWidth = pinching ? 3 : 1;
+  ctx.setLineDash(pinching?[]:[4,4]);
+  ctx.beginPath();
+  ctx.moveTo(thb.x*cv.width, thb.y*cv.height);
+  ctx.lineTo(idx.x*cv.width, idx.y*cv.height);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Pinch distance indicator
+  ctx.fillStyle = pinching ? '#f85149' : '#e3b341';
+  ctx.font = 'bold 11px monospace';
+  ctx.fillText(`${(dist*100).toFixed(0)}%`, (thb.x+idx.x)/2*cv.width+10, (thb.y+idx.y)/2*cv.height);
+
+  fingerPos = { x: idx.x, y: idx.y };
+
+  // Show finger dot on camera
+  const sec = document.getElementById('camSec');
+  const rect = sec.getBoundingClientRect();
+  fdot.style.display = 'block';
+  fdot.style.left = (fingerPos.x * rect.width) + 'px';
+  fdot.style.top = (fingerPos.y * rect.height) + 'px';
+  fdot.className = pinching ? 'finger-dot grab' : 'finger-dot';
+
+  // Badge
+  if (pinching && grabbed !== null) {
+    badge.textContent = `✊ 拖動極點 #${grabbed+1}`; badge.style.color='#f85149';
+  } else if (pinching) {
+    badge.textContent = '✊ 捏合中'; badge.style.color='#f85149';
+  } else {
+    badge.textContent = '☝️ 食指追蹤中'; badge.style.color='#e3b341';
+  }
+
+  // Map finger to PZ plot
+  handleGesturePole(wasPinch);
+}
+
+function handleGesturePole(wasPinch) {
+  if (!fingerPos) return;
+  const range = S.range;
+  const re = (fingerPos.x - 0.5) * 2 * range;
+  const im = -(fingerPos.y - 0.5) * 2 * range;
+
+  if (pinching && !wasPinch) {
+    let minD=Infinity, near=-1;
+    poles.forEach((p,i)=>{
+      const d=Math.sqrt((p.re-re)**2+(p.im-im)**2);
+      if(d<minD){minD=d;near=i;}
+    });
+    if (minD < range*0.35) grabbed = near;
+  } else if (!pinching) {
+    grabbed = null;
+  }
+
+  if (pinching && grabbed !== null) {
+    poles[grabbed].re = re;
+    poles[grabbed].im = im;
+    // conjugate pair
+    const partner = poles.findIndex((p,i)=>
+      i!==grabbed && Math.abs(p.re-re)<1 && Math.abs(p.im+im)<1
+    );
+    if (partner>=0 && im!==0) { poles[partner].re=re; poles[partner].im=-im; }
+    runSim();
+  }
+
+  drawPZ();
+  drawGestCursor(re, im);
+}
+
+// ══════════════════════════════════════════════════════
+// DRAWING
+// ══════════════════════════════════════════════════════
+function resizeCv() {
+  ['pzCv','trCv','anCv'].forEach(id=>{
+    const c=document.getElementById(id);
+    c.width = c.parentElement.clientWidth;
+  });
+}
+
+function pzLayout() {
+  const c=document.getElementById('pzCv');
+  const W=c.width, H=c.height;
+  const p={l:42,r:12,t:12,b:22};
+  const pw=W-p.l-p.r, ph=H-p.t-p.b;
+  const cx=p.l+pw/2, cy=p.t+ph/2;
+  const scl=Math.min(pw,ph)/(2*S.range);
+  return {W,H,p,pw,ph,cx,cy,scl};
+}
+
+function drawGestCursor(re,im) {
+  const c=document.getElementById('pzCv');
+  const ctx=c.getContext('2d');
+  const {p,pw,ph,cx,cy,scl}=pzLayout();
+  const px=cx+re*scl, py=cy-im*scl;
+  ctx.save();
+  ctx.strokeStyle = pinching?'#f8514966':'#58a6ff33';
+  ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(px,p.t); ctx.lineTo(px,p.t+ph); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(p.l,py); ctx.lineTo(p.l+pw,py); ctx.stroke();
+  ctx.setLineDash([]);
+  const r=pinching?13:9;
+  ctx.fillStyle=pinching?'#f8514944':'#58a6ff22';
+  ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle=pinching?'#f85149':'#58a6ff';
+  ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2); ctx.stroke();
+  ctx.restore();
+}
+
+function drawPZ() {
+  const c=document.getElementById('pzCv');
+  const ctx=c.getContext('2d');
+  const {W,H,p,pw,ph,cx,cy,scl}=pzLayout();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#161b22'; ctx.fillRect(0,0,W,H);
+
+  const range=S.range;
+  const step=range>20?10:range>5?2:1;
+
+  // Grid
+  ctx.strokeStyle='#21262d'; ctx.lineWidth=0.5;
+  for(let v=-range;v<=range;v+=step){
+    let x=cx+v*scl, y=cy-v*scl;
+    if(x>p.l&&x<W-p.r){ctx.beginPath();ctx.moveTo(x,p.t);ctx.lineTo(x,p.t+ph);ctx.stroke();}
+    if(y>p.t&&y<H-p.b){ctx.beginPath();ctx.moveTo(p.l,y);ctx.lineTo(p.l+pw,y);ctx.stroke();}
+  }
+
+  // Stability shading
+  ctx.fillStyle='rgba(63,185,80,0.03)';
+  ctx.fillRect(p.l, p.t, pw/2, ph);
+
+  // Axes
+  ctx.strokeStyle='#8b949e'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(p.l,cy); ctx.lineTo(p.l+pw,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,p.t); ctx.lineTo(cx,p.t+ph); ctx.stroke();
+
+  // Labels
+  ctx.fillStyle='#8b949e'; ctx.font='9px monospace'; ctx.textAlign='center';
+  ctx.fillText('Re',W-p.r-8,cy-6);
+  ctx.fillText('Im',cx+14,p.t+10);
+  for(let v=-range;v<=range;v+=step){
+    if(v===0)continue;
+    ctx.textAlign='center'; ctx.fillText(v,cx+v*scl,cy+13);
+    ctx.textAlign='right'; ctx.fillText(v,p.l-3,cy-v*scl+3);
+  }
+  ctx.fillStyle='#3fb95033'; ctx.font='9px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('穩定區',p.l+4,p.t+12);
+  ctx.fillStyle='#f8514933'; ctx.textAlign='right';
+  ctx.fillText('不穩定區',p.l+pw-4,p.t+12);
+
+  // Ghost default poles
+  S.defPoles.forEach(pt=>{
+    ctx.strokeStyle='#8b949e22'; ctx.lineWidth=1.5;
+    xMark(ctx, cx+pt.re*scl, cy-pt.im*scl, 5);
+  });
+
+  // Current poles
+  poles.forEach((pt,i)=>{
+    const x=cx+pt.re*scl, y=cy-pt.im*scl;
+    const isG=i===grabbed;
+    const col=pt.re>0.01?'#f85149':'#3fb950';
+
+    if(isG){
+      ctx.fillStyle=col+'33';
+      ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fill();
+      // pulsing ring
+      ctx.strokeStyle=col+'66'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.stroke();
+    }
+
+    ctx.strokeStyle=col; ctx.lineWidth=isG?3.5:2.5;
+    xMark(ctx, x, y, isG?9:6);
+
+    // Value label
+    ctx.fillStyle='#e6edf3'; ctx.font='bold 9px monospace'; ctx.textAlign='left';
+    const lbl=`${pt.re.toFixed(1)}${pt.im>=0?'+':''}${pt.im.toFixed(1)}j`;
+    ctx.fillText(lbl, x+11, y-5);
+  });
+
+  // Stability info
+  const info=document.getElementById('pzInfo');
+  const stable=poles.every(pt=>pt.re<0.01);
+  info.textContent=stable?'✅ 系統穩定':'⚠️ 不穩定 (極點在右半平面)';
+  info.style.color=stable?'#3fb950':'#f85149';
+}
+
+function xMark(ctx,x,y,s){
+  ctx.beginPath();ctx.moveTo(x-s,y-s);ctx.lineTo(x+s,y+s);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x+s,y-s);ctx.lineTo(x-s,y+s);ctx.stroke();
+}
+
+function drawTR() {
+  const c=document.getElementById('trCv');
+  const ctx=c.getContext('2d');
+  const W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#161b22'; ctx.fillRect(0,0,W,H);
+  const pad={l:42,r:12,t:12,b:24};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+  // Grid
+  ctx.strokeStyle='#21262d'; ctx.lineWidth=0.5;
+  for(let i=0;i<=5;i++){const x=pad.l+(i/5)*pw;ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();}
+  for(let i=0;i<=4;i++){const y=pad.t+(i/4)*ph;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
+
+  ctx.strokeStyle='#8b949e'; ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t);ctx.lineTo(pad.l,pad.t+ph);ctx.stroke();
+
+  const {time,output,ref}=simData;
+  if(time.length<2){
+    ctx.fillStyle='#8b949e';ctx.font='12px sans-serif';ctx.textAlign='center';
+    ctx.fillText('按 ▶ 模擬 或 拖動極點看響應',W/2,H/2);return;
+  }
+
+  const tMax=Math.max(time[time.length-1],1);
+  let yMin=Math.min(...output,...ref)*1.3;
+  let yMax=Math.max(...output,...ref)*1.3;
+  if(Math.abs(yMax-yMin)<0.01){yMin-=0.1;yMax+=0.1;}
+
+  ctx.fillStyle='#8b949e';ctx.font='9px monospace';ctx.textAlign='center';
+  for(let i=0;i<=5;i++)ctx.fillText((i/5*tMax).toFixed(1),pad.l+(i/5)*pw,pad.t+ph+13);
+  ctx.textAlign='right';
+  for(let i=0;i<=4;i++){const v=yMax-(i/4)*(yMax-yMin);ctx.fillText(v.toFixed(2),pad.l-3,pad.t+(i/4)*ph+3);}
+  ctx.fillStyle='#8b949e';ctx.font='9px sans-serif';ctx.textAlign='center';
+  ctx.fillText('Time (s)',pad.l+pw/2,H-2);
+
+  // Zero line
+  if(yMin<0&&yMax>0){
+    const zy=pad.t+(yMax/(yMax-yMin))*ph;
+    ctx.strokeStyle='#8b949e33';ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(pad.l,zy);ctx.lineTo(pad.l+pw,zy);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Ref
+  if(ref.some(v=>v!==0)){
+    ctx.strokeStyle='#e3b34155';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
+    ctx.beginPath();
+    for(let i=0;i<time.length;i++){
+      const x=pad.l+(time[i]/tMax)*pw;
+      const y=pad.t+((yMax-ref[i])/(yMax-yMin))*ph;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();ctx.setLineDash([]);
+  }
+
+  // Output
+  ctx.strokeStyle='#3fb950';ctx.lineWidth=2;ctx.beginPath();
+  for(let i=0;i<time.length;i++){
+    const x=pad.l+(time[i]/tMax)*pw;
+    const y=pad.t+((yMax-output[i])/(yMax-yMin))*ph;
+    if(isNaN(y))continue;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  const fin=output[output.length-1];
+  document.getElementById('trInfo').textContent=`終值: ${fin.toFixed(4)}`;
+}
+
+function drawAnim() {
+  const c=document.getElementById('anCv');
+  const ctx=c.getContext('2d');
+  const W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#161b22'; ctx.fillRect(0,0,W,H);
+
+  const out=simData.output.length>0?simData.output[simData.output.length-1]:S.initX;
+  const val=Math.max(-2,Math.min(2,isNaN(out)?0:out));
+
+  if(curSys==='spring'){
+    const cx=W/2, base=H*0.88;
+    const d=val*220, carY=base-65-d;
+    // ground
+    ctx.strokeStyle='#8b949e';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(25,base);ctx.lineTo(W-25,base);ctx.stroke();
+    for(let i=0;i<10;i++){ctx.beginPath();ctx.moveTo(30+i*28,base);ctx.lineTo(22+i*28,base+8);ctx.stroke();}
+    // spring
+    ctx.strokeStyle='#39d4d4';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-22,base);
+    for(let i=0;i<=6;i++){const f=i/6;const y=base-f*(base-carY-25);ctx.lineTo(cx-22+(i%2?-10:10),y);}
+    ctx.lineTo(cx-22,carY+25);ctx.stroke();
+    // damper
+    ctx.strokeStyle='#d29922';ctx.lineWidth=2;
+    const dx=cx+22,mid=(base+carY+25)/2;
+    ctx.beginPath();ctx.moveTo(dx,base);ctx.lineTo(dx,mid+8);ctx.stroke();
+    ctx.strokeRect(dx-6,mid-8,12,20);
+    ctx.beginPath();ctx.moveTo(dx,mid-8);ctx.lineTo(dx,carY+25);ctx.stroke();
+    // car
+    ctx.fillStyle='#2d5fa0';
+    rrFill(ctx,cx-50,carY-18,100,45,7);
+    ctx.strokeStyle='#58a6ff';ctx.lineWidth=1.5;rrStroke(ctx,cx-50,carY-18,100,45,7);
+    ctx.fillStyle='#444';
+    ctx.beginPath();ctx.arc(cx-30,carY+32,9,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(cx+30,carY+32,9,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#e6edf3';ctx.font='bold 11px monospace';ctx.textAlign='center';
+    ctx.fillText(`x = ${val.toFixed(4)} m`,cx,15);
+  } else if(curSys==='pendulum'){
+    const cx=W/2,cy=H*0.75,th=val,rL=90;
+    ctx.fillStyle='#333';ctx.fillRect(cx-30,cy-10,60,20);
+    ctx.strokeStyle='#58a6ff';ctx.lineWidth=1;ctx.strokeRect(cx-30,cy-10,60,20);
+    ctx.strokeStyle='#8b949e';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(15,cy+14);ctx.lineTo(W-15,cy+14);ctx.stroke();
+    const tx=cx+rL*Math.sin(th),ty=cy-rL*Math.cos(th);
+    ctx.strokeStyle='#d29922';ctx.lineWidth=4;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(tx,ty);ctx.stroke();
+    ctx.fillStyle='#f85149';ctx.beginPath();ctx.arc(tx,ty,11,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#58a6ff';ctx.beginPath();ctx.arc(cx,cy,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#e6edf3';ctx.font='bold 11px monospace';ctx.textAlign='center';
+    ctx.fillText(`θ = ${(th*180/Math.PI).toFixed(1)}°`,cx,15);
+  } else {
+    const cx=W/2,cy=H*0.55,bL=Math.min(180,W*0.5);
+    const bx=val, ba=-bx*0.3;
+    ctx.fillStyle='#8b949e';
+    ctx.beginPath();ctx.moveTo(cx,cy+4);ctx.lineTo(cx-14,cy+28);ctx.lineTo(cx+14,cy+28);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='#8b949e';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(25,cy+28);ctx.lineTo(W-25,cy+28);ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(ba);
+    ctx.fillStyle='#3a4a5a';ctx.fillRect(-bL/2,-3,bL,6);
+    ctx.strokeStyle='#58a6ff';ctx.lineWidth=1;ctx.strokeRect(-bL/2,-3,bL,6);
+    const ballPx=Math.max(-bL/2+12,Math.min(bL/2-12,bx*bL*1.3));
+    ctx.fillStyle='#f85149';ctx.beginPath();ctx.arc(ballPx,-12,9,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+    ctx.fillStyle='#e6edf3';ctx.font='bold 11px monospace';ctx.textAlign='center';
+    ctx.fillText(`x = ${bx.toFixed(4)} m`,cx,15);
+  }
+}
+
+function rrFill(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();}
+function rrStroke(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.stroke();}
+
+// ══════════════════════════════════════════════════════
+// SIMULATION (from pole positions)
+// ══════════════════════════════════════════════════════
+function runSim() {
+  const dt=0.004, tMax=8;
+  const data={time:[],output:[],ref:[]};
+  const p1=poles[0], p2=poles[1];
+  const a1=-(p1.re+p2.re);
+  const a0=p1.re*p2.re-p1.im*p2.im;
+  let x=S.initX, v=0;
+
+  for(let t=0;t<tMax;t+=dt){
+    const r=S.inputFn(t);
+    const F=curSys==='spring'?r:0;
+    const a=-a0*x-a1*v+F;
+    v+=a*dt; x+=v*dt;
+    x=Math.max(-10,Math.min(10,isNaN(x)?0:x));
+    v=Math.max(-100,Math.min(100,isNaN(v)?0:v));
+    if(Math.floor(t/dt)%4===0){
+      data.time.push(t); data.output.push(x); data.ref.push(r);
+    }
+  }
+  simData=data;
+  drawTR(); drawAnim(); drawPZ();
+}
+
+// ══════════════════════════════════════════════════════
+// TOUCH / MOUSE FALLBACK
+// ══════════════════════════════════════════════════════
+function setupTouch() {
+  const cv=document.getElementById('pzCv');
+
+  function toPole(e){
+    const rect=cv.getBoundingClientRect();
+    const px=((e.touches?e.touches[0].clientX:e.clientX)-rect.left);
+    const py=((e.touches?e.touches[0].clientY:e.clientY)-rect.top);
+    const {cx,cy,scl}=pzLayout();
+    const sx=cv.width/rect.width, sy=cv.height/rect.height;
+    return{re:((px*sx)-cx)/scl, im:-(((py*sy)-cy)/scl)};
+  }
+
+  let tg=null;
+
+  cv.addEventListener('touchstart',e=>{
+    if(camActive)return;
+    e.preventDefault();
+    const c=toPole(e);
+    let min=Infinity,n=-1;
+    poles.forEach((p,i)=>{const d=Math.sqrt((p.re-c.re)**2+(p.im-c.im)**2);if(d<min){min=d;n=i;}});
+    if(min<S.range*0.25)tg=n;
+  },{passive:false});
+
+  cv.addEventListener('touchmove',e=>{
+    if(camActive||tg===null)return;
+    e.preventDefault();
+    const c=toPole(e);
+    poles[tg].re=c.re; poles[tg].im=c.im;
+    const pt=poles.findIndex((p,i)=>i!==tg&&Math.abs(p.im+poles[tg].im)<1.5);
+    if(pt>=0&&Math.abs(poles[tg].im)>0.01){poles[pt].re=c.re;poles[pt].im=-c.im;}
+    runSim();
+  },{passive:false});
+
+  cv.addEventListener('touchend',()=>{tg=null;});
+
+  // Mouse
+  let mg=null;
+  cv.addEventListener('mousedown',e=>{
+    if(camActive)return;
+    const c=toPole(e);
+    let min=Infinity,n=-1;
+    poles.forEach((p,i)=>{const d=Math.sqrt((p.re-c.re)**2+(p.im-c.im)**2);if(d<min){min=d;n=i;}});
+    if(min<S.range*0.2)mg=n;
+  });
+  cv.addEventListener('mousemove',e=>{
+    if(camActive||mg===null)return;
+    const c=toPole(e);
+    poles[mg].re=c.re;poles[mg].im=c.im;
+    const pt=poles.findIndex((p,i)=>i!==mg&&Math.abs(p.im+poles[mg].im)<1.5);
+    if(pt>=0)poles[pt].re=c.re,poles[pt].im=-c.im;
+    runSim();
+  });
+  cv.addEventListener('mouseup',()=>{mg=null;});
+  cv.addEventListener('mouseleave',()=>{mg=null;});
+}
+
+// ══════════════════════════════════════════════════════
+// UI
+// ══════════════════════════════════════════════════════
+function switchSys(k){
+  curSys=k; S=SYS[k];
+  poles=S.defPoles.map(p=>({...p}));
+  simData={time:[],output:[],ref:[]};
+  grabbed=null;
+  document.querySelectorAll('.sys-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sb-'+k).classList.add('active');
+  document.getElementById('iKp').value=S.pid.Kp;
+  document.getElementById('iKi').value=S.pid.Ki;
+  document.getElementById('iKd').value=S.pid.Kd;
+  resizeCv(); drawPZ(); drawTR(); drawAnim();
+}
+
+function togglePID(){
+  usePID=!usePID;
+  const b=document.getElementById('modeBtn');
+  b.textContent=usePID?'🔒 閉迴路':'🔓 開迴路';
+  b.style.borderColor=usePID?'#58a6ff':'#d29922';
+  b.style.color=usePID?'#58a6ff':'#d29922';
+}
+
+function readPID(){
+  S.pid.Kp=parseFloat(document.getElementById('iKp').value)||0;
+  S.pid.Ki=parseFloat(document.getElementById('iKi').value)||0;
+  S.pid.Kd=parseFloat(document.getElementById('iKd').value)||0;
+}
+
+function resetPoles(){
+  poles=S.defPoles.map(p=>({...p}));
+  simData={time:[],output:[],ref:[]};
+  grabbed=null;
+  drawPZ(); drawTR(); drawAnim();
+}
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  resizeCv(); drawPZ(); drawTR(); drawAnim(); setupTouch();
+});
+window.addEventListener('resize',()=>{
+  resizeCv(); drawPZ(); drawTR(); drawAnim();
+});
+</script>
+</body>
+</html>
