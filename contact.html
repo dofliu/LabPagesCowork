@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聯絡方式 - DOF Lab</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="doflab-style.css">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="index.html" class="logo">DOF Lab</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="research.html">研究領域</a></li>
+                    <li><a href="publications.html">研究成果</a></li>
+                    <li><a href="projects.html">專案開發</a></li>
+                    <li><a href="about.html">關於我</a></li>
+                    <li><a href="contact.html" class="active">聯絡方式</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="page-header">
+    <div class="container">
+        <h1>聯絡方式</h1>
+        <p>歡迎與我們聯繫，無論是學術合作、技術諮詢或研究生招募</p>
+    </div>
+</section>
+
+<main class="main-content">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- 聯絡資訊 -->
+            <div class="contact-info animate-on-scroll">
+                <h2><i class="fas fa-address-card"></i> 聯絡資訊</h2>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="contact-details">
+                        <h3>電子郵件</h3>
+                        <p><a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a></p>
+                        <p>一般諮詢與合作洽談</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-building"></i>
+                    <div class="contact-details">
+                        <h3>辦公室</h3>
+                        <p>國立勤益科技大學 誠樸館 G309</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-flask"></i>
+                    <div class="contact-details">
+                        <h3>研究室</h3>
+                        <p>風電運維自動化技術研究室</p>
+                        <p>歡迎預約參觀</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div class="contact-details">
+                        <h3>聯絡方式</h3>
+                        <p>請透過電子郵件預約</p>
+                        <p>或直接到辦公室洽談</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/dofliu" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://sites.google.com/view/jui-hung-liu" target="_blank" class="social-link" title="Google Sites"><i class="fas fa-globe"></i></a>
+                    <a href="https://www.youtube.com/@DofLiu" target="_blank" class="social-link" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="mailto:contact@doflab.cc" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- 聯絡表單（可直接寄送） -->
+            <div class="contact-form animate-on-scroll">
+                <h2><i class="fas fa-paper-plane"></i> 聯絡我們</h2>
+
+                <!-- 將 div 改為 form，加入 honeypot 與狀態列 -->
+                <form id="contactForm" novalidate>
+                    <!-- honeypot（人看不見，機器人會填） -->
+                    <input type="text" id="website" name="website" autocomplete="off" style="display:none!important">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">姓名 *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">電子郵件 *</label>
+                            <input type="email" id="email" name="email" required inputmode="email" placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="organization">機構/公司</label>
+                            <input type="text" id="organization" name="organization">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">諮詢類型 *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">請選擇</option>
+                                <option value="research">學術研究合作</option>
+                                <option value="industry">產學合作</option>
+                                <option value="student">研究生招募</option>
+                                <option value="technical">技術檢視/諮詢</option>
+                                <option value="speaking">演講邀請</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">詳細說明 *</label>
+                        <textarea id="message" name="message" placeholder="請詳細描述您的需求、合作想法或問題..." required></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> 發送訊息
+                    </button>
+                    <div id="formStatus" class="status" aria-live="polite"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 辦公室資訊 -->
+        <div class="office-info animate-on-scroll">
+            <h2 style="text-align:center; margin-bottom:3rem; color:#333;">
+                <i class="fas fa-map-marker-alt" style="color:#667eea; margin-right:1rem;"></i> 位置資訊
+            </h2>
+            <div class="office-grid">
+                <div class="office-card">
+                    <i class="fas fa-building"></i>
+                    <h3>辦公室位置</h3>
+                    <p><strong>房間：</strong>G309</p>
+                    <p><strong>樓層：</strong>誠樸館 3樓</p>
+                </div>
+                <div class="office-card">
+                    <i class="fas fa-flask"></i>
+                    <h3>研究室</h3>
+                    <p><strong>名稱：</strong>風電運維自動化技術研究室</p>
+                    <p><strong>英文：</strong>Wind turbine O&M Automation Technology Lab. (WTOA)</p>
+                </div>
+                <div class="office-card">
+                    <i class="fas fa-car"></i>
+                    <h3>交通資訊</h3>
+                    <p><strong>大眾運輸：</strong>校車、公車</p>
+                    <p><strong>停車：</strong>校內停車場</p>
+                    <p><strong>地址：</strong>請參考學校官網</p>
+                    <p><strong>建議：</strong>建議提前聯絡確認</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 研究生招募 -->
+        <div class="recruitment-section animate-on-scroll">
+            <h2><i class="fas fa-graduation-cap"></i> 研究生招募</h2>
+            <p>
+                我們實驗室長期招募對生成式AI、自動化技術、風電系統有興趣的研究生。提供完整的研究訓練、產學合作機會，以及優良的研究環境。
+            </p>
+            <div class="recruitment-features">
+                <div class="feature-item"><i class="fas fa-brain"></i><h3>前沿技術</h3><p>接觸最新的生成式AI與自動化技術</p></div>
+                <div class="feature-item"><i class="fas fa-handshake"></i><h3>產學合作</h3><p>參與實際的產業合作專案</p></div>
+                <div class="feature-item"><i class="fas fa-award"></i><h3>學術發表</h3><p>國際期刊與研討會論文發表機會</p></div>
+                <div class="feature-item"><i class="fas fa-users"></i><h3>團隊合作</h3><p>與優秀的研究團隊共同成長</p></div>
+            </div>
+        </div>
+
+        <!-- 地圖區域 -->
+        <div class="map-section animate-on-scroll">
+            <h3><i class="fas fa-map"></i> 校園地圖</h3>
+            <div class="map-placeholder">
+                <i class="fas fa-map-marked-alt"></i>
+                <h4>互動式校園地圖</h4>
+                <p>請訪問學校官方網站查看詳細的校園地圖與交通指南</p>
+                <p>或直接聯絡我們取得更詳細的位置資訊</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <a href="research.html">研究領域</a>
+                <a href="publications.html">研究成果</a>
+                <a href="projects.html">專案開發</a>
+                <a href="about.html">關於我</a>
+            </div>
+            <div class="footer-section">
+                <h3>聯絡資訊</h3>
+                <a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a>
+                <p>辦公室：國立勤益科技大學 誠樸館 G309</p>
+                <p>研究室：風電運維自動化技術研究室</p>
+            </div>
+            <div class="footer-section">
+                <h3>相關連結</h3>
+                <a href="https://sites.google.com/view/jui-hung-liu" target="_blank">Google Sites 研究頁面</a>
+                <a href="https://github.com/dofliu" target="_blank">GitHub 專案</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 DOF Lab - 劉瑞弘教授. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<script src="doflab-script.js"></script>
+<script>
+/** =======  將此常數改為您的後端寄信 API  =======
+ *  例1（Cloud Run + SendGrid）: https://api.doflab.cc/api/contact
+ *  例2（Google Apps Script）: https://script.google.com/macros/s/XXXX/exec
+ */
+const API_ENDPOINT = 'https://REPLACE_WITH_YOUR_ENDPOINT';
+
+/** 將 subject value 映射為易讀中文 */
+const SUBJECT_MAP = {
+  research: '學術研究合作',
+  industry: '產學合作',
+  student: '研究生招募',
+  technical: '技術檢視/諮詢',
+  speaking: '演講邀請',
+  other: '其他'
+};
+
+const $ = (id) => document.getElementById(id);
+
+function isEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+/** 送出表單 */
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('submitBtn');
+  const statusEl = $('formStatus');
+
+  // honeypot：若有填寫，視為機器人
+  if (($('website').value || '').trim() !== '') {
+    statusEl.className = 'status err';
+    statusEl.textContent = '送出失敗（疑似機器人提交）。';
+    return;
+  }
+
+  const name = $('name').value.trim();
+  const email = $('email').value.trim();
+  const organization = $('organization').value.trim();
+  const subjectVal = $('subject').value;
+  const subjectText = SUBJECT_MAP[subjectVal] || subjectVal;
+  const message = $('message').value.trim();
+
+  if (!name || !email || !subjectVal || !message) {
+    statusEl.className = 'status err';
+    statusEl.textContent = '請填寫所有必填欄位。';
+    return;
+  }
+  if (!isEmail(email)) {
+    statusEl.className = 'status err';
+    statusEl.textContent = '電子郵件格式不正確。';
+    return;
+  }
+
+  // 組合 payload（與後端範例契約一致）
+  const payload = { name, email, organization, subject: subjectText, message };
+
+  try {
+    // UI：鎖定按鈕
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 寄送中…';
+    statusEl.className = 'status';
+    statusEl.textContent = '';
+
+    // 嘗試 CORS（建議您的後端開啟 CORS: Access-Control-Allow-Origin: https://您的網域）
+    let res;
+    try {
+      res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // 如後端限定同源，可於後端設定 CORS 白名單；此處不攜帶憑證
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      // 若瀏覽器擋下（DNS/CORS），退而用 no-cors 讓請求仍能送達（但無法讀回應）
+      res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    // 若是 opaque（no-cors），或 HTTP 200/204/OK 都視為成功送出
+    if (!res || res.type === 'opaque' || (res.ok && (res.status === 200 || res.status === 204))) {
+      statusEl.className = 'status ok';
+      statusEl.textContent = '已送出，感謝您的來信！';
+      e.target.reset();
+    } else {
+      const txt = await res.text().catch(()=>'');
+      throw new Error(txt || ('HTTP ' + res.status));
+    }
+  } catch (err) {
+    console.error(err);
+    statusEl.className = 'status err';
+    statusEl.textContent = '寄送失敗，請稍後再試或直接來信 contact@doflab.cc';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> 發送訊息';
+  }
+});
+
+document.querySelectorAll('input, select, textarea').forEach(field => {
+  field.addEventListener('focus', function(){ this.parentElement.style.transform = 'scale(1.02)'; });
+  field.addEventListener('blur', function(){ this.parentElement.style.transform = 'scale(1)'; });
+});
+
+document.querySelectorAll('.social-link').forEach(link => {
+  link.addEventListener('mouseenter', function(){ this.style.transform = 'scale(1.2) rotate(10deg)'; });
+  link.addEventListener('mouseleave', function(){ this.style.transform = 'scale(1.1) rotate(0deg)'; });
+});
+</script>
+</body>
+</html>
