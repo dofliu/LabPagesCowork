@@ -424,9 +424,93 @@
             padding: 20px;
             color: #7f8c8d;
         }
+        /* Detail Panel */
+        .detail-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .detail-overlay.open { display: block; }
+        .detail-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 460px;
+            max-width: 90vw;
+            height: 100vh;
+            background: #1a1f2e;
+            border-left: 2px solid #2ecc71;
+            z-index: 1000;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            padding: 2rem;
+        }
+        .detail-panel.open { right: 0; }
+        .detail-panel .close-btn {
+            position: absolute; top: 1rem; right: 1rem;
+            background: rgba(255,255,255,0.1); border: none; color: #ecf0f1;
+            font-size: 1.4rem; cursor: pointer; border-radius: 50%;
+            width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+        }
+        .detail-panel .close-btn:hover { background: rgba(255,255,255,0.2); }
+        .detail-panel h2 { font-size: 1.4rem; margin-bottom: 0.3rem; color: #ecf0f1; padding-right: 2rem; }
+        .detail-panel .detail-category { color: #2ecc71; font-size: 0.85rem; margin-bottom: 1.2rem; }
+        .detail-panel .detail-section { margin-bottom: 1.2rem; }
+        .detail-panel .detail-section h4 { color: #7f8c8d; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+        .detail-panel .detail-section p { color: #bdc3c7; font-size: 0.95rem; line-height: 1.5; }
+        .detail-panel .detail-progress-bar { background: rgba(255,255,255,0.1); border-radius: 8px; height: 12px; margin: 0.5rem 0; }
+        .detail-panel .detail-progress-fill { height: 100%; border-radius: 8px; transition: width 0.5s; }
+        .detail-panel .detail-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .detail-panel .detail-tag { background: rgba(46,204,113,0.15); color: #2ecc71; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.8rem; }
+        .detail-panel .detail-outputs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .detail-panel .detail-output { background: rgba(241,196,15,0.15); color: #f1c40f; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.8rem; }
+        .detail-panel .detail-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        .detail-panel .meta-item { background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 8px; }
+        .detail-panel .meta-item .meta-label { color: #7f8c8d; font-size: 0.75rem; }
+        .detail-panel .meta-item .meta-value { color: #ecf0f1; font-size: 1rem; font-weight: 600; margin-top: 0.2rem; }
+
+        #projectsBody tr { cursor: pointer; }
+        #projectsBody tr:hover { background: rgba(46,204,113,0.08) !important; }
     </style>
 </head>
 <body>
+    <!-- Detail Panel -->
+    <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+    <div class="detail-panel" id="detailPanel">
+        <button class="close-btn" onclick="closeDetail()">&times;</button>
+        <h2 id="detailName"></h2>
+        <div class="detail-category" id="detailCategory"></div>
+        <div class="detail-section">
+            <h4>完成進度</h4>
+            <div class="detail-progress-bar"><div class="detail-progress-fill" id="detailProgressBar"></div></div>
+            <p id="detailProgressText"></p>
+        </div>
+        <div class="detail-section">
+            <h4>說明</h4>
+            <p id="detailDescription"></p>
+        </div>
+        <div class="detail-meta">
+            <div class="meta-item"><div class="meta-label">狀態</div><div class="meta-value" id="detailStatus"></div></div>
+            <div class="meta-item"><div class="meta-label">最後更新</div><div class="meta-value" id="detailUpdated"></div></div>
+        </div>
+        <div class="detail-section" style="margin-top: 1.2rem;">
+            <h4>關鍵技術</h4>
+            <div class="detail-tags" id="detailTech"></div>
+        </div>
+        <div class="detail-section">
+            <h4>潛在產出</h4>
+            <div class="detail-outputs" id="detailOutputs"></div>
+        </div>
+        <div class="detail-section" id="detailMilestoneSection" style="display:none">
+            <h4>下一個里程碑</h4>
+            <p id="detailMilestone"></p>
+        </div>
+        <div class="detail-section" id="detailMetricsSection" style="display:none">
+            <h4>關鍵指標</h4>
+            <p id="detailMetrics"></p>
+        </div>
+    </div>
     <div class="container">
         <!-- Header -->
         <header>
@@ -757,9 +841,9 @@
         // Initialize Projects Table
         function initProjectsTable() {
             const tbody = document.getElementById('projectsBody');
-            tbody.innerHTML = projectsData.map(project => `
-                <tr>
-                    <td><strong>${project.name}</strong></td>
+            tbody.innerHTML = projectsData.map((project, idx) => `
+                <tr onclick="openDetail(projectsData[${idx}])" title="點擊查看詳情">
+                    <td><strong>${project._enriched && project._enriched.name_zh ? project._enriched.name_zh + '<br><small style=\"color:#7f8c8d\">' + project.name + '</small>' : project.name}</strong></td>
                     <td>${project.category}</td>
                     <td>
                         <div class="percentage">
@@ -834,12 +918,96 @@
             rows.forEach(row => tbody.appendChild(row));
         }
 
+        // Merge data.json into hardcoded data (adds last_updated, description, metrics, milestone)
+        let enrichedData = {};
+        async function loadDynamicData() {
+            try {
+                const res = await fetch('data.json');
+                if (!res.ok) return;
+                const data = await res.json();
+                (data.projects || []).forEach(p => {
+                    // Match by name (case-insensitive, partial match)
+                    const key = (p.name || '').toLowerCase().replace(/[\s_-]/g, '');
+                    enrichedData[key] = p;
+                });
+                // Update projectsData with real last_updated
+                projectsData.forEach(p => {
+                    const key = p.name.toLowerCase().replace(/[\s_-]/g, '');
+                    const match = enrichedData[key] || Object.values(enrichedData).find(e =>
+                        e.name.toLowerCase().replace(/[\s_-]/g, '') === key ||
+                        (e.name_zh || '').includes(p.name) ||
+                        p.name.toLowerCase().includes(e.name.toLowerCase().replace(/[\s_-]/g, ''))
+                    );
+                    if (match) {
+                        if (match.last_updated && match.last_updated !== '') p.updated = match.last_updated;
+                        p._enriched = match;
+                    }
+                });
+                // Re-render table with updated data
+                initProjectsTable();
+            } catch(e) { /* data.json not available, use hardcoded */ }
+        }
+
+        // Detail Panel
+        function openDetail(project) {
+            const panel = document.getElementById('detailPanel');
+            const overlay = document.getElementById('detailOverlay');
+            const e = project._enriched || {};
+
+            document.getElementById('detailName').textContent = (e.name_zh ? e.name_zh + ' (' + project.name + ')' : project.name);
+            document.getElementById('detailCategory').textContent = project.category + ' | ' + project.status;
+
+            const pct = project.completion;
+            const color = pct >= 90 ? '#2ecc71' : pct >= 70 ? '#3498db' : pct >= 50 ? '#f1c40f' : '#e74c3c';
+            document.getElementById('detailProgressBar').style.width = pct + '%';
+            document.getElementById('detailProgressBar').style.background = color;
+            document.getElementById('detailProgressText').textContent = pct + '% 完成';
+
+            // Description
+            const desc = e.description_zh || e.description || project.tech;
+            document.getElementById('detailDescription').textContent = desc;
+
+            // Status & Updated
+            document.getElementById('detailStatus').textContent = project.status;
+            document.getElementById('detailUpdated').textContent = project.updated !== '—' ? project.updated : '未記錄';
+
+            // Tech tags
+            const techArr = project.tech.split(',').map(t => t.trim()).filter(Boolean);
+            document.getElementById('detailTech').innerHTML = techArr.map(t => '<span class="detail-tag">' + t + '</span>').join('');
+
+            // Outputs
+            const outputArr = project.output.split(',').map(t => t.trim()).filter(Boolean);
+            document.getElementById('detailOutputs').innerHTML = outputArr.map(t => '<span class="detail-output">' + t + '</span>').join('');
+
+            // Milestone
+            const ms = document.getElementById('detailMilestoneSection');
+            if (e.next_milestone) { ms.style.display = ''; document.getElementById('detailMilestone').textContent = e.next_milestone; }
+            else { ms.style.display = 'none'; }
+
+            // Metrics
+            const mt = document.getElementById('detailMetricsSection');
+            if (e.key_metrics) { mt.style.display = ''; document.getElementById('detailMetrics').textContent = e.key_metrics; }
+            else { mt.style.display = 'none'; }
+
+            panel.classList.add('open');
+            overlay.classList.add('open');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailPanel').classList.remove('open');
+            document.getElementById('detailOverlay').classList.remove('open');
+        }
+
+        // Keyboard: ESC to close
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
         // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             initCharts();
             initTimeline();
             initProjectsTable();
             setupSearchFilter();
+            await loadDynamicData();
         });
     </script>
 </body>
