@@ -319,4 +319,24 @@
       const categoryCount = posts.reduce((acc, post) => {
         const key = post.category || '未分類';
         acc[key] = (acc[key] || 0) + 1;
-        return ac
+        return acc;
+      }, {});
+
+      const sorted = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
+      topicListEl.innerHTML = sorted.map(([cat, count]) => `
+        <li><span>${cat}</span><span class="count">${count}</span></li>
+      `).join('');
+    };
+
+    const main = async () => {
+      const results = await Promise.all(KNOWN_POST_FILES.map(fetchPost));
+      const posts = results.filter(Boolean);
+      posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      renderPosts(posts);
+      renderStats(posts);
+    };
+
+    main();
+  </script>
+</body>
+</html>
