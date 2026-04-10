@@ -1,106 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NCUT IAE Lab - Members">
     <title>成員介紹 | NCUT IAE Lab</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Lab Members Page Specific Styles */
-        .page-header {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .member-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s;
-        }
-
-        .member-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-
-        .member-avatar {
-            width: 120px;
-            height: 120px;
-            background: #334155;
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.2);
-            border: 2px solid var(--primary-color);
-        }
-
-        .member-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-white);
-        }
-
-        .member-role {
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .member-research {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .member-links a {
-            color: var(--text-gray);
-            margin: 0 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .member-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .section-category {
-            margin-bottom: 4rem;
-        }
-
-        .category-title {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 1rem;
-            color: var(--text-white);
-        }
-    </style>
 </head>
-
 <body>
 
     <nav class="navbar">
@@ -108,14 +16,17 @@
             <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
             <button class="menu-toggle"><i class="fas fa-bars"></i></button>
             <ul class="nav-links">
-                <li><a href="index.html">首頁 </a></li>
+                <li><a href="index.html">首頁</a></li>
                 <li><a href="blog.html">研究日誌</a></li>
                 <li><a href="projects.html">研究與工具</a></li>
                 <li><a href="repos.html">程式碼庫</a></li>
                 <li><a href="publications.html">著作發表</a></li>
                 <li><a href="lab.html" class="active">成員介紹</a></li>
-                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i
-                            class="fas fa-external-link-alt"></i></a></li>
+                <li><a href="about.html">關於</a></li>
+                <li><a href="contact.html">聯絡</a></li>
+                <li><a href="dashboard.html">儀表板</a></li>
+                <li><a href="privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
             </ul>
         </div>
     </nav>
@@ -129,7 +40,7 @@
 
     <section class="section">
         <div class="container">
-
+            
             <!-- Professor -->
             <div class="section-category">
                 <h2 class="category-title">指導教授 Principal Investigator</h2>
@@ -152,7 +63,7 @@
             <div class="section-category">
                 <h2 class="category-title">碩士生 Master Students</h2>
                 <div class="member-grid">
-
+                    
                     <div class="member-card">
                         <div class="member-avatar"><i class="fas fa-user-graduate"></i></div>
                         <h3 class="member-name">王小明 (範例)</h3>
@@ -199,7 +110,12 @@
 
     <footer id="footer">
         <div class="container">
-            <div class="footer-bottom" style="width: 100%;">
+            <div class="footer-links">
+                <a href="about.html">關於實驗室</a>
+                <a href="contact.html">聯絡我們</a>
+                <a href="privacy.html">隱私權政策</a>
+            </div>
+            <div class="footer-bottom" style="width: 100%; margin-top: 1.5rem;">
                 <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
             </div>
         </div>
@@ -211,5 +127,4 @@
         });
     </script>
 </body>
-
 </html>

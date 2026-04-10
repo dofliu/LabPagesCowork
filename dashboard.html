@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究管理儀表板 - 劉瑞弘教授 | DOF Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --text: #ecf0f1;
+            --bg: #1a1a1a;
+            --surface: #2d2d2d;
+            --border: #404040;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #bdc3c7;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--secondary) 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.2);
+        }
+
+        .stat-card h3 {
+            color: #bdc3c7;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Charts Row */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-container h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            color: var(--text);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-container h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            color: var(--text);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #3498db, #2ecc71, #e74c3c);
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #3498db;
+            border: 2px solid var(--bg);
+        }
+
+        .timeline-item.completed::before {
+            background: #27ae60;
+        }
+
+        .timeline-item.planning::before {
+            background: #f39c12;
+        }
+
+        .timeline-item .date {
+            font-size: 0.85em;
+            color: #95a5a6;
+            font-weight: 500;
+        }
+
+        .timeline-item .event {
+            color: var(--text);
+            font-size: 0.95em;
+            margin-top: 3px;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .table-header h3 {
+            font-size: 1.3em;
+            color: var(--text);
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-filter input {
+            padding: 10px 15px;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 6px;
+            font-size: 0.9em;
+            min-width: 200px;
+        }
+
+        .search-filter input::placeholder {
+            color: #7f8c8d;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: var(--primary);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        thead {
+            background: var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        th:hover {
+            background: var(--secondary);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr {
+            transition: background 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--primary);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status.active {
+            background: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+        }
+
+        .status.developing {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .status.completed {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .status.planning {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+        }
+
+        .status.paused {
+            background: rgba(127, 140, 141, 0.2);
+            color: #95a5a6;
+        }
+
+        .percentage {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .percentage-bar {
+            width: 100px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .percentage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid var(--border);
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-filter {
+                width: 100%;
+            }
+
+            .search-filter input {
+                min-width: 100%;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+
+        /* Radar Chart Custom */
+        canvas {
+            max-height: 350px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="blog.html">研究日誌</a></li>
+                <li><a href="projects.html">研究與工具</a></li>
+                <li><a href="repos.html">程式碼庫</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
+                <li><a href="about.html">關於</a></li>
+                <li><a href="contact.html">聯絡</a></li>
+                <li><a href="dashboard.html" class="active">儀表板</a></li>
+                <li><a href="privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 80px;">
+        <!-- Header -->
+        <header>
+            <h1>研究管理儀表板</h1>
+            <p class="subtitle">Prof. Juihung Liu (劉瑞弘) | NCUT, Taiwan</p>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <h3>總專案數</h3>
+                <div class="number">60+</div>
+            </div>
+            <div class="stat-card">
+                <h3>活躍專案</h3>
+                <div class="number">25</div>
+            </div>
+            <div class="stat-card">
+                <h3>已上線</h3>
+                <div class="number">8</div>
+            </div>
+            <div class="stat-card">
+                <h3>潛在論文</h3>
+                <div class="number">6</div>
+            </div>
+        </div>
+
+        <!-- Row 1: Two Charts -->
+        <div class="charts-row">
+            <!-- Research Focus Distribution -->
+            <div class="chart-container">
+                <h3>研究主軸分布</h3>
+                <div class="chart-wrapper">
+                    <canvas id="focusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Project Completion Distribution -->
+            <div class="chart-container">
+                <h3>專案完成度分布</h3>
+                <div class="chart-wrapper">
+                    <canvas id="completionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Radar and Timeline -->
+        <div class="charts-row">
+            <!-- Technology Stack -->
+            <div class="chart-container">
+                <h3>技術棧統計</h3>
+                <div class="chart-wrapper">
+                    <canvas id="techStackChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline-container">
+                <h3>研究時間軸</h3>
+                <div class="timeline" id="timeline">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h3>專案總覽表</h3>
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="搜尋專案名稱...">
+                    <div class="category-filters">
+                        <button class="filter-btn active" data-category="all">全部</button>
+                        <button class="filter-btn" data-category="風力發電">風力發電 AI</button>
+                        <button class="filter-btn" data-category="工業 AI">工業 AI</button>
+                        <button class="filter-btn" data-category="RAG">RAG</button>
+                        <button class="filter-btn" data-category="教育科技">教育科技</button>
+                        <button class="filter-btn" data-category="MCP">MCP</button>
+                        <button class="filter-btn" data-category="個人">個人工具</button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table id="projectsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">專案名稱</th>
+                            <th onclick="sortTable(1)">主軸</th>
+                            <th onclick="sortTable(2)">完成度</th>
+                            <th onclick="sortTable(3)">狀態</th>
+                            <th>關鍵技術</th>
+                            <th>潛在產出</th>
+                            <th>最後更新</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsBody">
+                        <!-- Generated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            Generated: 2026-04-10 | 資料來源: D:\Dropbox\Project_CodingSimulation
+        </footer>
+    </div>
+
+    <script>
+        // Data
+        const projectsData = [
+            // Wind Energy AI
+            { name: "windAILab", category: "風力發電", completion: 92, status: "開發中", tech: "Python, FastAPI, React, PyTorch", output: "論文, 平台", updated: "2026-04-04" },
+            { name: "ECN O&M Tool", category: "風力發電", completion: 80, status: "開發中", tech: "Next.js, FastAPI, ECharts", output: "工具, 論文", updated: "2025-10-26" },
+            { name: "WindFarmMonitoring", category: "風力發電", completion: 60, status: "開發中", tech: "FastAPI, React, PostgreSQL, TimescaleDB", output: "平台", updated: "2024-10-26" },
+            { name: "digiWindTurbine", category: "風力發電", completion: 80, status: "開發中", tech: "FastAPI, React, SQLite, Modbus", output: "模擬器, 論文", updated: "—" },
+            { name: "WindGuard AI", category: "風力發電", completion: 100, status: "已完成", tech: "Gemma 4, Gradio, SCADA", output: "競賽, 論文", updated: "2026-04-06" },
+            { name: "Taiwan Turbulence Study", category: "風力發電", completion: 100, status: "已完成", tech: "Python, Pandas, Matplotlib", output: "論文", updated: "2025-01-22" },
+            { name: "Turbulence Analysis", category: "風力發電", completion: 100, status: "已上線", tech: "Python, NumPy", output: "工具", updated: "2025-01-26" },
+            { name: "VestasOPCconnect", category: "風力發電", completion: 90, status: "開發中", tech: "Python, OPC UA", output: "整合工具", updated: "—" },
+            { name: "H127_Diagnosis", category: "風力發電", completion: 75, status: "開發中", tech: "Python ML", output: "診斷工具", updated: "—" },
+            { name: "modbusWind", category: "風力發電", completion: 60, status: "開發中", tech: "Python, Modbus", output: "協議庫", updated: "—" },
+            { name: "z72_SCADA_etech", category: "風力發電", completion: 50, status: "開發中", tech: "SCADA, OpenSpec", output: "資料收集", updated: "—" },
+            { name: "z72TurbulenceAnalyze", category: "風力發電", completion: 70, status: "開發中", tech: "React, Python", output: "分析工具", updated: "—" },
+
+            // Industrial AI
+            { name: "InduSpect AI", category: "工業 AI", completion: 75, status: "開發中", tech: "Flutter, Gemini AI", output: "論文, App", updated: "2026-03-13" },
+            { name: "AI_PLC_Automation", category: "工業 AI", completion: 85, status: "開發中", tech: "Node.js, Express, PostgreSQL, Gemini", output: "管理系統", updated: "—" },
+            { name: "autoArduinoCoding", category: "工業 AI", completion: 85, status: "開發中", tech: "Python, FastAPI, Arduino CLI, Gemini", output: "工具, 教材", updated: "—" },
+            { name: "ModbusLLM_GUI", category: "工業 AI", completion: 70, status: "開發中", tech: "Python, Modbus, LLM", output: "GUI工具", updated: "—" },
+            { name: "STcode converter", category: "工業 AI", completion: 60, status: "開發中", tech: "Python, PLC ST", output: "轉換工具", updated: "—" },
+
+            // RAG & Knowledge
+            { name: "RAG Ultimate", category: "RAG", completion: 85, status: "開發中", tech: "React 19, TypeScript, Gemini, ChromaDB", output: "平台, 論文", updated: "2026-04-07" },
+            { name: "LLM Wiki", category: "RAG", completion: 80, status: "開發中", tech: "Python, Claude API, Obsidian", output: "知識庫工具", updated: "2026-04-07" },
+            { name: "embedTunedforWT", category: "RAG", completion: 100, status: "已完成", tech: "sentence-transformers, BGE", output: "研究資料", updated: "—" },
+            { name: "UltimaRAG-EnergyO-M", category: "RAG", completion: 70, status: "開發中", tech: "Python, FastAPI, RAG", output: "領域系統", updated: "2025-11-16" },
+
+            // EdTech
+            { name: "UniCourse AI Online", category: "教育科技", completion: 95, status: "已上線", tech: "React 19, Supabase, GCP", output: "教學平台", updated: "2026-04-07" },
+            { name: "AI Course Adventure", category: "教育科技", completion: 75, status: "開發中", tech: "React 19, Gemini, Supabase", output: "教學平台", updated: "2025-10-22" },
+            { name: "AI Exam Generator", category: "教育科技", completion: 80, status: "開發中", tech: "React 19, Gemini, Supabase", output: "考試工具", updated: "2025-10-07" },
+            { name: "Face Recognition Attendance", category: "教育科技", completion: 90, status: "已上線", tech: "Python, InsightFace, Streamlit", output: "點名系統", updated: "2026-03-06" },
+            { name: "Course Scheduling", category: "教育科技", completion: 95, status: "已上線", tech: "Python, Tkinter, pandas", output: "排課系統", updated: "2026-03-21" },
+            { name: "StaticsEngine", category: "教育科技", completion: 20, status: "規劃中", tech: "TypeScript, React, SVG", output: "教學工具", updated: "2026-03-29" },
+            { name: "AI Admission Evaluator", category: "教育科技", completion: 95, status: "已上線", tech: "React, TypeScript, Gemini", output: "評估工具", updated: "2025-10-21" },
+            { name: "PPT Auto Generator", category: "教育科技", completion: 30, status: "規劃中", tech: "Python, python-pptx, Gemini", output: "簡報工具", updated: "2026-04-03" },
+            { name: "Student Grading", category: "教育科技", completion: 30, status: "規劃中", tech: "Python, Streamlit, Gemini", output: "評分系統", updated: "2026-01-15" },
+            { name: "Student Comment", category: "教育科技", completion: 15, status: "規劃中", tech: "Python, Flask, RAG", output: "評語系統", updated: "2025-04-05" },
+            { name: "AI Resume Generator", category: "教育科技", completion: 70, status: "已完成", tech: "Python, Flask, Gemini", output: "履歷工具", updated: "2025-06-18" },
+
+            // MCP
+            { name: "OPC UA MCP", category: "MCP", completion: 85, status: "已上線", tech: "Python, asyncua, MCP", output: "工業工具", updated: "2025-01-10" },
+            { name: "Chrome DevTools MCP", category: "MCP", completion: 90, status: "已上線", tech: "Node.js, TypeScript, Puppeteer", output: "自動化工具", updated: "—" },
+            { name: "MediaToolkit MCP", category: "MCP", completion: 85, status: "已上線", tech: "Python, Pillow, pypdf", output: "文件工具", updated: "—" },
+            { name: "MCP Binary Writer", category: "MCP", completion: 90, status: "已上線", tech: "Node.js, MCP", output: "檔案工具", updated: "—" },
+            { name: "MCP Printer", category: "MCP", completion: 85, status: "開發中", tech: "Node.js, TypeScript, CUPS", output: "列印工具", updated: "—" },
+            { name: "Modbus MCP", category: "MCP", completion: 85, status: "已上線", tech: "Python, Modbus", output: "工業工具", updated: "—" },
+            { name: "CitingVerify MCP", category: "MCP", completion: 80, status: "開發中", tech: "Python, FastAPI, React", output: "學術工具", updated: "—" },
+            { name: "PPT MCP Server", category: "MCP", completion: 75, status: "開發中", tech: "Python, python-pptx, MCP", output: "簡報工具", updated: "—" },
+
+            // Personal
+            { name: "SmartFill-Scholar", category: "個人", completion: 80, status: "開發中", tech: "Python, FastAPI, React, ChromaDB", output: "知識API", updated: "—" },
+            { name: "ScanMail+", category: "個人", completion: 90, status: "已上線", tech: "Python, FastAPI, OpenCV, Docker", output: "文件平台", updated: "—" },
+            { name: "AI Graphic Studio", category: "個人", completion: 75, status: "已上線", tech: "React 19, Gemini, GCP", output: "設計工具", updated: "—" },
+            { name: "English Tutor", category: "個人", completion: 60, status: "開發中", tech: "React, Speech API", output: "學習工具", updated: "—" },
+            { name: "expense-auto", category: "個人", completion: 50, status: "開發中", tech: "Python, Agents", output: "記帳工具", updated: "—" },
+            { name: "Wind Energy Simulator", category: "個人", completion: 80, status: "開發中", tech: "React, TypeScript, Canvas", output: "教學模擬器", updated: "—" },
+            { name: "CitingVerify", category: "個人", completion: 80, status: "開發中", tech: "React, FastAPI, PostgreSQL", output: "學術驗證", updated: "—" }
+        ];
+
+        const timelineData = [
+            { date: "2025-01", event: "Taiwan Turbulence Study 完成", status: "completed" },
+            { date: "2025-06", event: "AI Resume Generator MVP", status: "completed" },
+            { date: "2025-10", event: "ECN O&M Tool core modules", status: "completed" },
+            { date: "2026-01", event: "windAILab Phase 10 啟動", status: "completed" },
+            { date: "2026-03", event: "Face Recognition v3.0", status: "completed" },
+            { date: "2026-03", event: "InduSpect Flutter 版本", status: "completed" },
+            { date: "2026-04", event: "RAG Ultimate v5.0", status: "completed" },
+            { date: "2026-04", event: "WindGuard AI (Kaggle)", status: "completed" },
+            { date: "2026-04", event: "windAILab 92% complete", status: "completed" },
+            { date: "2026 Q2", event: "論文投稿衝刺", status: "planning" },
+            { date: "2026 Q3", event: "實驗驗證期", status: "planning" },
+            { date: "2026 Q4", event: "成果推廣期", status: "planning" }
+        ];
+
+        const focusDistribution = {
+            labels: ['風力發電 AI', '工業 AI 與巡檢', 'RAG 與知識管理', '教育科技', 'MCP 工具鏈', '個人生產力工具'],
+            data: [12, 5, 4, 11, 8, 10],
+            colors: ['#2ecc71', '#e67e22', '#9b59b6', '#3498db', '#e74c3c', '#1abc9c']
+        };
+
+        const topProjects = [
+            { name: "WindGuard AI", completion: 100 },
+            { name: "Taiwan Turbulence Study", completion: 100 },
+            { name: "embedTunedforWT", completion: 100 },
+            { name: "UniCourse AI Online", completion: 95 },
+            { name: "Course Scheduling", completion: 95 },
+            { name: "AI Admission Evaluator", completion: 95 },
+            { name: "windAILab", completion: 92 },
+            { name: "Face Recognition Attendance", completion: 90 },
+            { name: "ScanMail+", completion: 90 },
+            { name: "VestasOPCconnect", completion: 90 },
+            { name: "Chrome DevTools MCP", completion: 90 },
+            { name: "MCP Binary Writer", completion: 90 },
+            { name: "AI_PLC_Automation", completion: 85 },
+            { name: "autoArduinoCoding", completion: 85 },
+            { name: "RAG Ultimate", completion: 85 }
+        ];
+
+        const techStack = {
+            labels: ['Python', 'React/TypeScript', 'Google Gemini API', 'FastAPI', 'Docker/GCP', '工業協議', 'Database', 'ML/AI Libraries'],
+            data: [30, 20, 15, 12, 8, 10, 12, 15]
+        };
+
+        // Initialize Charts
+        function initCharts() {
+            // Focus Distribution Chart
+            const ctx1 = document.getElementById('focusChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: focusDistribution.labels,
+                    datasets: [{
+                        data: focusDistribution.data,
+                        backgroundColor: focusDistribution.colors,
+                        borderColor: '#2d2d2d',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#ecf0f1', padding: 15, font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+
+            // Completion Distribution Chart
+            const ctx2 = document.getElementById('completionChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: topProjects.map(p => p.name),
+                    datasets: [{
+                        label: '完成度 (%)',
+                        data: topProjects.map(p => p.completion),
+                        backgroundColor: topProjects.map(p => {
+                            if (p.completion === 100) return '#2ecc71';
+                            if (p.completion >= 90) return '#27ae60';
+                            if (p.completion >= 80) return '#3498db';
+                            return '#f39c12';
+                        }),
+                        borderRadius: 5,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#ecf0f1' } }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#ecf0f1' },
+                            grid: { color: '#404040' },
+                            max: 100
+                        },
+                        y: {
+                            ticks: { color: '#ecf0f1', font: { size: 10 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // Tech Stack Radar Chart
+            const ctx3 = document.getElementById('techStackChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'radar',
+                data: {
+                    labels: techStack.labels,
+                    datasets: [{
+                        label: '使用項目數',
+                        data: techStack.data,
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#3498db',
+                        pointBorderColor: '#ecf0f1',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#ecf0f1' } }
+                    },
+                    scales: {
+                        r: {
+                            ticks: { color: '#ecf0f1' },
+                            grid: { color: '#404040' },
+                            angleLines: { color: '#404040' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Timeline
+        function initTimeline() {
+            const timelineDiv = document.getElementById('timeline');
+            timelineDiv.innerHTML = timelineData.map(item => `
+                <div class="timeline-item ${item.status}">
+                    <div class="date">${item.date}</div>
+                    <div class="event">${item.event}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize Projects Table
+        function initProjectsTable() {
+            const tbody = document.getElementById('projectsBody');
+            tbody.innerHTML = projectsData.map(project => `
+                <tr>
+                    <td><strong>${project.name}</strong></td>
+                    <td>${project.category}</td>
+                    <td>
+                        <div class="percentage">
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: ${project.completion}%"></div>
+                            </div>
+                            <span>${project.completion}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status ${project.status === '已上線' ? 'active' : project.status === '已完成' ? 'completed' : project.status === '開發中' ? 'developing' : 'planning'}">
+                            ${project.status}
+                        </span>
+                    </td>
+                    <td><small>${project.tech}</small></td>
+                    <td><small>${project.output}</small></td>
+                    <td><small>${project.updated}</small></td>
+                </tr>
+            `).join('');
+        }
+
+        // Search and Filter
+        function setupSearchFilter() {
+            const searchInput = document.getElementById('searchInput');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            let currentFilter = 'all';
+
+            searchInput.addEventListener('input', filterTable);
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.category;
+                    filterTable();
+                });
+            });
+
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const rows = document.querySelectorAll('#projectsBody tr');
+
+                rows.forEach(row => {
+                    const name = row.cells[0].textContent.toLowerCase();
+                    const category = row.cells[1].textContent;
+                    const matchesSearch = name.includes(searchTerm);
+                    const matchesCategory = currentFilter === 'all' || category.includes(currentFilter);
+
+                    row.style.display = matchesSearch && matchesCategory ? '' : 'none';
+                });
+            }
+        }
+
+        // Sort Table
+        function sortTable(columnIndex) {
+            const tbody = document.getElementById('projectsBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            rows.sort((a, b) => {
+                const aValue = a.cells[columnIndex].textContent.trim();
+                const bValue = b.cells[columnIndex].textContent.trim();
+
+                // Try numeric sort for completion column
+                if (columnIndex === 2) {
+                    return parseFloat(bValue) - parseFloat(aValue);
+                }
+
+                return aValue.localeCompare(bValue, 'zh-TW');
+            });
+
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            document.querySelector('.menu-toggle').addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.toggle('active');
+            });
+
+            initCharts();
+            initTimeline();
+            initProjectsTable();
+            setupSearchFilter();
+        });
+    </script>
+</body>
+</html>
