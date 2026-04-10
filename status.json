@@ -1,0 +1,102 @@
+{
+  "AI Exam Generator": {
+    "progress": 80,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "Face Recognition Attendance": {
+    "progress": 90,
+    "status": "production",
+    "last_updated": "2026-04-10"
+  },
+  "Course Scheduling System": {
+    "progress": 95,
+    "status": "production",
+    "last_updated": "2026-04-10"
+  },
+  "StaticsEngine": {
+    "progress": 20,
+    "status": "planning",
+    "last_updated": "2026-04-10"
+  },
+  "UniCourse AI Online": {
+    "progress": 95,
+    "status": "production",
+    "last_updated": "2026-04-10"
+  },
+  "WindGuard AI": {
+    "progress": 100,
+    "status": "completed",
+    "last_updated": "2026-04-10"
+  },
+  "LLM Wiki": {
+    "progress": 80,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "OPC UA MCP": {
+    "progress": 85,
+    "status": "production",
+    "last_updated": "2026-04-10"
+  },
+  "Modbus MCP": {
+    "progress": 85,
+    "status": "production",
+    "last_updated": "2026-04-10"
+  },
+  "ScanMail+": {
+    "progress": 90,
+    "status": "production",
+    "last_updated": "2026-04-10"
+  },
+  "SmartFill-Scholar": {
+    "progress": 80,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "Research Dashboard": {
+    "progress": 90,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "ECN O&M Tool": {
+    "progress": 80,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "InduSpect AI": {
+    "progress": 75,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "AI PLC Automation": {
+    "progress": 85,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "Auto Arduino Coding": {
+    "progress": 85,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "RAG Ultimate": {
+    "progress": 85,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "WindAI Lab": {
+    "progress": 92,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "Digital Wind Turbine": {
+    "progress": 80,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
+  "WindFarmMonitoring": {
+    "progress": 60,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  }
+}

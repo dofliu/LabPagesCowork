@@ -120,6 +120,7 @@
                 <li><a href="lab.html">成員介紹</a></li>
                 <li><a href="about.html">關於</a></li>
                 <li><a href="contact.html">聯絡</a></li>
+                <li><a href="dashboard.html">儀表板</a></li>
                 <li><a href="privacy.html">隱私權</a></li>
                 <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
             </ul>
@@ -310,26 +311,4 @@
       const categoryCount = posts.reduce((acc, post) => {
         const key = post.category || '未分類';
         acc[key] = (acc[key] || 0) + 1;
-        return acc;
-      }, {});
-
-      topicListEl.innerHTML = Object.entries(categoryCount)
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-Hant'))
-        .map(([name, count]) => `<li><span>${name}</span><span class="count">${count}</span></li>`)
-        .join('');
-    };
-
-    (async () => {
-      const uniqueFiles = [...new Set(KNOWN_POST_FILES)];
-      const loaded = await Promise.all(uniqueFiles.map(fetchPost));
-      const posts = loaded
-        .filter(Boolean)
-        .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-      renderPosts(posts);
-      renderStats(posts);
-    })();
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</body>
-</html>
+        return ac

@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>劉瑞弘研究室 - 研究景觀圖 | Research Landscape</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #0f1d2d 0%, #1a2f4a 100%);
+            color: #ecf0f1;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-title .subtitle {
+            font-size: 12px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ecf0f1;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #f1c40f;
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.3);
+        }
+
+        .search-box input::placeholder {
+            color: #7f8c8d;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f1c40f;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #visualization {
+            flex: 1;
+        }
+
+        .legend {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            max-width: 280px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .legend-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #f1c40f;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 6px 8px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .legend-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .legend-color-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .legend-text {
+            flex: 1;
+        }
+
+        .legend-count {
+            font-size: 11px;
+            color: #95a5a6;
+            margin-left: auto;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 12px;
+            pointer-events: none;
+            font-size: 12px;
+            color: #ecf0f1;
+            max-width: 240px;
+            z-index: 200;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .tooltip.visible {
+            display: block;
+        }
+
+        .tooltip-name {
+            font-weight: 700;
+            color: #f1c40f;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .tooltip-desc {
+            font-size: 11px;
+            color: #bdc3c7;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .tooltip-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 11px;
+            color: #95a5a6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 6px;
+        }
+
+        .tooltip-progress {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+
+        svg {
+            background: transparent;
+        }
+
+        /* Scrollbar styling */
+        .legend::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .legend::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .legend::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .legend::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Detail Panel */
+        .detail-panel {
+            position: absolute;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(15, 29, 45, 0.97) 0%, rgba(26, 47, 74, 0.97) 100%);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            z-index: 300;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .detail-panel.open {
+            right: 0;
+        }
+
+        .detail-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .detail-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #95a5a6;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .detail-close:hover {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .detail-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            padding-right: 40px;
+        }
+
+        .detail-name-zh {
+            font-size: 14px;
+            color: #95a5a6;
+            margin-bottom: 12px;
+        }
+
+        .detail-category-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .detail-body {
+            padding: 20px 24px;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .detail-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .detail-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
+        .detail-progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        .detail-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #bdc3c7;
+        }
+
+        .detail-tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .detail-tech-tag {
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #bdc3c7;
+        }
+
+        .detail-metrics {
+            font-size: 13px;
+            color: #f1c40f;
+            line-height: 1.6;
+            padding: 10px 14px;
+            background: rgba(241, 196, 15, 0.08);
+            border-left: 3px solid #f1c40f;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .detail-outputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .detail-output-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-status-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .detail-status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .detail-date {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .detail-milestone {
+            font-size: 13px;
+            color: #ecf0f1;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+        }
+
+        .detail-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .detail-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .detail-panel::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-controls {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .stats-bar {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .header-title h1 {
+                font-size: 22px;
+            }
+
+            .legend {
+                max-width: calc(100% - 48px);
+                top: auto;
+                bottom: 24px;
+                right: 24px;
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <h1>劉瑞弘研究室</h1>
+                <span class="subtitle">Research Landscape | D3.js Force-Directed Graph</span>
+            </div>
+            <div class="header-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜尋專案... Search projects...">
+                </div>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statTotal">0</div>
+                        <div class="stat-label">Total Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statActive">0</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statProduction">0</div>
+                        <div class="stat-label">Production</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statPapers">0</div>
+                        <div class="stat-label">Papers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <svg id="visualization"></svg>
+            <div class="legend" id="legend"></div>
+            <div class="tooltip" id="tooltip"></div>
+            <div class="detail-panel" id="detailPanel">
+                <div class="detail-header">
+                    <button class="detail-close" id="detailClose">&times;</button>
+                    <div class="detail-name" id="detailName"></div>
+                    <div class="detail-name-zh" id="detailNameZh"></div>
+                    <span class="detail-category-badge" id="detailCategory"></span>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-section">
+                        <div class="detail-section-title">完成度 / Progress</div>
+                        <div class="detail-progress-bar"><div class="detail-progress-fill" id="detailProgressFill"></div></div>
+                        <div class="detail-progress-label"><span id="detailProgressText"></span><span id="detailStatus"></span></div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">說明 / Description</div>
+                        <div class="detail-desc" id="detailDesc"></div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">關鍵技術 / Technologies</div>
+                        <div class="detail-tech-tags" id="detailTech"></div>
+                    </div>
+                    <div class="detail-section" id="detailMetricsSection">
+                        <div class="detail-section-title">關鍵指標 / Key Metrics</div>
+                        <div class="detail-metrics" id="detailMetrics"></div>
+                    </div>
+                    <div class="detail-section" id="detailMilestoneSection">
+                        <div class="detail-section-title">下一個里程碑 / Next Milestone</div>
+                        <div class="detail-milestone" id="detailMilestone"></div>
+                    </div>
+                    <div class="detail-section" id="detailOutputsSection">
+                        <div class="detail-section-title">潛在產出 / Outputs</div>
+                        <div class="detail-outputs" id="detailOutputs"></div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">最後更新 / Last Updated</div>
+                        <div class="detail-date" id="detailDate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data structure with comprehensive project information
+        const data = {
+            center: {
+                id: "center",
+                name: "劉瑞弘研究室",
+                type: "center"
+            },
+            categories: [
+                { id: "wind", name: "風力發電 AI", color: "#2ecc71", icon: "⚡" },
+                { id: "industrial", name: "工業 AI 與智慧巡檢", color: "#e67e22", icon: "🏭" },
+                { id: "rag", name: "RAG 與知識管理", color: "#9b59b6", icon: "📚" },
+                { id: "edtech", name: "教育科技", color: "#3498db", icon: "🎓" },
+                { id: "mcp", name: "MCP 工具鏈", color: "#e74c3c", icon: "🔧" },
+                { id: "personal", name: "個人生產力工具", color: "#1abc9c", icon: "⚙️" }
+            ],
+            projects: [
+                // Wind Energy AI
+                { id: "windAILab", name: "windAILab", nameZh: "風力發電AI研究平台", category: "wind", completion: 92, desc: "Multi-agent collaboration platform with 42 AI agents for wind turbine fault diagnosis, power curve modeling, and predictive maintenance. Features virtual office UI with 3 visual styles.", tech: "Python, FastAPI, React 18, TypeScript, PyTorch, ChromaDB, MLflow, Docker", status: "active", papers: true, metrics: "F1=1.0 (fault diagnosis), R²=0.997 (power curve), 42 agents, 12 skill modules, 789 tests", milestone: "Phase 11 — 部署優化與論文撰寫", outputs: ["paper", "platform", "tool"], lastUpdated: "2026-04-04" },
+                { id: "ecn-om", name: "ECN O&M Tool", nameZh: "離岸風電運維成本計算器", category: "wind", completion: 80, desc: "Web-based offshore wind farm O&M cost analysis replicating and enhancing ECN O&M Tool V5. Includes waiting time, cost calculation, Monte Carlo simulation, and LCOE modules.", tech: "Next.js 16, TypeScript, FastAPI, SQLAlchemy, ECharts, Zustand", status: "active", papers: true, metrics: "6 major modules, K13 demo 130 turbines, validation to 10+ decimal places", milestone: "Phase 4 — Monte Carlo validation", outputs: ["tool", "paper"], lastUpdated: "2025-10-26" },
+                { id: "windMonitor", name: "WindFarmMonitoring", nameZh: "風場即時監控系統", category: "wind", completion: 60, desc: "Real-time wind farm monitoring with OPC data collection, SCADA integration, historical analysis, alarm management, and automated reporting.", tech: "FastAPI, React 18, PostgreSQL, TimescaleDB, Redis, ECharts 5", status: "active", papers: false, metrics: "15 wind turbines (H05-H18 + P04), 17-second data interval", milestone: "Frontend integration with OPC backend", outputs: ["platform"], lastUpdated: "2024-10-26" },
+                { id: "digiWind", name: "digiWindTurbine", nameZh: "數位孿生風機模擬器", category: "wind", completion: 80, desc: "Physics-based wind turbine digital twin with thermal, vibration, and electrical models. Supports fault injection and degradation scenarios.", tech: "FastAPI, React, TypeScript, SQLite, Modbus TCP, WebSocket", status: "active", papers: true, metrics: "59 SCADA tags (Bachmann Z72 aligned), 7 fault scenarios, CSV export", milestone: "Multi-turbine fleet simulation", outputs: ["tool", "paper"], lastUpdated: "" },
+                { id: "windGuard", name: "WindGuard AI", nameZh: "風機診斷AI代理", category: "wind", completion: 100, desc: "Gemma 4 powered wind turbine diagnostic agent for Kaggle Gemma4Good Hackathon Climate Track. Z-score anomaly detection with agentic workflows.", tech: "Gemma 4, Python, Gradio, SCADA, Function Calling", status: "completed", papers: true, metrics: "202 datasets, 36 turbines, 3 wind farms, 7 fault types", milestone: "N/A — Competition submitted", outputs: ["competition", "paper"], lastUpdated: "2026-04-06" },
+                { id: "taiwanTurbulence", name: "Taiwan Turbulence Study", nameZh: "台灣離岸風場亂流研究", category: "wind", completion: 100, desc: "Academic research analyzing turbulence characteristics of Taiwan's offshore wind farms, comparing with IEC 61400-1 standards.", tech: "Python, Pandas, NumPy, Matplotlib, SciPy", status: "completed", papers: true, metrics: "2-year Changhua dataset + 21-day Taichung high-res, 5 main figures", milestone: "N/A — Complete", outputs: ["paper"], lastUpdated: "2025-01-22" },
+                { id: "vestas", name: "VestasOPCconnect", nameZh: "Vestas OPC整合", category: "wind", completion: 90, desc: "OPC connection interface for Vestas wind turbines with real-time data streaming.", tech: "Python, OPC UA, Vestas API", status: "active", papers: false, metrics: "Real-time Vestas turbine OPC mapping", milestone: "Subscription-based monitoring", outputs: ["tool"], lastUpdated: "" },
+                { id: "h127", name: "H127_Diagnosis", nameZh: "H127風機故障診斷", category: "wind", completion: 75, desc: "Fault diagnosis system for Enercon H127 wind turbine model using ML algorithms and SCADA data.", tech: "Python, ML, Fault Detection", status: "active", papers: false, metrics: "H127-specific fault patterns", milestone: "Expand fault type coverage", outputs: ["tool"], lastUpdated: "" },
+                { id: "modbus", name: "modbusWind", nameZh: "Modbus風機通訊", category: "wind", completion: 60, desc: "Modbus TCP/RTU protocol implementation for wind turbine communication systems.", tech: "Python, Modbus TCP/RTU", status: "active", papers: false, metrics: "Multi-device Modbus support", milestone: "Register mapping standardization", outputs: ["tool"], lastUpdated: "" },
+
+                // Industrial AI
+                { id: "induSpect", name: "InduSpect AI", nameZh: "智慧工業巡檢系統", category: "industrial", completion: 75, desc: "Mobile inspection system using multimodal LLM for automated checklist extraction from photos, equipment identification, anomaly detection, and dual-mode measurement.", tech: "Flutter 3.x, Dart 3.2+, Google Gemini API, Provider, Camera", status: "active", papers: true, metrics: "10 core features, 7-module experiment plan (6-month), Chain-of-Thought prompting", milestone: "Experiment Module 1-3 execution", outputs: ["paper", "app"], lastUpdated: "2026-03-13" },
+                { id: "ai-plc", name: "AI PLC Automation", nameZh: "AI驅動PLC自動化管理", category: "industrial", completion: 85, desc: "Enterprise-grade PLC automation management with auto-hardware detection, code generation, and compilation validation.", tech: "Node.js, Express, PostgreSQL, Gemini API, JWT, WebSocket", status: "active", papers: false, metrics: "v4.0, 6-layer error handling, activity tracking", milestone: "Dashboard analytics enhancement", outputs: ["tool"], lastUpdated: "" },
+                { id: "autoArduino", name: "autoArduinoCoding", nameZh: "自然語言Arduino程式生成", category: "industrial", completion: 85, desc: "Natural language driven Arduino code generation with auto-validation, self-healing compilation, and one-click deployment.", tech: "Python, FastAPI, Arduino CLI, Gemini 1.5", status: "active", papers: true, metrics: "Auto-compilation, smart library installation, PDF reports", milestone: "Multi-board support expansion", outputs: ["tool", "course"], lastUpdated: "" },
+                { id: "modbuslm", name: "ModbusLLM_GUI", nameZh: "Modbus+LLM設定工具", category: "industrial", completion: 70, desc: "GUI application for Modbus protocol configuration with LLM-assisted device communication setup.", tech: "Python, GUI Framework, Modbus, LLM", status: "active", papers: false, metrics: "Simplified Modbus configuration through AI", milestone: "Multi-protocol support", outputs: ["tool"], lastUpdated: "" },
+
+                // RAG & Knowledge
+                { id: "rag-ultimate", name: "RAG Ultimate", nameZh: "企業級統一RAG研究平台", category: "rag", completion: 85, desc: "Enterprise-grade unified RAG platform integrating 10 sub-projects with benchmark lab, enterprise knowledge base, and chunking experiments.", tech: "React 19, TypeScript 5.8, Vite 6, Gemini 2.5 Flash, ChromaDB, D3.js", status: "active", papers: true, metrics: "17 RAG modes, 789 tests passing, 10 export formats, RAGAS evaluation", milestone: "Phase 2 — Advanced retrieval strategies", outputs: ["platform", "paper"], lastUpdated: "2026-04-07" },
+                { id: "llm-wiki", name: "LLM Wiki", nameZh: "LLM知識庫編譯器", category: "rag", completion: 80, desc: "LLM-powered personal knowledge base compiler that transforms scattered documents into structured, interconnected Markdown wikis.", tech: "Python, Claude API, OpenAI API, Ollama, Obsidian", status: "active", papers: false, metrics: "15 file formats supported, 3 API providers", milestone: "Auto-linking and graph visualization", outputs: ["tool"], lastUpdated: "2026-04-07" },
+                { id: "embedTuned", name: "embedTunedforWT", nameZh: "風機領域嵌入模型", category: "rag", completion: 100, desc: "Custom embedding model training for wind turbine domain with multi-brand cross-domain evaluation.", tech: "sentence-transformers, BGE-base-zh-v1.5, scikit-learn", status: "completed", papers: true, metrics: "3 turbine types (H127, V47, Z72), efficiency experiments 10%-100%", milestone: "N/A — Complete", outputs: ["paper"], lastUpdated: "" },
+                { id: "ultima-rag", name: "UltimaRAG-EnergyO-M", nameZh: "風能運維RAG系統", category: "rag", completion: 70, desc: "Domain-specific RAG system for wind energy O&M with energy-focused knowledge base.", tech: "Python, FastAPI, RAG, Knowledge Graphs", status: "active", papers: false, metrics: "Energy O&M documentation, multi-session tracking", milestone: "Domain expansion to solar", outputs: ["tool"], lastUpdated: "2025-11-16" },
+
+                // EdTech
+                { id: "unicourse", name: "UniCourse AI Online", nameZh: "AI線上考試與課堂管理", category: "edtech", completion: 95, desc: "Comprehensive AI-powered exam and classroom management with gamification, anti-cheat, auto-save, and multi-course support. Deployed on GCP.", tech: "React 19, TypeScript, Vite 6, Supabase, GCP Cloud Run, Docker", status: "production", papers: false, metrics: "Dual-mode testing, window-switch detection, 5 themes, Excel export", milestone: "Analytics dashboard v2", outputs: ["platform", "course"], lastUpdated: "2026-04-07" },
+                { id: "aiAdventure", name: "AI Course Adventure", nameZh: "AI冒險式學習平台", category: "edtech", completion: 75, desc: "Gamified multi-course learning platform with AI tutor, C++ visualizer, boss fights, and progressive achievement system.", tech: "React 19, TypeScript, Gemini API, Supabase, KaTeX, SVG", status: "active", papers: false, metrics: "Multi-course (C++, Statics), XP/points system, boss challenges", milestone: "New course modules", outputs: ["platform"], lastUpdated: "2025-10-22" },
+                { id: "examGen", name: "AI Exam Generator", nameZh: "AI考題生成系統", category: "edtech", completion: 80, desc: "Multi-subject AI-powered quiz generation with adaptive difficulty and comprehensive learning analytics.", tech: "React 19, TypeScript, Gemini API, Supabase, KaTeX", status: "active", papers: false, metrics: "9 subjects, 5 difficulty levels, cloud sync, AI learning analysis", milestone: "New subject modules", outputs: ["tool", "course"], lastUpdated: "2025-10-07" },
+                { id: "faceAttend", name: "Face Recognition Attendance", nameZh: "人臉辨識點名系統", category: "edtech", completion: 90, desc: "InsightFace-based intelligent attendance with PDF photo extraction, dual-mode recognition, and comprehensive analytics.", tech: "Python, InsightFace, Streamlit, OpenCV, PyMuPDF, Pandas", status: "production", papers: false, metrics: "v3.0, 0.25 threshold, 5-level confidence, multi-scale detection", milestone: "Batch processing optimization", outputs: ["tool"], lastUpdated: "2026-03-06" },
+                { id: "schedule", name: "Course Scheduling System", nameZh: "自動排課系統", category: "edtech", completion: 95, desc: "Automated university timetable generation with constraint satisfaction and conflict resolution for multi-department scheduling.", tech: "Python, Tkinter, Pandas, openpyxl, Matplotlib", status: "production", papers: true, metrics: "93.7% success rate (59/63 courses), 4 departments, multi-format export", milestone: "Multi-semester optimization", outputs: ["tool", "paper"], lastUpdated: "2026-03-21" },
+                { id: "statics", name: "StaticsEngine", nameZh: "力學AI視覺化引擎", category: "edtech", completion: 20, desc: "Interactive physics mechanics visualization engine with SVG rendering and React components for statics education.", tech: "TypeScript, React 18, SVG, pnpm monorepo, Vitest, Storybook, Zod", status: "planning", papers: false, metrics: "Early phase, test-driven development", milestone: "Phase 1 — monorepo + component library", outputs: ["tool", "paper"], lastUpdated: "2026-03-29" },
+                { id: "admission", name: "AI Student Admission Evaluator", nameZh: "AI入學申請評估", category: "edtech", completion: 95, desc: "Frontend LLM-powered system for automated evaluation of student admission applications from PDF documents.", tech: "React 19, TypeScript, Tailwind CSS, PDF.js, Gemini API", status: "production", papers: false, metrics: "Multi-modal evaluation, radar chart, CSV/HTML batch export", milestone: "Multi-year analytics", outputs: ["tool"], lastUpdated: "2025-10-21" },
+                { id: "grading", name: "Student Grading System", nameZh: "多模態作業評分系統", category: "edtech", completion: 30, desc: "AI-powered student work evaluation supporting YouTube videos and document analysis with customizable rubrics.", tech: "Python, Streamlit, Gemini 1.5 Pro/Flash, Whisper, PyMuPDF", status: "planning", papers: false, metrics: "Multi-modal: YouTube, PDF, PPT, Word; ASR via Whisper", milestone: "Core evaluation pipeline", outputs: ["tool"], lastUpdated: "2026-01-15" },
+
+                // MCP Toolchain
+                { id: "opc-ua", name: "OPC UA MCP", nameZh: "OPC UA工業MCP", category: "mcp", completion: 85, desc: "MCP server connecting to OPC UA-enabled industrial systems for AI agents to monitor, analyze, and control operational data.", tech: "Python 3.10+, asyncua, MCP Protocol", status: "production", papers: false, metrics: "2 core tools (read/write OPC UA nodes)", milestone: "Subscription-based monitoring", outputs: ["tool"], lastUpdated: "2025-01-10" },
+                { id: "chrome-devtools", name: "Chrome DevTools MCP", nameZh: "Chrome開發者工具MCP", category: "mcp", completion: 90, desc: "MCP server enabling coding agents to control and inspect live Chrome browsers for automation, debugging, and performance analysis.", tech: "Node.js 20+, TypeScript, Puppeteer, Chrome DevTools", status: "production", papers: false, metrics: "28 tools across 6 categories; supports Gemini, Claude, Cursor", milestone: "Lighthouse integration", outputs: ["tool"], lastUpdated: "" },
+                { id: "mediaToolkit", name: "MediaToolkit MCP", nameZh: "多媒體工具MCP", category: "mcp", completion: 85, desc: "MCP server for document and image processing including Word/PDF conversion, merging, stitching, GIF creation, and compression.", tech: "Python 3.8+, Pillow, pypdf, docx2pdf, LibreOffice", status: "production", papers: false, metrics: "7 core tools, 10MB doc / 5MB image limits, 50 concurrent ops", milestone: "Video processing support", outputs: ["tool"], lastUpdated: "" },
+                { id: "binary-writer", name: "MCP Binary Writer", nameZh: "二進位檔案MCP", category: "mcp", completion: 90, desc: "MCP server enabling Claude to write binary files (docx, pdf, xlsx) directly to local machine with secure directory restrictions.", tech: "Node.js, Base64, MCP Protocol, File I/O", status: "production", papers: false, metrics: "3 allowed directories, integrates with local-printer", milestone: "Streaming large files", outputs: ["tool"], lastUpdated: "" },
+                { id: "printer", name: "MCP Printer", nameZh: "列印自動化MCP", category: "mcp", completion: 85, desc: "MCP server for printing documents with markdown/code rendering, batch operations, and Mermaid diagram support.", tech: "Node.js 22+, TypeScript, Chrome/Chromium, CUPS", status: "production", papers: false, metrics: "28 config options, 5 tools, 10+ color schemes", milestone: "Windows support", outputs: ["tool"], lastUpdated: "" },
+                { id: "modbus-mcp", name: "Modbus MCP", nameZh: "Modbus工業協議MCP", category: "mcp", completion: 85, desc: "MCP server standardizing Modbus data for AI agent integration with industrial IoT systems over TCP, UDP, or serial.", tech: "Python 3.10, Modbus TCP/UDP/Serial, uv", status: "production", papers: false, metrics: "6 core Modbus tools, flexible env-based config", milestone: "Advanced register mapping", outputs: ["tool"], lastUpdated: "" },
+                { id: "citing", name: "CitingVerify MCP", nameZh: "學術引用驗證MCP", category: "mcp", completion: 80, desc: "AI-powered academic citation verification against CrossRef, Semantic Scholar, OpenAlex, arXiv, and DBLP.", tech: "Python 3.11, FastAPI, React, PostgreSQL, Redis, Docker", status: "active", papers: false, metrics: "5-API pipeline, 4 classification levels, scoring algorithm", milestone: "Batch verification mode", outputs: ["tool"], lastUpdated: "" },
+
+                // Personal Tools
+                { id: "smartfill", name: "SmartFill-Scholar", nameZh: "RAG智慧表單填寫", category: "personal", completion: 80, desc: "Full-stack Personal Knowledge API for intelligent form filling with RAG, SQL databases, and LLM routing. Extends to chat, email, and reports.", tech: "Python 3.11, FastAPI, React 19, TypeScript, ChromaDB, JWT", status: "active", papers: false, metrics: "430+ tests, 5 output modes, 6-layer architecture, multi-user RBAC", milestone: "Phase 6.3 — Advanced entity graph", outputs: ["tool"], lastUpdated: "" },
+                { id: "scanmail", name: "ScanMail+", nameZh: "文件掃描郵件平台", category: "personal", completion: 90, desc: "Document scanning and mailing platform combining photo capture, processing, AI recognition, and batch email with contact management.", tech: "Python 3.10+, FastAPI, OpenCV, Gemini Vision, Docker, Nginx", status: "production", papers: false, metrics: "73 API endpoints, 7 tool categories, 5 edge detection strategies", milestone: "OCR accuracy improvements", outputs: ["tool"], lastUpdated: "" },
+                { id: "graphic", name: "AI Graphic Studio", nameZh: "AI視覺設計工作站", category: "personal", completion: 75, desc: "AI visual workstation for creating infographics, presentations, comics, and custom graphics using Gemini with multiple style presets.", tech: "React 19, TypeScript, Vite 7, Express, Gemini API, GCP Cloud Run", status: "active", papers: false, metrics: "6 tab pages, 5 generation modes, real-time cost calculation", milestone: "Template marketplace", outputs: ["tool"], lastUpdated: "" },
+                { id: "tutor", name: "English Speaking Tutor", nameZh: "英語口說家教", category: "personal", completion: 60, desc: "English language learning platform with interactive speaking practice and tutoring capabilities.", tech: "React, TypeScript, Speech API", status: "active", papers: false, metrics: "Interactive speaking practice", milestone: "Pronunciation scoring AI", outputs: ["tool"], lastUpdated: "" },
+                { id: "expense", name: "expense-auto", nameZh: "自動記帳工具", category: "personal", completion: 50, desc: "Automated expense tracking and management system with agent-based receipt processing.", tech: "Python, Agent Framework", status: "active", papers: false, metrics: "Agent-driven automation", milestone: "Receipt OCR integration", outputs: ["tool"], lastUpdated: "" }
+            ]
+        };
+
+        // Color mapping
+        const categoryColors = {};
+        data.categories.forEach(cat => categoryColors[cat.id] = cat.color);
+
+        // Calculate statistics
+        function updateStats() {
+            const totalProjects = data.projects.length;
+            const activeProjects = data.projects.filter(p => p.status === "active").length;
+            const productionProjects = data.projects.filter(p => p.status === "production").length;
+            const paperProjects = data.projects.filter(p => p.papers).length;
+
+            document.getElementById("statTotal").textContent = totalProjects;
+            document.getElementById("statActive").textContent = activeProjects;
+            document.getElementById("statProduction").textContent = productionProjects;
+            document.getElementById("statPapers").textContent = paperProjects;
+        }
+
+        // Build legend
+        function buildLegend() {
+            const legend = d3.select("#legend");
+            legend.html("");
+            legend.append("div").attr("class", "legend-title").text("📊 分類 / Categories");
+
+            data.categories.forEach(cat => {
+                const count = data.projects.filter(p => p.category === cat.id).length;
+                const item = legend.append("div").attr("class", "legend-item");
+                item.append("div")
+                    .attr("class", "legend-color-box")
+                    .style("background", cat.color);
+                item.append("span")
+                    .attr("class", "legend-text")
+                    .text(`${cat.icon} ${cat.name}`);
+                item.append("span")
+                    .attr("class", "legend-count")
+                    .text(`${count}`);
+                item.on("click", function() {
+                    filterByCategory(cat.id);
+                });
+            });
+        }
+
+        // Filter by category
+        let activeCategory = null;
+        function filterByCategory(categoryId) {
+            activeCategory = activeCategory === categoryId ? null : categoryId;
+
+            d3.selectAll(".node-project")
+                .style("opacity", d => activeCategory === null || d.category === activeCategory ? 1 : 0.15);
+            d3.selectAll(".link-project")
+                .style("opacity", d => activeCategory === null || d.target.category === activeCategory ? 0.5 : 0.1);
+            d3.selectAll(".legend-item")
+                .style("background", d => d3.select(this).select(".legend-color-box").style("background"))
+                .style("opacity", d => activeCategory === null ? 1 : 0.5);
+
+            d3.selectAll(".legend-color-box")
+                .style("box-shadow", function() {
+                    const parent = d3.select(this.parentNode);
+                    const color = d3.select(this).style("background");
+                    return activeCategory === null || parent.data()[0].id === activeCategory 
+                        ? `0 0 8px ${color}` : "none";
+                });
+        }
+
+        // Search functionality (initialized after D3 elements are created)
+        let searchTerm = "";
+
+        // Initialize D3 visualization
+        const width = document.getElementById("visualization").parentElement.clientWidth;
+        const height = document.getElementById("visualization").parentElement.clientHeight;
+
+        const svg = d3.select("#visualization")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Create tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Build nodes and links
+        const nodes = [
+            data.center,
+            ...data.categories,
+            ...data.projects
+        ];
+
+        const links = [
+            // Center to categories
+            ...data.categories.map(cat => ({ source: "center", target: cat.id, type: "category" })),
+            // Categories to projects
+            ...data.projects.map(proj => ({ source: proj.category, target: proj.id, type: "project" }))
+        ];
+
+        // Create simulation
+        const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links)
+                .id(d => d.id)
+                .distance(d => d.type === "category" ? 200 : 150)
+                .strength(d => d.type === "category" ? 0.7 : 0.3))
+            .force("charge", d3.forceManyBody().strength(-400).distanceMax(500))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collide", d3.forceCollide().radius(d => {
+                if (d.type === "center") return 45;
+                if (d.type === "category") return 40;
+                return 25 + (d.completion || 0) / 10;
+            }))
+            .on("tick", ticked);
+
+        // Draw links
+        const link = svg.selectAll(".link")
+            .data(links)
+            .enter()
+            .append("line")
+            .attr("class", d => `link link-${d.type}`)
+            .attr("stroke", d => {
+                if (d.type === "category") return "rgba(255, 255, 255, 0.15)";
+                return "rgba(255, 255, 255, 0.05)";
+            })
+            .attr("stroke-width", d => d.type === "category" ? 2 : 1)
+            .style("opacity", 0.5);
+
+        // Draw nodes
+        const node = svg.selectAll(".node")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("class", d => `node node-${d.type || 'project'}`)
+            .call(d3.drag()
+                .on("start", dragStarted)
+                .on("drag", dragged)
+                .on("end", dragEnded));
+
+        // Center node
+        node.filter(d => d.type === "center")
+            .append("circle")
+            .attr("r", 45)
+            .style("fill", "#f1c40f")
+            .style("filter", "drop-shadow(0 0 15px rgba(241, 196, 15, 0.6))");
+
+        node.filter(d => d.type === "center")
+            .append("text")
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.35em")
+            .style("font-size", "11px")
+            .style("font-weight", "700")
+            .style("fill", "#1a2f4a")
+            .style("pointer-events", "none")
+            .text(d => "研究室");
+
+        // Category nodes
+        node.filter(d => d.type === "category")
+            .append("circle")
+            .attr("r", 40)
+            .style("fill", d => categoryColors[d.id])
+            .style("filter", d => `drop-shadow(0 0 10px ${categoryColors[d.id]})`);
+
+        node.filter(d => d.type === "category")
+            .append("text")
+            .attr("text-anchor", "middle")
+            .attr("dy", "-0.5em")
+            .style("font-size", "9px")
+            .style("font-weight", "700")
+            .style("fill", "white")
+            .style("pointer-events", "none")
+            .text(d => d.name.split(" ")[0]);
+
+        // Project nodes
+        node.filter(d => d.type === undefined)
+            .append("defs")
+            .append("linearGradient")
+            .attr("id", d => `grad-${d.id}`)
+            .attr("x1", "0%")
+            .attr("x2", "100%")
+            .selectAll("stop")
+            .data(d => [
+                { offset: "0%", color: categoryColors[d.category] },
+                { offset: "100%", color: categoryColors[d.category] }
+            ])
+            .enter()
+            .append("stop")
+            .attr("offset", d => d.offset)
+            .attr("stop-color", d => d.color);
+
+        node.filter(d => d.type === undefined)
+            .append("circle")
+            .attr("r", d => 15 + (d.completion || 0) / 8)
+            .style("fill", d => categoryColors[d.category])
+            .style("opacity", 0.8);
+
+        // Progress ring for projects
+        node.filter(d => d.type === undefined)
+            .append("circle")
+            .attr("r", d => 15 + (d.completion || 0) / 8)
+            .style("fill", "none")
+            .style("stroke", d => categoryColors[d.category])
+            .style("stroke-width", 2)
+            .style("stroke-dasharray", d => {
+                const r = 15 + (d.completion || 0) / 8;
+                const circumference = 2 * Math.PI * r;
+                return `${(d.completion / 100) * circumference} ${circumference}`;
+            })
+            .style("opacity", 0.6);
+
+        // Project text labels
+        node.filter(d => d.type === undefined)
+            .append("text")
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.35em")
+            .style("font-size", "9px")
+            .style("font-weight", "600")
+            .style("fill", "white")
+            .style("pointer-events", "none")
+            .style("text-shadow", "0 1px 3px rgba(0, 0, 0, 0.8)")
+            .text(d => d.name.substring(0, 8));
+
+        // Detail panel logic
+        const detailPanel = document.getElementById("detailPanel");
+        const outputIcons = { paper: "📄 論文", platform: "🌐 平台", tool: "🔧 工具", course: "📚 課程", app: "📱 App", competition: "🏆 競賽", presentation: "📊 簡報" };
+        const statusLabels = { active: "⚡ 開發中", production: "🚀 已上線", completed: "✅ 已完成", planning: "📋 規劃中", paused: "⏸️ 暫停" };
+        const statusColors = { active: "#3498db", production: "#2ecc71", completed: "#27ae60", planning: "#f39c12", paused: "#7f8c8d" };
+
+        function openDetailPanel(d) {
+            const catObj = data.categories.find(c => c.id === d.category);
+            document.getElementById("detailName").textContent = d.name;
+            document.getElementById("detailNameZh").textContent = d.nameZh || "";
+            const badge = document.getElementById("detailCategory");
+            badge.textContent = catObj ? `${catObj.icon} ${catObj.name}` : d.category;
+            badge.style.background = categoryColors[d.category];
+
+            const fill = document.getElementById("detailProgressFill");
+            fill.style.width = d.completion + "%";
+            fill.style.background = `linear-gradient(90deg, ${categoryColors[d.category]}, ${categoryColors[d.category]}cc)`;
+            document.getElementById("detailProgressText").textContent = `${d.completion}%`;
+
+            const statusEl = document.getElementById("detailStatus");
+            statusEl.textContent = statusLabels[d.status] || d.status;
+            statusEl.style.color = statusColors[d.status] || "#95a5a6";
+
+            document.getElementById("detailDesc").textContent = d.desc;
+
+            const techContainer = document.getElementById("detailTech");
+            techContainer.innerHTML = "";
+            (d.tech || "").split(", ").forEach(t => {
+                if (t.trim()) {
+                    const tag = document.createElement("span");
+                    tag.className = "detail-tech-tag";
+                    tag.textContent = t.trim();
+                    techContainer.appendChild(tag);
+                }
+            });
+
+            const metricsSection = document.getElementById("detailMetricsSection");
+            if (d.metrics) {
+                metricsSection.style.display = "block";
+                document.getElementById("detailMetrics").textContent = d.metrics;
+            } else {
+                metricsSection.style.display = "none";
+            }
+
+            const milestoneSection = document.getElementById("detailMilestoneSection");
+            if (d.milestone && d.milestone !== "N/A" && d.milestone !== "N/A — Complete" && d.milestone !== "N/A — Competition submitted") {
+                milestoneSection.style.display = "block";
+                document.getElementById("detailMilestone").textContent = d.milestone;
+            } else {
+                milestoneSection.style.display = "none";
+            }
+
+            const outputsSection = document.getElementById("detailOutputsSection");
+            const outputsContainer = document.getElementById("detailOutputs");
+            if (d.outputs && d.outputs.length) {
+                outputsSection.style.display = "block";
+                outputsContainer.innerHTML = "";
+                d.outputs.forEach(o => {
+                    const item = document.createElement("span");
+                    item.className = "detail-output-item";
+                    item.textContent = outputIcons[o] || o;
+                    outputsContainer.appendChild(item);
+                });
+            } else {
+                outputsSection.style.display = "none";
+            }
+
+            document.getElementById("detailDate").textContent = d.lastUpdated || "未記錄";
+            detailPanel.classList.add("open");
+        }
+
+        function closeDetailPanel() {
+            detailPanel.classList.remove("open");
+        }
+
+        document.getElementById("detailClose").addEventListener("click", function(e) {
+            e.stopPropagation();
+            closeDetailPanel();
+        });
+
+        // Hover and click interactions
+        node.on("mouseenter", function(event, d) {
+            if (d.type === undefined) {
+                const html = `
+                    <div class="tooltip-name">${d.name}</div>
+                    <div class="tooltip-desc">${d.desc}</div>
+                    <div class="tooltip-meta">
+                        <span class="tooltip-progress">完成度: ${d.completion}%</span>
+                        <span>${d.status === "production" ? "📦 Production" : "⚙️ Active"}</span>
+                    </div>
+                    <div style="margin-top: 6px; font-size: 10px; color: #bdc3c7;">
+                        <strong>Tech:</strong> ${d.tech}
+                    </div>
+                `;
+                tooltip.html(html)
+                    .classed("visible", true)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px");
+            }
+            d3.select(this).select("circle:first-of-type").style("filter", d => {
+                if (d.type === "center") return "drop-shadow(0 0 20px rgba(241, 196, 15, 0.8))";
+                return `drop-shadow(0 0 15px ${categoryColors[d.category] || categoryColors[d.id]})`;
+            });
+        })
+        .on("mousemove", function(event) {
+            tooltip.style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY + 10) + "px");
+        })
+        .on("mouseleave", function() {
+            tooltip.classed("visible", false);
+            d3.select(this).select("circle:first-of-type").style("filter", d => {
+                if (d.type === "center") return "drop-shadow(0 0 15px rgba(241, 196, 15, 0.6))";
+                if (d.type === "category") return `drop-shadow(0 0 10px ${categoryColors[d.id]})`;
+                return "none";
+            });
+        })
+        .on("click", function(event, d) {
+            event.stopPropagation();
+            if (d.type === undefined) {
+                openDetailPanel(d);
+            } else if (d.type === "category") {
+                filterByCategory(d.id);
+            }
+        });
+
+        // Drag functions
+        function dragStarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragEnded(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        // Tick function
+        function ticked() {
+            link.attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node.attr("transform", d => `translate(${d.x}, ${d.y})`);
+        }
+
+        // Search functionality
+        document.getElementById("searchInput").addEventListener("input", function(e) {
+            searchTerm = e.target.value.toLowerCase();
+            if (searchTerm === "") {
+                d3.selectAll(".node").style("opacity", 1);
+                link.style("opacity", 0.5);
+            } else {
+                d3.selectAll(".node-project").each(function(d) {
+                    const match = d.name.toLowerCase().includes(searchTerm) ||
+                                  (d.desc && d.desc.toLowerCase().includes(searchTerm)) ||
+                                  (d.tech && d.tech.toLowerCase().includes(searchTerm));
+                    d3.select(this).style("opacity", match ? 1 : 0.08);
+                });
+                d3.selectAll(".node-center, .node-category").style("opacity", 0.3);
+                link.style("opacity", 0.1);
+            }
+        });
+
+        // Reset on background click
+        svg.on("click", function() {
+            activeCategory = null;
+            d3.selectAll(".node-project").style("opacity", 1);
+            d3.selectAll(".link-project").style("opacity", 0.5);
+            d3.selectAll(".legend-item").style("opacity", 1);
+            d3.selectAll(".legend-color-box").style("box-shadow", "none");
+            searchTerm = "";
+            document.getElementById("searchInput").value = "";
+            closeDetailPanel();
+        });
+
+        // Window resize handler
+        window.addEventListener("resize", function() {
+            const newWidth = document.getElementById("visualization").parentElement.clientWidth;
+            const newHeight = document.getElementById("visualization").parentElement.clientHeight;
+            svg.attr("width", newWidth).attr("height", newHeight);
+            simulation.force("center", d3.forceCenter(newWidth / 2, newHeight / 2));
+        });
+
+        // Initialize
+        updateStats();
+        buildLegend();
+    </script>
+</body>
+</html>

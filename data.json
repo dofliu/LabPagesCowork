@@ -1,0 +1,469 @@
+{
+  "generated": "2026-04-10T10:05:18.797332",
+  "total": 20,
+  "projects": [
+    {
+      "name": "AI Exam Generator",
+      "name_zh": "AI考題生成系統",
+      "category": "edtech",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "New subject modules",
+      "technologies": [
+        "React 19",
+        "Gemini",
+        "Supabase"
+      ],
+      "outputs": [
+        "tool",
+        "course"
+      ],
+      "description": "Multi-subject adaptive quiz generation",
+      "description_zh": "多科目自適應測驗題目生成系統",
+      "key_metrics": "9 subjects, 5 difficulty levels",
+      "_path": "courseRelated\\aiExamGen",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\aiExamGen\\STATUS.yaml"
+    },
+    {
+      "name": "Face Recognition Attendance",
+      "name_zh": "人臉辨識點名系統",
+      "category": "edtech",
+      "progress": 90,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Batch processing optimization",
+      "technologies": [
+        "Python",
+        "InsightFace",
+        "Streamlit"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "InsightFace-based attendance system v3.0",
+      "description_zh": "基於InsightFace的人臉辨識點名系統v3.0",
+      "key_metrics": "v3.0, 0.25 threshold, 5-level confidence",
+      "_path": "courseRelated\\attendence",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\attendence\\STATUS.yaml"
+    },
+    {
+      "name": "Course Scheduling System",
+      "name_zh": "自動排課系統",
+      "category": "edtech",
+      "progress": 95,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Multi-semester optimization",
+      "technologies": [
+        "Python",
+        "Tkinter",
+        "pandas"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Automated university timetable generation",
+      "description_zh": "自動化大學課程時間表生成系統",
+      "key_metrics": "93.7% success rate (59/63 courses)",
+      "_path": "courseRelated\\course-scheduling-system",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\course-scheduling-system\\STATUS.yaml"
+    },
+    {
+      "name": "StaticsEngine",
+      "name_zh": "力學AI視覺化引擎",
+      "category": "edtech",
+      "progress": 20,
+      "status": "planning",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 1 complete - monorepo + component library",
+      "technologies": [
+        "TypeScript",
+        "React",
+        "SVG",
+        "Vitest"
+      ],
+      "outputs": [
+        "tool",
+        "paper"
+      ],
+      "description": "Interactive physics mechanics visualization",
+      "description_zh": "互動式物理力學視覺化引擎",
+      "key_metrics": "Early phase, test-driven development",
+      "_path": "courseRelated\\mechanics_AI",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\mechanics_AI\\STATUS.yaml"
+    },
+    {
+      "name": "UniCourse AI Online",
+      "name_zh": "AI線上考試與課堂管理",
+      "category": "edtech",
+      "progress": 95,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Analytics dashboard v2",
+      "technologies": [
+        "React 19",
+        "Supabase",
+        "GCP Cloud Run"
+      ],
+      "outputs": [
+        "platform",
+        "course"
+      ],
+      "description": "AI-powered exam and classroom management system",
+      "description_zh": "AI驅動的線上考試與課堂管理系統",
+      "key_metrics": "GCP deployed, anti-cheat detection",
+      "_path": "courseRelated\\unicourseaionline1219",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\unicourseaionline1219\\STATUS.yaml"
+    },
+    {
+      "name": "WindGuard AI",
+      "name_zh": "風機診斷AI代理",
+      "category": "wind_energy",
+      "progress": 100,
+      "status": "completed",
+      "last_updated": "2026-04-10",
+      "next_milestone": "N/A",
+      "technologies": [
+        "Gemma 4",
+        "Gradio",
+        "Python"
+      ],
+      "outputs": [
+        "competition",
+        "paper"
+      ],
+      "description": "Kaggle Gemma4Good wind turbine diagnostic agent",
+      "description_zh": "Kaggle Gemma4Good風機診斷AI代理",
+      "key_metrics": "202 datasets, 36 turbines, 3 wind farms",
+      "_path": "kaggleGemma4",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\kaggleGemma4\\STATUS.yaml"
+    },
+    {
+      "name": "LLM Wiki",
+      "name_zh": "LLM知識庫編譯器",
+      "category": "rag_knowledge",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Auto-linking and graph visualization",
+      "technologies": [
+        "Python",
+        "Claude API",
+        "Obsidian"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Personal knowledge base compiler for 15+ file formats",
+      "description_zh": "支持15+種文件格式的個人知識庫編譯器",
+      "key_metrics": "15 file formats, 3 API providers",
+      "_path": "llmWIKI\\llm-wiki-project",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\llmWIKI\\llm-wiki-project\\STATUS.yaml"
+    },
+    {
+      "name": "OPC UA MCP",
+      "name_zh": "OPC UA工業MCP",
+      "category": "mcp_tools",
+      "progress": 85,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Subscription-based monitoring",
+      "technologies": [
+        "Python",
+        "asyncua",
+        "MCP"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "MCP server for OPC UA industrial systems",
+      "description_zh": "OPC UA工業系統的MCP伺服器",
+      "key_metrics": "2 core tools (read/write)",
+      "_path": "MCP\\Dof-Customized-mcp",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\MCP\\Dof-Customized-mcp\\STATUS.yaml"
+    },
+    {
+      "name": "Modbus MCP",
+      "name_zh": "Modbus工業協議MCP",
+      "category": "mcp_tools",
+      "progress": 85,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Advanced register mapping",
+      "technologies": [
+        "Python",
+        "Modbus TCP/UDP/Serial"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "MCP server for industrial Modbus integration",
+      "description_zh": "工業Modbus協議的MCP伺服器",
+      "key_metrics": "6 core tools, multi-connection types",
+      "_path": "MCP\\modbus-mcp",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\MCP\\modbus-mcp\\STATUS.yaml"
+    },
+    {
+      "name": "ScanMail+",
+      "name_zh": "文件掃描郵件平台",
+      "category": "personal_tools",
+      "progress": 90,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "OCR accuracy improvements",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "OpenCV",
+        "Docker"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Document scanning and mailing platform",
+      "description_zh": "文件掃描與郵件平台",
+      "key_metrics": "73 API endpoints, 7 tool categories",
+      "_path": "PersonalHelper\\AI智能掃描\\scanmail_bot",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\AI智能掃描\\scanmail_bot\\STATUS.yaml"
+    },
+    {
+      "name": "SmartFill-Scholar",
+      "name_zh": "RAG智慧表單填寫",
+      "category": "personal_tools",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 6.3 - Advanced entity graph",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "React",
+        "ChromaDB"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "RAG-powered intelligent form filling and knowledge API",
+      "description_zh": "基於RAG的智慧表單填寫與知識API",
+      "key_metrics": "430+ tests, 5 output modes, multi-user RBAC",
+      "_path": "PersonalHelper\\autoFill",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\autoFill\\STATUS.yaml"
+    },
+    {
+      "name": "Research Dashboard",
+      "name_zh": "研究管理儀表板",
+      "category": "personal_tools",
+      "progress": 90,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "GitHub Pages 部署上線",
+      "technologies": [
+        "HTML",
+        "Chart.js",
+        "D3.js",
+        "Python",
+        "GitHub Pages"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Cloud-accessible research dashboard deployed on GitHub Pages",
+      "description_zh": "可雲端存取的研究管理儀表板，部署於 GitHub Pages",
+      "key_metrics": "Dashboard + Map + JSON API, auto-deploy via script",
+      "_path": "PersonalHelper\\research-dashboard",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\research-dashboard\\STATUS.yaml"
+    },
+    {
+      "name": "ECN O&M Tool",
+      "name_zh": "離岸風電運維成本計算器",
+      "category": "wind_energy",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 4 - Monte Carlo validation",
+      "technologies": [
+        "Next.js",
+        "FastAPI",
+        "ECharts",
+        "SQLAlchemy"
+      ],
+      "outputs": [
+        "tool",
+        "paper"
+      ],
+      "description": "Web-based offshore wind farm O&M cost calculator",
+      "description_zh": "基於網路的離岸風電場營運維護成本計算器",
+      "key_metrics": "6 major modules, K13 demo 130 turbines",
+      "_path": "researchTopic\\ECN",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\ECN\\STATUS.yaml"
+    },
+    {
+      "name": "InduSpect AI",
+      "name_zh": "智慧工業巡檢系統",
+      "category": "industrial_ai",
+      "progress": 75,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Experiment Module 1-3 execution",
+      "technologies": [
+        "Flutter",
+        "Dart",
+        "Gemini AI"
+      ],
+      "outputs": [
+        "paper",
+        "app"
+      ],
+      "description": "Multimodal LLM-based smart industrial inspection",
+      "description_zh": "基於多模態LLM的智慧工業巡檢系統",
+      "key_metrics": "10 core features, 7-module experiment plan",
+      "_path": "researchTopic\\induSpectApp\\InduSpect",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\induSpectApp\\InduSpect\\STATUS.yaml"
+    },
+    {
+      "name": "AI PLC Automation",
+      "name_zh": "AI驅動PLC自動化管理",
+      "category": "industrial_ai",
+      "progress": 85,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Dashboard analytics enhancement",
+      "technologies": [
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "Gemini"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Enterprise PLC project management with AI",
+      "description_zh": "企業級PLC項目管理與AI驅動自動化",
+      "key_metrics": "v4.0, auto-hardware detection",
+      "_path": "researchTopic\\PLC\\AI_PLC_Automation",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\PLC\\AI_PLC_Automation\\STATUS.yaml"
+    },
+    {
+      "name": "Auto Arduino Coding",
+      "name_zh": "自然語言Arduino程式生成",
+      "category": "industrial_ai",
+      "progress": 85,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Multi-board support expansion",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Arduino CLI",
+        "Gemini"
+      ],
+      "outputs": [
+        "tool",
+        "course"
+      ],
+      "description": "Natural language to Arduino code generation",
+      "description_zh": "自然語言轉Arduino代碼生成系統",
+      "key_metrics": "Auto-compilation, self-healing errors",
+      "_path": "researchTopic\\PLC\\autoArduinoCoding",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\PLC\\autoArduinoCoding\\STATUS.yaml"
+    },
+    {
+      "name": "RAG Ultimate",
+      "name_zh": "企業級統一RAG研究平台",
+      "category": "rag_knowledge",
+      "progress": 85,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 2 - Advanced retrieval strategies",
+      "technologies": [
+        "React 19",
+        "TypeScript",
+        "Gemini",
+        "ChromaDB"
+      ],
+      "outputs": [
+        "platform",
+        "paper"
+      ],
+      "description": "17-mode enterprise RAG research platform",
+      "description_zh": "17模式企業級RAG研究平台",
+      "key_metrics": "789 tests passing, 17 RAG modes, v5.0",
+      "_path": "researchTopic\\RAG\\RAG_Ultimate",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\RAG\\RAG_Ultimate\\STATUS.yaml"
+    },
+    {
+      "name": "WindAI Lab",
+      "name_zh": "風力發電AI研究平台",
+      "category": "wind_energy",
+      "progress": 92,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 11 - 部署優化與論文撰寫",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "React",
+        "PyTorch",
+        "ChromaDB"
+      ],
+      "outputs": [
+        "paper",
+        "platform",
+        "tool"
+      ],
+      "description": "Multi-agent collaboration platform for wind energy research",
+      "description_zh": "風力發電多智能體協作研究平台",
+      "key_metrics": "F1=1.0 fault diagnosis, R²=0.997 power curve, 42 agents",
+      "_path": "researchTopic\\windAILab",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windAILab\\STATUS.yaml"
+    },
+    {
+      "name": "Digital Wind Turbine",
+      "name_zh": "數位孿生風機模擬器",
+      "category": "wind_energy",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Multi-turbine fleet simulation",
+      "technologies": [
+        "FastAPI",
+        "React",
+        "SQLite",
+        "Modbus TCP"
+      ],
+      "outputs": [
+        "tool",
+        "paper"
+      ],
+      "description": "Physics-based wind turbine digital twin",
+      "description_zh": "基於物理的風機數位孿生模擬器",
+      "key_metrics": "59 SCADA tags, 7 fault scenarios",
+      "_path": "researchTopic\\windFarmMonitor\\digiWindTurbine",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windFarmMonitor\\digiWindTurbine\\STATUS.yaml"
+    },
+    {
+      "name": "WindFarmMonitoring",
+      "name_zh": "風場即時監控系統",
+      "category": "wind_energy",
+      "progress": 60,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Frontend integration with OPC backend",
+      "technologies": [
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "TimescaleDB"
+      ],
+      "outputs": [
+        "platform"
+      ],
+      "description": "Real-time SCADA monitoring for 15 wind turbines",
+      "description_zh": "15台風機的實時SCADA監控系統",
+      "key_metrics": "15 turbines, 17-second data interval",
+      "_path": "researchTopic\\windFarmMonitor\\WindFarmMonitoring",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windFarmMonitor\\WindFarmMonitoring\\STATUS.yaml"
+    }
+  ]
+}
