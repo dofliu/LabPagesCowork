@@ -1,0 +1,45 @@
+0000000000000000000000000000000000000000 13ae4995914b10fd49a407d5e0c46d01b6edb761 dofliu <moredof@gmail.com> 1770895134 +0800	branch: Created from HEAD
+13ae4995914b10fd49a407d5e0c46d01b6edb761 da6948001686dcdcb9104f90f9e48af3d67e2852 dofliu <moredof@gmail.com> 1770895548 +0800	commit: feat: Add comprehensive AI Tools showcase and compact Publications table view
+da6948001686dcdcb9104f90f9e48af3d67e2852 9c4cfd7242510c61ee75951066905430745c4cd4 dofliu <moredof@gmail.com> 1770909839 +0800	commit: feat: Integrate legacy project data (2015-2025) and update index page with professor info
+9c4cfd7242510c61ee75951066905430745c4cd4 27164930619054da1a5f8b39d91aa8065a5b7704 dofliu <moredof@gmail.com> 1770910453 +0800	commit: fix(css): Improve Grid layout for tools and research projects, switch to full-width cards
+27164930619054da1a5f8b39d91aa8065a5b7704 366af4f2bca191ff657452f5ad6b7e972a69b5a3 dofliu <moredof@gmail.com> 1770911198 +0800	commit: fix: Improve tool grid layout to single column flow and fix card text truncation
+366af4f2bca191ff657452f5ad6b7e972a69b5a3 cbcbaaa4ef783b0b067be67b3e4bc007bc0d5500 dofliu <moredof@gmail.com> 1770944664 +0800	commit: feat: Add dynamic repos.html page showcasing 33 recent GitHub projects
+cbcbaaa4ef783b0b067be67b3e4bc007bc0d5500 475d6eee33ea2557287559708c4c965a83f4a833 dofliu <moredof@gmail.com> 1770945326 +0800	commit: fix: Unify navigation bar across all pages with consistent links and branding
+475d6eee33ea2557287559708c4c965a83f4a833 9865cc82571812186a920e0f72c120f53494fc6a dofliu <moredof@gmail.com> 1770960212 +0800	commit: feat: Comprehensive update of Publications page with full paper list and improved layout
+9865cc82571812186a920e0f72c120f53494fc6a 09234b0c0231b5f7ed8bd3eb7ed2a4f03b41f766 dofliu <moredof@gmail.com> 1770961709 +0800	commit: fix: Optimize Publications page UX with sticky filters and horizontal stats, fix CSS missing reference
+09234b0c0231b5f7ed8bd3eb7ed2a4f03b41f766 41cf00e978bebb31afc9f4a7eadb77960f3af399 dofliu <moredof@gmail.com> 1770968293 +0800	commit: feat: Add Research Blog section and first article about RAG in wind energy
+41cf00e978bebb31afc9f4a7eadb77960f3af399 f456beb405797c3fe32e5adb8fd0ab4c1b65a510 dofliu <moredof@gmail.com> 1770978570 +0800	commit: fix: Update navigation links to include blog.html and unify style across all pages
+f456beb405797c3fe32e5adb8fd0ab4c1b65a510 bb424abc141413c215755ce919109ec8c266824d dofliu <moredof@gmail.com> 1771031871 +0800	commit: Add new blog post: OpenClaw Zombie Process Fix
+bb424abc141413c215755ce919109ec8c266824d 81d828fdc03459f9fe4b0b646394b266629f07c9 dofliu <moredof@gmail.com> 1771032114 +0800	commit: Add 2 new blog posts from student papers (Fine-tuning & RAG Eval)
+81d828fdc03459f9fe4b0b646394b266629f07c9 b97b0ebdd13fbcda1c253d3000bc3a519cbec4aa dofliu <moredof@gmail.com> 1771063344 +0800	commit: Fix: Resolve UI layout issues and add About/Contact
+b97b0ebdd13fbcda1c253d3000bc3a519cbec4aa c3121894f27f025966e87608ff92e56e65d5caae dofliu <moredof@gmail.com> 1771063438 +0800	commit: Fix: Resolve UI layout issues and add About
+c3121894f27f025966e87608ff92e56e65d5caae 5a79ac2278684a9d361f609a0d3b6bb3ab7651f0 dofliu <moredof@gmail.com> 1771065528 +0800	commit: Fix: Resolve UI layout issues and add About
+5a79ac2278684a9d361f609a0d3b6bb3ab7651f0 26dbdec4546eb16729b26b02465c820fd94425b1 dofliu <moredof@gmail.com> 1771084698 +0800	commit: Add blog post: OpenScholar - 開源 AI 逆襲學術界
+26dbdec4546eb16729b26b02465c820fd94425b1 0e9d22c8b0f8d2b1e36e8ca73437cc6065be0978 dofliu <moredof@gmail.com> 1771174160 +0800	commit: Add blog post: AI self-talk (2026-02-15)
+0e9d22c8b0f8d2b1e36e8ca73437cc6065be0978 55ee9a132506a1623b1a8515c2ee5d46128721b0 dofliu <moredof@gmail.com> 1771185969 +0800	commit: Update blog.html: add AI self-talk and OpenScholar articles
+55ee9a132506a1623b1a8515c2ee5d46128721b0 e606c9126d3e31fbee8cdd534324e2ef380d62e2 dofliu <moredof@gmail.com> 1771292535 +0800	commit: Add new blog posts: AI Agent Skills and BharatGen multilingual AI
+e606c9126d3e31fbee8cdd534324e2ef380d62e2 475298811ceb3148d8f3e36399b4664bd7496f69 dofliu <moredof@gmail.com> 1771292597 +0800	commit (merge): Merge remote changes and resolve conflict in blog.html
+475298811ceb3148d8f3e36399b4664bd7496f69 1764cb99ad720b5779142d9a97065034827027b9 dofliu <moredof@gmail.com> 1771295530 +0800	commit: Fix encoding issues in blog.html - repair title and navigation
+1764cb99ad720b5779142d9a97065034827027b9 263d8e1974358367621ba0d7ecb66df55e95cf85 dofliu <moredof@gmail.com> 1771376757 +0800	commit: 新增 2026-02-17 和 2026-02-18 文章
+263d8e1974358367621ba0d7ecb66df55e95cf85 7a6ea5b0c22435d81b1e7d7578d2a8235c73f5d8 dofliu <moredof@gmail.com> 1771800554 +0800	commit: 新增 2026-02-22 部落格文章：AI 巨頭大對決：Google Gemini 3 vs OpenAI GPT-5.3
+7a6ea5b0c22435d81b1e7d7578d2a8235c73f5d8 5d4e490e02d509fd7f421b0848756628d5c7ac8f dofliu <moredof@gmail.com> 1771800831 +0800	commit (merge): 解決合併衝突並更新 blog.html
+5d4e490e02d509fd7f421b0848756628d5c7ac8f a65be007ed5ea98708cbfef8398a6f71798b0705 dofliu <moredof@gmail.com> 1771861940 +0800	commit: Add daily blog post: Samsung Galaxy AI Multi-Agent Ecosystem
+a65be007ed5ea98708cbfef8398a6f71798b0705 4430effb3f18ccc2f335287b0125d9d236de7e85 dofliu <moredof@gmail.com> 1771948402 +0800	commit: 新增部落格文章：Claude Opus 4.6 自適應思維分析
+4430effb3f18ccc2f335287b0125d9d236de7e85 d9e82a4b170a3db4c389725578827085397f799e dofliu <moredof@gmail.com> 1771951963 +0800	commit: 新增部落格文章：2026持續學習趨勢分析
+d9e82a4b170a3db4c389725578827085397f799e f8317f8394172a5b62619228a64a80fff3ad1fb0 dofliu <moredof@gmail.com> 1772123488 +0800	commit: Add blog posts 2026-02-18 ~ 2026-02-26
+f8317f8394172a5b62619228a64a80fff3ad1fb0 e741ac5a60766489145d3d5c3b834a0551974280 dofliu <moredof@gmail.com> 1772123535 +0800	pull --rebase (finish): refs/heads/feature/refresh-2026 onto 8380ba7ab9ba4ec445861c03c26e6244c098bd7f
+e741ac5a60766489145d3d5c3b834a0551974280 cf591dedc4fc74eb8d875769f36286fc7cfad4c9 dofliu <moredof@gmail.com> 1772204610 +0800	commit: Add blog post: MCP 爆發式成長 (2026-02-27)
+cf591dedc4fc74eb8d875769f36286fc7cfad4c9 d4c2adf211f311cf7e12defe24fda06d81b5ebd1 dofliu <moredof@gmail.com> 1772207789 +0800	commit: Add blog post: MCP 爆發式成長 (2026-02-27)
+d4c2adf211f311cf7e12defe24fda06d81b5ebd1 fcd458ae378ebe707e2c21be6ed72e2b49860cd2 dofliu <moredof@gmail.com> 1772290992 +0800	commit: Add: Scite MCP article - AI connects to 250M+ scientific papers
+fcd458ae378ebe707e2c21be6ed72e2b49860cd2 c5050c151391569537b06e4497a9b9921feb6bdb dofliu <moredof@gmail.com> 1772291012 +0800	pull --rebase (finish): refs/heads/feature/refresh-2026 onto 8c6916793d701e28964a782fc021a69d666a2bba
+c5050c151391569537b06e4497a9b9921feb6bdb 7f09f4d8c7d6b8510c089ca7dcf5490b4026cf5b dofliu <moredof@gmail.com> 1772463744 +0800	commit: Add: MCP 2.6.1 新版本發布 - 企業級 AI Agent 標準化時代來臨
+7f09f4d8c7d6b8510c089ca7dcf5490b4026cf5b e3859bd3fb87f8f96962007dfd3f99cbfd78d9da dofliu <moredof@gmail.com> 1772550205 +0800	commit: Add post: NullClaw 極簡 AI Agent 框架介紹
+e3859bd3fb87f8f96962007dfd3f99cbfd78d9da 7a6f0f29ca65177637c05689c3e68b063a472c3c dofliu <moredof@gmail.com> 1772636621 +0800	commit: Add blog post: MCP 2.6.1 Enterprise AI Agents
+7a6f0f29ca65177637c05689c3e68b063a472c3c d71cfa01faeb2fe3d562147555ec7a01c8b69638 dofliu <moredof@gmail.com> 1772735636 +0800	commit: Add: MCP 生態系爆發式成長文章 (2026-03-06)
+d71cfa01faeb2fe3d562147555ec7a01c8b69638 8e09803db041904d31d1c0cf52c4fc3a7bba487a dofliu <moredof@gmail.com> 1772895895 +0800	commit: Add blog post: AI wind turbine fault detection with causal spatio-temporal features - AUC 0.991
+8e09803db041904d31d1c0cf52c4fc3a7bba487a ff58b16a39b34dbb3243c14a401d7895a88e97d4 dofliu <moredof@gmail.com> 1772985294 +0800	commit: Add daily blog: MCP ecosystem explosion - Linux Foundation AAIF
+ff58b16a39b34dbb3243c14a401d7895a88e97d4 51a384cbbb22c06532239266b7c081d1e032408a dofliu <moredof@gmail.com> 1775061745 +0800	reset: moving to 51a384cbbb22c06532239266b7c081d1e032408a
+51a384cbbb22c06532239266b7c081d1e032408a a1886df3e35437435620b0b9783e7687babfad79 dofliu <moredof@gmail.com> 1775061784 +0800	commit: feat: add test-sakura.txt and supporting scripts for encoding resolution
+a1886df3e35437435620b0b9783e7687babfad79 51a384cbbb22c06532239266b7c081d1e032408a dofliu <moredof@gmail.com> 1775064299 +0800	reset: moving to HEAD~1
+51a384cbbb22c06532239266b7c081d1e032408a 309b3c5c816ede1d3fadae4f6375495094a3adcf dofliu <moredof@gmail.com> 1775064318 +0800	commit: feat: 新增文章 發文流程指南 與 論文投稿準備
+309b3c5c816ede1d3fadae4f6375495094a3adcf facbc9c110ee6c20e15174ed4578b46e65ed2d67 dofliu <moredof@gmail.com> 1775785847 +0800	commit: feat: 新增研究儀表板頁面，所有頁面加入儀表板導覽連結

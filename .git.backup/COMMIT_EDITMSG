@@ -1,0 +1,6 @@
+fix: restore truncated blog.html script section
+
+The blog.html file was truncated at line 322, cutting off the
+renderStats function, category counting logic, and the main()
+entry point. This caused a JavaScript syntax error preventing
+any articles from rendering on the blog page.

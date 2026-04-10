@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>蒙地卡羅模擬在離岸風電成本預測中的應用：ECN 工具的第四期里程碑 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">蒙地卡羅模擬在離岸風電成本預測中的應用：ECN 工具的第四期里程碑</h1>
+            <p>2026-04-10 • 劉瑞弘教授團隊 • Wind Energy / Cost Analysis / Monte Carlo Simulation / Risk Assessment</p>
+        </header>
+        <div class="article-content">
+
+<p>各位親愛的風能研究同好們，今天我們要介紹 DOF Lab 離岸風電研究中的一個關鍵突破——ECN O&M 成本計算器進入第四期驗證階段，著重於 <strong>蒙地卡羅（Monte Carlo）風險評估模組</strong> 的實現與驗證。這個工具已經成為我們風電營運維護成本預測的核心平台。</p>
+
+<h2>⚡ ECN 工具的演進之路</h2>
+
+<p>ECN O&M Tool 是我們對荷蘭 ECN 研究所經典風電成本模型的現代化重構與強化。原始 Excel 工具雖然功能完整，但在大規模風場分析、動態風險調整、以及跨情景比較方面存在局限。我們的網頁版本已經成功整合了六大核心分析模組：</p>
+
+<div class="highlight-box">
+    <strong>🔧 ECN 六大核心模組：</strong>
+    <ul>
+        <li><strong>氣象等待時間分析</strong> — 統計不同季節的可施工窗口，計算維修物流成本</li>
+        <li><strong>成本計算引擎</strong> — 零件費用、人力成本、運輸支出的精細化估算</li>
+        <li><strong>Monte Carlo 風險評估</strong> — Phase 4 重點，模擬 10,000+ 次運營情景</li>
+        <li><strong>LCOE 生命週期成本計算</strong> — 風機服役期內單位電力的全周期成本</li>
+        <li><strong>VarFluct 生命週期預測</strong> — 基於零件疲勞與故障率預測维修週期</li>
+        <li><strong>情景比較儀表板</strong> — 支援多風場、多政策下的對標分析</li>
+    </ul>
+</div>
+
+<h2>🎲 Monte Carlo 風險評估：為什麼我們需要它？</h2>
+
+<p>離岸風電的營運維護成本充滿不確定性。天氣延誤、零件供應鏈波動、人力成本通膨、意外故障頻率…… 這些變數都會影響最終的 O&M 支出。傳統的單點估算無法捕捉這些風險分佈。</p>
+
+<p>Monte Carlo 模擬的優勢在於：</p>
+
+<ul>
+    <li><strong>概率分佈</strong> — 不是給你一個點估算，而是告訴你有 90% 機率成本落在某個區間內</li>
+    <li><strong>極端情景預警</strong> — 識別 5% 和 95% 的分位點，幫助風場運營商制定應急預算</li>
+    <li><strong>敏感性分析</strong> — 自動檢出哪些參數對最終成本的影響最大，指導優化方向</li>
+    <li><strong>金融決策支持</strong> — 銀行與投資者可根據成本風險分佈調整貸款利率與風險溢價</li>
+</ul>
+
+<h2>🔬 第四期驗證的技術細節</h2>
+
+<p>我們的 Phase 4 實現基於以下技術棧：</p>
+
+<div class="highlight-box">
+    <strong>📊 Monte Carlo 架構：</strong>
+    <ul>
+        <li><strong>模擬次數</strong> — 10,000 至 50,000 次隨機抽樣，確保 95% 信心區間的穩定性</li>
+        <li><strong>參數分佈設定</strong> — 使用 PERT、Lognormal、Beta 等多種分佈，符合實際工程數據特性</li>
+        <li><strong>計算引擎</strong> — FastAPI 後端，numpy/scipy 加速，單次完整模擬耗時 < 2 秒</li>
+        <li><strong>結果可視化</strong> — React + ECharts 繪製直方圖、累積分佈圖、龍捲圖（Tornado Chart）</li>
+        <li><strong>精度驗證</strong> — 已達 10+ 位小數精度，超越 Excel 內建運算的 15 位浮點精度上限</li>
+    </ul>
+</div>
+
+<p>在 K13 示範風場（130 台風機、服役期 25 年）的測試中，我們生成了 50,000 次模擬情景，並計算了各項關鍵指標（平均 O&M 成本、成本標準差、最悲觀/樂觀情景）。結果表明，相較於傳統點估算，Monte Carlo 分佈能捕捉的成本波動範圍達 ±35%，這對風電投資決策至關重要。</p>
+
+<h2>🎯 與風能 AI 研究的協同</h2>
+
+<p>ECN 工具不僅是成本計算平台，更是我們風能 AI 生態的重要節點。這個工具的輸出正被用於：</p>
+
+<ul>
+    <li><strong>windAILab 故障診斷</strong> — 當預測模型發現故障風險升高時，ECN 工具自動計算對應的維修成本與最優決策</li>
+    <li><strong>剩餘壽命預測（RUL）</strong> — 結合 InduSpect 的故障檢測數據，反推最經濟的更換週期</li>
+    <li><strong>政策模擬</strong> — 評估碳稅、補貼政策對風電經濟性的影響</li>
+</ul>
+
+<h2>📈 本季度優先事項與下一步</h2>
+
+<p>Phase 4 Monte Carlo 驗證完成後，我們的重點計畫包括：</p>
+
+<ul>
+    <li><strong>多風場對標分析</strong> — 整合國內外風場的實際成本數據，完善參數分佈庫</li>
+    <li><strong>即時敏感性分析</strong> — 允許用戶透過拖動滑條即時調整參數，觀看成本分佈的變化</li>
+    <li><strong>供應鏈風險模組</strong> — 模擬零件供應延誤對維修計畫的影響</li>
+    <li><strong>綠色金融整合</strong> — 提供符合 ESG 評估框架的成本分解報告</li>
+    <li><strong>論文投稿準備</strong> — 將工具驗證結果投稿至 Wind Energy 或 Renewable Energy 期刊</li>
+</ul>
+
+<div class="highlight-box">
+    <strong>💡 對學生與合作研究團隊的啟示：</strong>
+    <p>如果你正在研究風電經濟性、供應鏈優化、或政策評估，ECN 工具現已開放給校內外研究者使用。我們的模組化設計讓你可以輕鬆擴展，例如加入碳排放計算、水資源影響評估等新維度。歡迎聯絡我們了解合作機會！</p>
+</div>
+
+<h2>🔮 展望：風電成本預測的未來</h2>
+
+<p>2026 年的離岸風電行業正面臨成本壓力與技術進步的雙重驅力。我們的 ECN 工具代表了一種新的思路：不再依賴靜態的成本表格，而是用動態、概率性的模型來應對現實的複雜性。</p>
+
+<p>下一代的 ECN 將整合 Graph RAG 知識庫，讓系統不僅能計算成本，更能解釋「為什麼」和「如何最佳化」。這正是我們追求的風能 AI 的終極目標——從 <strong>預測</strong> 進化到 <strong>決策支持</strong>。</p>
+
+<hr>
+
+<div class="source-list">
+    <strong>參考來源與進一步閱讀：</strong>
+    <ul>
+        <li><a href="https://www.ecn.nl/" target="_blank">ECN (Energy Research Centre of the Netherlands) — Official Site</a></li>
+        <li><a href="https://www.nrel.gov/docs/fy12osti/54026.pdf" target="_blank">NREL — Offshore Wind Cost Reduction Pathways</a></li>
+        <li><a href="https://ieeexplore.ieee.org/document/8681344" target="_blank">IEEE — Monte Carlo Methods in Wind Energy Reliability Analysis</a></li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S0960148122016767" target="_blank">ScienceDirect — Predictive Maintenance Cost Optimization for Wind Farms</a></li>
+        <li><a href="https://www.linkedin.com/pulse/monte-carlo-simulation-renewable-energy-cost-analysis/" target="_blank">LinkedIn Article — Monte Carlo in Renewable Energy Economics</a></li>
+        <li>DOF Lab 內部文件：ECN Tool Phase 4 Technical Report (2026)</li>
+    </ul>
+</div>
+
+        </div>
+    </article>
+
+    <script>
+    document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+    </script>
+</body>
+</html>

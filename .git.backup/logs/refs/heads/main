@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 26f660c74eb1fcf5370a873a25bf3a3959c5230c dofliu <moredof@gmail.com> 1770894883 +0800	clone: from https://github.com/dofliu/LabPagesCowork.git
+26f660c74eb1fcf5370a873a25bf3a3959c5230c 13ae4995914b10fd49a407d5e0c46d01b6edb761 dofliu <moredof@gmail.com> 1770895058 +0800	commit: Update lab website with new design and recent research content (2025-2026)
+13ae4995914b10fd49a407d5e0c46d01b6edb761 26f660c74eb1fcf5370a873a25bf3a3959c5230c dofliu <moredof@gmail.com> 1770895154 +0800	reset: moving to origin/main
+26f660c74eb1fcf5370a873a25bf3a3959c5230c 3e9ee746315fbea72663331805ed25214339651e dofliu <moredof@gmail.com> 1771050819 +0800	pull origin main: Fast-forward
+3e9ee746315fbea72663331805ed25214339651e 618dc03861fe88aded8570da483c3964d9010d15 dofliu <moredof@gmail.com> 1771061427 +0800	commit: Fix UI layout issues and add new pages (About, Contact, Privacy)
+618dc03861fe88aded8570da483c3964d9010d15 bd13cb527e27f37d7905a4d04ff7238c37ac1efe dofliu <moredof@gmail.com> 1775786120 +0800	reset: moving to origin/main
+bd13cb527e27f37d7905a4d04ff7238c37ac1efe 8b8256f842357fbb9f34a74758034b6a916c4154 dofliu <moredof@gmail.com> 1775786797 +0800	commit: feat: 新增研究儀表板與全景地圖，所有頁面加入儀表板導覽連結

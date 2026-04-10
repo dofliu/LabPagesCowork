@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 8b8256f842357fbb9f34a74758034b6a916c4154 dofliu <moredof@gmail.com> 1775786936 +0800	branch: Created from HEAD
+8b8256f842357fbb9f34a74758034b6a916c4154 eb108cf5bf7ae34cfb056c44cac95809199f3e42 dofliu <moredof@gmail.com> 1775787533 +0800	commit: feat: 儀表板加入動態最後更新日期與專案詳情面板
+eb108cf5bf7ae34cfb056c44cac95809199f3e42 9f416b79645570f7c519d17a3a34a190f2acfe9d dofliu <moredof@gmail.com> 1775788995 +0800	commit: feat: 更新專案描述為完整內容說明，加入動態日期與詳情面板
+9f416b79645570f7c519d17a3a34a190f2acfe9d ee3c7071e868e4fd6a04ebabd20d9c82504b3b53 dofliu <moredof@gmail.com> 1775790540 +0800	commit: feat: 整合研究入口網站 — 新增 GitHub 頁面、統一管理腳本、更新文章列表
+ee3c7071e868e4fd6a04ebabd20d9c82504b3b53 7d7897aafa8acefc8ad367fa89e690c9cd400c23 Juihung Liu <moredof@gmail.com> 1775793669 +0800	commit: feat: add daily blog post (2026-04-10) + github activity page + update_all script
+7d7897aafa8acefc8ad367fa89e690c9cd400c23 28d543396d4b37cd153664c7de8dcbe954dd6995 Juihung Liu <moredof@gmail.com> 1775794045 +0800	commit: fix: restore truncated blog.html script section
