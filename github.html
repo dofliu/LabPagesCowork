@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="劉瑞弘教授 GitHub 開源專案活動總覽">
+    <title>GitHub 活動 | DOF Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gh-header { padding-top: 100px; padding-bottom: 1.5rem; text-align: center; }
+        .gh-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gh-header .subtitle { color: var(--text-gray); }
+        .gh-profile { display: flex; align-items: center; gap: 1.5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .gh-profile img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-color); }
+        .gh-profile .info h2 { color: var(--text-white); font-size: 1.3rem; }
+        .gh-profile .info p { color: var(--text-gray); font-size: 0.9rem; }
+        .gh-profile .stats { display: flex; gap: 1.5rem; margin-left: auto; }
+        .gh-profile .stat-item { text-align: center; }
+        .gh-profile .stat-item .num { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); }
+        .gh-profile .stat-item .lbl { font-size: 0.75rem; color: var(--text-gray); }
+
+        .gh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+        .gh-stat-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; }
+        .gh-stat-card h3 { font-size: 1rem; color: var(--text-white); margin-bottom: 1rem; }
+
+        .lang-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 0.8rem; }
+        .lang-bar div { transition: width 0.5s; }
+        .lang-legend { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .lang-legend span { display: flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; color: var(--text-gray); }
+        .lang-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+        .repo-list { list-style: none; padding: 0; }
+        .repo-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.2rem; margin-bottom: 0.8rem; transition: border-color 0.2s; }
+        .repo-item:hover { border-color: var(--primary-color); }
+        .repo-item h4 { margin: 0 0 0.4rem; }
+        .repo-item h4 a { color: var(--primary-color); text-decoration: none; font-size: 1rem; }
+        .repo-item h4 a:hover { text-decoration: underline; }
+        .repo-item .desc { color: var(--text-gray); font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .repo-item .meta { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-gray); flex-wrap: wrap; }
+        .repo-item .meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+        .activity-list { max-height: 400px; overflow-y: auto; }
+        .activity-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+        .activity-item .date { color: var(--text-gray); font-size: 0.75rem; }
+        .activity-item .msg { color: var(--text-light); }
+
+        .search-box { background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.6rem 1rem; color: var(--text-light); width: 100%; max-width: 400px; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .search-box:focus { outline: none; border-color: var(--primary-color); }
+
+        .loading { text-align: center; padding: 2rem; color: var(--text-gray); }
+        .gh-footer { text-align: center; padding: 2rem 0 3rem; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 2rem; }
+
+        @media (max-width: 768px) {
+            .gh-header h1 { font-size: 1.8rem; }
+            .gh-profile { flex-direction: column; text-align: center; }
+            .gh-profile .stats { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="blog.html">研究日誌</a></li>
+                <li><a href="projects.html">研究與工具</a></li>
+                <li><a href="repos.html">程式碼庫</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
+                <li><a href="about.html">關於</a></li>
+                <li><a href="contact.html">聯絡</a></li>
+                <li><a href="dashboard.html">儀表板</a></li>
+                <li><a href="privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="gh-header">
+            <h1><i class="fab fa-github"></i> GitHub 活動總覽</h1>
+            <p class="subtitle">dofliu — 開源專案與程式碼活動追蹤</p>
+        </div>
+
+        <!-- Profile -->
+        <div class="gh-profile" id="profileCard">
+            <div class="loading">載入中...</div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="gh-grid">
+            <div class="gh-stat-card">
+                <h3><i class="fas fa-code"></i> 程式語言分布</h3>
+                <div class="lang-bar" id="langBar"></div>
+                <div class="lang-legend" id="langLegend"></div>
+            </div>
+            <div class="gh-stat-card">
+                <h3><i class="fas fa-history"></i> 最近活動</h3>
+                <div class="activity-list" id="activityList">
+                    <div class="loading">載入中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repos -->
+        <h2 style="margin-bottom: 1rem; color: var(--text-white);"><i class="fas fa-book"></i> 公開儲存庫</h2>
+        <input type="text" class="search-box" id="repoSearch" placeholder="搜尋儲存庫...">
+        <ul class="repo-list" id="repoList">
+            <li class="loading">載入中...</li>
+        </ul>
+
+        <div class="gh-footer">
+            <p>資料來源：GitHub Public API | <a href="https://github.com/dofliu" target="_blank" style="color:var(--primary-color)">github.com/dofliu</a></p>
+        </div>
+    </div>
+
+    <script>
+    const USERNAME = 'dofliu';
+    const API = 'https://api.github.com';
+    const LANG_COLORS = {Python:'#3572A5',JavaScript:'#f1e05a',TypeScript:'#3178c6',HTML:'#e34c26',CSS:'#563d7c',Dart:'#00B4AB',C:'#555555','C++':'#f34b7d',Java:'#b07219',Shell:'#89e051',Jupyter:'#DA5B0B',Vue:'#41b883'};
+
+    let allRepos = [];
+
+    async function fetchJSON(url) {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(res.status);
+        return res.json();
+    }
+
+    async function loadProfile() {
+        try {
+            const user = await fetchJSON(`${API}/users/${USERNAME}`);
+            document.getElementById('profileCard').innerHTML = `
+                <img src="${user.avatar_url}" alt="${user.login}">
+                <div class="info">
+                    <h2>${user.name || user.login}</h2>
+                    <p>${user.bio || ''}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> ${user.location || 'Taiwan'} | <a href="${user.html_url}" target="_blank" style="color:var(--primary-color)">${user.login}</a></p>
+                </div>
+                <div class="stats">
+                    <div class="stat-item"><div class="num">${user.public_repos}</div><div class="lbl">Repos</div></div>
+                    <div class="stat-item"><div class="num">${user.followers}</div><div class="lbl">Followers</div></div>
+                    <div class="stat-item"><div class="num">${user.following}</div><div class="lbl">Following</div></div>
+                </div>`;
+        } catch(e) { document.getElementById('profileCard').innerHTML = '<p style="color:#e74c3c">無法載入個人資料</p>'; }
+    }
+
+    async function loadRepos() {
+        try {
+            let page = 1, repos = [];
+            while (true) {
+                const batch = await fetchJSON(`${API}/users/${USERNAME}/repos?per_page=100&sort=pushed&page=${page}`);
+                repos = repos.concat(batch);
+                if (batch.length < 100) break;
+                page++;
+            }
+            allRepos = repos.filter(r => !r.fork);
+            renderRepos(allRepos);
+            computeLanguages(allRepos);
+        } catch(e) { document.getElementById('repoList').innerHTML = '<li style="color:#e74c3c">無法載入儲存庫</li>'; }
+    }
+
+    function renderRepos(repos) {
+        document.getElementById('repoList').innerHTML = repos.map(r => {
+            const updated = r.pushed_at ? new Date(r.pushed_at).toLocaleDateString('zh-TW') : '';
+            return `<li class="repo-item">
+                <h4><a href="${r.html_url}" target="_blank">${r.name}</a></h4>
+                <div class="desc">${r.description || '無說明'}</div>
+                <div class="meta">
+                    ${r.language ? `<span><span class="lang-dot" style="background:${LANG_COLORS[r.language]||'#ccc'}"></span>${r.language}</span>` : ''}
+                    <span><i class="fas fa-star"></i> ${r.stargazers_count}</span>
+                    <span><i class="fas fa-code-branch"></i> ${r.forks_count}</span>
+                    <span><i class="fas fa-clock"></i> ${updated}</span>
+                </div>
+            </li>`;
+        }).join('');
+    }
+
+    function computeLanguages(repos) {
+        const langs = {};
+        repos.forEach(r => { if (r.language) langs[r.language] = (langs[r.language]||0) + 1; });
+        const sorted = Object.entries(langs).sort((a,b) => b[1]-a[1]);
+        const total = sorted.reduce((s,e) => s+e[1], 0);
+
+        document.getElementById('langBar').innerHTML = sorted.slice(0,8).map(([l,c]) =>
+            `<div style="width:${(c/total*100).toFixed(1)}%;background:${LANG_COLORS[l]||'#ccc'}"></div>`
+        ).join('');
+
+        document.getElementById('langLegend').innerHTML = sorted.slice(0,8).map(([l,c]) =>
+            `<span><span class="lang-dot" style="background:${LANG_COLORS[l]||'#ccc'}"></span>${l} (${c})</span>`
+        ).join('');
+    }
+
+    async function loadActivity() {
+        try {
+            const events = await fetchJSON(`${API}/users/${USERNAME}/events/public?per_page=30`);
+            const el = document.getElementById('activityList');
+            const items = events.filter(e => ['PushEvent','CreateEvent','PullRequestEvent','IssuesEvent'].includes(e.type)).slice(0, 15);
+            el.innerHTML = items.map(e => {
+                const date = new Date(e.created_at).toLocaleDateString('zh-TW', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+                let msg = '';
+                if (e.type === 'PushEvent') {
+                    const commits = e.payload.commits || [];
+                    msg = `推送 ${commits.length} 個 commit 到 <strong>${e.repo.name.split('/')[1]}</strong>`;
+                    if (commits.length > 0) msg += `<br><small style="color:var(--text-gray)">${commits[0].message.substring(0,60)}</small>`;
+                } else if (e.type === 'CreateEvent') {
+                    msg = `建立 ${e.payload.ref_type} <strong>${e.payload.ref || e.repo.name.split('/')[1]}</strong>`;
+                } else if (e.type === 'PullRequestEvent') {
+                    msg = `${e.payload.action} PR #${e.payload.pull_request.number} in <strong>${e.repo.name.split('/')[1]}</strong>`;
+                } else if (e.type === 'IssuesEvent') {
+                    msg = `${e.payload.action} issue in <strong>${e.repo.name.split('/')[1]}</strong>`;
+                }
+                return `<div class="activity-item"><div class="date">${date}</div><div class="msg">${msg}</div></div>`;
+            }).join('') || '<p style="color:var(--text-gray)">暫無近期活動</p>';
+        } catch(e) { document.getElementById('activityList').innerHTML = '<p style="color:#e74c3c">無法載入活動</p>'; }
+    }
+
+    // Search
+    document.getElementById('repoSearch').addEventListener('input', function() {
+        const q = this.value.toLowerCase();
+        const filtered = allRepos.filter(r =>
+            r.name.toLowerCase().includes(q) ||
+            (r.description||'').toLowerCase().includes(q) ||
+            (r.language||'').toLowerCase().includes(q)
+        );
+        renderRepos(filtered);
+    });
+
+    // Mobile menu
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Init
+    Promise.all([loadProfile(), loadRepos(), loadActivity()]);
+    </script>
+</body>
+</html>
