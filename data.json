@@ -463,7 +463,4 @@
       "description_zh": "15台風機的實時SCADA監控系統",
       "key_metrics": "15 turbines, 17-second data interval",
       "_path": "researchTopic\\windFarmMonitor\\WindFarmMonitoring",
-      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windFarmMonitor\\WindFarmMonitoring\\STATUS.yaml"
-    }
-  ]
-}
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windFarmMonitor\\WindFarmMonitoring\\STATUS.
