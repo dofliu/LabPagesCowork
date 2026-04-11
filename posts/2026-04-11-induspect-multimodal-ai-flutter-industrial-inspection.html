@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>InduSpect 智慧巡檢：多模態 Gemini AI 與 Flutter 離線優先架構如何重塑工業設備檢測 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">InduSpect 智慧巡檢：多模態 Gemini AI 與 Flutter 離線優先架構如何重塑工業設備檢測</h1>
+            <p>2026-04-11 • 劉瑞弘教授團隊 • Industrial AI / Flutter / Gemini / Multimodal / Inspection</p>
+        </header>
+        <div class="article-content">
+
+<p>工業設備的定期巡檢長期依賴人工目視，不僅耗時費力，更因為巡檢員的個人經驗與疲勞程度而產生難以量化的品質差異。2026 年，多模態 AI 視覺模型的成熟，加上 Flutter 跨平台行動開發框架的進化，讓「離線優先、AI 輔助、人在迴路」的智慧巡檢系統正式從概念走入實驗驗證階段。這正是我們 DOF Lab 的 <strong>InduSpect</strong> 專案正在做的事。</p>
+
+<h2>一、工業巡檢的痛點與 AI 的突破口</h2>
+
+<p>傳統工業巡檢面臨三大結構性挑戰：第一，<strong>知識無法系統化傳承</strong>——資深技術員的經驗難以有效轉移給新人；第二，<strong>環境條件複雜</strong>——戶外或重工業現場網路訊號不穩定，雲端 AI 依賴網路則形成致命弱點；第三，<strong>報告撰寫效率低</strong>——巡檢員需要手工填寫大量表單，既繁瑣又容易出錯。</p>
+
+<p>多模態 AI 的突破在於：現在的視覺語言模型（Vision-Language Model, VLM）不僅能「看圖說話」，還能進行推理式分析。根據 2026 年 2 月 TechXplore 的報導，最新研究開發出能偵測「人眼難以察覺細微缺陷」的工業視覺系統，並透過多模態感測器資料融合（MambaAlign 架構）克服了傳統單一感測器的局限。Gemini 3 Flash 的 <strong>Agentic Vision</strong> 能力更進一步，讓模型能夠主動規劃「縮放→局部檢視→程式碼輔助分析」的多步驟視覺推理流程，在 MMMU Pro 視覺基準測試中達到 79% 的準確率。</p>
+
+<div class="highlight-box">
+    <strong>🔍 2026 工業 AI 視覺關鍵技術：</strong>
+    <ul>
+        <li><strong>Agentic Vision（Gemini 3 Flash）</strong> — 主動縮放與局部分析，5-10% 品質提升</li>
+        <li><strong>Vision Transformers</strong> — 在非均勻缺陷模式識別中超越 CNN</li>
+        <li><strong>邊緣 AI 推論</strong> — LiteRT (TFLite 繼任者) 支援 TF/PyTorch/JAX 模型跨平台部署</li>
+        <li><strong>多模態感測器融合</strong> — MambaAlign 架構克服傳感器對齊與計算成本問題</li>
+        <li><strong>人在迴路（HITL）審核</strong> — AI 建議 + 人工確認，維持可解釋性與法規合規</li>
+    </ul>
+</div>
+
+<h2>二、InduSpect 的技術架構：Flutter × Gemini × 離線優先</h2>
+
+<p>InduSpect 是 DOF Lab 正在積極開發的工業智慧巡檢系統，以 <strong>Flutter</strong> 跨平台框架為基礎，整合 <strong>Google Gemini AI</strong> 多模態能力，目標是讓一支智慧手機成為完整的設備診斷工具。目前專案進度達 75%，10 項核心功能已完成設計，正在進入 7 模組實驗計畫的驗證階段。</p>
+
+<p>系統設計的核心理念是「<strong>離線優先（Offline-First）</strong>」——這在工業現場至關重要。巡檢員在工廠、風機機艙或地下管道等訊號不穩定的環境中，仍需要 AI 輔助分析能力。InduSpect 採用本地推論（On-Device Inference）搭配同步回雲端的設計，當網路恢復時才將結果上傳與匯整，確保現場體驗零延遲。</p>
+
+<div class="highlight-box">
+    <strong>⚙️ InduSpect 核心功能架構：</strong>
+    <ul>
+        <li><strong>離線拍攝與快取</strong> — 現場拍攝設備照片，本地暫存，網路恢復後自動同步</li>
+        <li><strong>Gemini AI 圖像分析</strong> — 多模態視覺推理，識別設備異常、損耗與缺陷</li>
+        <li><strong>人在迴路審核</strong> — AI 初判 + 技術員確認，形成可稽查的決策記錄</li>
+        <li><strong>自動報告生成</strong> — 結合圖像、AI 分析與人工備註，一鍵生成標準巡檢報告</li>
+        <li><strong>歷史趨勢追蹤</strong> — 記錄設備狀態時間序列，支援劣化趨勢分析</li>
+        <li><strong>多設備資產管理</strong> — 對應風機、馬達、電控箱等不同設備類型的巡檢模板</li>
+    </ul>
+</div>
+
+<p>Flutter 在 2026 年已成為工業 IoT 行動應用的主流選擇。根據 LeanCode 的分析，Flutter 在 AI 整合、跨平台一致性與離線同步架構（搭配 PowerSync 或 Supabase）上的優勢，使其特別適合需要在 Android/iOS 雙平台穩定運行的工業場景。</p>
+
+<h2>三、實驗計畫：從理論到現場驗證</h2>
+
+<p>InduSpect 目前最重要的里程碑是執行「實驗模組 1-3」——這是系統從原型進入可信賴商用工具的關鍵驗證階段。實驗設計圍繞三個核心問題：</p>
+
+<ul>
+    <li><strong>模組 1：AI 識別準確率基準測試</strong> — 在不同光線、角度與設備類型下，Gemini 視覺分析的故障識別準確率是否達到實用門檻？</li>
+    <li><strong>模組 2：離線推論效能驗證</strong> — 本地部署的輕量模型與雲端 Gemini API 在準確率與速度上的差距有多大？現場人員能接受嗎？</li>
+    <li><strong>模組 3：使用者體驗與流程整合</strong> — 真實巡檢員使用 InduSpect 後，工作效率提升了多少？報告品質改善有多少？</li>
+</ul>
+
+<p>這種「從使用者問題出發、用量化實驗驗證」的研究設計，正是將技術論文從「實驗室展示」升級為「可複現工業解決方案」的關鍵。我們計畫在 2026 年 Q2 完成前三個模組的驗證，並以此為基礎準備學術論文投稿。</p>
+
+<div class="highlight-box">
+    <strong>🔬 與 windAILab 的協同效應：</strong>
+    <p>InduSpect 的視覺巡檢能力與 <strong>windAILab</strong> 的 SCADA 資料分析形成互補。在風力發電場景中，地面技術員用 InduSpect 拍攝葉片表面缺陷與機艙設備狀態，雲端 windAILab 系統同步分析 SCADA 振動與功率曲線異常，兩個資料來源的交叉驗證將大幅提升故障診斷的可信度。這種「感知層 + 資料層」雙軌融合架構，是我們下一階段整合研究的重點方向。</p>
+</div>
+
+<h2>研究室行動項目</h2>
+
+<p>基於 InduSpect 的最新進展與 2026 年工業 AI 趨勢，DOF Lab 本季的重點行動如下：</p>
+
+<ul>
+    <li><strong>InduSpect</strong>：啟動實驗模組 1-3，完成 Gemini AI 識別準確率基準測試，目標論文投稿 Q3 2026</li>
+    <li><strong>windAILab × InduSpect 整合</strong>：規劃 SCADA 異常 + 現場影像交叉驗證的聯合診斷原型</li>
+    <li><strong>Flutter 架構優化</strong>：評估 LiteRT 在 Android 設備的本地推論效能，決定混合雲端/邊緣策略</li>
+    <li><strong>資料標註流程</strong>：建立風機與工業設備缺陷圖像標準標註流程，為後續模型微調準備訓練資料</li>
+</ul>
+
+<p>工業 AI 的戰場不在於演算法有多精妙，而在於系統能不能在真實現場、真實使用者的手中穩定運作。InduSpect 的核心信念是：最好的 AI 工具，是讓技術員感覺不到「我在用 AI」，而是「這個 App 真的幫到我了」。這是我們努力的方向。</p>
+
+<div class="source-list">
+    <strong>參考來源：</strong>
+    <ul>
+        <li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/agentic-vision-gemini-3-flash/" target="_blank">Google Blog — Introducing Agentic Vision in Gemini 3 Flash</a></li>
+        <li><a href="https://techxplore.com/news/2026-02-subtle-defects-industrial-visual.html" target="_blank">TechXplore — Researchers develop system detecting subtle defects in industrial visual inspection</a></li>
+        <li><a href="https://averroes.ai/blog/computer-vision-trends" target="_blank">Averroes AI — Top 7 Computer Vision Trends of 2026</a></li>
+        <li><a href="https://claude5.com/news/multimodal-ai-in-2026-vision-documents-real-world-applicatio" target="_blank">Claude 5 Hub — Multimodal AI in 2026: Vision, Documents & Real-World Applications</a></li>
+        <li><a href="https://dasroot.net/posts/2026/03/building-offline-first-ai-applications-flutter/" target="_blank">DasRoot — Building Offline-First AI Applications with Flutter (2026)</a></li>
+        <li><a href="https://leancode.co/blog/trends-in-flutter-app-development" target="_blank">LeanCode — Top 5 Trends in Flutter App Development for 2026</a></li>
+        <li><a href="https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-flash" target="_blank">Google Cloud — Gemini 3 Flash Documentation</a></li>
+        <li><a href="https://whatllm.org/blog/best-vision-models-january-2026" target="_blank">WhatLLM — Best Vision & Multimodal LLMs 2026</a></li>
+    </ul>
+</div>
+
+        </div>
+    </article>
+
+    <script>
+    document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+    </script>
+</body>
+</html>
