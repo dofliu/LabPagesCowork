@@ -29,15 +29,15 @@
     "status": "completed",
     "last_updated": "2026-04-10"
   },
-  "LLM Wiki": {
-    "progress": 80,
-    "status": "active",
-    "last_updated": "2026-04-10"
-  },
   "OPC UA MCP": {
     "progress": 85,
     "status": "production",
     "last_updated": "2026-04-10"
+  },
+  "LabPagesCowork": {
+    "progress": 75,
+    "status": "active",
+    "last_updated": "2026-04-11"
   },
   "Modbus MCP": {
     "progress": 85,
@@ -54,10 +54,40 @@
     "status": "active",
     "last_updated": "2026-04-10"
   },
+  "CitingVerify": {
+    "progress": 78,
+    "status": "active",
+    "last_updated": "2026-04-11"
+  },
+  "English Speaking Tutor": {
+    "progress": 65,
+    "status": "active",
+    "last_updated": "2026-04-11"
+  },
+  "AI Graphic Studio": {
+    "progress": 82,
+    "status": "active",
+    "last_updated": "2026-04-11"
+  },
+  "LLM Wiki": {
+    "progress": 80,
+    "status": "active",
+    "last_updated": "2026-04-10"
+  },
   "Research Dashboard": {
     "progress": 90,
     "status": "active",
     "last_updated": "2026-04-10"
+  },
+  "TranslateGemma": {
+    "progress": 72,
+    "status": "active",
+    "last_updated": "2026-04-11"
+  },
+  "Z-Image-Turbo Web UI": {
+    "progress": 70,
+    "status": "active",
+    "last_updated": "2026-04-11"
   },
   "ECN O&M Tool": {
     "progress": 80,
@@ -65,9 +95,9 @@
     "last_updated": "2026-04-10"
   },
   "InduSpect AI": {
-    "progress": 75,
+    "progress": 80,
     "status": "active",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-12"
   },
   "AI PLC Automation": {
     "progress": 85,
@@ -80,9 +110,9 @@
     "last_updated": "2026-04-10"
   },
   "RAG Ultimate": {
-    "progress": 85,
+    "progress": 88,
     "status": "active",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-12"
   },
   "WindAI Lab": {
     "progress": 92,
@@ -90,9 +120,9 @@
     "last_updated": "2026-04-10"
   },
   "Digital Wind Turbine": {
-    "progress": 80,
+    "progress": 85,
     "status": "active",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-12"
   },
   "WindFarmMonitoring": {
     "progress": 60,

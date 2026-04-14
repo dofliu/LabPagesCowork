@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>WindAI Lab Phase 11：42 個 AI 代理協作衝刺論文，多代理架構如何在風機診斷中達成 F1=1.0 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">WindAI Lab Phase 11：42 個 AI 代理協作衝刺論文，多代理架構如何在風機診斷中達成 F1=1.0</h1>
+            <p>2026-04-13 • 劉瑞弘教授團隊 • Wind Energy / Multi-Agent AI / SCADA / Fault Diagnosis / Paper Sprint</p>
+        </header>
+        <div class="article-content">
+
+<p>DOF Lab 的旗艦研究專案 <strong>WindAI Lab</strong> 正式進入 <strong>Phase 11——部署優化與論文撰寫</strong>衝刺階段。這個整合了 42 個 AI 代理、12 個獨立技能模組的研究協作平台，以 Kelmarsh 真實風場 SCADA 資料為驗證基礎，在故障診斷任務上達成了 <strong>F1=1.0</strong>、功率曲線建模 <strong>R²=0.997</strong> 的卓越成果。如今，研究重心從「建平台、跑實驗」正式轉向「寫論文、投期刊」，這是將兩年研發心血轉化為學術貢獻的關鍵時刻。</p>
+
+<p>同時，2026 年全球工業 AI 領域正在發生一場悄然但深刻的典範轉移：<strong>Agentic AI</strong> 正在工業故障診斷、預測維護等場景中快速落地。WindAI Lab 的多代理協作設計，與這一趨勢高度共振——我們不是在追趕潮流，而是用研究實績印證了這條路徑的可行性。</p>
+
+<h2>一、從 42 個代理看多代理協作的真實意涵</h2>
+
+<p>談到多代理系統（Multi-Agent Systems），許多人的第一反應是「為什麼不用一個更大的模型直接搞定？」這是一個好問題。WindAI Lab 的設計哲學給出了務實的回答：在風機診斷這類需要跨領域知識協作的任務中，單一模型的「全能」反而是架構上的負擔。</p>
+
+<p>WindAI Lab 採用 <strong>6 層階層式代理架構</strong>，42 個代理依職責分工——12 個核心代理負責資料管線、特徵工程、模型訓練與知識庫維護等基礎任務；10 個聘用專家代理則在特定問題浮現時被動態召喚，例如葉片氣動分析專家、齒輪箱振動診斷專家、電氣系統故障專家。此外還有負責品質控制的「導演檢查點（Director Checkpoint）」機制，確保每個代理的輸出在進入下一層之前都通過一致性審核。</p>
+
+<p>這套設計的核心優勢在於<strong>可組合性</strong>：透過 YAML 驅動的零代碼代理定義框架，加入新的領域專家代理不需要修改任何核心程式碼。這對工業 AI 研究而言極其重要——風機的故障模式會隨著新機型、新場址而演化，知識體系必須持續擴展，而不能每次都重新訓練整個系統。</p>
+
+<div class="highlight-box">
+    <strong>⚙️ WindAI Lab 多代理架構核心設計：</strong>
+    <ul>
+        <li><strong>6 層階層結構</strong>：任務分解 → 資料處理 → 特徵工程 → 模型推理 → 知識整合 → 品質審核</li>
+        <li><strong>42 個 AI 代理</strong>：12 核心代理 + 10 聘用專家代理 + 20 支援代理</li>
+        <li><strong>12 個獨立技能模組</strong>：SCADA 分析、RAG 知識庫、功率曲線建模、RUL 預測、報告生成等</li>
+        <li><strong>RAG 知識庫整合</strong>：BGE-3 嵌入 + ChromaDB，動態維護風機運維領域知識</li>
+        <li><strong>導演檢查點機制</strong>：每個工作流節點的輸出品質自動驗證，確保研究可重現性</li>
+        <li><strong>YAML 驅動框架</strong>：零代碼新增代理，支援快速領域擴展</li>
+    </ul>
+</div>
+
+<h2>二、F1=1.0 之後：為什麼論文撰寫比達成指標更難</h2>
+
+<p>在實驗中達到 F1=1.0（故障診斷完美精準率）是令人振奮的成果，但研究者都知道，「跑出好數字」和「寫出一篇嚴謹可信的論文」之間，有一段艱難的路程。Phase 11 的核心挑戰正在這裡。</p>
+
+<p>首先是<strong>可重現性（Reproducibility）</strong>的問題。WindAI Lab 使用 Kelmarsh 風場（英國，6 台風機）的真實 SCADA 資料，但完整的實驗重現需要記錄每一個資料前處理決策、特徵選取依據、模型超參數，以及多代理協作中每個代理的輸出如何影響最終結果。這本身就是一項需要系統性文件化工程的工作。</p>
+
+<p>其次是<strong>公平比較基準（Baseline）</strong>的建立。論文不只要說「我們達到了 F1=1.0」，還要說明這個數字相對於哪些既有方法有多大的改進、在哪些條件下成立、在哪些條件下可能下降。根據 2026 年 MDPI Energies 最新發表的大型綜述，現有 SCADA 故障診斷研究最常見的問題恰恰是缺乏跨資料集的泛化性驗證——這也是 WindAI Lab Phase 11 需要正面回應的學術挑戰。</p>
+
+<p>第三是<strong>多代理協作的可解釋性（Explainability）</strong>。工業 AI 的審稿人與讀者（包括工程實務從業者）有一個合理的期待：你說 42 個代理協作才能達到最佳結果，那麼每個代理的具體貢獻是什麼？移除某個代理後效能如何變化？這類消融實驗（Ablation Study）的設計與執行，是 Phase 11 論文稿的核心工作之一。</p>
+
+<div class="highlight-box">
+    <strong>📝 WindAI Lab Phase 11 論文衝刺核心任務：</strong>
+    <ul>
+        <li><strong>消融實驗</strong>：逐一移除代理層、RAG 模組、Director Checkpoint，量化各組件對 F1/R² 的貢獻</li>
+        <li><strong>基準比較</strong>：與 CNN-LSTM、孤立森林（Isolation Forest）、傳統 SCADA 閾值告警等方法對比</li>
+        <li><strong>泛化性測試</strong>：在 Kelmarsh 以外的風場資料（如 NREL NWTC 公開資料集）驗證遷移能力</li>
+        <li><strong>部署性能優化</strong>：在實際部署環境（Docker + GCP Cloud Run）中測試推理延遲與吞吐量</li>
+        <li><strong>論文初稿完成</strong>：目標投稿至 Renewable Energy 或 IEEE Transactions on Industrial Informatics</li>
+    </ul>
+</div>
+
+<h2>三、2026 年工業 Agentic AI 趨勢，與 WindAI Lab 的交叉點</h2>
+
+<p>就在 WindAI Lab 推進論文衝刺的同時，全球工業 AI 社群正在加速擁抱 Agentic AI 架構。根據 Preprints.org 於 2026 年 2 月發表的研究，多模態異常偵測系統（Agentic and LLM-Based Multimodal Anomaly Detection）已被認定為工業 AI 的前沿方向之一——透過整合 LLM 語意理解能力與感測器資料分析，代理系統能夠在複雜工況下實現遠超傳統閾值告警的診斷深度。ScienceDirect 同期發表的「Autonomous Industrial Control using an Agentic Framework with LLMs」則進一步確認，結合確定性規則代理、統計代理與 LLM 代理的混合架構，能在無人干預下管理工業控制任務並應對非預期擾動。</p>
+
+<p>WindAI Lab 的架構設計與這些研究方向高度一致。我們在兩年前就採用了「專家代理動態召喚 + RAG 知識庫 + 品質控制代理」的組合模式，而現在的學術社群正在對這類架構進行系統性理論化與評測標準化。這意味著 WindAI Lab 的論文有著良好的時代背景——它不只是一篇「展示平台」的技術報告，更是一個在工業 AI 典範轉移窗口期提交的、有真實驗證數據的研究成果。</p>
+
+<p>值得特別關注的是 2026 年 MDPI Energies 發表的大型綜述「AI-Driven Fault Detection and O&M for Wind Turbine Drivetrains」。這篇涵蓋 SCADA、CMS 與 Digital Twin 整合的文獻，指出目前多數 SCADA 故障研究仍然碎片化，缺乏整合多模態資料與跨站點驗證的系統性框架——這正是 WindAI Lab 多代理協作平台試圖填補的研究缺口。</p>
+
+<div class="highlight-box">
+    <strong>🌍 2026 工業 Agentic AI 全球趨勢快照：</strong>
+    <ul>
+        <li>Agentic AI 工業部署正從概念驗證（PoC）階段進入企業規模化（Enterprise Scale）落地</li>
+        <li>混合代理架構（規則代理 + 統計代理 + LLM 代理）成為工業控制場景主流設計模式</li>
+        <li>多模態異常偵測整合視覺、振動、電氣、溫度等異質感測器資料，突破單一模態瓶頸</li>
+        <li>Agent Observability（可觀測性）成為 2026 年工業 AI 部署的新興需求，監控代理行為鏈</li>
+        <li>風能 SCADA 診斷研究缺口：跨資料集泛化驗證仍是大多數論文的薄弱環節</li>
+    </ul>
+</div>
+
+<h2>研究室行動項目</h2>
+
+<p>Phase 11 的啟動對 DOF Lab 每一位成員都有具體意涵。對<strong>研究生</strong>而言，這是參與真實論文撰寫流程的機會：消融實驗的設計與執行、基準方法的程式碼復現、圖表與結果表格的製作，每一項都是未來自己寫論文時最寶貴的第一手訓練。對<strong>大學部學生</strong>而言，現在加入 WindAI Lab 的資料前處理與視覺化工作，能夠在畢業前留下一份真實的研究成果紀錄。</p>
+
+<p>在研究策略層面，Phase 11 也有一個重要的優先順序決策：我們選擇在論文投稿<em>之前</em>完成部署優化，這樣論文中的推理效能數據（延遲、吞吐量、資源消耗）才能反映真實生產環境，而不是實驗室理想條件下的結果。這是一個讓論文更具說服力的選擇，雖然它讓時程更緊，但值得。</p>
+
+<p>最後，WindAI Lab 的成果不只是一篇論文。多代理協作框架中積累的工業 AI 最佳實踐、YAML 驅動的零代碼代理定義模式、以及與 RAG Ultimate 知識庫的整合經驗，都將在 Phase 12 計畫中延伸應用到 InduSpect 智慧巡檢場景——讓不同研究專案之間形成知識的正向循環。</p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源：</strong>
+            <ul>
+                <li><a href="https://www.mdpi.com/1996-1073/19/5/1370" target="_blank">AI-Driven Fault Detection and O&M for Wind Turbine Drivetrains: SCADA, CMS and Digital Twin Integration — MDPI Energies, 2026</a></li>
+                <li><a href="https://www.preprints.org/manuscript/202602.1368" target="_blank">Agentic and LLM-Based Multimodal Anomaly Detection: Architectures, Challenges, and Prospects — Preprints.org, 2026</a></li>
+                <li><a href="https://www.sciencedirect.com/science/article/pii/S2405896325005300" target="_blank">Autonomous Industrial Control using an Agentic Framework with Large Language Models — ScienceDirect, 2026</a></li>
+                <li><a href="https://aimultiple.com/industrial-ai-agents" target="_blank">Top 30+ Industrial AI Agents Landscape to Watch in 2026 — AIMultiple</a></li>
+                <li><a href="https://akka.io/blog/agentic-ai-frameworks" target="_blank">Agentic AI Frameworks for Enterprise Scale: A 2026 Guide — Akka</a></li>
+                <li><a href="https://www.mdpi.com/1996-1073/18/7/1680" target="_blank">Artificial Intelligence in Wind Turbine Fault Detection and Diagnosis: Advances and Perspectives — MDPI Energies</a></li>
+                <li>WindAI Lab 專案文件 — DOF Lab 內部研究資料（STATUS.yaml / PAPER_OUTLINES.md）</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 DOF Lab, NCUT. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</body>
+</html>
