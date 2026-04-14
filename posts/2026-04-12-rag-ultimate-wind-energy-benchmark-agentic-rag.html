@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG Ultimate v8.0：邁向風電領域 RAG Benchmark 論文，與 2026 年 Agentic RAG 的典範轉移 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG Ultimate v8.0：邁向風電領域 RAG Benchmark 論文，與 2026 年 Agentic RAG 的典範轉移</h1>
+            <p>2026-04-12 • 劉瑞弘教授團隊 • RAG / Agentic AI / Wind Energy / Benchmark / Knowledge Management</p>
+        </header>
+        <div class="article-content">
+
+<p>今天，我們的 <strong>RAG Ultimate</strong> 研究平台正式邁入 <strong>v8.0 / Phase 3</strong>——風電領域 RAG Benchmark 論文研究的啟動里程碑。從最初一個孤立的評測腳本，到整合 17 種 RAG 模式、789 項測試案例、Qdrant 持久化向量資料庫的企業級研究平台，這段旅程見證了我們對「如何讓 AI 真正讀懂工程文件」這個核心問題的持續探索。更重要的是，這個時間點恰好與全球 Agentic RAG 的典範轉移高度重疊——我們站在一個絕佳的研究制高點。</p>
+
+<h2>一、RAG 在 2026 年不再只是「檢索加問答」</h2>
+
+<p>2023 年 RAG 剛普及時，人們把它想成一個直觀的管線：將文件切片、向量化、存入資料庫，使用者提問時找出最相關片段，再讓 LLM 根據這些片段回答。這個「Naive RAG」雖然好用，但在工程文件、專業領域知識庫等高複雜度場景中，往往暴露出脆弱性——一旦文件格式複雜、問題需要跨段落推理，或者查詢本身帶有模糊性，檢索品質便急劇下降。</p>
+
+<p>2026 年，研究社群對此給出了明確答案：<strong>Agentic RAG</strong>。根據 arXiv 上由 Singh et al. 發表的大型調查論文（arXiv:2501.09136），Agentic RAG 將自主 AI 代理嵌入 RAG 管線，讓代理能夠主動規劃檢索策略、反思中間答案、在多輪迭代中精煉結果，甚至協調多個專業子代理分工合作。這是從「被動查表」到「主動推理」的質變。</p>
+
+<p>A-RAG（arXiv:2602.03442）進一步將這一概念具體化為「階層式檢索介面」：代理擁有三種工具——<em>關鍵字搜尋</em>、<em>語意搜尋</em>、<em>片段精讀</em>——並能根據問題的性質自適應選擇，在不同粒度間靈活切換。Squirro 的年度報告指出，到 2026 年底，企業知識管理系統的主流將是「可行動、可問責、可自我適應」的 Agentic RAG，而不是靜態的向量搜尋工具。</p>
+
+<div class="highlight-box">
+    <strong>📈 2026 Agentic RAG 核心演進：</strong>
+    <ul>
+        <li><strong>Naive RAG → Advanced RAG</strong>：引入 Hybrid Search（BM25 + Dense）、Re-ranking、HyDE，提升單次檢索品質</li>
+        <li><strong>Advanced RAG → Modular RAG</strong>：Self-RAG、CRAG、Parent-Child Retrieval，讓系統具備自我校正能力</li>
+        <li><strong>Modular RAG → Agentic RAG</strong>：多代理協作、多步推理、上下文記憶（Contextual Memory），邁向自主知識推理</li>
+        <li><strong>2026 前沿：A-RAG 階層式介面</strong>：代理自主規劃多輪檢索路徑，突破單次查詢的語意瓶頸</li>
+    </ul>
+</div>
+
+<h2>二、RAG Ultimate：從整合平台到論文研究引擎</h2>
+
+<p>DOF Lab 的 <strong>RAG Ultimate</strong> 並非單純的「展示用 Demo」，而是一個從實際研究需求出發、歷經 10 個子專案整合的學術研究平台。目前版本 v7.5 已完成雙支柱架構的貫通：前端以 <strong>React 19 + TypeScript + Vite</strong> 建構統一的研究介面，後端以 <strong>FastAPI + Qdrant 向量資料庫</strong> 提供持久化的知識管理與 API 服務。</p>
+
+<p>平台的核心能力在於對 <strong>17 種 RAG 模式</strong>進行系統性、可重現的比較評測。這 17 種模式涵蓋從最基礎的 Baseline（無上下文純 LLM）到最複雜的 Hybrid RAG + CAG（結合混合檢索與上下文快取），中間包括 HyDE、Multi-Query Expansion、Self-RAG、CRAG、Citation RAG 等多種學術前沿方法。每次評測結果均以 <strong>RAGAS 指標</strong>（Faithfulness、Answer Relevance、Context Recall 等）量化，並支援統計檢驗（t-test、ANOVA、Tukey HSD）與多格式報告匯出（PDF、Excel、LaTeX）。</p>
+
+<p>截至今日（2026-04-12），平台已積累 <strong>789 個測試案例</strong>，涵蓋 4 套不同領域的標準 QA 集（共 405 題），並在 Qdrant 雲端向量庫中持久化管理多個知識庫。這些數據是 Phase 3 論文研究的重要基礎。</p>
+
+<div class="highlight-box">
+    <strong>🔬 RAG Ultimate v7.5 關鍵指標：</strong>
+    <ul>
+        <li><strong>17 種 RAG 模式</strong>：涵蓋基礎、進階、模組化三個層次的完整技術光譜</li>
+        <li><strong>789 項測試案例</strong>：跨領域系統性評測，確保結果的統計可信度</li>
+        <li><strong>4 套 QA 集（405 題）</strong>：包含風電運維、工業 AI、RAG 技術等專業領域問題集</li>
+        <li><strong>Qdrant 持久化向量庫</strong>：支援增量更新與跨會話知識保留</li>
+        <li><strong>FastAPI 雙支柱後端</strong>：三層式 API（/ingest、/embed、/retrieve）已完成第一哩路驗證</li>
+    </ul>
+</div>
+
+<h2>三、Phase 3 核心任務：風電 RAG Benchmark 論文的五個實驗</h2>
+
+<p>進入 v8.0 / Phase 3，RAG Ultimate 的研究焦點從「建立通用平台」轉向「針對特定領域的深度論文研究」。我們選擇<strong>風力發電運維（Wind Energy O&M）</strong>作為領域 Benchmark 的突破口，原因有三：第一，風電文件（技術手冊、SCADA 報告、故障診斷記錄）具有高度專業性與跨語言特性，是 RAG 系統在真實工程場景中的嚴苛測試；第二，DOF Lab 已在 windAILab 專案積累大量風電 SCADA 資料與領域知識，可作為高品質知識來源；第三，這一交叉領域（Renewable Energy × AI × RAG）目前在學術界的 Benchmark 研究相對稀缺，具有明確的研究缺口。</p>
+
+<p>Phase 3 規劃圍繞五個核心實驗展開，每個實驗針對一個關鍵研究問題。雖然完整實驗設計仍在精煉中，但核心方向已清晰：比較不同 RAG 策略在風電技術文件問答任務上的表現差異，分析切片策略（Chunking）、檢索方法（Dense vs. Hybrid）、重排序機制（Reranking）等各要素對最終答案品質的影響，並探索 Agentic RAG 在多步技術推理任務中的優勢。</p>
+
+<p>與此同時，RAG Ultimate 的平台能力也將在 Phase 3 持續強化。計畫中的 Phase 4（v9.0）將在論文研究進行的同時引入企業端功能：Hybrid/Rerank 多集合策略、更完善的 Multi-collection 管理，以及面向實際工業應用的知識庫部署能力。</p>
+
+<div class="highlight-box">
+    <strong>🌬️ 為什麼風電 RAG Benchmark 值得研究？</strong>
+    <p>風電技術文件呈現幾個對 RAG 系統的獨特挑戰：<strong>跨語言混排</strong>（中英文技術術語交替出現）、<strong>表格密集型內容</strong>（大量設備規格表、SCADA 參數表）、<strong>時序依賴性</strong>（維護記錄、故障歷史需要時間序列理解）、<strong>專業縮寫歧義</strong>（相同縮寫在不同語境代表不同含義）。這些特性使風電領域成為測試 RAG 系統「真實工程能力」的理想測試床，研究結論也具有向其他工業領域遷移的泛化價值。</p>
+</div>
+
+<h2>研究室行動項目</h2>
+
+<p>RAG Ultimate 進入 Phase 3 的同時，DOF Lab 在知識管理與 AI 研究方向的整體佈局也進入一個關鍵的整合期。本季的核心行動如下：</p>
+
+<ul>
+    <li><strong>RAG Ultimate Phase 3</strong>：確定五個實驗的研究問題、評測集設計與統計分析方案，目標 2026 Q3 完成論文初稿</li>
+    <li><strong>風電 QA 集建立</strong>：從 windAILab 的 SCADA 資料與技術文件中，系統性生成高品質風電領域問答對，建立業界少有的中文風電 RAG Benchmark 資料集</li>
+    <li><strong>Agentic RAG 模組整合</strong>：在現有 17 種 RAG 模式基礎上，將 A-RAG 階層式檢索介面整合進 RAG Ultimate 實驗平台，使論文能涵蓋最新 Agentic RAG 技術</li>
+    <li><strong>跨專案知識協同</strong>：探索 RAG Ultimate 知識庫與 windAILab 多代理系統的深度整合，讓研究代理能夠透過 RAG 動態查詢最新文獻與內部技術文件</li>
+</ul>
+
+<p>RAG 技術的演進軌跡清晰地指向一個方向：最終目標不是「更好的搜尋」，而是「更像專家的推理」。當我們的系統能夠面對一份複雜的風機故障報告，主動規劃「先查詢設備規格、再比對歷史故障模式、最後綜合技術手冊給出維修建議」這樣的多步推理路徑時，Agentic RAG 才算真正在工業場景中落地。這是 RAG Ultimate Phase 3 最深層的研究動機，也是 DOF Lab 在知識 AI 領域長期耕耘的核心信念。</p>
+
+<div class="source-list">
+    <strong>參考來源：</strong>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2501.09136" target="_blank">Singh et al. — Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG (arXiv:2501.09136)</a></li>
+        <li><a href="https://arxiv.org/abs/2602.03442" target="_blank">A-RAG: Scaling Agentic Retrieval-Augmented Generation via Hierarchical Retrieval Interfaces (arXiv:2602.03442)</a></li>
+        <li><a href="https://squirro.com/squirro-blog/state-of-rag-genai" target="_blank">Squirro — RAG in 2026: Bridging Knowledge and Generative AI</a></li>
+        <li><a href="https://www.lyzr.ai/blog/agentic-rag/" target="_blank">Lyzr — What is Agentic RAG? Everything You Need to Know in 2026</a></li>
+        <li><a href="https://nstarxinc.com/blog/the-next-frontier-of-rag-how-enterprise-knowledge-systems-will-evolve-2026-2030/" target="_blank">NStarX — The Next Frontier of RAG: How Enterprise Knowledge Systems Will Evolve (2026-2030)</a></li>
+        <li><a href="https://aws.amazon.com/blogs/industries/transforming-renewable-asset-development-using-agentic-ai/" target="_blank">AWS — Transforming renewable asset development using Agentic AI</a></li>
+        <li><a href="https://ieeexplore.ieee.org/abstract/document/11353439/" target="_blank">IEEE Xplore — Agentic AI in Wind Energy Systems: Multi-Agent Architectures for Optimization and Resilience</a></li>
+        <li><a href="https://www.signitysolutions.com/blog/trends-in-active-retrieval-augmented-generation" target="_blank">Signity Solutions — Trends in Active Retrieval Augmented Generation: 2026</a></li>
+    </ul>
+</div>
+
+        </div>
+    </article>
+
+    <script>
+    document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+    </script>
+</body>
+</html>

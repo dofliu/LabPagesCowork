@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>WindAI Lab 新增四大風機分析技能：偏航損失、降載偵測、警報關聯與 IEC 功率曲線實戰解析 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.92rem; color: #cdd3de; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .skill-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 1rem; }
+        .skill-card h4 { color: var(--text-white); margin: 0 0 0.5rem; font-size: 1rem; }
+        .skill-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
+        @media (max-width: 600px) { .skill-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html" class="active">研究日誌</a></li>
+                <li><a href="../projects.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+                <li><a href="https://infocard.doflab.cc/" target="_blank" class="highlight-link">AI Graphic Studio <i class="fas fa-external-link-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">WindAI Lab 新增四大風機分析技能：偏航損失、降載偵測、警報關聯與 IEC 功率曲線實戰解析</h1>
+            <p>2026-04-14 • 劉瑞弘教授團隊 • Wind Energy / SCADA Analysis / IEC 61400-12 / Fault Diagnosis / Yaw Misalignment</p>
+        </header>
+        <div class="article-content">
+
+<p>繼 WindAI Lab 平台達成故障診斷 F1=1.0 的里程碑之後，研究團隊並沒有停下腳步。本週，我們在 <strong>fault-diagnostician 代理</strong>下正式合入四個全新的 SCADA 分析技能模組：<code>yaw_misalignment</code>（偏航對準分析）、<code>curtailment_detection</code>（降載偵測）、<code>alarm_correlation</code>（警報關聯挖掘），以及 <code>power_curve_binning</code>（IEC 61400-12 功率曲線分析）。這四個技能加上 29 個新通過的單元測試，標誌著 WindAI Lab 的診斷能力從「能告訴你壞了」進化到「能告訴你為什麼一直沒跑好」。</p>
+
+<p>這篇文章將深入解析四個技能的設計邏輯與工程細節，以及它們如何在 WindAI Lab 的多代理架構中協同運作，幫助風場運維人員從 SCADA 原始資料中挖掘出隱藏的性能損失。</p>
+
+<h2>一、偏航對準分析（Yaw Misalignment）：cos³ 效應讓你靜悄悄損失 5~15% 發電量</h2>
+
+<p>偏航對準誤差（Yaw Misalignment）是風機性能損失中最容易被忽視的問題之一。機艙風速計（nacelle anemometer）量測到的風向與實際來流方向之間的偏差，以 cos³(γ) 的比例影響風機的輸出功率——這意味著即便只有 10° 的偏航誤差，就會造成約 4.8% 的發電量損失；若誤差達到 15°，損失則逼近 10.6%。更麻煩的是，偏航控制系統的校正漂移往往是緩慢累積的，從 SCADA 報表看不出異常，卻在年度發電量結算時才驚覺數字不對。</p>
+
+<p><code>yaw_misalignment</code> 技能的核心邏輯如下：它從 SCADA 資料中讀取機艙方向（nacelle position）與風向（wind direction）兩個時間序列，計算其差值並建立以風速為橫軸的分箱統計分布。接著利用 cos³ 模型估算每個風速區間的理論功率損失，並自動生成「偏航誤差熱圖」——以顏色深淺標示不同時段的偏航偏移程度，讓運維人員一眼識別問題時段。</p>
+
+<div class="code-block">
+# cos³ 功率損失估算示意
+import numpy as np
+
+def estimate_yaw_power_loss(yaw_offset_deg: float) -> float:
+    """
+    估算偏航誤差對功率的影響（cos³ 模型）
+    yaw_offset_deg: 偏航偏差角度（度）
+    returns: 功率保留比例（0.0 ~ 1.0）
+    """
+    gamma = np.radians(yaw_offset_deg)
+    return np.cos(gamma) ** 3
+
+# 範例：10° 偏差 → 保留約 95.2%，損失 4.8%
+print(f"10° 偏航誤差功率保留比: {estimate_yaw_power_loss(10):.3f}")
+</div>
+
+<div class="highlight-box">
+    <strong>⚡ 偏航分析技能核心輸出：</strong>
+    <ul>
+        <li><strong>風速分箱偏航偏差統計</strong>：每個 0.5m/s 風速區間的平均偏航誤差與標準差</li>
+        <li><strong>cos³ 功率損失估算</strong>：按機組、按月份的年化發電量損失估計</li>
+        <li><strong>偏航誤差時序熱圖</strong>：視覺化呈現校正漂移的時間演化規律</li>
+        <li><strong>自動異常標記</strong>：超過設定閾值（預設 ±8°）的時段自動標紅並觸發代理通知</li>
+    </ul>
+</div>
+
+<h2>二、降載偵測（Curtailment Detection）：區分電網限電與噪音限電的關鍵</h2>
+
+<p>「降載」（Curtailment）是風機運維中的另一個常見但難以量化的性能殺手。風機在正常運轉條件下未能輸出理論最大功率的情況，可能來自三種不同的原因：電網頻率調度指令（Grid Curtailment）、噪音限制法規（Noise Curtailment，夜間降轉速），以及技術故障導致的功率截斷（Technical Curtailment）。這三種情況在 SCADA 資料中的外在表現非常相似——功率輸出突然低於理論曲線——但對應的處理策略完全不同：前者需要和電網業者溝通，後者需要技術維修，中間那個需要審視運維合約中的噪音規範。</p>
+
+<p><code>curtailment_detection</code> 技能採用「三次方理論功率基準比對法」作為核心判斷機制。技能首先根據 SCADA 歷史資料擬合每台風機在各風速下的理論功率上限（即功率曲線的 P100 分位線），然後比對實際輸出功率與理論值的比率。當比率持續低於閾值（預設 85%）超過設定時間窗口（預設 10 分鐘）時，技能啟動降載事件標記。接著，技能進一步檢查事件的時段分布——如果降載集中在夜間 22:00～06:00，則優先判定為噪音限制類型；若在白天且多台風機同時發生，則判定為電網調度類型。</p>
+
+<p>技能的「partial cap 截斷點偵測」功能尤其有價值。部分降載（Partial Curtailment）不是把功率截到零，而是限制在某個固定上限（例如 1.5 MW），這在功率時序中表現為一條水平的截斷線。技能透過統計分析自動識別這條截斷線，並計算其持續時間與對應損失，直接輸出可用於業主報告的量化損失數字。</p>
+
+<div class="highlight-box">
+    <strong>📊 降載偵測技能核心能力：</strong>
+    <ul>
+        <li><strong>三次方功率基準建模</strong>：自適應各機組的理論功率曲線，不需手動輸入設計曲線</li>
+        <li><strong>partial cap 截斷點自動識別</strong>：偵測固定上限降載並量化損失發電量（MWh）</li>
+        <li><strong>時段分布分析</strong>：24 小時 × 7 天的降載事件熱圖，識別噪音/電網降載模式</li>
+        <li><strong>多機組同步分析</strong>：同一時窗內跨機組的降載共現偵測，輔助判定電網調度事件</li>
+    </ul>
+</div>
+
+<h2>三、警報關聯挖掘（Alarm Correlation）：從告警風暴中找到真正的根本原因</h2>
+
+<p>風機 SCADA 系統在發生異常時往往會觸發大量警報碼（Alarm Code），這就是運維人員最頭痛的「警報風暴」（Alarm Flood）現象。一次齒輪箱振動異常可能在幾分鐘內觸發 20 個不同的警報，問題是：哪個警報是根本原因，哪些是連鎖反應？靠人工翻查警報日誌來回答這個問題，效率極低且容易出錯。</p>
+
+<p><code>alarm_correlation</code> 技能引入了資料挖掘領域的「共現分析（Co-occurrence Analysis）」方法，在時間窗口內計算警報碼對的共現頻率。技能的工作流程分三個層次：首先建立「警報共現矩陣」，記錄哪些警報碼傾向於在同一個時間窗口（可設定 1 分鐘至 60 分鐘）內同時出現；其次計算「時序因果條件機率」——即 P(B|A) 與 P(A|B) 的不對稱性，如果 P(B|A) 遠大於 P(A|B)，說明 A 很可能是導致 B 的前因；最後自動輸出按因果強度排序的警報因果鏈圖，標注高度可疑的根本原因候選警報。</p>
+
+<p>技能還內建了「自動偵測警報欄位」功能，能從不同格式的 SCADA 匯出檔（CSV / Parquet）中自動識別警報碼欄位，無需使用者手動指定欄位名稱。這對於跨廠商（如 Vestas、Siemens Gamesa、Goldwind 等不同設備來源）的警報日誌整合分析特別有用。</p>
+
+<h2>四、IEC 61400-12 功率曲線分析（Power Curve Binning）：從標準方法論看年度發電量</h2>
+
+<p>功率曲線（Power Curve）是評估風機健康狀態最直觀的工具，但「怎麼畫功率曲線」其實有嚴格的國際標準。IEC 61400-12-1 標準規定了以 0.5 m/s 為區間的風速分箱方法、最小有效資料時數要求（每個分箱至少 30 分鐘），以及用 Rayleigh 風速分布估算年度發電量（AEP，Annual Energy Production）的計算框架。</p>
+
+<p><code>power_curve_binning</code> 技能完整實作了 IEC 61400-12 標準的分箱演算法。輸入 SCADA 的風速—功率配對時間序列後，技能輸出符合標準的功率曲線資料表（含每個分箱的樣本數、平均功率、標準差），並自動計算以下關鍵衍生指標：</p>
+
+<div class="skill-grid">
+    <div class="skill-card">
+        <h4>📈 Rayleigh AEP 估算</h4>
+        <p>以 Rayleigh 風速分布（給定年均風速參數）計算期望年度發電量，可輸出不同年均風速假設下的 AEP 區間（P50/P75/P90）。</p>
+    </div>
+    <div class="skill-card">
+        <h4>⚡ 容量因數計算</h4>
+        <p>自動計算 Capacity Factor（CF），並與全球離岸風電平均 CF（約 45%）及陸域風電平均 CF（約 28%）進行基準比較。</p>
+    </div>
+    <div class="skill-card">
+        <h4>🔍 曲線偏移偵測</h4>
+        <p>比較不同時期（如每月、每季）的功率曲線，識別性能退化趨勢——這是葉片污損、齒輪箱磨損等長期退化問題的早期預警指標。</p>
+    </div>
+    <div class="skill-card">
+        <h4>📋 IEC 合規報告</h4>
+        <p>輸出符合 IEC 61400-12 格式的功率曲線報告，可直接用於保證功率曲線（Guaranteed Power Curve）驗收測試文件。</p>
+    </div>
+</div>
+
+<div class="highlight-box">
+    <strong>🔬 四個新技能的整合運用場景：</strong>
+    <ul>
+        <li><strong>年度性能審計</strong>：依序執行 power_curve_binning → yaw_misalignment → curtailment_detection，量化三類主要損失（偏航損失、降載損失、曲線退化損失）的各自佔比，計算年度可回收發電量。</li>
+        <li><strong>故障根因分析</strong>：當 fault-diagnostician 代理發出故障預警後，alarm_correlation 自動啟動，在警報日誌中挖掘先行指標，縮短從預警到確診的決策時間。</li>
+        <li><strong>論文實驗設計</strong>：四個技能產生的分析結果可直接作為 WindAI Lab Phase 11 論文的特徵工程與驗證數據來源，確保論文中的技術細節有程式碼可對應、有測試可重現。</li>
+    </ul>
+</div>
+
+<h2>技術工程筆記：29 個測試的設計哲學</h2>
+
+<p>這次合入伴隨的 29 個新單元測試，背後有一個刻意的設計原則：<strong>每個技能的測試必須能夠在沒有真實 SCADA 資料的情況下完整運行</strong>。這意味著所有測試都使用合成資料（Synthetic Data），透過 NumPy 的隨機數生成器模擬風速、功率、偏航角、警報碼等 SCADA 欄位，並針對已知的邊界條件設計驗證案例——例如「當所有樣本都沒有偏航誤差時，功率損失估算應回傳 0.0%」以及「當輸入資料全為空值時，技能應回傳空結果而非拋出例外」。</p>
+
+<p>這個設計選擇讓 CI/CD 流程不依賴任何外部資料集，測試可以在任何環境中瞬間跑完，大幅降低了新開發者參與貢獻的門檻。對於研究室的學生而言，這也是一個很好的示範：好的研究程式碼不只是能跑出結果，還要能讓別人相信它跑出了正確的結果。</p>
+
+<h2>研究室行動項目</h2>
+
+<p>對於正在學習風機資料分析的學生，四個新技能是絕佳的實作入口。<code>power_curve_binning</code> 是最友善的起點——IEC 61400-12 標準的分箱邏輯並不複雜，卻能讓你立刻對真實 SCADA 資料產生有意義的輸出。建議從 Kelmarsh 公開資料集的單台風機資料開始，跑出功率曲線後，再嘗試用 <code>yaw_misalignment</code> 分析同一台風機的偏航狀況，感受兩個技能在同一份資料上的互補視角。</p>
+
+<p>對於研究生，<code>alarm_correlation</code> 的因果機率框架很值得深入探討。目前的實作使用的是滑動時間窗口內的條件機率，未來可以考慮引入 Granger Causality 或 Transfer Entropy 等更嚴謹的因果推斷工具——這是一個有潛力發展成獨立論文貢獻的方向。</p>
+
+<p>最後，四個技能的合入也進一步強化了 WindAI Lab 在 Phase 11 論文中的核心主張：<strong>一個模組化、可組合的多代理平台，能夠持續、低成本地擴展新的診斷能力，而不需要每次都重新設計整個系統架構</strong>。這正是工業 AI 研究從「論文展示」走向「工程落地」的關鍵差距所在。</p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源：</strong>
+            <ul>
+                <li><a href="https://www.iec.ch/homepage" target="_blank">IEC 61400-12-1: Wind energy generation systems – Part 12-1: Power performance measurements of electricity producing wind turbines — International Electrotechnical Commission</a></li>
+                <li><a href="https://www.mdpi.com/1996-1073/18/7/1680" target="_blank">Artificial Intelligence in Wind Turbine Fault Detection and Diagnosis: Advances and Perspectives — MDPI Energies</a></li>
+                <li><a href="https://www.sciencedirect.com/science/article/pii/S0306261921016608" target="_blank">Wind turbine SCADA alarm analysis for maintenance cost reduction — Applied Energy, ScienceDirect</a></li>
+                <li><a href="https://www.nrel.gov/wind/data-tools.html" target="_blank">NREL Wind Research Data & Tools — National Renewable Energy Laboratory</a></li>
+                <li><a href="https://zenodo.org/record/5946808" target="_blank">Kelmarsh Wind Farm SCADA Dataset — Zenodo (Plumley, 2022)</a></li>
+                <li><a href="https://www.windpowermonthly.com/article/1893640/yaw-misalignment-costs-wind-industry-billions" target="_blank">Yaw misalignment costs wind industry billions in lost revenue — Wind Power Monthly</a></li>
+                <li>WindAI Lab 專案程式碼 — DOF Lab 內部研究資料（src/skills/features/, src/skills/ml/alarm_correlation.py）</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 DOF Lab, NCUT. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</body>
+</html>
