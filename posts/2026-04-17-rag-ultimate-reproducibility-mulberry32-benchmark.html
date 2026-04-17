@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG_Ultimate 科學可重現性衝刺：Mulberry32 PRNG 為風電 RAG Benchmark 論文奠基 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.92rem; color: #cdd3de; white-space: pre; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .milestone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .milestone-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 1rem; }
+        .milestone-card h4 { color: var(--text-white); margin: 0 0 0.5rem; font-size: 1rem; }
+        .milestone-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
+        .milestone-card .status { font-size: 0.8rem; margin-top: 0.3rem; }
+        .status-done { color: #4ade80; }
+        .status-wip { color: #facc15; }
+        .status-todo { color: #94a3b8; }
+        .countdown-banner { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.1)); border: 1px solid rgba(168,85,247,0.4); border-radius: 10px; padding: 1.2rem 1.5rem; margin: 2rem 0; text-align: center; }
+        .countdown-banner .days { font-size: 2.5rem; font-weight: 700; color: var(--text-white); }
+        .countdown-banner .label { font-size: 0.95rem; color: var(--text-light); }
+        @media (max-width: 600px) { .milestone-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG_Ultimate 科學可重現性衝刺：Mulberry32 PRNG 為風電 RAG Benchmark 論文奠基</h1>
+            <p>2026-04-17 • 劉瑞弘教授團隊 • RAG_Ultimate / Reproducibility / Mulberry32 / Seeded Random / Benchmark</p>
+        </header>
+        <div class="article-content">
+
+<div class="countdown-banner">
+    <div class="days">5</div>
+    <div class="label">Phase 3 風電 RAG Benchmark 論文：5 個關鍵實驗倒數準備</div>
+</div>
+
+<p>一篇好的 Benchmark 論文，和一篇能被期刊退稿的 Benchmark 論文，差別往往不在演算法本身，而在「這些數字能不能被重跑一次」。今天凌晨，RAG_Ultimate 團隊一口氣合併了 <strong>Issue #56</strong> ——一次修復 17 處 <code>Math.random()</code> 缺少亂數種子的問題。從表面看這只是一次例行的 quality sprint，但對即將啟動的 <strong>Phase 3 風電 RAG Benchmark 論文</strong> 而言，這一步卻是決定性的：它讓即將產出的實驗數據具備可重現性（reproducibility），也讓 4 個品牌、405 題評測集、17 種 RAG 模式、5 次重複執行的複雜實驗矩陣，有了值得被同儕檢視的科學基礎。</p>
+
+<p>本文從 DOF Lab 的角度，拆解這次修復背後的技術選擇，為什麼「可重現性」在 2026 年的 LLM 研究社群格外重要，以及接下來 5 個實驗的跑法。</p>
+
+<h2>一、為什麼 Math.random() 會讓一篇 benchmark 論文失去說服力</h2>
+
+<p>在 JavaScript / TypeScript 前端環境中，<code>Math.random()</code> 是一個<strong>不可設定種子（unseedable）</strong>的 PRNG。每次呼叫都會產生不可預測的浮點數——對遊戲、動畫特效來說很好，但對科學實驗是災難性的。想像論文中寫：「我們在 104 題 Z72 評測集上跑了 12 種 RAG 模式，每種跑 5 次，取 MRR 平均值」——如果任何一個步驟使用了 <code>Math.random()</code>，例如：</p>
+
+<ul>
+    <li><strong>AutoResearch 引擎</strong>：用隨機搜索挑選超參數組合</li>
+    <li><strong>Adversarial Test Service</strong>：隨機擾動 query 測試穩健性</li>
+    <li><strong>Elo Ranking Service</strong>：Pairwise 比較時隨機採樣對戰組合</li>
+    <li><strong>Statistics Utils</strong>：Bootstrap 信賴區間抽樣</li>
+</ul>
+
+<p>那麼即使同一組人、同一個 commit、同一份資料，跑出來的數字也會每次不一樣。這在工程上可能被接受，但對一篇要投到 IEEE Access 或 Applied Energy 等學術期刊的論文，審稿人只要問一句「你的實驗能否被我在自己的機器重跑出相同結果？」——答案如果是「不能」，那 95% confidence interval 的統計檢驗就失去根基。</p>
+
+<div class="highlight-box">
+    <strong>⚡ Issue #56 的 17 個修復點分成兩類：</strong>
+    <ul>
+        <li><strong>高風險（影響實驗結果，14 處）</strong>：全部改用 Mulberry32 seeded PRNG，透過外部傳入 seed 參數控制亂數序列</li>
+        <li><strong>低風險（僅做 ID 生成，3 處）</strong>：改用 <code>crypto.randomUUID()</code>——本質上是要全域唯一，不需要可重現</li>
+    </ul>
+</div>
+
+<h2>二、為什麼選 Mulberry32，而不是直接用 seedrandom 套件</h2>
+
+<p>Mulberry32 是由 Tommy Ettinger 提出的一個極簡 32-bit 狀態 PRNG，只需要 6 行程式碼就能在 JavaScript 中實作。它的週期約為 2³² ≈ 42 億，對單次實驗跑數萬次取樣已綽綽有餘。RAG_Ultimate 的實作在 <code>utils/seededRandom.ts</code>：</p>
+
+<div class="code-block">export function createSeededRandom(seed: number): () =&gt; number {
+  let s = seed | 0;
+  return () =&gt; {
+    s = (s + 0x6D2B79F5) | 0;
+    let t = Math.imul(s ^ (s &gt;&gt;&gt; 15), 1 | s);
+    t = (t + Math.imul(t ^ (t &gt;&gt;&gt; 7), 61 | t)) ^ t;
+    return ((t ^ (t &gt;&gt;&gt; 14)) &gt;&gt;&gt; 0) / 4294967296;
+  };
+}</div>
+
+<p>比起引入 <code>seedrandom</code> 這種第三方套件，自寫 Mulberry32 有三個優點：<strong>沒有外部相依、可讀、可審計</strong>。對於一篇 benchmark 論文的「實驗方法」章節，審稿人可以直接在內文附上這 7 行程式碼，並保證任何讀者可以在任何語言中重新實作出完全相同的亂數序列。這種「論文自給自足」的可重現性，是過去幾年 NeurIPS、ICML 陸續推動「Reproducibility Checklist」的核心訴求。</p>
+
+<p>更重要的是，整個 RAG_Ultimate 的實驗流程現在都接受 <code>seed</code> 參數——從使用者介面的 AutoResearch 實驗配置，到後端 bootstrap 抽樣，到 Elo pairwise 比較，全部可以用同一顆 seed 完整重現。一鍵「以 seed=42 重跑實驗 1」將變成日常操作。</p>
+
+<h2>三、對 Phase 3 風電 RAG Benchmark 論文的實質意義</h2>
+
+<p>RAG_Ultimate 當前進度達 88%，四個品牌（Z72、H127、V47、E40）共 405 題評測集已準備就緒，Qdrant 持久化、IndexedDB v6 評測集儲存、GitHub Actions CI/CD pipeline（tsc + jest + ruff）皆已就位。接下來 5 個實驗的矩陣如下：</p>
+
+<div class="milestone-grid">
+    <div class="milestone-card">
+        <h4>🎯 實驗 1：RAG 策略主比較</h4>
+        <p>12 modes × 104Q × 5 runs（Z72 主評測集），以 seed=42,43,44,45,46 進行 5 次重複</p>
+        <div class="status status-todo">⬜ 待跑</div>
+    </div>
+    <div class="milestone-card">
+        <h4>✂️ 實驗 2：Chunking 消融</h4>
+        <p>chunk size × strategy × overlap，檢驗切片策略對 Recall@5 與 MRR 的交互作用</p>
+        <div class="status status-todo">⬜ 待跑</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🧬 實驗 3：Embedding 比較</h4>
+        <p>Gemini vs Z72 微調模型 vs BGE-m3 原始模型（Ollama，1024 維度）</p>
+        <div class="status status-todo">⬜ 待跑</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🌐 實驗 4：跨品牌泛化</h4>
+        <p>H127（116Q）、V47（86Q）、E40（99Q）檢驗模型跨品牌的穩定性</p>
+        <div class="status status-todo">⬜ 待跑</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🤖 實驗 5：AutoResearch 搜索</h4>
+        <p>自動化最佳化配置搜索，使用 Elo 排序 + adversarial test 壓力測試</p>
+        <div class="status status-todo">⬜ 待跑</div>
+    </div>
+    <div class="milestone-card">
+        <h4>📊 統計檢驗層</h4>
+        <p>Bootstrap CI、配對 Wilcoxon test、Benjamini–Hochberg 多重比較校正</p>
+        <div class="status status-wip">⚙️ 基礎設施已備</div>
+    </div>
+</div>
+
+<p>在 Mulberry32 修復之前，實驗 1 的 5 次重複執行會因為 AutoResearch 引擎的隨機性導致<strong>變異數不可控</strong>：研究者無法分辨「這個變異來自 LLM stochasticity」還是「來自我們程式碼中未受控的隨機取樣」。修復之後，前者（模型本身的非確定性）仍保留——這是研究要觀察的本質；後者（工程端的雜訊）則被徹底消除。</p>
+
+<h2>四、2026 年 LLM 社群對可重現性的共識正在形成</h2>
+
+<p>這個方向並非單一實驗室的偏好。2026 年上半年，LLM 社群對「可重現性危機」的討論急劇升溫。<strong>ACL 2025 最佳論文之一就是檢討大型語言模型評測指標的可重現性問題</strong>，指出在 GPT-4 級別模型上，即使 temperature=0，不同 batch 大小與不同 tokenizer 實作也可能導致同一題答案不一致。LangChain 官方文件亦在 2026 Q1 新增「Reproducible Evaluations」章節，建議任何 RAG benchmark 都應記錄：seed 值、LLM 版本號、prompt 版本號、資料快照時間戳。</p>
+
+<div class="highlight-box">
+    <strong>🔬 RAG_Ultimate 的實驗可重現性契約（Reproducibility Contract）：</strong>
+    <ul>
+        <li><strong>Seed 固定</strong>：所有工程端隨機皆受 Mulberry32 控制，預設 seed=42</li>
+        <li><strong>模型版本釘選</strong>：Gemini 指定 model=<code>gemini-2.5-flash-exp</code>，Ollama 指定 <code>bge-m3:latest</code> digest</li>
+        <li><strong>資料快照</strong>：Qdrant 集合以時間戳命名，實驗結束自動備份為 JSON</li>
+        <li><strong>Prompt 版本</strong>：所有 prompt 存於版本控管（git），實驗報告附 commit hash</li>
+        <li><strong>實驗日誌</strong>：每次 run 自動輸出 <code>run_id</code>、seed、時間戳、所有超參數至 audit log</li>
+    </ul>
+</div>
+
+<h2>五、同日未來：品質 Sprint 的下兩顆 issue</h2>
+
+<p>Issue #56 關閉的同時，auto-detected 機制立刻開出兩顆新的品質 issue，都是為了讓論文提交前的程式碼不留技術債：</p>
+
+<ul>
+    <li><strong>Issue #58 — 後端 API URL 不一致</strong>：3 處重複定義 + 環境變數名稱衝突，會在 Docker Compose 部署時造成混淆</li>
+    <li><strong>Issue #59 — 前端 12 處 <code>as any</code> 型別轉換</strong>：降低 TypeScript 安全性，特別是在 evaluation history 與 experiment tracker 這類核心模組</li>
+</ul>
+
+<p>這兩顆 issue 不會阻擋實驗 1 啟動，但會被安排在實驗 1、2 跑的空檔處理掉，確保 v9.0 的程式碼庫在論文送審時能以「乾淨的工程實踐」作為補充材料被審稿人直接檢視。</p>
+
+<h2>DOF Lab 下一步行動</h2>
+
+<ul>
+    <li><strong>[明日] 啟動實驗 1 — RAG 策略主比較</strong>：以 seed=42 為主、43–46 為重複，產出第一組可信統計結果</li>
+    <li><strong>[本週] 完成統計檢驗層端對端串接</strong>：將 seededRandom 接上 bootstrap、Wilcoxon、BH 校正</li>
+    <li><strong>[本週] 解決 Issue #58、#59</strong>：清除 API URL 不一致與 12 處 as any 型別轉換，讓 v9.0 程式碼達論文送審品質</li>
+    <li><strong>[雙週內] 跑完實驗 2、3</strong>：Chunking 消融 + Embedding 模型比較（Gemini vs Z72 vs BGE-m3）</li>
+    <li><strong>[月底] 進入實驗 4、5 + 論文草稿</strong>：跨品牌泛化測試 + AutoResearch 最佳配置；統計圖表與 LaTeX 章節同步開工</li>
+    <li><strong>[持續] 維持 829 tests / 41 suites 全綠</strong>：任何新程式碼進入 main branch 前必須通過 CI 全套檢查</li>
+</ul>
+
+<p>從工程角度看，Issue #56 可能只是「17 個檔案一行一行改」的繁瑣工作；但從研究角度看，這是 Phase 3 論文能不能被同儕接受的分水嶺。RAG_Ultimate 的設計哲學一直是「<strong>讓研究者可以重現自己，讓審稿人可以重現研究者，讓學生可以重現領域</strong>」——Mulberry32 這 7 行程式碼，是這個理念的最小代言人。</p>
+
+        <div class="source-list">
+            <strong>參考來源：</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub — Issue #56 / commit 9c02f94</a></li>
+                <li><a href="https://gist.github.com/tommyettinger/46a3d5723567e86f26b9eff2e99bb7db" target="_blank">Tommy Ettinger — Mulberry32 original gist</a></li>
+                <li><a href="https://aclanthology.org/" target="_blank">ACL 2025 — Best Papers on LLM Evaluation Reproducibility</a></li>
+                <li><a href="https://python.langchain.com/docs/guides/evaluation" target="_blank">LangChain Docs — Reproducible Evaluations (2026 Q1)</a></li>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID" target="_blank">MDN — crypto.randomUUID() reference</a></li>
+                <li>RAG_Ultimate 內部日報 (docs/daily_report.md, 2026-04-16 第五次更新)</li>
+                <li>RAG_Ultimate STATUS.yaml（progress=88, v8.0, Phase 3 Wind Farm RAG Benchmark）</li>
+            </ul>
+        </div>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size:0.9rem; border-top: 1px solid var(--border-color);">
+        <p>© 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘研究室</p>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

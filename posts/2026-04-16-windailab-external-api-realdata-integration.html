@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>WindAI Lab 跨越關鍵門檻：從上傳數據走向真實風場 API 對接 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.92rem; color: #cdd3de; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .milestone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .milestone-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 1rem; }
+        .milestone-card h4 { color: var(--text-white); margin: 0 0 0.5rem; font-size: 1rem; }
+        .milestone-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
+        .milestone-card .status { font-size: 0.8rem; margin-top: 0.3rem; }
+        .status-done { color: #4ade80; }
+        .status-wip { color: #facc15; }
+        .status-todo { color: #94a3b8; }
+        .countdown-banner { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.1)); border: 1px solid rgba(168,85,247,0.4); border-radius: 10px; padding: 1.2rem 1.5rem; margin: 2rem 0; text-align: center; }
+        .countdown-banner .days { font-size: 2.5rem; font-weight: 700; color: var(--text-white); }
+        .countdown-banner .label { font-size: 0.95rem; color: var(--text-light); }
+        @media (max-width: 600px) { .milestone-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">WindAI Lab 跨越關鍵門檻：從上傳數據走向真實風場 API 對接</h1>
+            <p>2026-04-16 • 劉瑞弘教授團隊 • WindAILab / Real-Time Data / API Integration / Predictive Maintenance / Wind Energy AI</p>
+        </header>
+        <div class="article-content">
+
+<div class="countdown-banner">
+    <div class="days">32</div>
+    <div class="label">距離 Hackathon 截止日（2026-05-18）剩餘天數</div>
+</div>
+
+<p>研究系統最難的不是第一個模型，而是第一筆真實數據。WindAI Lab 從 Phase 1 到 Phase 14，一路建立了多代理診斷架構、LSTM＋PatchTST 混合模型、WindGuard AI LLM 推理引擎，以及完整的前端任務生命週期系統。程式碼品質今天達到零 lint 錯誤（ruff 全清）。但在距離 Hackathon 截止還有 32 天的此刻，一個全新的技術挑戰被提出：<strong>Issue #75 — 外部 API 資料處理模式建立</strong>。</p>
+
+<p>這個 issue 看似只是「串接 API」，但它背後隱含的是整個系統從「研究原型」躍升為「真實部署方案」的根本性轉變。本文從工業界的視角分析這個挑戰的全貌，並說明 DOF Lab 的技術路徑。</p>
+
+<h2>一、為什麼「真實數據」是研究系統最後也最難的一哩路</h2>
+
+<p>WindAI Lab 目前支援兩種資料輸入方式：CSV 上傳（SCADA 匯出）與 Modbus TCP 即時讀取。這兩種方式在研究環境中已經足夠——研究人員可以用公開資料集（如 NREL、EDP Open Data）複現所有演算法。然而，一旦系統需要在真實風場「常態運行」，架構就必須從「批次處理」轉向「串流對接」。</p>
+
+<p>根據 N-iX 2026 年預測性維護全面指南，目前市場上僅有 27% 的維護團隊已完整導入 AI 預測性維護系統，但有超過三分之二計畫在 2026 年底前啟動部署。這個數字意味著：<strong>真正懂得如何接通工業資料管道的 AI 系統，現在正是最稀缺的技術能力</strong>。</p>
+
+<div class="highlight-box">
+    <strong>⚡ 從「靜態上傳」到「即時串流」的三大技術跳躍：</strong>
+    <ul>
+        <li><strong>資料格式異質性</strong>：不同廠商的 SCADA 系統（Siemens、GE Vernova、Vestas）輸出格式差異極大，需要統一的 DataConnector 抽象層</li>
+        <li><strong>延遲與容錯</strong>：工業網路不穩定，API 對接需要 retry 機制、斷線重連、資料補漏策略</li>
+        <li><strong>即時特徵工程</strong>：批次特徵計算（如 10 分鐘平均、標準差、FFT）需改寫為流式增量計算，才能配合即時診斷需求</li>
+    </ul>
+</div>
+
+<p>Issue #75 的核心任務正是建立一個 <code>DataConnector</code> 抽象層，讓 WindAI Lab 可以透過統一介面對接：REST API 拉取（定時批次）、WebSocket 串流（即時推送）、以及保留現有的 CSV 上傳路徑。這個設計決定決定了系統未來能否真正走進風場機房。</p>
+
+<h2>二、當前 WindAILab 進度快照：Phase 14 倒數衝刺</h2>
+
+<p>在討論未來挑戰之前，先整理 WindAILab 的現況。截至 2026-04-15，Phase 14 WindGuard AI 完成度達 80%，程式碼品質維持在 ruff 零告警。</p>
+
+<div class="milestone-grid">
+    <div class="milestone-card">
+        <h4>🧠 WindGuard AI 推理引擎</h4>
+        <p>SCADA 統計報告 → LLM 深層推理 → 故障類型、物理機制、維護建議三層輸出</p>
+        <div class="status status-done">✅ Phase 14a 完成</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🎯 Agentic Function Calling</h4>
+        <p>LLM 自主決定呼叫哪些診斷工具：異常偵測、功率曲線分析、故障分類多輪調查</p>
+        <div class="status status-done">✅ Phase 14a 完成</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🖥️ 任務生命週期重構</h4>
+        <p>Task Session 架構解決多次執行間圖表、步驟污染問題，前端體驗大幅提升</p>
+        <div class="status status-done">✅ Phase 14b 完成</div>
+    </div>
+    <div class="milestone-card">
+        <h4>📄 診斷報告輸出 (#64)</h4>
+        <p>報告下載 API 已建立，前端報告檢視功能修正中</p>
+        <div class="status status-wip">🔨 Phase 14c 進行中</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🔔 告警規則引擎 (Epic E)</h4>
+        <p>告警規則核心 → 通知渠道 → YAML 設定三層架構，尚未啟動</p>
+        <div class="status status-todo">⬜ High Priority，待啟動</div>
+    </div>
+    <div class="milestone-card">
+        <h4>🌐 外部 API 對接 (#75)</h4>
+        <p>DataConnector 抽象層 + REST/WebSocket/CSV 三路徑整合</p>
+        <div class="status status-todo">⬜ 使用者新需求，Phase 14 範疇</div>
+    </div>
+</div>
+
+<p>程式碼層面，33 個測試檔案、812 個測試案例維持通過，ruff 配置已正式遷移至 <code>lint.*</code> 區段，無棄用警告。PR #81 正在修正 README 與 TODO-roadmap 中技能數量（12→28）和測試數量（17→33 檔）的過時數據，確保文件與實際代碼同步。</p>
+
+<h2>三、工業界如何看待風能 AI 的數據管道問題</h2>
+
+<p>從市場角度，2026 年正是風力發電 AI 預測性維護的爆發前夕。研究顯示，AI 驅動的預測性維護可將風機非預期停機時間減少 60–70%，Transformer 架構的異常偵測模型已達 94.7% 精確率，CNN-LSTM 混合模型可提前預測故障並將能量調度效率提升 8.5%。預測性維護市場規模預計從 2024 年的 109 億美元成長至 2032 年的逾 700 億美元。</p>
+
+<p>然而，業界的核心痛點並不在演算法——而在資料管道。XMPRO 等工業 AI 平台的實踐顯示，IIoT 整合（工業物聯網）加上 AI 的即時監控架構，才是真正實現「提前排程維護、降低停機成本」的關鍵。邊緣運算能力持續進步，5G/6G 網路低延遲特性的成熟，正在讓「AI 模型直接跑在風機本地」從概念走向現實。</p>
+
+<div class="highlight-box">
+    <strong>🌍 WindAI Lab 的數據架構設計原則（對應工業需求）：</strong>
+    <ul>
+        <li><strong>抽象層設計</strong>：<code>DataConnector</code> 介面讓系統對接任何資料來源，不耦合特定廠商 API</li>
+        <li><strong>多模式支援</strong>：REST 拉取適合歷史回補；WebSocket 串流適合即時警報；CSV 保留研究/測試便利性</li>
+        <li><strong>容錯優先</strong>：網路不穩、API 限流、資料缺口都是工業環境的常態，斷線重連與資料補漏是必須功能，而非優化</li>
+        <li><strong>漸進式部署</strong>：先接第三方開放資料集（NREL WIND Toolkit、EDP Open Data）做沙盒驗證，再接真實風場</li>
+    </ul>
+</div>
+
+<p>值得注意的是，LLM 輔助開發在研究軟體工程中的品質議題也在 2026 年引起廣泛討論。ScienceDirect 的系統性文獻回顧指出，LLM 能有效加速程式碼重構與異味偵測，但在沒有明確安全規範的情況下，AI 生成代碼有 45% 的案例存在安全疑慮。WindAI Lab 透過嚴格的 PR review 流程和 ruff lint 自動化，正是在 AI 輔助開發快速迭代與程式碼品質保證之間取得平衡的實踐案例。</p>
+
+<h2>DOF Lab 下一步行動</h2>
+
+<p>距離 Hackathon 截止日 32 天，WindAI Lab 的優先行動序列如下：</p>
+
+<ul>
+    <li><strong>[立即] 合併 PR #81</strong>：同步 README 與 TODO-roadmap 的技能、測試統計數據，確保評審看到的文件反映真實系統規模</li>
+    <li><strong>[本週] 完成 Phase 14c 報告輸出</strong>：診斷報告前端檢視功能（Issue #64）修正，完成 Phase 14 最後缺口</li>
+    <li><strong>[下週] 啟動 DataConnector 抽象層（#75）</strong>：設計 REST API 拉取介面，先以 NREL 開放資料集做端對端驗證，為真實風場對接奠基</li>
+    <li><strong>[並行] 規劃 Epic E 告警規則引擎</strong>：告警規則核心（#41）→ 通知渠道（#42）→ YAML 設定（#43），此功能是系統由「診斷工具」升級為「運維服務」的關鍵</li>
+    <li><strong>[持續] 維持 lint 零錯誤</strong>：每次 PR 以 ruff 自動檢查為門禁，不讓技術債在衝刺期累積</li>
+</ul>
+
+<p>WindAI Lab 正站在一個重要的分水嶺：已驗證的 AI 診斷能力，加上即將建立的真實資料管道，將讓這個研究平台從「能做到」走向「在現實世界可用」。這是任何研究系統從論文到產品最關鍵的一步。</p>
+
+        <div class="source-list">
+            <strong>參考來源：</strong>
+            <ul>
+                <li><a href="https://www.n-ix.com/ai-in-predictive-maintenance/" target="_blank">N-iX — AI in predictive maintenance: A complete 2026 guide</a></li>
+                <li><a href="https://xmpro.com/solutions-library/predictive-maintenance-for-wind-turbines/" target="_blank">XMPRO — Predictive Maintenance for Wind Turbines</a></li>
+                <li><a href="https://www.metrenew.com/predictive-maintenance-in-wind-farms-using-ai-the-future-of-operational-excellence/" target="_blank">MetRenew — Predictive Maintenance in Wind Farms Using AI</a></li>
+                <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S095058492500299X" target="_blank">ScienceDirect — Using LLMs to enhance code quality: A systematic literature review</a></li>
+                <li><a href="https://link.springer.com/chapter/10.1007/978-3-031-84335-8_5" target="_blank">SpringerLink — Wind Turbine Reliability Through AI-Driven Predictive Maintenance and IIoT Integration</a></li>
+                <li><a href="https://johal.in/ai-in-renewable-energy-wind-turbine-predictive-maintenance-for-2026-5/" target="_blank">Johal.in — AI in Renewable Energy: Wind Turbine Predictive Maintenance for 2026</a></li>
+                <li>WindAI Lab 內部日報 (daily_report.md, 2026-04-15)</li>
+            </ul>
+        </div>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size:0.9rem; border-top: 1px solid var(--border-color);">
+        <p>© 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘研究室</p>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
