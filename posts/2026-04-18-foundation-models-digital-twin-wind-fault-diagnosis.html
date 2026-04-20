@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>基礎模型遇見數位分身：2026 年風機故障診斷 AI 的新典範 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.92rem; color: #cdd3de; white-space: pre; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .trend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .trend-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 1rem; }
+        .trend-card h4 { color: var(--text-white); margin: 0 0 0.5rem; font-size: 1rem; }
+        .trend-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
+        .trend-card .badge { display: inline-block; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-top: 0.5rem; }
+        .badge-new { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid #4ade80; }
+        .badge-hot { background: rgba(251, 146, 60, 0.15); color: #fb923c; border: 1px solid #fb923c; }
+        .badge-doflab { background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid #818cf8; }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        @media (max-width: 600px) { .trend-grid { grid-template-columns: 1fr; } .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">基礎模型遇見數位分身：2026 年風機故障診斷 AI 的新典範</h1>
+            <p>2026-04-18 • 劉瑞弘教授團隊 • WindAILab / Foundation Models / Digital Twin / Fault Diagnosis / SCADA</p>
+        </header>
+        <div class="article-content">
+
+<div class="stat-banner">
+    <div class="stat-item">
+        <div class="num">1,736</div>
+        <div class="label">近十年故障診斷論文分析量</div>
+    </div>
+    <div class="stat-item">
+        <div class="num">70%</div>
+        <div class="label">風機故障集中於齒輪箱/葉片/發電機</div>
+    </div>
+    <div class="stat-item">
+        <div class="num">F1=1.0</div>
+        <div class="label">WindAILab 目前診斷精度</div>
+    </div>
+</div>
+
+<p>最近兩份重量級的學術綜述同步出現：一篇來自 ScienceDirect，分析了 2016—2025 年間 <strong>1,736 篇</strong>風機故障診斷論文，繪製出整個領域的知識版圖；另一篇由 Copernicus 的 <em>Wind Energy Science</em> 期刊發表，評估混合機器學習如何在真實運轉條件下區分風機狀態。兩篇文章不約而同指向同一個結論：<strong>基礎模型（Foundation Models）與數位分身（Digital Twin）的整合，正在成為下一個十年風機健康監測的核心架構</strong>。</p>
+
+<p>對 DOF Lab 的研究者而言，這個訊號非常關鍵——因為我們的 WindAILab 在設計之初，就是以多代理協作架構模擬數位分身的概念，讓 12 位核心 AI 代理承擔不同的感知、推理、與決策角色。今天這篇文章，就來拆解這個「新典範」的技術核心，以及 DOF Lab 在其中的位置。</p>
+
+<h2>一、為什麼傳統方法走到瓶頸</h2>
+
+<p>過去五年，CNNs、LSTMs 和 SVMs 主宰了風機故障診斷的學術界。它們對特定設備、特定工況下的故障識別有不錯的表現，但在真實部署時卻面臨三個痛點：</p>
+
+<ul>
+    <li><strong>資料稀缺（Sparse Fault Labels）</strong>：真實運轉中的嚴重故障事件非常少，模型訓練嚴重依賴模擬或合成資料，但合成資料與實際 SCADA 訊號的分布差距（Domain Gap）往往讓模型泛化能力大打折扣。</li>
+    <li><strong>跨站點泛化難（Cross-Site Generalization）</strong>：同款風機在不同地點（不同風況、溫度、海拔）下，感測器訊號的統計特性差異顯著。一個在某風場訓練的模型，直接部署到另一個風場準確率可能驟降 20–30%。</li>
+    <li><strong>可解釋性不足（Explainability Gap）</strong>：運維工程師需要的不只是「這台機器有問題」，而是「是哪個部件、什麼故障模式、需要什麼處置」。深度學習模型的黑盒輸出在真實維運情境中難以取信於工程師。</li>
+</ul>
+
+<div class="highlight-box">
+    <strong>📖 2026 年學術界的共識轉向：</strong><br>
+    研究者開始強調 <strong>因果推斷（Causal Inference）</strong> 取代相關性挖掘、<strong>輕量邊緣部署（Lightweight Edge）</strong> 取代雲端集中推論、以及 <strong>多模態融合（Multimodal Fusion）</strong> 整合振動、溫度、電流、SCADA 等異質訊號。基礎模型正是實現這三件事的關鍵技術橋樑。
+</div>
+
+<h2>二、基礎模型 × 數位分身：新典範的技術核心</h2>
+
+<p>什麼是「基礎模型遇見數位分身」？用一句話說：<strong>用大型預訓練模型作為通用的特徵提取器和推理核心，搭配數位分身作為實時虛擬鏡像，讓兩者形成閉環的健康監測系統。</strong></p>
+
+<div class="trend-grid">
+    <div class="trend-card">
+        <h4>🧠 基礎模型端（FM Layer）</h4>
+        <p>預訓練於海量跨廠商、跨風場的訊號資料，具備遷移學習能力，無需為每個新風場重新訓練。可直接接受多模態輸入（振動頻譜、溫度時序、SCADA 數據點），輸出故障分類、嚴重度評估與可解釋推理鏈。</p>
+        <span class="badge badge-hot">🔥 研究熱點</span>
+    </div>
+    <div class="trend-card">
+        <h4>🔮 數位分身端（DT Layer）</h4>
+        <p>對應實體風機的虛擬複製品，持續同步真實感測資料，可在虛擬空間中模擬不同故障情境的演化路徑，提供「反事實分析（Counterfactual Analysis）」——若不介入，未來 72 小時的劣化趨勢是什麼？</p>
+        <span class="badge badge-new">✨ 新興整合</span>
+    </div>
+    <div class="trend-card">
+        <h4>🤖 代理協作端（Agent Layer）</h4>
+        <p>多個專責 AI 代理負責感知、診斷、報告、決策等不同子任務，透過結構化消息傳遞實現集體智慧。符合 Gartner 預測：40% 企業應用在 2026 年底前將嵌入 AI 代理。</p>
+        <span class="badge badge-doflab">🔬 DOF Lab 實踐</span>
+    </div>
+    <div class="trend-card">
+        <h4>📊 邊緣部署端（Edge Layer）</h4>
+        <p>研究界開始重視在風機本地端（Nacelle 或海上平台）進行輕量推論，減少雲端往返延遲，同時滿足海上工業對網路可靠性的低依賴需求。</p>
+        <span class="badge badge-new">✨ 新興整合</span>
+    </div>
+</div>
+
+<p>這個四層架構並非紙上談兵。Wind Energy Science（2026）的研究已實驗性地結合監督式與非監督式學習，在真實運轉資料上達到 85–98% 的狀態分類準確率，並成功識別槳距驅動故障、轉子結冰與氣動失衡——這些恰好是 WindAILab 故障診斷矩陣所涵蓋的核心情境。</p>
+
+<h2>三、DOF Lab WindAILab 在這個典範中的位置</h2>
+
+<p>WindAILab 目前達到 92% 完成度，下一階段（Phase 14c）的核心目標是「診斷報告輸出與資料連接器」。放在上述的全球研究脈絡裡，這兩件事具有明確的意義：</p>
+
+<ul>
+    <li><strong>診斷報告輸出</strong>：對應「可解釋性」需求——不只是分類結果，而是可直接交給工程師閱讀的結構化報告，說明故障模式、置信度、推薦處置步驟，並附上相關 SCADA 時序段落作為佐證。</li>
+    <li><strong>資料連接器</strong>：對應「跨站點泛化」需求——建立標準化的 SCADA 資料攝入介面，讓不同廠商、不同格式的風場資料可以被 WindAILab 直接消化，而不是每次都需要人工前處理。</li>
+</ul>
+
+<p>WindAILab 已達到的 F1=1.0 故障診斷精度和 R²=0.997 的功率曲線建模精度，是在內部 SCADA 測試集上取得的里程碑。Phase 14c 完成後，系統將具備對接真實外部風場資料的能力——這才是從「研究平台」到「可部署產品」的關鍵一躍。</p>
+
+<div class="highlight-box">
+    <strong>🧭 研究室行動項目（Phase 14c 連結）：</strong>
+    <ul>
+        <li>設計診斷報告模板（對應 IEC 61400 故障碼分類標準），輸出格式相容 PDF / JSON / 工單系統</li>
+        <li>實作通用 SCADA Connector，支援 Modbus TCP 與 OPC UA 雙協議攝入</li>
+        <li>在 WindAILab 虛擬辦公室 UI 新增「診斷報告」頁面，讓代理生成的報告可即時檢視與匯出</li>
+        <li>評估是否引入輕量基礎模型（如 TimesFM 或 Moirai）作為跨站點特徵提取骨幹，取代目前的單站訓練模型</li>
+    </ul>
+</div>
+
+<h2>四、不只是風機：同樣的典範正在入侵工業巡檢</h2>
+
+<p>這股「多代理 × 基礎模型 × 數位分身」的浪潮，並不限於風能領域。2026 年的 Agentic AI 研究明確指出：在臨床級與高可靠性工業系統中，已有組織捨棄「單一 LLM 包辦一切」的做法，改採 <strong>Neuro-Symbolic 架構</strong>——神經網路負責感知與特徵提取，符號推理引擎負責決策邏輯，兩者由 Orchestrator Agent 協調。這正是 DOF Lab 另一個核心專案 InduSpect（工業 AI 智慧巡檢）正在探索的架構路徑。</p>
+
+<p>Deloitte 的 2026 Tech Trends 報告指出，Agentic AI 的市場將從目前的 78 億美元成長至 2030 年的 520 億美元，而工業檢測與預測維護是最快落地的垂直應用之一。對 DOF Lab 來說，WindAILab 與 InduSpect 兩條研究線的技術積累，恰好覆蓋了這波浪潮的核心需求——我們的工作不是在追浪，而是從研究者的角度，把這個典範真正做到可以跑、可以發表、可以被驗證。</p>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S1364032125009943" target="_blank">Artificial intelligence in wind turbine fault diagnosis: A systematic knowledge mapping and trend analysis — ScienceDirect (2026)</a></li>
+                <li><a href="https://wes.copernicus.org/articles/11/1057/2026/" target="_blank">Failure classification of wind turbine operational conditions using hybrid machine learning — Wind Energy Science, Copernicus (2026)</a></li>
+                <li><a href="https://www.mdpi.com/1996-1073/19/5/1370" target="_blank">AI-Driven Fault Detection and O&M for Wind Turbine Drivetrains: SCADA, CMS and Digital Twin Integration — Energies, MDPI (2026)</a></li>
+                <li><a href="https://www.tandfonline.com/doi/full/10.1080/21681015.2026.2613018" target="_blank">Explainable AI in Fault Detection and Diagnosis — Journal of Industrial and Production Engineering (2026)</a></li>
+                <li><a href="https://www.deloitte.com/us/en/insights/topics/technology-management/tech-trends/2026/agentic-ai-strategy.html" target="_blank">Agentic AI Strategy — Deloitte Tech Trends 2026</a></li>
+                <li><a href="https://thenewstack.io/5-key-trends-shaping-agentic-development-in-2026/" target="_blank">5 Key Trends Shaping Agentic Development in 2026 — The New Stack</a></li>
+            </ul>
+        </div>
+
+        </div>
+    </article>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>
