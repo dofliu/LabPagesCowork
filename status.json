@@ -7,7 +7,7 @@
   "Face Recognition Attendance": {
     "progress": 90,
     "status": "production",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-19"
   },
   "Course Scheduling System": {
     "progress": 95,
@@ -22,7 +22,7 @@
   "UniCourse AI Online": {
     "progress": 95,
     "status": "production",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-13"
   },
   "WindGuard AI": {
     "progress": 100,
@@ -37,7 +37,7 @@
   "LabPagesCowork": {
     "progress": 75,
     "status": "active",
-    "last_updated": "2026-04-11"
+    "last_updated": "2026-04-20"
   },
   "Modbus MCP": {
     "progress": 85,
@@ -47,7 +47,7 @@
   "ScanMail+": {
     "progress": 90,
     "status": "production",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-16"
   },
   "SmartFill-Scholar": {
     "progress": 80,
@@ -59,6 +59,11 @@
     "status": "active",
     "last_updated": "2026-04-11"
   },
+  "AI Personal Secretary": {
+    "progress": 70,
+    "status": "active",
+    "last_updated": "2026-04-15"
+  },
   "English Speaking Tutor": {
     "progress": 65,
     "status": "active",
@@ -67,12 +72,17 @@
   "AI Graphic Studio": {
     "progress": 82,
     "status": "active",
-    "last_updated": "2026-04-11"
+    "last_updated": "2026-04-16"
   },
   "LLM Wiki": {
     "progress": 80,
     "status": "active",
     "last_updated": "2026-04-10"
+  },
+  "myPicasa": {
+    "progress": 60,
+    "status": "active",
+    "last_updated": "2026-04-14"
   },
   "Research Dashboard": {
     "progress": 90,
@@ -87,17 +97,17 @@
   "Z-Image-Turbo Web UI": {
     "progress": 70,
     "status": "active",
-    "last_updated": "2026-04-11"
+    "last_updated": "2026-04-18"
   },
   "ECN O&M Tool": {
     "progress": 80,
     "status": "active",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-13"
   },
   "InduSpect AI": {
-    "progress": 80,
+    "progress": 85,
     "status": "active",
-    "last_updated": "2026-04-12"
+    "last_updated": "2026-04-15"
   },
   "AI PLC Automation": {
     "progress": 85,
@@ -112,17 +122,17 @@
   "RAG Ultimate": {
     "progress": 88,
     "status": "active",
-    "last_updated": "2026-04-12"
+    "last_updated": "2026-04-16"
   },
   "WindAI Lab": {
     "progress": 92,
     "status": "active",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-16"
   },
   "Digital Wind Turbine": {
     "progress": 85,
     "status": "active",
-    "last_updated": "2026-04-12"
+    "last_updated": "2026-04-16"
   },
   "WindFarmMonitoring": {
     "progress": 60,

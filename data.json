@@ -1,6 +1,6 @@
 {
-  "generated": "2026-04-13T10:49:43.795652",
-  "total": 26,
+  "generated": "2026-04-20T12:12:44.552289",
+  "total": 28,
   "projects": [
     {
       "name": "AI Exam Generator",
@@ -22,8 +22,8 @@
       "description": "AI-powered multi-subject quiz generation system with adaptive difficulty levels",
       "description_zh": "運用 Gemini AI 自動生成九個學科的測驗題目，支援五級難度自適應調整。教師可快速建立客製化考卷，學生獲得個人化練習體驗，大幅提升教學效率。",
       "key_metrics": "9 subjects, 5 difficulty levels",
-      "_path": "courseRelated/aiExamGen",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/courseRelated/aiExamGen/STATUS.yaml"
+      "_path": "courseRelated\\aiExamGen",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\aiExamGen\\STATUS.yaml"
     },
     {
       "name": "Face Recognition Attendance",
@@ -31,7 +31,7 @@
       "category": "edtech",
       "progress": 90,
       "status": "production",
-      "last_updated": "2026-04-10",
+      "last_updated": "2026-04-19",
       "next_milestone": "Batch processing optimization",
       "technologies": [
         "Python",
@@ -44,8 +44,8 @@
       "description": "AI-powered facial recognition attendance system with confidence scoring",
       "description_zh": "基於 InsightFace 的智能人臉識別點名系統，自動從 PDF 大頭貼提取人臉，支援多張教室照片辨識與即時動畫展示。系統具有五級信心度評分、不確定案例人工複查等研究級功能，大幅降低誤判率，適用於大班級教學場景。",
       "key_metrics": "v3.0, 0.25 threshold, 5-level confidence",
-      "_path": "courseRelated/attendence",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/courseRelated/attendence/STATUS.yaml"
+      "_path": "courseRelated\\attendence",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\attendence\\STATUS.yaml"
     },
     {
       "name": "Course Scheduling System",
@@ -66,8 +66,8 @@
       "description": "Intelligent constraint-based university course scheduling system",
       "description_zh": "為勤益科技大學自動排課系統，解決每學期人工排課耗時且易衝突的問題。支援日間部、進修部、產攜班等多部別同時排課，採用優先級排序 + 限制滿足 + 分割排課三層策略，成功率達 93.7%，可直接產出 Excel/CSV/HTML 課表供校務使用。",
       "key_metrics": "93.7% success rate (59/63 courses)",
-      "_path": "courseRelated/course-scheduling-system",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/courseRelated/course-scheduling-system/STATUS.yaml"
+      "_path": "courseRelated\\course-scheduling-system",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\course-scheduling-system\\STATUS.yaml"
     },
     {
       "name": "StaticsEngine",
@@ -90,8 +90,8 @@
       "description": "Test-driven interactive mechanics visualization platform for physics education",
       "description_zh": "基於 React + SVG 的互動式物理力學視覺化引擎，透過精確的幾何計算呈現靜力學現象。採用 Monorepo + TDD 開發方式，旨在幫助學生透過動態互動深化對物理力學概念的理解，是教育科技創新應用。",
       "key_metrics": "Early phase, test-driven development",
-      "_path": "courseRelated/mechanics_AI",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/courseRelated/mechanics_AI/STATUS.yaml"
+      "_path": "courseRelated\\mechanics_AI",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\mechanics_AI\\STATUS.yaml"
     },
     {
       "name": "UniCourse AI Online",
@@ -99,7 +99,7 @@
       "category": "edtech",
       "progress": 95,
       "status": "production",
-      "last_updated": "2026-04-10",
+      "last_updated": "2026-04-13",
       "next_milestone": "Analytics dashboard v2",
       "technologies": [
         "React 19",
@@ -113,8 +113,8 @@
       "description": "Comprehensive AI-driven online exam and classroom management platform",
       "description_zh": "勤益智動系專用的全功能線上考試與班級經營系統。整合 Gemini AI 智慧出題、視窗切換防作弊、自動保存與恢復機制，教師可進行學生資料管理、成績追蹤、班級幹部指派等完整班級經營作業，學生則可查看個人資料與成績分析，已部署於 GCP Cloud Run。",
       "key_metrics": "GCP deployed, anti-cheat detection",
-      "_path": "courseRelated/unicourseaionline1219",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/courseRelated/unicourseaionline1219/STATUS.yaml"
+      "_path": "courseRelated\\unicourseaionline1219",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\courseRelated\\unicourseaionline1219\\STATUS.yaml"
     },
     {
       "name": "WindGuard AI",
@@ -137,7 +137,7 @@
       "description_zh": "參與 Kaggle Gemma4Good 競賽開發的風機智能診斷系統，利用 Gemma 4 大型語言模型分析 36 台風機、3 座風電場的 202 個數據集，自動識別故障模式。結合工業領域知識與 AI 推理能力，支援風電場的預防性維護決策。",
       "key_metrics": "202 datasets, 36 turbines, 3 wind farms",
       "_path": "kaggleGemma4",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/kaggleGemma4/STATUS.yaml"
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\kaggleGemma4\\STATUS.yaml"
     },
     {
       "name": "OPC UA MCP",
@@ -158,8 +158,8 @@
       "description": "MCP integration layer for real-time OPC UA industrial automation systems",
       "description_zh": "為工業自動化系統設計的 MCP 伺服器，提供讀寫 OPC UA 節點的工具，使 AI 代理能即時監控、分析與控制工業設備運作資料。支援無縫整合 Claude Desktop，賦予 LLM 與現場設備互動的能力。",
       "key_metrics": "2 core tools (read/write)",
-      "_path": "MCP/Dof-Customized-mcp",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/MCP/Dof-Customized-mcp/STATUS.yaml"
+      "_path": "MCP\\Dof-Customized-mcp",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\MCP\\Dof-Customized-mcp\\STATUS.yaml"
     },
     {
       "name": "LabPagesCowork",
@@ -167,7 +167,7 @@
       "category": "mcp_tools",
       "progress": 75,
       "status": "active",
-      "last_updated": "2026-04-11",
+      "last_updated": "2026-04-20",
       "next_milestone": "研究成果頁面自動化更新 + GitHub 活動整合完善",
       "technologies": [
         "HTML",
@@ -182,8 +182,8 @@
       "description": "Lab website with blog, research dashboard, GitHub activity tracking and collaborative contribution workflow",
       "description_zh": "實驗室對外入口網站，整合研究儀表板、部落格文章發布、GitHub 活動追蹤頁面與研究全景地圖。採協作流程讓成員練習 GitHub PR 工作流，並透過自動化腳本統一更新各頁面內容。",
       "key_metrics": "35 commits/month, daily blog automation, 90+ merged PRs",
-      "_path": "MCP/LabPagesCowork",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/MCP/LabPagesCowork/STATUS.yaml"
+      "_path": "MCP\\LabPagesCowork",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\MCP\\LabPagesCowork\\STATUS.yaml"
     },
     {
       "name": "Modbus MCP",
@@ -203,8 +203,8 @@
       "description": "Standardized MCP interface for Modbus TCP/UDP/Serial industrial IoT systems",
       "description_zh": "統一 Modbus 工業協議的 MCP 伺服器，支援 TCP、UDP、Serial 多種連接方式。提供暫存器讀寫、線圈控制、多暫存器批量讀取，以及基於 LLM 的數據分析工具，使 AI 能直接與工業 IoT 設備通訊，加速智慧巡檢與故障診斷應用。",
       "key_metrics": "6 core tools, multi-connection types",
-      "_path": "MCP/modbus-mcp",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/MCP/modbus-mcp/STATUS.yaml"
+      "_path": "MCP\\modbus-mcp",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\MCP\\modbus-mcp\\STATUS.yaml"
     },
     {
       "name": "ScanMail+",
@@ -212,7 +212,7 @@
       "category": "personal_tools",
       "progress": 90,
       "status": "production",
-      "last_updated": "2026-04-10",
+      "last_updated": "2026-04-16",
       "next_milestone": "OCR accuracy improvements",
       "technologies": [
         "Python",
@@ -226,8 +226,8 @@
       "description": "Document scanning and mailing platform",
       "description_zh": "文件掃描與郵件平台",
       "key_metrics": "73 API endpoints, 7 tool categories",
-      "_path": "PersonalHelper/AI智能掃描/scanmail_bot",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/AI智能掃描/scanmail_bot/STATUS.yaml"
+      "_path": "PersonalHelper\\AI智能掃描\\scanmail_bot",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\AI智能掃描\\scanmail_bot\\STATUS.yaml"
     },
     {
       "name": "SmartFill-Scholar",
@@ -249,8 +249,8 @@
       "description": "Hybrid AI form-filling system combining SQL database and RAG knowledge retrieval",
       "description_zh": "智能學術表單填寫系統，整合 SQL 資料庫查詢與 RAG 向量檢索，自動將靜態資料（姓名、職稱等）與複雜內容（研究摘要等）分別填入表單。支援 Word 模板與 PDF 表單，具幻覺防護、色碼審查、版本控制等研究級功能，大幅減輕學者填表負擔。",
       "key_metrics": "430+ tests, 5 output modes, multi-user RBAC",
-      "_path": "PersonalHelper/autoFill",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/autoFill/STATUS.yaml"
+      "_path": "PersonalHelper\\autoFill",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\autoFill\\STATUS.yaml"
     },
     {
       "name": "CitingVerify",
@@ -275,8 +275,36 @@
       "description": "AI-powered academic citation verification system with LLM parsing, multi-database cross-validation and circuit breaker resilience",
       "description_zh": "上傳 PDF 論文後自動抽取、解析並驗證每筆參考文獻的真實性。整合 CrossRef、OpenAlex、Semantic Scholar、arXiv、DBLP 五大資料庫，具備電路熔斷器、配額感知排程、Redis 跨行程快取與完整延遲指標儀表板，大幅提升學術誠信稽核效率。",
       "key_metrics": "5 databases, circuit breaker + Redis cache, p95 latency tracking",
-      "_path": "PersonalHelper/citingVerify",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/citingVerify/STATUS.yaml"
+      "_path": "PersonalHelper\\citingVerify",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\citingVerify\\STATUS.yaml"
+    },
+    {
+      "name": "AI Personal Secretary",
+      "name_zh": "隨行 AI 秘書",
+      "category": "personal_tools",
+      "progress": 70,
+      "status": "active",
+      "last_updated": "2026-04-15",
+      "next_milestone": "安全性修正 + Gemini 3 模型升級",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Google Gemini API",
+        "Google Gmail API",
+        "Google Calendar API",
+        "Google Tasks API",
+        "Supabase",
+        "PWA / Service Worker"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "AI-powered email management assistant integrating Gmail, Calendar, Tasks with Gemini AI analysis",
+      "description_zh": "整合 Gmail、Calendar、Tasks 的 AI 智慧郵件管理助手，支援多帳號、個人化分析與主動通知",
+      "key_metrics": "支援多帳號管理、6 種郵件分類、AI 回覆草擬、行事曆事件建議、桌面通知",
+      "_path": "PersonalHelper\\emailassistant",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\emailassistant\\STATUS.yaml"
     },
     {
       "name": "English Speaking Tutor",
@@ -301,8 +329,8 @@
       "description": "AI-powered English speaking tutor with real-time practice sessions, accent training and post-session feedback generation",
       "description_zh": "基於 Google Gemini API 的 AI 英語口說家教應用，提供即時對話練習、口音訓練（AccentMaster）、遊戲化學習模式與課後 AI 回饋報告，整合 Firebase 用戶系統，以 React + Tailwind 建構現代化學習介面。",
       "key_metrics": "Real-time AI interaction, accent training, game mode",
-      "_path": "PersonalHelper/englishSpeakingTutor",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/englishSpeakingTutor/STATUS.yaml"
+      "_path": "PersonalHelper\\englishSpeakingTutor",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\englishSpeakingTutor\\STATUS.yaml"
     },
     {
       "name": "AI Graphic Studio",
@@ -310,7 +338,7 @@
       "category": "personal_tools",
       "progress": 82,
       "status": "active",
-      "last_updated": "2026-04-11",
+      "last_updated": "2026-04-16",
       "next_milestone": "MCP 連線實作 + 本地模型掃描功能完善",
       "technologies": [
         "React",
@@ -328,8 +356,8 @@
       "description": "Full-featured AI visual content creation platform for infographics, posters, slides and comics generation",
       "description_zh": "基於 Google Gemini API 的全方位 AI 視覺內容創作平台，支援文字/網址/文件轉化為圖卡、海報、AI 簡報與連續漫畫，含素材庫、學科資源與簡報編輯 6 大模組，部署於 GCP Cloud Run。MCP 連線功能尚待實作。",
       "key_metrics": "6 modules, GCP Cloud Run deployed, Slide Master template system",
-      "_path": "PersonalHelper/infoCard",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/infoCard/STATUS.yaml"
+      "_path": "PersonalHelper\\infoCard",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\infoCard\\STATUS.yaml"
     },
     {
       "name": "LLM Wiki",
@@ -350,8 +378,29 @@
       "description": "LLM-powered knowledge base compiler converting multiple file formats into structured wiki",
       "description_zh": "基於 Claude API 的個人知識庫編譯器，支援 PDF、Word、Excel、PowerPoint、Markdown 等 15 種文件格式。一次性將散亂文件編譯成結構化 Wiki，自動建立實體、概念與知識關聯，整合 Obsidian 知識圖譜，實現知識的複利成長。",
       "key_metrics": "15 file formats, 3 API providers",
-      "_path": "PersonalHelper/llmWIKI/llm-wiki-project",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/llmWIKI/llm-wiki-project/STATUS.yaml"
+      "_path": "PersonalHelper\\llmWIKI\\llm-wiki-project",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\llmWIKI\\llm-wiki-project\\STATUS.yaml"
+    },
+    {
+      "name": "myPicasa",
+      "name_zh": "我的 Picasa 媒體工具箱",
+      "category": "personal_tools",
+      "progress": 60,
+      "status": "active",
+      "last_updated": "2026-04-14",
+      "next_milestone": "Next feature roadmap (see CHANGELOG.md)",
+      "technologies": [
+        "Python",
+        "moviepy"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Personal media toolkit with video processing utilities",
+      "description_zh": "個人媒體工具箱，支援影片處理，使用 moviepy 實現剪輯與轉換功能",
+      "key_metrics": "Moviepy migration completed, exe packaging flow added",
+      "_path": "PersonalHelper\\picasa",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\picasa\\STATUS.yaml"
     },
     {
       "name": "Research Dashboard",
@@ -374,8 +423,8 @@
       "description": "Multi-view research project dashboard with auto-synchronization to GitHub Pages",
       "description_zh": "整合互動式圖表與研究全景地圖的研究管理儀表板，自動掃描所有專案的 STATUS.yaml 產生儀表板資料。支援 Chart.js 及 D3.js 視覺化，部署於 GitHub Pages 供全球存取，每週自動同步更新，是研究者高效管理多元項目的工具。",
       "key_metrics": "Dashboard + Map + JSON API, auto-deploy via script",
-      "_path": "PersonalHelper/research-dashboard",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/research-dashboard/STATUS.yaml"
+      "_path": "PersonalHelper\\research-dashboard",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\research-dashboard\\STATUS.yaml"
     },
     {
       "name": "TranslateGemma",
@@ -402,8 +451,8 @@
       "description": "Local-first multilingual translation workbench with text, OCR, PDF, speech, real-time voice, video translation and meeting summarization",
       "description_zh": "本地優先多語翻譯工作台，整合文字翻譯、圖片 OCR、PDF 逐頁翻譯、語音翻譯、即時語音翻譯、影片配音與會議摘要八大功能，使用 Ollama 本地模型，支援術語表與風格指南自訂，並以 FastMCP 暴露翻譯服務供 LLM 工具鏈呼叫。",
       "key_metrics": "8 translation modes, MCP-enabled, SQLite history",
-      "_path": "PersonalHelper/translateGemma",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/translateGemma/STATUS.yaml"
+      "_path": "PersonalHelper\\translateGemma",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\translateGemma\\STATUS.yaml"
     },
     {
       "name": "Z-Image-Turbo Web UI",
@@ -411,8 +460,8 @@
       "category": "personal_tools",
       "progress": 70,
       "status": "active",
-      "last_updated": "2026-04-11",
-      "next_milestone": "DEBUG=True 移除 + 生產環境設定完善 + 依賴驗證腳本整合",
+      "last_updated": "2026-04-18",
+      "next_milestone": "生產環境設定完善 + 依賴驗證腳本整合",
       "technologies": [
         "Python",
         "Flask",
@@ -424,10 +473,10 @@
         "tool"
       ],
       "description": "Flask-based professional AI image generation web UI using Z-Image-Turbo model, optimized for 12GB VRAM",
-      "description_zh": "基於 Flask 的專業 AI 圖片生成 Web 應用，使用 Z-Image-Turbo 擴散模型，針對 12GB VRAM 優化。支援批量生成（最多 20 張）、50+ 風格模板、15+ 尺寸預設、Seed 控制、標籤系統與批量 PDF/PPT 匯出。注意：config.py 中 DEBUG=True 需在上線前修正。",
+      "description_zh": "基於 Flask 的專業 AI 圖片生成 Web 應用，使用 Z-Image-Turbo 擴散模型，針對 12GB VRAM 優化。支援批量生成（最多 20 張）、50+ 風格模板、15+ 尺寸預設、Seed 控制、標籤系統與批量 PDF/PPT 匯出。",
       "key_metrics": "v2.5.0, 50+ style templates, 5-8s/image generation",
-      "_path": "PersonalHelper/zImage",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/PersonalHelper/zImage/STATUS.yaml"
+      "_path": "PersonalHelper\\zImage",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\PersonalHelper\\zImage\\STATUS.yaml"
     },
     {
       "name": "ECN O&M Tool",
@@ -435,7 +484,7 @@
       "category": "wind_energy",
       "progress": 80,
       "status": "active",
-      "last_updated": "2026-04-10",
+      "last_updated": "2026-04-13",
       "next_milestone": "Phase 4 - Monte Carlo validation",
       "technologies": [
         "Next.js",
@@ -450,16 +499,16 @@
       "description": "Comprehensive web application for offshore wind farm operational maintenance cost analysis",
       "description_zh": "離岸風電營運維護成本計算器，複製強化 ECN Excel 工具功能，包含 6 大模組：氣象等待時間分析、成本計算、Monte Carlo 風險評估、LCOE 計算、VarFluct 生命週期預測、情景比較。已驗證準確度達 10+ 位小數，支援 130+ 風機的大規模風場分析。",
       "key_metrics": "6 major modules, K13 demo 130 turbines",
-      "_path": "researchTopic/ECN",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/ECN/STATUS.yaml"
+      "_path": "researchTopic\\ECN",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\ECN\\STATUS.yaml"
     },
     {
       "name": "InduSpect AI",
       "name_zh": "智慧工業巡檢系統",
       "category": "industrial_ai",
-      "progress": 80,
+      "progress": 85,
       "status": "active",
-      "last_updated": "2026-04-12",
+      "last_updated": "2026-04-15",
       "next_milestone": "實機端到端測試：上傳表單 → 拍照 → AI → 匯出 → 分享",
       "technologies": [
         "Flutter",
@@ -474,9 +523,9 @@
       ],
       "description": "Flutter mobile app for AI-powered industrial inspection with offline-first architecture, form auto-fill pipeline, and GPS-tagged history",
       "description_zh": "利用多模態 AI 和 Flutter 行動應用，實現工業設備的智慧巡檢。核心功能為完整檢測 pipeline（表單上傳 → 引導拍照 → AI 分析 → 自動回填 → 摘要報告 → 離線分享）及 GPS 定位歷史紀錄。",
-      "key_metrics": "2 core features, 46 unit tests, 6 open issues",
-      "_path": "researchTopic/induSpectApp/InduSpect",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/induSpectApp/InduSpect/STATUS.yaml"
+      "key_metrics": "2 core features, 57 unit tests (43 existing + 14 level tests), 6 open issues (#14-#19)",
+      "_path": "researchTopic\\induSpectApp\\InduSpect",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\induSpectApp\\InduSpect\\STATUS.yaml"
     },
     {
       "name": "AI PLC Automation",
@@ -498,8 +547,8 @@
       "description": "Enterprise Node.js platform for AI-driven PLC automation project lifecycle management and code generation",
       "description_zh": "針對工業自動化的企業級 PLC 專案管理平台。整合 AI 進行自動化程式碼生成、硬體檢測、文件管理與工作流自動化，支援 ST/ST-Safe 代碼產出與系統狀態監控。",
       "key_metrics": "v4.0, auto-hardware detection",
-      "_path": "researchTopic/PLC/AI_PLC_Automation",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/PLC/AI_PLC_Automation/STATUS.yaml"
+      "_path": "researchTopic\\PLC\\AI_PLC_Automation",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\PLC\\AI_PLC_Automation\\STATUS.yaml"
     },
     {
       "name": "Auto Arduino Coding",
@@ -522,8 +571,8 @@
       "description": "Python-based AI system converting natural language to Arduino code with auto-compilation, self-healing and one-click deployment",
       "description_zh": "利用 Gemini AI 將自然語言需求直接轉換為 Arduino 完整程式碼。內建自動硬體偵測、編譯驗證、錯誤自我修復、函式庫自動安裝與一鍵燒錄，適合教學與快速原型開發。",
       "key_metrics": "Auto-compilation, self-healing errors",
-      "_path": "researchTopic/PLC/autoArduinoCoding",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/PLC/autoArduinoCoding/STATUS.yaml"
+      "_path": "researchTopic\\PLC\\autoArduinoCoding",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\PLC\\autoArduinoCoding\\STATUS.yaml"
     },
     {
       "name": "RAG Ultimate",
@@ -531,7 +580,7 @@
       "category": "rag_knowledge",
       "progress": 88,
       "status": "active",
-      "last_updated": "2026-04-12",
+      "last_updated": "2026-04-16",
       "next_milestone": "Phase 3 - 風電 RAG Benchmark 論文（5 個實驗）",
       "technologies": [
         "React 19",
@@ -547,9 +596,9 @@
       ],
       "description": "React-based enterprise RAG research platform integrating 17 retrieval modes with RAGAS evaluation, Qdrant vector DB, and multi-document knowledge base",
       "description_zh": "統一企業級 RAG 研究與應用平台，整合 17 種檢索模式、Qdrant 向量資料庫、FastAPI 後端。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG benchmark 論文研究。",
-      "key_metrics": "789 tests, 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v7.5",
-      "_path": "researchTopic/RAG/RAG_Ultimate",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/RAG/RAG_Ultimate/STATUS.yaml"
+      "key_metrics": "829 tests (41 suites), 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v7.5, tsc 0 errors",
+      "_path": "researchTopic\\RAG\\RAG_Ultimate",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\RAG\\RAG_Ultimate\\STATUS.yaml"
     },
     {
       "name": "WindAI Lab",
@@ -557,8 +606,8 @@
       "category": "wind_energy",
       "progress": 92,
       "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Phase 11 - 部署優化與論文撰寫",
+      "last_updated": "2026-04-16",
+      "next_milestone": "Phase 14c - 診斷報告輸出與資料連接器",
       "technologies": [
         "Python",
         "FastAPI",
@@ -572,10 +621,10 @@
         "tool"
       ],
       "description": "Multi-agent collaborative research platform with virtual office interface for wind energy AI",
-      "description_zh": "風力發電 AI 研究協作系統，匯聚 22 位 AI 代理與 12 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）、剩餘壽命預測。整合虛擬辦公室 UI、SCADA 真實資料分析、RAG 知識庫與自動品質檢查機制，是系統化進行風能科研的協作平台。",
-      "key_metrics": "F1=1.0 fault diagnosis, R²=0.997 power curve, 42 agents",
-      "_path": "researchTopic/windAILab",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/windAILab/STATUS.yaml"
+      "description_zh": "風力發電 AI 研究協作系統，匯聚 12 位核心代理與 28 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）、剩餘壽命預測。整合虛擬辦公室 UI、SCADA 真實資料分析、RAG 知識庫、WindGuard AI LLM 推理與自動品質檢查機制，是系統化進行風能科研的協作平台。",
+      "key_metrics": "F1=1.0 fault diagnosis, R²=0.997 power curve, 12 core + 10 hirable agents, 28 skills",
+      "_path": "researchTopic\\windAILab",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windAILab\\STATUS.yaml"
     },
     {
       "name": "Digital Wind Turbine",
@@ -583,7 +632,7 @@
       "category": "wind_energy",
       "progress": 85,
       "status": "active",
-      "last_updated": "2026-04-12",
+      "last_updated": "2026-04-16",
       "next_milestone": "Deployment hardening (JWT auth, Docker Compose)",
       "technologies": [
         "FastAPI",
@@ -598,8 +647,8 @@
       "description": "FastAPI-based physics-driven digital twin simulating wind turbine dynamics with 74 SCADA tags, fault injection, fatigue/DEL monitoring, vibration alarm thresholds, and Modbus TCP interface",
       "description_zh": "風力發電機物理驅動型數位孿生平台。內含完整的轉子-發電機模型、熱力系統、振動譜與警報門檻、電氣反應、疲勞載荷與 DEL 損傷指標、7 種故障場景，模擬 74 個 SCADA 信號與電網事件，支援 Modbus TCP 介面與即時儀表板監控。",
       "key_metrics": "74 SCADA tags, 7 fault scenarios, DEL fatigue monitoring",
-      "_path": "researchTopic/windFarmMonitor/digiWindTurbine",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/digiWindTurbine/STATUS.yaml"
+      "_path": "researchTopic\\windFarmMonitor\\digiWindTurbine",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windFarmMonitor\\digiWindTurbine\\STATUS.yaml"
     },
     {
       "name": "WindFarmMonitoring",
@@ -621,8 +670,8 @@
       "description": "FastAPI + React real-time wind farm monitoring system with 15-turbine SCADA data, alarm detection and historical analytics",
       "description_zh": "即時風場監控與數據分析平台，集成 15 台風力機組的 SCADA 數據收集、實時儀表板、警報自動偵測與快照功能。提供歷史數據查詢、統計分析、報表生成與多使用者協作支援，助力智慧風場運維。",
       "key_metrics": "15 turbines, 17-second data interval",
-      "_path": "researchTopic/windFarmMonitor/WindFarmMonitoring",
-      "_yaml_path": "/sessions/youthful-wonderful-knuth/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/WindFarmMonitoring/STATUS.yaml"
+      "_path": "researchTopic\\windFarmMonitor\\WindFarmMonitoring",
+      "_yaml_path": "D:\\Dropbox\\Project_CodingSimulation\\researchTopic\\windFarmMonitor\\WindFarmMonitoring\\STATUS.yaml"
     }
   ]
 }
