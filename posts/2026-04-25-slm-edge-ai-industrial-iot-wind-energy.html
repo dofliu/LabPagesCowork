@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>小語言模型與邊緣 AI：工業智慧的本地化革命，以及 DOF Lab 的行動座標 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.bad { color: #f87171; }
+        .cost-viz { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; }
+        .cost-bar-wrap { display: flex; align-items: center; gap: 0.75rem; margin: 0.6rem 0; font-size: 0.9rem; }
+        .cost-bar-label { width: 130px; text-align: right; color: var(--text-light); flex-shrink: 0; }
+        .cost-bar { height: 20px; background: linear-gradient(90deg, rgba(99,102,241,0.7), rgba(45,212,191,0.7)); border-radius: 3px; }
+        .cost-bar-val { color: var(--text-white); font-weight: 600; font-size: 0.85rem; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; white-space: pre; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .cost-bar-label { width: 90px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">小語言模型與邊緣 AI：工業智慧的本地化革命，以及 DOF Lab 的行動座標</h1>
+            <p>2026-04-25 &bull; 劉瑞弘教授團隊 &bull; 邊緣 AI / SLM / 工業 IoT / 風力發電 / InduSpect</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">小語言模型 SLM</span>
+                <span class="tag tag-green">邊緣 AI</span>
+                <span class="tag tag-orange">工業 IoT</span>
+                <span class="tag tag-teal">故障診斷</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>2026 年的 AI 版圖，正在發生一場安靜卻深刻的重心轉移。當 GPT-4 級別的大型語言模型（LLM）在雲端呼風喚雨時，一個截然不同的趨勢悄悄成形：<strong>小語言模型（Small Language Models, SLM）走向邊緣裝置</strong>，為工業設備、離岸風機、行動巡檢 App，帶來無需連線的本地 AI 推理能力。</p>
+
+            <p>Gartner 預測，到 2027 年，企業使用的小型任務專屬 AI 模型將是通用 LLM 的三倍。Dell Technologies 在 2026 年預測報告中指出，AI 的重心正從「算力最大化」轉向「資料在哪裡、決策有多快、部署有多高效」。對於 DOF Lab 長期耕耘的風能 AI 與工業巡檢研究，這個趨勢不是遠景——它已經是當下的設計考量。</p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">10–30×</div>
+                    <div class="label">SLM 推理成本低於大型 LLM</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">75%</div>
+                    <div class="label">GPU/雲端費用可節省比例</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">3×</div>
+                    <div class="label">2027 年 SLM 對 LLM 使用比（Gartner）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">&lt;100ms</div>
+                    <div class="label">邊緣推理目標延遲</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼工業場景需要「本地化 AI」？</h2>
+
+            <p>將 AI 全部丟給雲端，看似方便，但工業現場的現實往往不允許這種奢侈。一座離岸風機距岸 50 公里，衛星頻寬昂貴且不穩定；一台 PLC 控制器在生產線上每 10 毫秒就要做出決策，任何雲端往返延遲都是致命問題；一位工廠巡檢員走進高磁場干擾區，網路訊號中斷是常態而非例外。</p>
+
+            <p>邊緣 AI 的價值，正是在這些「斷點」處發揮作用：</p>
+
+            <ul>
+                <li><strong>即時推理（Real-time Inference）</strong>：振動感測器偵測到異常頻率，SLM 在本地毫秒內完成初步故障分類，不等雲端回應。</li>
+                <li><strong>低頻寬需求</strong>：只有「確診異常」才上傳詳細報告，大幅降低 SCADA 數據傳輸成本。</li>
+                <li><strong>數據隱私與合規</strong>：工廠生產數據、設備健康狀態屬於商業機密，本地推理避免原始數據外流。</li>
+                <li><strong>離線韌性（Offline Resilience）</strong>：連線中斷時，巡檢 App 仍能完成 AI 分析、填寫報告、在復線後批次同步。</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h3>💡 SLM 與 LLM 的分工邏輯</h3>
+                <p>這並非「SLM 取代 LLM」的零和競爭，而是<strong>分層架構</strong>的成熟。邊緣端的 SLM 負責即時分類、警報觸發、表單自動填充等結構化任務；雲端的 LLM 負責跨案例推理、報告生成、知識庫更新與策略決策。兩者透過輕量 API 或 MCP 協議協作，形成「本地快速反應 + 雲端深度思考」的完整鏈路。</p>
+            </div>
+
+            <h2>二、SLM 邊緣部署的技術挑戰：不只是「縮小」</h2>
+
+            <p>把一個 7B 參數的模型裝進工業邊緣裝置，並不是把 70B 的模型「壓縮一下」那麼簡單。工業 AI 的邊緣部署面對一套獨特的技術約束。</p>
+
+            <p><strong>領域知識蒸餾（Domain Knowledge Distillation）</strong>是第一關。通用 SLM 對「主軸承磨損」、「齒輪箱油溫異常」、「SCADA 振動頻率 5 倍諧波」的理解，遠不如一個在風機故障數據集上精調過的專屬模型。這意味著研究者必須投入數據標注、Fine-tuning 與蒸餾管線的建設，而不是直接拿開源 SLM 套用。</p>
+
+            <p><strong>數值數據適配（Numerical Data Adaptation）</strong>是另一道坎。LLM 天生是文字模型，處理 SCADA 的時間序列數值數據需要特殊的 tokenization 策略或跨模態橋接層。近期研究顯示，以 RAG 方式將數值特徵向量轉化為「語意描述片段」再餵入 SLM，是目前最具可行性的路徑之一。</p>
+
+            <p><strong>量化壓縮（Quantization）與硬體適配</strong>決定最終成敗。INT4/INT8 量化可將模型記憶體佔用壓縮到 1/4，但會帶來精度損失；ONNX Runtime、TensorRT、Apple Core ML 等推理框架各有優化重點，針對工業嵌入式硬體（ARM Cortex-M、NVIDIA Jetson）的適配需要額外工程投入。</p>
+
+            <div class="cost-viz">
+                <p style="color:var(--text-white);font-weight:600;margin:0 0 1rem;">推理成本相對比較（以 70B LLM = 100 為基準）</p>
+                <div class="cost-bar-wrap">
+                    <div class="cost-bar-label">70B LLM（雲端）</div>
+                    <div class="cost-bar" style="width:280px;"></div>
+                    <div class="cost-bar-val">100</div>
+                </div>
+                <div class="cost-bar-wrap">
+                    <div class="cost-bar-label">13B LLM（雲端）</div>
+                    <div class="cost-bar" style="width:140px; background: linear-gradient(90deg, rgba(99,102,241,0.6), rgba(45,212,191,0.5));"></div>
+                    <div class="cost-bar-val">~45</div>
+                </div>
+                <div class="cost-bar-wrap">
+                    <div class="cost-bar-label">7B SLM（邊緣）</div>
+                    <div class="cost-bar" style="width:56px; background: linear-gradient(90deg, rgba(74,222,128,0.7), rgba(45,212,191,0.6));"></div>
+                    <div class="cost-bar-val">~5–10</div>
+                </div>
+                <div class="cost-bar-wrap">
+                    <div class="cost-bar-label">2B SLM（離線）</div>
+                    <div class="cost-bar" style="width:25px; background: rgba(74,222,128,0.8);"></div>
+                    <div class="cost-bar-val">~2–3</div>
+                </div>
+                <p style="font-size:0.8rem;color:var(--text-gray);margin:0.5rem 0 0;">來源：Zylos Research, Dell Technologies Edge AI Report 2026（概略估算，依硬體與任務類型而異）</p>
+            </div>
+
+            <h2>三、連結 DOF Lab：WindAILab 與 InduSpect 的邊緣 AI 路線</h2>
+
+            <p>對 DOF Lab 而言，SLM 邊緣部署不是抽象趨勢，而是兩個核心研究方向的下一站。</p>
+
+            <p><strong>WindAILab 的故障診斷本地化</strong>：WindAILab 目前已達到 F1=1.0 的故障診斷精度，使用的是在雲端完整推理的模型架構。然而，Phase 14c 的目標——診斷報告輸出與資料連接器——實際上已在為「推理下移」埋下伏筆。真實風場的 SCADA 數據量龐大，若每個 74-tag 的風機狀態向量都要上傳雲端分析，頻寬成本將隨風機數量線性增長。未來的研究方向之一，是將故障初篩模型（如訓練好的 CNN 或 XGBoost 分類器）部署至邊緣閘道，僅將「疑似異常」的片段觸發 WindAILab 的深度 AI 分析，形成分層診斷架構。</p>
+
+            <p><strong>InduSpect 的離線優先 AI</strong>：InduSpect 從一開始就設計了「離線優先（Offline-First）」架構——這本身就是邊緣 AI 思維的體現。目前的 AI 分析依賴 Gemini API，網路中斷時功能受限。若能將一個針對工業設備圖像分類的輕量視覺 SLM（如 MobileNet 系列或 EfficientDet）內嵌至 App，巡檢員即使在訊號死角也能完成完整的 AI 輔助分析。這與 InduSpect 下一個里程碑「實機端到端測試」高度吻合。</p>
+
+            <div class="highlight-box">
+                <h3>🔬 RAG_Ultimate 的角色：為邊緣 AI 提供知識橋樑</h3>
+                <p>邊緣端的 SLM 受限於參數量，無法內建豐富的領域知識。<strong>RAG（檢索增強生成）</strong>是補足這個缺口的關鍵架構：本地向量資料庫（如 Qdrant 輕量實例）儲存領域知識片段，SLM 在推理時動態檢索相關知識作為 context，大幅提升回答品質而不需增加模型尺寸。DOF Lab 的 <strong>RAG_Ultimate</strong> 平台，其 17 種檢索模式的研究成果，正是未來邊緣 RAG 架構的設計基礎。風電 RAG Benchmark 論文（Phase 3 目標）亦將提供哪種檢索模式在資源受限場景下最具效益的量化依據。</p>
+            </div>
+
+            <h2>四、2026 年工業邊緣 AI 的實務部署框架</h2>
+
+            <p>整合目前研究社群的實踐經驗，工業邊緣 AI 的部署正在收斂至一個清晰的四層架構：</p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>層級</th>
+                        <th>位置</th>
+                        <th>AI 角色</th>
+                        <th>典型技術</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>感測層</strong></td>
+                        <td>裝置端（MCU）</td>
+                        <td>異常偵測觸發</td>
+                        <td>TinyML, INT4 模型, CMSIS-NN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>邊緣層</strong></td>
+                        <td>閘道/工業 PC</td>
+                        <td>初步分類、RAG 檢索、本地報告</td>
+                        <td>SLM (2B–7B), ONNX RT, 本地 Qdrant</td>
+                    </tr>
+                    <tr>
+                        <td><strong>霧運算層</strong></td>
+                        <td>廠區伺服器</td>
+                        <td>多設備聚合分析、跨機型比較</td>
+                        <td>中型 LLM, FastAPI, 時序 DB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>雲端層</strong></td>
+                        <td>GCP / AWS</td>
+                        <td>深度推理、模型訓練、知識庫更新</td>
+                        <td>Gemini, GPT-4, ChromaDB, MLOps</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>這個框架的關鍵洞見是：<strong>每一層的 AI 都不是孤立的，而是透過標準化介面（API、MCP、gRPC）形成協作生態</strong>。Anthropic 的 MCP（Model Context Protocol）在這個架構中扮演「語義膠水」的角色——讓不同層級的 AI 元件能以統一的工具呼叫語義互動，無論底層是雲端 LLM 還是邊緣 SLM。</p>
+
+            <div class="action-box">
+                <h3>🎯 DOF Lab 邊緣 AI 研究行動項目</h3>
+                <ul>
+                    <li><strong>WindAILab 分層診斷架構設計</strong>：評估將 Random Forest / XGBoost 初篩器部署至 Modbus TCP 邊緣閘道的可行性，減少不必要的完整 AI 推理呼叫</li>
+                    <li><strong>InduSpect 輕量視覺模型整合</strong>：研究將 EfficientDet 或 MobileNetV3 內嵌至 Flutter App 的技術路徑，實現 100% 離線的圖像初篩功能</li>
+                    <li><strong>邊緣 RAG Benchmark</strong>：在 RAG_Ultimate 平台加入「資源受限模擬」評測維度，測試各種檢索模式在記憶體 ≤ 4GB 條件下的精度/延遲平衡</li>
+                    <li><strong>數位孿生邊緣推理</strong>：探索 digiWindTurbine 的 74-tag SCADA 模擬器作為邊緣 AI 訓練數據生成器的潛力，建立「數位孿生 → 邊緣模型 → 真實部署」的完整流程</li>
+                    <li><strong>MCP 邊緣適配器</strong>：設計輕量 MCP Server，讓雲端的 WindAILab 多代理系統能透過標準工具呼叫觸發邊緣端的診斷動作</li>
+                </ul>
+            </div>
+
+            <p>「把 AI 推到邊緣」不只是一道工程題，更是一道研究哲學題：我們信任 AI 做哪些決策？在沒有人工確認的情況下，邊緣 AI 的自主行動邊界在哪裡？如何在推理速度與可解釋性之間取得平衡？這些問題，不只是 2026 年的技術前沿，也是 DOF Lab 在工業 AI 研究中必須面對的倫理與工程交叉點。</p>
+
+            <p>在風機轟鳴、巡檢員獨行的現場，AI 的價值，不在於它有多大，而在於它在最關鍵的時刻，能不能就在那裡。</p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://www.dell.com/en-us/blog/the-power-of-small-edge-ai-predictions-for-2026/" target="_blank">Dell Technologies, "The Power of Small: Edge AI Predictions for 2026"</a></li>
+                <li><a href="https://zylos.ai/research/2026-02-07-small-language-models-edge-ai" target="_blank">Zylos Research, "Small Language Models and Edge AI: The 2026 Shift to Local Intelligence"</a></li>
+                <li><a href="https://zededa.com/blog/2026-predictions-how-edge-ai-is-reshaping-industrial-operations/" target="_blank">ZEDEDA, "2026 Predictions: How Edge AI is Reshaping Industrial Operations"</a></li>
+                <li><a href="https://arxiv.org/html/2501.09136v4" target="_blank">Agentic RAG: A Survey on Agentic Retrieval-Augmented Generation, arXiv 2501.09136</a></li>
+                <li><a href="https://www.mdpi.com/2076-3417/15/21/11515" target="_blank">Toward Autonomous LLM-Based AI Agents for Predictive Maintenance, Applied Sciences MDPI 2025</a></li>
+                <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S1474034626003472" target="_blank">LLMs in Industrial Domains: Adaptation Techniques and Applications, ScienceDirect 2026</a></li>
+                <li><a href="https://multi-ai.ai/en/blog/small-ai-models-edge-computing-2026-practical-guide-en" target="_blank">Multi AI, "Edge Computing Small AI Models Guide 2026"</a></li>
+                <li><a href="https://aetherlink.ai/en/blog/rag-mcp-and-agentic-ai-architecture-patterns-for-2026" target="_blank">AetherLink, "RAG, MCP and Agentic AI: Architecture Patterns for 2026"</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>
