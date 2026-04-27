@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>研究管理儀表板 - 劉瑞弘教授</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -472,9 +474,98 @@
 
         #projectsBody tr { cursor: pointer; }
         #projectsBody tr:hover { background: rgba(46,204,113,0.08) !important; }
+
+        /* Navbar styles for dashboard */
+        .dashboard-navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid #404040;
+        }
+        .dashboard-navbar .nav-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dashboard-navbar .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ecf0f1;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            font-family: 'Inter', sans-serif;
+        }
+        .dashboard-navbar .logo .dot { color: #2ecc71; }
+        .dashboard-navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.6rem;
+            align-items: center;
+        }
+        .dashboard-navbar .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            font-size: 0.92rem;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        .dashboard-navbar .nav-links a:hover,
+        .dashboard-navbar .nav-links a.active { color: #2ecc71; }
+        .dashboard-navbar .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ecf0f1;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        body { padding-top: 70px; }
+        @media (max-width: 768px) {
+            .dashboard-navbar .menu-toggle { display: block; }
+            .dashboard-navbar .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #1e293b;
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+                border-bottom: 1px solid #404040;
+            }
+            .dashboard-navbar .nav-links.active { display: flex; }
+        }
     </style>
 </head>
 <body>
+    <nav class="dashboard-navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle" aria-label="Toggle navigation" onclick="this.nextElementSibling.classList.toggle('active')">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="blog.html">研究日誌</a></li>
+                <li><a href="publications.html">著作發表</a></li>
+                <li><a href="lab.html">成員介紹</a></li>
+                <li><a href="about.html">關於</a></li>
+                <li><a href="contact.html">聯絡</a></li>
+                <li><a href="dashboard.html" class="active">儀表板</a></li>
+                <li><a href="privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- Detail Panel -->
     <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
     <div class="detail-panel" id="detailPanel">

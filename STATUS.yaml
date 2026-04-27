@@ -3,7 +3,7 @@ name_zh: 實驗室入口網站與研究協作平台
 category: mcp_tools
 progress: 75
 status: active
-last_updated: "2026-04-20"
+last_updated: "2026-04-11"
 next_milestone: "研究成果頁面自動化更新 + GitHub 活動整合完善"
 technologies:
   - HTML
