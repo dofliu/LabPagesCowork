@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG 實驗資料治理：從 Git Stash 到論文主表的可重現性之路 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .flow-steps { counter-reset: step-counter; list-style: none; padding-left: 0; }
+        .flow-steps li { counter-increment: step-counter; position: relative; padding: 1rem 1rem 1rem 3.5rem; margin: 0.75rem 0; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid var(--primary-color); }
+        .flow-steps li::before { content: counter(step-counter); position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 1.6rem; height: 1.6rem; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: white; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.bad { color: #f87171; }
+        .compare-table td.warn { color: #fb923c; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG 實驗資料治理：從 Git Stash 到論文主表的可重現性之路</h1>
+            <p>2026-04-28 &bull; 劉瑞弘教授團隊 &bull; RAG_Ultimate / 實驗資料治理 / 版本控制 / 研究方法論</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG 實驗</span>
+                <span class="tag tag-green">資料治理</span>
+                <span class="tag tag-orange">版本控制</span>
+                <span class="tag tag-teal">研究方法論</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                在 AI 研究中，有一種困境幾乎每個做嚴謹評測的團隊都曾遇到：<strong>實驗跑出來了，結果也有了，但資料卻散落在本機磁碟、臨時目錄，甚至只存在 <code class="code-inline">git stash</code> 裡</strong>。RAG_Ultimate 研究團隊正面對這個挑戰——Tier-2 audit 的完整文件仍在 <code class="code-inline">stash@{0}</code>，尚未正式納入版本控制；與此同時，r06/r07 補跑任務也在等待排程，以確保論文主表的每個檢索模式至少擁有 4 次完整實驗輪次（≥4 complete runs）。
+            </p>
+            <p>
+                這不只是一個「整理資料夾」的問題，而是牽涉到整個 AI 研究生命週期的<strong>資料治理（Data Governance）</strong>設計。2026 年，隨著 AI 研究的規模不斷擴大，實驗資料的版本追蹤與透明化管理已成為學術界和工業界共同重視的核心課題。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">17</div>
+                    <div class="label">RAG 檢索模式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">≥4</div>
+                    <div class="label">目標完整實驗輪次</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">829</div>
+                    <div class="label">測試案例（41 套）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">Phase 3</div>
+                    <div class="label">風電 RAG Benchmark 論文</div>
+                </div>
+            </div>
+
+            <h2>一、「研究債」的隱形代價</h2>
+
+            <p>
+                軟體開發中有「技術債（Technical Debt）」的概念，AI 研究中同樣存在類似的「<strong>研究債（Research Debt）</strong>」：當實驗結果的整理速度跟不上產出速度時，這些未被正式版本化的資料就成為隱形負擔。常見的表現形式包括：
+            </p>
+            <ul>
+                <li>實驗結果只存在本機，未 commit 進 Git repository</li>
+                <li>使用 <code class="code-inline">git stash</code> 暫存大量 checkpoint 與 audit 文件，無明確的解封策略</li>
+                <li>因網路中斷、環境不穩定等外部因素導致部分 run 不完整，但記錄不夠清楚</li>
+                <li>補跑任務排程不明確，導致論文主表的信賴區間無法收斂</li>
+            </ul>
+            <p>
+                在 RAG_Ultimate 的 Tier-2 benchmark 情境中，這些問題特別敏感：17 種檢索模式的比較若有任何一輪資料遺漏，就可能讓統計結論的可信度大幅下滑。正因如此，「從 stash 到論文主表」的資料治理路徑，值得系統性地思考。
+            </p>
+
+            <div class="warning-box">
+                <h3>⚠️ 研究債的三大警訊</h3>
+                <p>當以下情況出現時，代表實驗資料治理需要立即介入：</p>
+                <ul>
+                    <li><strong>Stash 累積過多</strong>：<code class="code-inline">git stash list</code> 出現多個未命名 stash，且已超過 1 週未解封</li>
+                    <li><strong>Run 完整性不明</strong>：無法快速回答「目前有幾個 mode 達到 ≥4 完整 run」</li>
+                    <li><strong>版本與結果解耦</strong>：看到一份 CSV 結果檔，但無法確定對應哪個 commit、哪個參數配置</li>
+                </ul>
+            </div>
+
+            <h2>二、2026 年 AI 實驗資料治理的最佳實踐</h2>
+
+            <p>
+                根據 2026 年業界與學術界的共識，AI 實驗的資料治理已不再只是「記得 commit」這麼簡單，而是需要將治理邏輯嵌入整個研究工作流程。以下是幾個核心原則：
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>治理面向</th>
+                        <th>舊有做法（研究債高風險）</th>
+                        <th>2026 建議做法</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>實驗結果存放</td>
+                        <td class="bad">本機目錄、臨時 stash</td>
+                        <td class="good">命名分支 + DVC / MLflow 追蹤</td>
+                    </tr>
+                    <tr>
+                        <td>Run 完整性追蹤</td>
+                        <td class="bad">人工記錄 / 靠記憶</td>
+                        <td class="good">自動化 watchdog（如 tier2_watchdog.ps1）</td>
+                    </tr>
+                    <tr>
+                        <td>Audit 文件納版</td>
+                        <td class="warn">每次完成後手動決定</td>
+                        <td class="good">PR 模板要求 audit log 作為 checklist</td>
+                    </tr>
+                    <tr>
+                        <td>補跑排程</td>
+                        <td class="bad">依賴研究者記憶觸發</td>
+                        <td class="good">Issue 追蹤 + 自動化 CI 排程提醒</td>
+                    </tr>
+                    <tr>
+                        <td>版本與參數綁定</td>
+                        <td class="bad">結果檔與設定檔分離</td>
+                        <td class="good">每次 run 攜帶 config hash 作為檔名前綴</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h3>💡 核心觀念：把 Governance 當成 Engineering 問題</h3>
+                <p>
+                    2026 年最重要的轉變在於：AI 資料治理不再是研究後期的「清理工作」，而是在第一行程式碼寫下之前就要設計好的工程架構。就像 CI/CD pipeline 在程式碼 push 前就自動跑測試，實驗 governance pipeline 應該在 run 啟動前就確認追蹤機制已就位。
+                </p>
+            </div>
+
+            <h2>三、RAG_Ultimate 的具體行動路徑</h2>
+
+            <p>
+                面對目前的情況，DOF Lab 的 RAG_Ultimate 研究團隊規劃了以下的資料治理行動路徑，將 stash 中的 Tier-2 audit 文件轉化為論文可引用的正式實驗記錄：
+            </p>
+
+            <ol class="flow-steps">
+                <li>
+                    <strong>解封 stash@{0}</strong>：將 Tier-2 audit 文件從 stash 移出，以命名分支（如 <code class="code-inline">feat/tier2-audit-commit</code>）納入版本控制，並附上完整的 commit message 說明資料來源、產生時間與使用的參數配置。
+                </li>
+                <li>
+                    <strong>補跑 r06/r07</strong>：針對目前不足 4 complete runs 的 RAG mode，在穩定網路環境下啟動補跑任務。每次 run 結束後立即 commit 結果，不允許再次進入 stash 狀態。
+                </li>
+                <li>
+                    <strong>更新 Tier-2 主表</strong>：整合所有 ≥4 complete run 的模式，計算各模式的平均分數與 95% 信賴區間（目標 ±0.03），產出論文主表（Table 1）的最終版本。
+                </li>
+                <li>
+                    <strong>建立 audit trail</strong>：為每個 RAG mode 的最終結果建立 audit log，記錄「使用哪個 commit 的程式碼、哪批資料、哪個 seed」，確保任何審稿人都能重現結果。
+                </li>
+                <li>
+                    <strong>PR 合規檢查</strong>：在論文主表 PR 中加入 checklist，確認所有 17 個模式皆達到完整性要求，CI 通過，才允許 merge 進 main 分支。
+                </li>
+            </ol>
+
+            <div class="action-box">
+                <h3>🚀 DOF Lab 研究室行動項目</h3>
+                <ul>
+                    <li>近期優先：決定 <code class="code-inline">stash@{0}</code> 的 Tier-2 audit 文件處理策略，建議以命名分支方式納版</li>
+                    <li>本週排程：r06/r07 補跑，目標讓所有 17 個 RAG mode 達到 ≥4 complete runs</li>
+                    <li>工具化方向：評估為 RAG_Ultimate 建立一個 run-tracker dashboard，即時顯示每個 mode 的完整度狀態</li>
+                    <li>文化建立：推動「實驗完成即 commit」的研究習慣，避免 stash 成為實驗結果的黑洞</li>
+                </ul>
+            </div>
+
+            <h2>結語</h2>
+
+            <p>
+                「從 stash 到論文主表」看似只是一個版本控制的小問題，但背後反映的是整個 AI 研究過程對資料治理的重視程度。在競爭激烈的 AI 研究環境中，可重現性（reproducibility）與透明度（transparency）不只是學術倫理要求，更是研究成果能否被引用、被信任的關鍵基礎。
+            </p>
+            <p>
+                RAG_Ultimate 即將進入論文收尾階段，17 種檢索模式的 benchmark 結果將成為風電領域 RAG 研究的重要參考。嚴謹的資料治理，將確保這份成果經得起時間與同儕的考驗。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源：</strong>
+            <ul>
+                <li><a href="https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation" target="_blank">RAG Evaluation: 2026 Metrics and Benchmarks for Enterprise AI Systems</a> — Label Your Data</li>
+                <li><a href="https://www.researchgate.net/publication/396290953_A_Comprehensive_Survey_of_Retrieval-Augmented_Generation_RAG_Evaluation_and_Benchmarks_Perspectives_from_Information_Retrieval_and_LLM" target="_blank">A Comprehensive Survey of RAG Evaluation and Benchmarks</a> — ResearchGate</li>
+                <li><a href="https://arxiv.org/abs/2405.07437" target="_blank">Evaluation of Retrieval-Augmented Generation: A Survey</a> — arXiv 2405.07437</li>
+                <li><a href="https://arxiv.org/abs/2407.11005" target="_blank">RAGBench: Explainable Benchmark for Retrieval-Augmented Generation Systems</a> — arXiv 2407.11005</li>
+                <li><a href="https://blaxel.ai/blog/ai-data-governance-guide" target="_blank">AI Data Governance in 2026: Guide for Engineering Leaders</a> — Blaxel</li>
+                <li><a href="https://tdwi.org/webcasts/2026/04/adv-all-ai-governance-in-2026-context-control-and-enterprise-scale.aspx" target="_blank">AI Governance in 2026: Context, Control, and Enterprise Scale</a> — TDWI</li>
+                <li>DOF Lab 內部資料：RAG_Ultimate daily_report.md (2026-04-28), STATUS.yaml (v8.0)</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授</p>
+        </div>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

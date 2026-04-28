@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>從單點估算到機率分布：Monte Carlo 仿真如何重塑離岸風電 O&M 成本分析 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.bad { color: #f87171; }
+        .tornado-viz { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; }
+        .tornado-bar-wrap { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; font-size: 0.88rem; }
+        .tornado-label { width: 160px; text-align: right; color: var(--text-light); flex-shrink: 0; }
+        .tornado-bar-neg { height: 18px; background: rgba(248,113,113,0.6); border-radius: 2px 0 0 2px; }
+        .tornado-bar-pos { height: 18px; background: rgba(74,222,128,0.6); border-radius: 0 2px 2px 0; }
+        .tornado-center { width: 2px; background: rgba(255,255,255,0.3); height: 18px; flex-shrink: 0; }
+        .dist-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .dist-card { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 1.2rem; border: 1px solid rgba(255,255,255,0.08); }
+        .dist-card h4 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--text-white); }
+        .dist-card p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; white-space: pre; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .dist-box { grid-template-columns: 1fr; } .tornado-label { width: 100px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">從單點估算到機率分布：Monte Carlo 仿真如何重塑離岸風電 O&amp;M 成本分析</h1>
+            <p>2026-04-24 &bull; 劉瑞弘教授團隊 &bull; 離岸風電 / O&amp;M 成本 / Monte Carlo / ECN O&amp;M Tool</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">Monte Carlo 仿真</span>
+                <span class="tag tag-green">離岸風電 O&amp;M</span>
+                <span class="tag tag-orange">LCOE 不確定性</span>
+                <span class="tag tag-teal">ECN O&amp;M Tool</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>一座 130 台風機的離岸風場，25 年運轉期間的 O&amp;M（Operation &amp; Maintenance，營運維護）成本，可能高達數十億新台幣。然而，傳統的試算表工具給出的往往只是一個數字——一個「預計總成本」，不帶任何誤差範圍，不說明最壞情況，也不量化關鍵假設的敏感度。</p>
+
+            <p>這種「點估算」（point estimate）的思維，在離岸風電高度不確定的現實環境中，是危險的過度自信。海象等待時間可能因一個颱風季而倍增；零件故障率隨老化非線性攀升；維修船的日租金受國際市場波動。任何一個假設偏離，都可能讓成本分析徹底失效。</p>
+
+            <p>DOF Lab 的 <strong>ECN O&amp;M Tool</strong> 正在推進 Phase 4——以 <strong>Monte Carlo 仿真</strong>取代確定性計算，將 O&amp;M 成本的輸出從「一個數字」變成「一條機率分布曲線」，讓決策者真正理解他們面對的是什麼樣的風險。</p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">130</div>
+                    <div class="label">K13 示範風場風機數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">6</div>
+                    <div class="label">ECN O&amp;M Tool 核心模組</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">10,000</div>
+                    <div class="label">Monte Carlo 典型仿真次數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">P90</div>
+                    <div class="label">投資決策關鍵百分位</div>
+                </div>
+            </div>
+
+            <h2>一、離岸風電 O&amp;M 成本的不確定性來源</h2>
+
+            <p>離岸風電的 O&amp;M 成本分析，面對的是多層疊加的不確定性。理解這些不確定性的結構，是設計 Monte Carlo 仿真的前提。</p>
+
+            <p><strong>氣象不確定性（Metocean Uncertainty）</strong>：離岸作業高度依賴海象條件。波高超過 1.5 公尺、風速超過 12 m/s，維修船便無法作業。ECN O&amp;M Tool 使用 Weibull 分布對歷史海象資料進行參數擬合，但年際變異可能使「平均等待時間」偏差達 30% 以上。氣候變遷的加入，更使長期預測充滿系統性誤差。</p>
+
+            <p><strong>設備可靠性不確定性（Reliability Uncertainty）</strong>：風機故障率遵循浴缸曲線（Bathtub Curve）——早期有磨合期故障，中期相對穩定，晚期因材料疲勞而加速劣化。ECN O&amp;M Tool 的 <strong>VarFluct 模組</strong>已在 Phase 3 完成浴缸曲線生命週期建模，但曲線的精確形狀在設備老化過程中始終帶有統計不確定性。</p>
+
+            <p><strong>成本結構不確定性（Cost Structure Uncertainty）</strong>：零件採購價格、維修船日租金、技術人員工資，受通膨率、國際供應鏈、市場競爭影響。25 年的通膨假設若偏差 1%，累積效果便可能造成數億元的估算誤差。</p>
+
+            <div class="highlight-box">
+                <h3>📊 傳統點估算 vs. Monte Carlo 方法對比</h3>
+                <table class="compare-table">
+                    <tr><th>面向</th><th>傳統點估算</th><th>Monte Carlo 仿真</th></tr>
+                    <tr>
+                        <td>輸出形式</td>
+                        <td class="bad">單一數值（如 NT$12 億）</td>
+                        <td class="good">機率分布（P10=9.5億, P50=12億, P90=15.2億）</td>
+                    </tr>
+                    <tr>
+                        <td>不確定性表達</td>
+                        <td class="bad">隱含於假設中，不可見</td>
+                        <td class="good">明確量化，可視化為直方圖與 CDF</td>
+                    </tr>
+                    <tr>
+                        <td>敏感度分析</td>
+                        <td class="bad">手動改參數，耗時且片面</td>
+                        <td class="good">Tornado Chart 自動排序各變數影響力</td>
+                    </tr>
+                    <tr>
+                        <td>最壞情況</td>
+                        <td class="bad">人工估計，主觀</td>
+                        <td class="good">P90/P95 百分位，統計嚴謹</td>
+                    </tr>
+                    <tr>
+                        <td>決策支持</td>
+                        <td class="bad">難以評估風險溢酬</td>
+                        <td class="good">可計算「風險調整後 LCOE」</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h2>二、Monte Carlo 仿真的核心設計</h2>
+
+            <p>Monte Carlo 方法的基本思想是：<em>對所有帶有不確定性的輸入參數，賦予機率分布而非固定值；然後重複抽樣數千次，每次計算出一個 O&amp;M 成本結果；最終用這些結果的統計分布，描述真實世界中可能出現的各種情境。</em></p>
+
+            <p>ECN O&amp;M Tool Phase 4 的 Monte Carlo 模組包含四個關鍵元件：</p>
+
+            <div class="dist-box">
+                <div class="dist-card">
+                    <h4>📐 參數分布設定</h4>
+                    <p>每個不確定輸入可被指定為正態分布、三角分布、均勻分布或對數正態分布。海象等待時間以對數正態分布建模（對應極端天氣的長尾特性），零件成本以三角分布建模（具有明確的最小值、最可能值與最大值）。</p>
+                </div>
+                <div class="dist-card">
+                    <h4>🔄 仿真引擎</h4>
+                    <p>預設執行 10,000 次抽樣（可配置至 100,000 次）。採用 Latin Hypercube Sampling（LHS）取代純粹隨機抽樣，確保在較少的仿真次數下達到更均勻的參數空間覆蓋，有效降低收斂所需計算量。</p>
+                </div>
+                <div class="dist-card">
+                    <h4>📈 結果可視化</h4>
+                    <p>仿真完成後自動產生三種視圖：直方圖（Histogram）顯示成本分布形狀，累積分布函數（CDF）方便讀取任意百分位值，以及龍捲風圖（Tornado Chart）呈現各輸入變數對總成本變異的貢獻排序。</p>
+                </div>
+                <div class="dist-card">
+                    <h4>🎯 百分位卡片</h4>
+                    <p>儀表板自動計算 P10（樂觀情境）、P50（最可能情境）、P90（保守情境）三個關鍵百分位，配合均值與標準差，讓非技術背景的決策者也能快速掌握風險輪廓。</p>
+                </div>
+            </div>
+
+            <h2>三、Tornado Chart：找出真正左右成本的關鍵變數</h2>
+
+            <p>在 Monte Carlo 仿真的眾多輸出中，<strong>Tornado Chart（龍捲風圖）</strong>往往是最有決策價值的分析工具。它的邏輯是：逐一讓每個輸入變數在其 P10 到 P90 範圍內變動，觀察總成本的變動幅度，再將所有變數按影響力大小排序，整體形狀酷似龍捲風。</p>
+
+            <p>以 K13 示範風場（130 台風機）的分析為例，Tornado Chart 揭示了幾個直覺上未必預期的發現：</p>
+
+            <div class="tornado-viz">
+                <p style="font-size:0.85rem; color:var(--text-gray); margin: 0 0 1rem 0;">示意圖：各參數對 O&amp;M 總成本的敏感度（紅=低值情境，綠=高值情境）</p>
+                <div class="tornado-bar-wrap">
+                    <span class="tornado-label">海象等待時間倍增因子</span>
+                    <div class="tornado-bar-neg" style="width:130px;"></div>
+                    <div class="tornado-center"></div>
+                    <div class="tornado-bar-pos" style="width:130px;"></div>
+                </div>
+                <div class="tornado-bar-wrap">
+                    <span class="tornado-label">CTV 運維船日租金</span>
+                    <div class="tornado-bar-neg" style="width:95px;"></div>
+                    <div class="tornado-center"></div>
+                    <div class="tornado-bar-pos" style="width:95px;"></div>
+                </div>
+                <div class="tornado-bar-wrap">
+                    <span class="tornado-label">主要零件故障率</span>
+                    <div class="tornado-bar-neg" style="width:70px;"></div>
+                    <div class="tornado-center"></div>
+                    <div class="tornado-bar-pos" style="width:70px;"></div>
+                </div>
+                <div class="tornado-bar-wrap">
+                    <span class="tornado-label">年通膨率</span>
+                    <div class="tornado-bar-neg" style="width:45px;"></div>
+                    <div class="tornado-center"></div>
+                    <div class="tornado-bar-pos" style="width:45px;"></div>
+                </div>
+                <div class="tornado-bar-wrap">
+                    <span class="tornado-label">WTG 可用率目標</span>
+                    <div class="tornado-bar-neg" style="width:28px;"></div>
+                    <div class="tornado-center"></div>
+                    <div class="tornado-bar-pos" style="width:28px;"></div>
+                </div>
+            </div>
+
+            <p>結果顯示：<strong>海象條件的不確定性遠超其他因素</strong>，其影響力甚至超過傳統上被認為最重要的「零件故障率」。這個發現對台灣離岸風電具有特別意義——台灣海峽的颱風頻率與北海、波羅的海截然不同，直接套用歐洲成熟市場的 O&amp;M 成本模型，可能嚴重低估氣象等待時間的成本佔比。</p>
+
+            <div class="highlight-box">
+                <h3>🌊 台灣離岸風電的 ECN 應用特殊性</h3>
+                <p>ECN O&amp;M Tool 的原型基於荷蘭 ECN（現為 TNO）開發的 Excel 工具，主要針對北海環境設計。DOF Lab 的研究工作之一，是驗證並調整其參數設定，使其適用於台灣海峽環境：</p>
+                <ul style="margin-top:0.75rem;">
+                    <li><strong>颱風季節性效應</strong>：6–10 月的作業限制明顯高於北海，需以季節性分布取代全年均勻假設</li>
+                    <li><strong>CTV vs. SOV 選擇</strong>：台灣現階段主要依賴 CTV（運維交通船），而非歐洲成熟市場的 SOV（服務運維母船）；兩者的成本結構與氣象作業限制截然不同</li>
+                    <li><strong>本地化供應鏈</strong>：隨台灣離岸風電供應鏈本地化進展，維修成本的地域性差異需動態更新</li>
+                </ul>
+            </div>
+
+            <h2>四、Monte Carlo 結果如何連結 LCOE 與投資決策</h2>
+
+            <p>Monte Carlo 仿真的最終價值，不在於製造更複雜的圖表，而在於讓財務決策建立在更誠實的基礎上。ECN O&amp;M Tool 的 Phase 4 將仿真結果直接饋入 <strong>LCOE（平準化能源成本）計算模組</strong>，輸出「機率分布化的 LCOE」。</p>
+
+            <p>這意味著：投資者可以問「在 90% 的情境下，LCOE 是否低於電費保證收購價（FiT）？」而不是「預期 LCOE 是多少？」前者是風險管理思維，後者只是樂觀願景。P90 的 LCOE 若仍低於收購電價，這個風場才具有真正穩健的投資價值。</p>
+
+            <div class="code-block">## ECN O&M Tool Phase 4 — Monte Carlo LCOE 計算示意
+
+from ecn_tool.monte_carlo import MonteCarloEngine
+from ecn_tool.lcoe import LCOECalculator
+
+# 定義不確定性輸入
+engine = MonteCarloEngine(n_simulations=10000, method="LHS")
+engine.add_param("weather_wait_factor", dist="lognormal",  mu=1.0,   sigma=0.25)
+engine.add_param("ctv_day_rate",        dist="triangular", low=8000, mode=12000, high=18000)
+engine.add_param("major_component_fr",  dist="normal",     mu=0.015, sigma=0.004)
+engine.add_param("inflation_rate",      dist="uniform",    low=0.015, high=0.035)
+
+# 執行仿真
+results = engine.run(cost_model=project_config)
+
+# 輸出百分位
+print(f"P10 O&M Cost: NT$ {results.percentile(10)/1e8:.2f} 億")
+print(f"P50 O&M Cost: NT$ {results.percentile(50)/1e8:.2f} 億")
+print(f"P90 O&M Cost: NT$ {results.percentile(90)/1e8:.2f} 億")
+
+# 連結 LCOE
+lcoe_dist = LCOECalculator.from_monte_carlo(results, aep=annual_energy_production)
+print(f"P90 LCOE: {lcoe_dist.percentile(90):.4f} NT$/kWh")</div>
+
+            <p>這樣的分析框架，也讓運維策略的比較（Corrective Maintenance vs. Condition-Based Maintenance）從「哪個方案成本較低？」升級為「哪個方案的 P90 成本風險較可接受？」——這才是成熟風險管理的正確問法。</p>
+
+            <div class="action-box">
+                <h3>🎯 ECN O&amp;M Tool Phase 4 下一步</h3>
+                <ul>
+                    <li><strong>Monte Carlo 驗證</strong>：以 K13 案例的歷史實際 O&amp;M 成本資料，反向驗證仿真輸出的機率分布是否合理包含歷史真實值</li>
+                    <li><strong>情景比較升級</strong>：現有情景比較模組將整合 Monte Carlo 輸出，讓不同運維策略以 P50 vs. P90 帶狀圖呈現，而非單點對比</li>
+                    <li><strong>VarFluct 浴缸曲線耦合</strong>：Phase 3 完成的 VarFluct 生命週期故障率模型將作為 Monte Carlo 的可靠性輸入分布來源，實現從元件老化曲線到系統風險分布的完整連結</li>
+                    <li><strong>學術驗證</strong>：計畫投稿至 Journal of Physics: Conference Series（Wind Energy 專題），以 Monte Carlo 方法重現並延伸 ECN 原始工具的驗證案例</li>
+                </ul>
+            </div>
+
+            <p>風險不是要被消除的東西——它是要被量化、被理解、然後被定價的東西。對離岸風電的投資決策者而言，知道「最糟糕的情況有多糟、發生的機率有多大」，遠比知道「預期是多少」更有價值。</p>
+
+            <p>ECN O&amp;M Tool 的 Monte Carlo 之路，是 DOF Lab 在風能數位化研究上的一個縮影：不只是讓計算更快，而是讓分析更誠實。</p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://www.nrel.gov/docs/fy19osti/74009.pdf" target="_blank">NREL, "2018 Offshore Wind Technologies Market Report", U.S. Department of Energy</a></li>
+                <li><a href="https://ore.catapult.org.uk/app/uploads/2018/01/Approaching-Net-Zero-Opex-Report.pdf" target="_blank">Offshore Renewable Energy Catapult, "Approaching Net Zero OPEX: O&amp;M Innovation Report"</a></li>
+                <li><a href="https://doi.org/10.1088/1742-6596/524/1/012172" target="_blank">Dalgic, Y. et al., "Offshore Wind Turbine O&amp;M Cost Modelling", J. Phys.: Conf. Series 524 (2014)</a></li>
+                <li><a href="https://www.irena.org/publications/2019/Sep/Offshore-wind-energy" target="_blank">IRENA, "Offshore Wind Energy: Technology Outlook 2019"</a></li>
+                <li><a href="https://doi.org/10.1016/j.renene.2016.01.033" target="_blank">Ren, Z. et al., "Stochastic Optimization of Offshore Wind Farm Operation and Maintenance", Renewable Energy (2016)</a></li>
+                <li><a href="https://www.mdpi.com/1996-1073/13/14/3696" target="_blank">Shafiee, M., "Maintenance Logistics Organization for Offshore Wind Energy", Energies MDPI (2020)</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

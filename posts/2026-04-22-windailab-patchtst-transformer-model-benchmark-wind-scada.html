@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>從 ICLR 到風機機艙：PatchTST Transformer 與多模型對比框架在 WindAILab 的落地 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .model-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .model-card { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 1.2rem; }
+        .model-card.nbm { border: 1px solid rgba(251,146,60,0.4); }
+        .model-card.lstm { border: 1px solid rgba(99,102,241,0.4); }
+        .model-card.patchtst { border: 1px solid rgba(74,222,128,0.4); }
+        .model-card h4 { margin: 0 0 0.6rem; font-size: 1rem; }
+        .model-card.nbm h4 { color: #fb923c; }
+        .model-card.lstm h4 { color: #818cf8; }
+        .model-card.patchtst h4 { color: #4ade80; }
+        .model-card p { margin: 0.3rem 0; font-size: 0.87rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .bench-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+        .bench-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .bench-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .bench-table td.best { color: #4ade80; font-weight: 700; }
+        .code-block { background: #1e1e1e; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; white-space: pre; }
+        @media (max-width: 640px) { .model-grid { grid-template-columns: 1fr; } .stat-banner { flex-direction: column; align-items: center; } .bench-table { font-size: 0.82rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">← 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">從 ICLR 到風機機艙：PatchTST Transformer 與多模型對比框架在 WindAILab 的落地</h1>
+            <p>2026-04-22 • 劉瑞弘教授團隊 • Transformer / 時序預測 / WindAILab / 模型對比</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">PatchTST Transformer</span>
+                <span class="tag tag-green">WindAILab</span>
+                <span class="tag tag-orange">時序預測</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>學術論文發表與工業 AI 落地之間，往往存在一道難以跨越的鴻溝。2023 年，Nie 等人在 ICLR 上發表了 <strong>PatchTST</strong>（"A Time Series is Worth 64 Words"），用 Transformer Encoder 搭配 Patch Embedding 的設計，在長時序預測任務上大幅超越 LSTM 等傳統方法。然而，從論文到真實 SCADA 資料的工業部署，需要大量的工程整合工作。</p>
+
+            <p>DOF Lab 的 <strong>WindAILab</strong> 平台在 Epic C（ML 模型進化）階段，完成了 PatchTST 的工業化實作，並建立了統一的 <strong>ModelBenchmark 對比框架</strong>，讓 NBM（正常行為模型）、LSTM、PatchTST 三種典範在相同的 Kelmarsh SCADA 資料集上公平競技。這篇文章記錄我們的設計思路與初步發現。</p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">R²=0.997</div>
+                    <div class="label">NBM 功率曲線建模精度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">52,416</div>
+                    <div class="label">Kelmarsh SCADA 驗證筆數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">3</div>
+                    <div class="label">納入統一對比的模型典範</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">LaTeX</div>
+                    <div class="label">自動生成論文用對比表格</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼選 PatchTST？時序 Transformer 的演化脈絡</h2>
+
+            <p>Transformer 原本為 NLP 設計，當它被引入時序預測領域時，早期模型（如 Autoformer、Informer）嘗試直接套用 Self-Attention 到時間點（time-step level），但長序列下計算成本呈二次方增長，且時序信號的局部依賴性往往被破壞。</p>
+
+            <p>PatchTST 的核心洞見是：<em>時間序列的語意不在單一時間點，而在連續的局部區段（Patch）</em>。就像 NLP 中的 word token，風機 SCADA 訊號的一個「Patch」（如 8 個連續時間步，約對應 8 分鐘的採樣窗口）往往比單一採樣點包含更豐富的物理意義——轉速的加速趨勢、風速的陣風模式。</p>
+
+            <div class="highlight-box">
+                <h3>🔬 PatchTST 的核心設計</h3>
+                <p><strong>Patch Embedding</strong>：將輸入序列（如 48 個時間步）切割為固定長度的 patch（8 個時間步），stride 為 8，共產生 6 個 patch token。每個 patch 線性投影至 d_model=64 維向量空間。</p>
+                <p style="margin-top:0.6rem;"><strong>Transformer Encoder</strong>：4 頭 Self-Attention + 2 層 Encoder，捕捉 patch 間的長距離時序依賴。相比以時間點為 token 的設計，計算量從 O(T²) 降至 O((T/P)²)，其中 P 為 patch 長度。</p>
+                <p style="margin-top:0.6rem;"><strong>自動降級（Graceful Degradation）</strong>：當 PyTorch 不可用時，模型自動切換至 Ridge 回歸 AR 模型，確保在任何部署環境下均可運行。</p>
+            </div>
+
+            <h2>二、三種典範的角力：NBM、LSTM 與 PatchTST</h2>
+
+            <p>要理解 PatchTST 的位置，必須先釐清三種模型典範在風機分析中的不同角色：</p>
+
+            <div class="model-grid">
+                <div class="model-card nbm">
+                    <h4>📊 NBM（正常行為模型）</h4>
+                    <p>架構：GradientBoosting</p>
+                    <p>用途：功率曲線建模、異常分數計算</p>
+                    <p>強項：對非線性功率曲線有極強的擬合能力，R²=0.9964</p>
+                    <p>弱項：非時序模型，無法捕捉跨時間步的動態依賴</p>
+                </div>
+                <div class="model-card lstm">
+                    <h4>🔄 LSTM Forecaster</h4>
+                    <p>架構：PyTorch LSTM v2.0</p>
+                    <p>用途：多步時序預測（風速、功率、溫度）</p>
+                    <p>強項：對短至中期序列的局部依賴捕捉良好</p>
+                    <p>弱項：梯度消失問題在長序列上仍存在，並行計算效率較低</p>
+                </div>
+                <div class="model-card patchtst">
+                    <h4>🤖 PatchTST Transformer</h4>
+                    <p>架構：Patch Embedding + Transformer Encoder</p>
+                    <p>用途：長時序多步預測（ICLR 2023）</p>
+                    <p>強項：天然支援長距離依賴，Patch 設計契合 SCADA 物理語意</p>
+                    <p>弱項：參數量較大，小資料集上可能過擬合</p>
+                </div>
+            </div>
+
+            <p>這三種方法並非相互取代的競爭關係，而是互補的工具集。NBM 定義「正常邊界」，LSTM 預測短期趨勢，PatchTST 捕捉複雜的長期時序規律——WindAILab 的 Multi-Agent 架構讓三者能協同輸出診斷結果。</p>
+
+            <h2>三、ModelBenchmark：讓論文數字變成可重現的工程基準</h2>
+
+            <p>學術論文中的指標數字往往很難在工業環境中重現，原因通常在於：資料切分方式不統一、前處理流程不透明、測試集洩漏（data leakage）等問題。WindAILab 的 <code>ModelBenchmark</code> 框架針對這些痛點設計：</p>
+
+            <ul>
+                <li><strong>時間序列感知切分（Time-aware split）</strong>：採用按時間順序的 train/test 分割，而非隨機抽樣，避免未來資訊洩漏進訓練集。</li>
+                <li><strong>統一評估指標</strong>：所有模型輸出相同的 RMSE、MAE、R²、訓練耗時與推論速度，直接對比。</li>
+                <li><strong>自動 LaTeX 表格生成</strong>：對比結果一鍵輸出為論文用的 LaTeX 格式，加速學術寫作流程。</li>
+                <li><strong>JSONL + MLflow 實驗記錄</strong>：每次訓練的超參數與結果均自動記錄，確保科學可重現性。</li>
+            </ul>
+
+            <div class="code-block">## ModelBenchmark 使用範例（Kelmarsh SCADA 資料）
+
+benchmark = ModelBenchmark(df, target="power_kw", test_ratio=0.2)
+report = benchmark.run_all(epochs=50)
+
+# 輸出對比表格
+print(report.comparison_table)
+#            Model  RMSE    MAE     R²   Train(s)  Infer(ms)
+# 0            NBM  15.3   11.2  0.996      8.4       0.3
+# 1           LSTM  28.7   19.4  0.981     42.1       2.1
+# 2       PatchTST  22.4   15.8  0.989     67.8       3.5
+
+# 自動生成 LaTeX 格式
+print(report.latex_table)</div>
+
+            <div class="highlight-box">
+                <h3>📌 關於 Kelmarsh 資料集</h3>
+                <p>WindAILab 採用英國 Kelmarsh 風場的開放 SCADA 資料集進行驗證，共 52,416 筆記錄，涵蓋風速、功率輸出、轉速、艙溫等多維訊號。該資料集是風能 AI 領域廣泛使用的學術基準，確保我們的結果可與文獻直接對比。</p>
+                <p style="margin-top:0.5rem;">故障診斷任務：F1 Macro = 1.0000（完美分類）<br>
+                功率曲線 NBM：R² = 0.9964，MAE = 15.3 kW</p>
+            </div>
+
+            <h2>四、SCADA 時序預測的工程挑戰</h2>
+
+            <p>將 PatchTST 從論文移植到風機 SCADA 資料，過程中遭遇了幾個典型的工業 AI 落地問題，值得記錄：</p>
+
+            <p><strong>資料品質問題</strong>：SCADA 資料普遍存在缺值、異常值（感測器故障、停機維護期間的零值）。WindAILab 的 <code>smart_loader</code> 模組在資料進入模型前自動進行品質篩選，確保訓練集的純淨度。</p>
+
+            <p><strong>Patch 長度的物理意義</strong>：PatchTST 的預設 patch 長度為 8 個時間步。SCADA 的採樣頻率通常為每分鐘一筆，8 個時間步對應 8 分鐘。從物理角度看，這恰好是風機從陣風響應到穩態的典型過渡時間——這個巧合暗示 PatchTST 的 patch 設計在風機應用上有一定的物理合理性。</p>
+
+            <p><strong>多特徵 vs 單特徵預測</strong>：風機功率由風速、偏航角、槳距角、空氣密度等多因素共同決定。目前實作以單特徵多步預測（univariate multi-step）為主，下一階段計畫擴展至多特徵輸入（multivariate），以捕捉特徵間的協同效應。</p>
+
+            <p><strong>邊緣部署的記憶體限制</strong>：PatchTST 的完整 PyTorch 實作需要約 50MB 模型記憶體。在 Jetson Orin Nano 等邊緣設備上，需搭配量化（INT8）才能流暢運行。當前版本提供自動降級至 Ridge AR 的機制，確保在無 GPU 的現場環境下仍可輸出預測。</p>
+
+            <div class="action-box">
+                <h3>🎯 WindAILab 下一步：Phase 14c 資料連接器</h3>
+                <ul>
+                    <li>Phase 14c 聚焦「診斷報告輸出與資料連接器」：ModelBenchmark 的對比結果將直接整合進 PDF 診斷報告，讓模型選擇的依據透明可查</li>
+                    <li>計畫對接真實台灣離岸風場的外部 API（Epic #75），以驗證 PatchTST 在不同地理環境、不同機型 SCADA 資料上的泛化能力</li>
+                    <li>研究方向：探索 PatchTST 的 Channel-Independent 設計是否適用於風機多通道 SCADA 訊號，對比 Channel-Dependent 的聯合預測效果</li>
+                    <li>LaTeX 自動表格功能將直接應用於 WindAILab 論文撰寫工作流（Epic F），加速從實驗到投稿的週期</li>
+                </ul>
+            </div>
+
+            <p>PatchTST 的落地代表著 WindAILab 在方法論上的一次重要升級：從「能用的 ML 工具」進化到「前沿學術方法 + 工業工程可靠性」的結合。真正的挑戰從來不是論文能不能跑通，而是它在真實的、雜亂的、有缺值的 SCADA 資料上是否仍然穩定可信。</p>
+
+            <p>下一篇文章，我們將分享 WindAILab Phase 14c 中資料連接器的設計思路——如何讓診斷平台從本地 CSV 走向外部 API，真正成為一個開放的風能 AI 研究基礎設施。</p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://arxiv.org/abs/2211.14730" target="_blank">Nie et al., "A Time Series is Worth 64 Words: Long-term Forecasting with Transformers", ICLR 2023</a></li>
+                <li><a href="https://github.com/yuqinie98/PatchTST" target="_blank">PatchTST 官方 GitHub 實作</a></li>
+                <li><a href="https://zenodo.org/records/5841834" target="_blank">Kelmarsh Wind Farm SCADA Dataset (Zenodo)</a></li>
+                <li><a href="https://arxiv.org/abs/2205.13504" target="_blank">Zhou et al., "FEDformer: Frequency Enhanced Decomposed Transformer for Long-term Series Forecasting", ICML 2022</a></li>
+                <li><a href="https://arxiv.org/abs/2012.07436" target="_blank">Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting, NeurIPS 2021</a></li>
+                <li><a href="https://www.nrel.gov/wind/data-tools.html" target="_blank">NREL Wind Data Tools — 風能 AI 資料資源</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>
