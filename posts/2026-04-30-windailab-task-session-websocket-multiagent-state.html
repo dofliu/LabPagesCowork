@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>多代理任務狀態汙染的系統性根治：WindAILab Task Session 架構解剖 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .bug-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .bug-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .bug-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .bug-table td.fix { color: #4ade80; }
+        .bug-table td.bad { color: #f87171; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">多代理任務狀態汙染的系統性根治：WindAILab Task Session 架構解剖</h1>
+            <p>2026-04-30 &bull; 劉瑞弘教授團隊 &bull; WindAILab / 多代理系統 / WebSocket / 系統架構</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">WindAILab</span>
+                <span class="tag tag-green">多代理系統</span>
+                <span class="tag tag-orange">WebSocket</span>
+                <span class="tag tag-teal">Task Session</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                當你建構一個能執行完整風力發電診斷管線的多代理系統——從 SCADA 資料清洗、特徵工程、ML 故障分類，到最後的自然語言報告生成——你所面對的挑戰不只是 AI 精度，而是<strong>長時程、多步驟工作流程中的狀態管理</strong>。WindAILab Phase 14b 的核心工作就是系統性地解決一個問題：<em>為什麼執行第二次診斷任務時，舊任務的圖表和步驟紀錄會「滲透」進來？</em>
+            </p>
+            <p>
+                這個看似 UI Bug 的問題，實際上反映了多代理系統設計中的一個普遍陷阱：<strong>全域狀態（Global State）與任務邊界（Task Boundary）的混淆</strong>。此篇文章將完整解剖 WindAILab 找到的 6 個根因，以及用 Task Session 架構一次性根治的設計思路。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">6</div>
+                    <div class="label">識別出的系統性 Bug</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">8700%</div>
+                    <div class="label">錯誤進度顯示（修前）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">25</div>
+                    <div class="label">Python AI 代理</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">Phase 14b</div>
+                    <div class="label">任務生命週期重構</div>
+                </div>
+            </div>
+
+            <h2>一、症狀清單：那些奇怪的現象</h2>
+
+            <p>
+                在 Phase 14b 之前，WindAILab 的使用者會遇到一系列難以重現但反覆出現的問題：
+            </p>
+
+            <table class="bug-table">
+                <thead>
+                    <tr>
+                        <th>症狀</th>
+                        <th>根因</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>單次診斷產生 3 筆任務紀錄</td>
+                        <td class="bad">前端 Simulation + Backend 雙重執行 + debounce 失效</td>
+                    </tr>
+                    <tr>
+                        <td>新任務串接舊任務的工作步驟</td>
+                        <td class="bad">WorkflowProgress 讀取全域 workLogs，無任務邊界</td>
+                    </tr>
+                    <tr>
+                        <td>圖表跨任務累積（舊圖表殘留）</td>
+                        <td class="bad">analysisResults 全域陣列，從未在任務開始時清空</td>
+                    </tr>
+                    <tr>
+                        <td>Refresh 後所有圖表消失</td>
+                        <td class="bad">broadcast_analysis_result 只廣播，從未寫入 SQLite</td>
+                    </tr>
+                    <tr>
+                        <td>進度條顯示 8700% / 帶小數點</td>
+                        <td class="bad">前後端雙重百分比乘法 + 未 Math.round()</td>
+                    </tr>
+                    <tr>
+                        <td>工作日誌 Refresh 後消失</td>
+                        <td class="bad">WebSocket 廣播不儲存，無後端 log buffer</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                這些問題單獨看都像是小 Bug，但放在一起，它們揭示了一個設計層面的問題：<strong>系統的狀態管理沒有「任務」這個概念作為基本單位</strong>。代理的輸出、UI 的圖表、進度的計算，全部共用同一塊全域記憶體空間。
+            </p>
+
+            <h2>二、Task Session 架構：讓每次診斷都是全新的開始</h2>
+
+            <p>
+                Phase 14b 的核心解法是引入 <strong>Task Session（任務會話）</strong>的概念，讓後端 WebSocket 事件成為任務生命週期的唯一真實來源（Single Source of Truth）。架構的關鍵改變如下：
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔧 Task Session 設計原則</h3>
+                <ul>
+                    <li><strong>task_started 事件</strong>：後端廣播時，前端自動清除所有舊的 analysisResults、workLogs、步驟紀錄，確保每次任務從零開始。</li>
+                    <li><strong>task_completed 事件</strong>：任務結束的唯一信號，前端根據此事件更新任務清單，不再依賴前端 simulation。</li>
+                    <li><strong>Log Buffer 機制</strong>：WebSocketManager 內建 per-task log buffer，Refresh 後前端可重新取得完整工作日誌。</li>
+                    <li><strong>結果同步寫入 SQLite</strong>：broadcast_analysis_result 同時呼叫 <code class="code-inline">db.save_analysis_result()</code>，圖表持久化不依賴記憶體。</li>
+                    <li><strong>WorkflowProgress 切片</strong>：只傳入「當前任務啟動後」的 logs（slice from task_started），隔離任務邊界。</li>
+                </ul>
+            </div>
+
+            <p>
+                這個設計的精妙之處在於，它把原本<strong>分散在前端各元件的狀態假設，集中到後端 WebSocket 事件流</strong>。前端不再需要猜測「現在是哪一個任務在跑」，只需監聽 <code class="code-inline">task_started</code> 事件並重置本地狀態即可。
+            </p>
+
+            <h2>三、更深的啟示：多代理系統的「任務邊界」問題</h2>
+
+            <p>
+                WindAILab 的這個工程經驗，對所有構建多代理 AI 系統的開發者都有參考價值。當系統中有 25 個以上的 AI 代理協同運作，而每個代理都可能非同步地產出中間結果（分析圖表、診斷報告、進度更新），<strong>如何讓 UI 端清楚知道哪些輸出屬於哪個任務</strong>，是一個容易被忽視但影響深遠的問題。
+            </p>
+
+            <div class="warning-box">
+                <h3>⚠️ 常見的多代理狀態陷阱</h3>
+                <ul>
+                    <li><strong>Event 無任務 ID</strong>：後端廣播事件時未攜帶 task_id，前端無法區分不同任務的輸出。</li>
+                    <li><strong>前端 Optimistic Update</strong>：前端提前模擬任務進度（simulation mode），與後端實際狀態產生競爭，導致重複計算。</li>
+                    <li><strong>非同步清除不一致</strong>：圖表清除發生在任務啟動前，但代理輸出可能延遲到達，導致「新任務啟動 → 舊結果才到 → 顯示混亂」的 race condition。</li>
+                    <li><strong>持久化與廣播解耦</strong>：只廣播不儲存，導致 WebSocket 斷線或 Refresh 後狀態遺失。</li>
+                </ul>
+            </div>
+
+            <p>
+                Task Session 架構的解法是：<strong>以後端事件驅動為中心，前端成為純粹的「狀態訂閱者」</strong>。每個任務有清晰的開始（<code class="code-inline">task_started</code>）與結束（<code class="code-inline">task_completed</code>），所有中間輸出都帶著 task_id 標籤，UI 只渲染當前活躍 session 的資料。這在設計上接近 Redux 的 Action-based 狀態機，但以 WebSocket 事件流作為 Action Source。
+            </p>
+
+            <h2>四、Phase 14 的系統性演進意義</h2>
+
+            <p>
+                WindAILab 的 Phase 14 不只是功能累加，而是一次系統從「研究原型」邁向「生產就緒」的架構升級。Phase 14a 帶來了 WindGuard AI 的 LLM 推理能力，Phase 14b 解決了長時程任務的狀態管理，Phase 14c 則完成了報告的持久化與 PDF 輸出。三個子階段合在一起，構成了一個可以放心交給非技術使用者操作的診斷服務平台。
+            </p>
+
+            <p>
+                從研究角度來看，WindAILab 現在的狀態意義在於：<strong>我們不只能跑出 F1=1.0 的故障診斷精度，還能在一個工程穩健的系統中持續累積診斷資料、生成可引用的報告</strong>——這正是從論文成果走向實際風場應用的關鍵一步。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 DOF Lab 研究室行動項目</h3>
+                <ul>
+                    <li>Phase 14d 預計推進：外部資料連接器（外部 SCADA API 直接注入診斷管線），實現零人工介入的自動巡檢排程。</li>
+                    <li>Task Session 架構將作為標準模式，應用於 InduSpect 工業巡檢系統的多代理設計，避免重蹈相同設計坑。</li>
+                    <li>WebSocket 事件設計規範化：統一所有代理廣播格式，確保 task_id、timestamp、agent_id 三欄必填，建立代理輸出的可追溯性。</li>
+                    <li>進行 bug 模式整理，形成「多代理 UI 狀態管理反模式」文件，納入研究室開發規範。</li>
+                </ul>
+            </div>
+
+            <div class="source-list">
+                <strong>參考來源</strong><br>
+                <ul>
+                    <li><a href="https://arxiv.org/abs/2308.00352" target="_blank">AgentBench: Evaluating LLMs as Agents (Liu et al., 2023)</a></li>
+                    <li><a href="https://arxiv.org/abs/2309.07864" target="_blank">AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation</a></li>
+                    <li><a href="https://redux.js.org/understanding/thinking-in-redux/motivation" target="_blank">Redux — Motivation: Single Source of Truth for State Management</a></li>
+                    <li>WindAILab Phase 14b 內部工程紀錄（DOF Lab, 2026-04）</li>
+                    <li>WindAILab PROJECT-STATUS.md — 任務生命週期重構說明（DOF Lab, 2026-04-19）</li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 劉瑞弘教授研究室，國立勤益科技大學</p>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>

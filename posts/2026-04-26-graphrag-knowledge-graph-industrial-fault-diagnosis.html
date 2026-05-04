@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>GraphRAG 與知識圖譜：重新定義工業故障診斷的可解釋 AI 推理 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.bad { color: #f87171; }
+        .graph-viz { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; line-height: 1.8; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">GraphRAG 與知識圖譜：重新定義工業故障診斷的可解釋 AI 推理</h1>
+            <p>2026-04-26 &bull; 劉瑞弘教授團隊 &bull; GraphRAG / 知識圖譜 / 故障診斷 / WindAILab / InduSpect</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">GraphRAG</span>
+                <span class="tag tag-green">知識圖譜</span>
+                <span class="tag tag-orange">工業故障診斷</span>
+                <span class="tag tag-teal">可解釋 AI</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                當工業設備發出異常振動訊號，值班工程師打開診斷系統，螢幕上出現一行答案：「主軸承外環疲勞剝落，建議 72 小時內更換。」過去，這只是一個數字輸出；現在，藉由 <strong>GraphRAG（Graph-Retrieval Augmented Generation）</strong> 技術，系統可以同時呈現完整的推理鏈：從哪個感測器偵測到哪種頻率異常，對應到知識圖譜中的哪條故障傳播路徑，最終為何連結到這個維護建議。這不只是更聰明的 AI，而是<strong>工程師真正看得懂、敢信任的 AI</strong>。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">96.5%</div>
+                    <div class="label">KG 強化 LLM 的故障辨識準確率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">-7%+</div>
+                    <div class="label">HybridRAG 相較傳統 RAG 的幻覺率降幅</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">85%</div>
+                    <div class="label">2026 年企業預計採用混合 RAG 系統的比例</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">11 篇</div>
+                    <div class="label">2025 年 KG+LLM 故障診斷頂刊論文峰值</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼純向量 RAG 在工業場景力不從心？</h2>
+
+            <p>
+                傳統的 RAG（向量檢索 + 生成）在通用問答中表現優異，但面對工業故障診斷時卻有三個根本限制。<strong>第一，故障是關係性的</strong>：葉片結冰 → 轉速不均 → 扭矩波動 → 主軸疲勞，這條因果鏈必須以圖結構表達，平坦的向量空間無法捕捉。<strong>第二，知識是多模態的</strong>：SCADA 時序數據、設備手冊 PDF、維護人員日誌、IEC 標準文件，散落在不同格式，純向量索引難以整合語義。<strong>第三，工程師需要可解釋性</strong>：在高風險環境中，「模型說的」遠不如「可以追溯推理路徑的診斷報告」被接受。
+            </p>
+
+            <p>
+                這正是 <strong>GraphRAG</strong> 的切入點。它在 RAG pipeline 中引入知識圖譜作為結構化記憶層：LLM 從維修文件、故障案例中自動抽取實體與關係，構建設備-故障-感測器-處置建議的知識網路；查詢時，系統同時沿圖的拓撲路徑與向量相似度雙軌檢索，生成時附帶可追溯的節點/邊引用。
+            </p>
+
+            <div class="graph-viz">
+                <p style="color:#94a3b8; margin:0 0 0.75rem;">// 知識圖譜局部示意：風力發電機齒輪箱故障推理鏈</p>
+                [感測器 AN-03] --偵測-&gt; [高頻衝擊 &gt;4g @ 890Hz]<br>
+                [高頻衝擊 &gt;4g @ 890Hz] --符合故障頻率-&gt; [齒輪箱行星齒點蝕 AGMA Class B]<br>
+                [齒輪箱行星齒點蝕] --觸發規則-&gt; [立即降載 &amp; 排程吊車作業]<br>
+                [齒輪箱行星齒點蝕] --關聯案例-&gt; [Site-A 2024-09-12 維修記錄 #M4471]
+            </div>
+
+            <h2>二、GraphRAG 在工業 AI 的最新進展</h2>
+
+            <p>
+                2025 年至今，LLM 與知識圖譜融合的論文呈現爆發式成長，以 2025 年 11 篇頂刊為高峰，重點研究方向收斂在以下三個軸：
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>技術範式</th>
+                        <th>代表工作</th>
+                        <th>關鍵指標</th>
+                        <th>適用場景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LLM 增強 KG 建構</td>
+                        <td>BERT + NER 自動抽取維修日誌實體</td>
+                        <td class="good">準確率 96.5%</td>
+                        <td>快速知識入庫、多語言支援</td>
+                    </tr>
+                    <tr>
+                        <td>KG 強化 LLM 推理（GraphRAG）</td>
+                        <td>Neo4j + GPT-4 故障路徑追蹤</td>
+                        <td class="good">幻覺率 -40%+</td>
+                        <td>工程師需要可解釋答案的場景</td>
+                    </tr>
+                    <tr>
+                        <td>HybridRAG</td>
+                        <td>向量索引 + 圖路徑聯合排序</td>
+                        <td class="good">F1 提升 4%+</td>
+                        <td>航空維修、複雜設備多故障並發</td>
+                    </tr>
+                    <tr>
+                        <td>純向量 RAG（基線）</td>
+                        <td>FAISS / Chroma 向量資料庫</td>
+                        <td class="bad">幻覺率偏高、因果推理弱</td>
+                        <td>通用問答、單文件問答</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                值得特別關注的是來自 Nature Scientific Reports 的 <strong>HybridRAG 框架</strong>，專為航空器維修故障排除設計。研究結果顯示，相較於傳統向量 RAG，HybridRAG 在 F1 分數上提升至少 4%，同時幻覺率下降超過 7%——這在高安全等級的工業場景中意義重大。企業界方面，LinkedIn 導入 GraphRAG 後，工單解決時間從 40 小時縮短至 15 小時，效率提升 63%，說明這不只是學術研究，而是可在生產環境落地的技術。
+            </p>
+
+            <div class="highlight-box">
+                <h3>GraphRAG 的三個核心優勢</h3>
+                <p>
+                    <strong>1. 關係推理能力：</strong>圖結構天然表達設備組件間的因果與依賴關係，讓 AI 能「沿邊追溯」而非「依詞彙相似配對」，大幅提升多跳（multi-hop）推理的準確性。<br><br>
+                    <strong>2. 幻覺抑制：</strong>每個推理步驟都錨定在圖中確實存在的節點與邊，LLM 無法「憑空編造」故障路徑，因為知識圖譜本身就是事實牆。<br><br>
+                    <strong>3. 可追溯解釋：</strong>診斷報告可附帶「推理路徑圖」，讓工程師看到 AI 走了哪些節點才得出結論，提高系統的可信任度，符合工業安全規範對決策透明性的要求。
+                </p>
+            </div>
+
+            <h2>三、DOF Lab 的切入路徑：WindAILab 與 InduSpect 的下一步</h2>
+
+            <p>
+                DOF Lab 的兩個核心研究專案——<strong>WindAILab</strong>（風力發電 AI 故障診斷）與 <strong>InduSpect</strong>（工業智慧巡檢）——目前都建立在時序特徵工程 + 深度學習的診斷管線之上。GraphRAG 為這兩個專案提供了一個互補的知識層，具體整合想像如下：
+            </p>
+
+            <ul>
+                <li>
+                    <strong>WindAILab + KG：</strong>以 IEC 61400 標準、SCADA 異常規則、歷史維修案例為原料，自動構建「風機元件-故障模式-SCADA 觸發訊號」三層知識圖譜。當 PatchTST 或 LSTM 模型偵測到異常時，GraphRAG 負責將時序特徵映射到知識圖中的故障路徑，輸出帶有解釋鏈的自動診斷報告。
+                </li>
+                <li>
+                    <strong>InduSpect + KG：</strong>多模態巡檢（影像 + 振動 + 溫度）的缺陷偵測結果，透過 LLM 自動填入設備知識圖的對應節點，建立「缺陷紀錄 → 歷史故障案例 → 維修 SOP」的自動關聯，讓現場人員在 Flutter App 上看到脈絡豐富的巡檢建議，而非孤立的分類標籤。
+                </li>
+                <li>
+                    <strong>RAG_Ultimate + KG：</strong>RAG_Ultimate 專案原本針對向量 RAG 的 benchmark 進行深度研究；引入知識圖譜後，可系統性比較純向量 RAG vs. GraphRAG vs. HybridRAG 在工業故障診斷問答任務上的表現，形成高價值的比較型論文貢獻。
+                </li>
+            </ul>
+
+            <div class="action-box">
+                <h3>DOF Lab 研究行動項目</h3>
+                <ul>
+                    <li><strong>短期（2 週）：</strong>在 WindAILab 開一個 <code>knowledge_graph/</code> 分支，用 OECD 公開維修日誌與 IEC 標準文件跑 LLM 自動 KG 建構概念驗證（PoC），評估 Neo4j vs. 輕量 networkx 方案。</li>
+                    <li><strong>中期（1 個月）：</strong>在 RAG_Ultimate benchmark 中新增 GraphRAG 評估組，以 Mulberry32 測試集為基準，比較幻覺率與 F1 的統計顯著差異，納入下一版論文的實驗設計。</li>
+                    <li><strong>長期（3 個月）：</strong>InduSpect 導入知識圖譜推理引擎，實現「巡檢缺陷 → 知識圖推理 → 維修建議 + 相關案例」的完整 GraphRAG pipeline，作為期刊論文投稿亮點。</li>
+                </ul>
+            </div>
+
+            <p>
+                可解釋性已成為工業 AI 在製造、能源、航空等高安全場景落地的門檻條件，而非加分選項。GraphRAG 目前的研究空白仍集中在多語言支援（中文工業語料）、跨設備類型泛化，以及與即時 SCADA 串流資料的動態圖更新整合——這些恰好都是 DOF Lab 有條件深耕的利基。趁研究社群尚未飽和的視窗，建立知識圖譜 + 風能 AI 的交叉研究優勢，或許正是時候。
+            </p>
+
+            <div class="source-list">
+                <strong>參考來源</strong>
+                <ul>
+                    <li><a href="https://link.springer.com/article/10.1007/s44163-025-00688-w" target="_blank">Knowledge graph-enhanced fault diagnosis: a bibliometric review (Springer, 2025)</a></li>
+                    <li><a href="https://www.sciencedirect.com/science/article/pii/S156849462600356X" target="_blank">How can the integration of AI LLMs and knowledge graph enhance fault diagnosis? (ScienceDirect, 2026)</a></li>
+                    <li><a href="https://www.nature.com/articles/s41598-025-02643-2" target="_blank">HybridRAG intelligent guided troubleshooting for aircraft (Nature Scientific Reports, 2025)</a></li>
+                    <li><a href="https://dl.acm.org/doi/10.1145/3777378" target="_blank">Graph Retrieval-Augmented Generation: A Survey (ACM TOIS, 2025)</a></li>
+                    <li><a href="https://calmops.com/ai/graphrag-complete-guide-2026/" target="_blank">GraphRAG Complete Guide 2026 (Calmops)</a></li>
+                    <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0306261925018069" target="_blank">Large Language Models Meet Energy Systems (Applied Energy, ScienceDirect, 2025)</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab &mdash; 國立勤益科技大學智慧自動化工程系</p>
+        </div>
+    </footer>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (toggle) toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    </script>
+</body>
+</html>

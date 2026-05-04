@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>時間序列基礎模型革命：MOIRAI 2.0 與 Chronos 如何改寫風能預測格局 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.bad { color: #f87171; }
+        .compare-table td.warn { color: #fb923c; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">時間序列基礎模型革命：MOIRAI 2.0 與 Chronos 如何改寫風能預測格局</h1>
+            <p>2026-04-29 &bull; 劉瑞弘教授團隊 &bull; WindAILab / 時間序列 / 基礎模型 / 風能預測</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">Time Series Foundation Models</span>
+                <span class="tag tag-green">MOIRAI 2.0</span>
+                <span class="tag tag-orange">Chronos</span>
+                <span class="tag tag-teal">風能預測</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                2026 年初，AI 領域出現了一股不可忽視的浪潮——<strong>時間序列基礎模型（Time Series Foundation Models, TSFM）</strong>正式從學術研究走向工業落地。以 Salesforce 的 MOIRAI 2.0 和 Amazon 的 Chronos 為代表，這些大規模預訓練模型能夠在<strong>零樣本（zero-shot）</strong>條件下直接應用於未見過的時間序列預測任務，徹底改變了傳統「為每個問題訓練一個專用模型」的開發模式。
+            </p>
+            <p>
+                對 WindAILab 這樣的風能 AI 研究平台而言，這波浪潮帶來的不只是工具升級，更是研究方法論的根本性轉型：我們是否仍需要耗費大量精力微調特定模型？還是可以透過基礎模型快速建立高精度的發電量預測與故障前兆偵測基線？
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">36M</div>
+                    <div class="label">MOIRAI 2.0 訓練序列數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">30×</div>
+                    <div class="label">MOIRAI 2.0 比前版更小</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">2×</div>
+                    <div class="label">推論速度提升</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">4.17%</div>
+                    <div class="label">風電預測 nMAE（MOIRAI-L）</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼時間序列需要「基礎模型」？</h2>
+
+            <p>
+                傳統的時間序列預測依賴 ARIMA、LSTM、Prophet 等模型，各自有其適用場景，但共同的痛點是：<strong>每個新資料集都需要重新訓練、調參、驗證</strong>。在風場 SCADA 資料中，不同機組的感測器特性各異，季節性、噪音、缺失值模式也不盡相同。維護數十台風機就意味著維護數十個獨立模型，工作量巨大。
+            </p>
+            <p>
+                時間序列基礎模型的出現打破了這個困境。受 LLM 範式啟發，這些模型在龐大的多領域時間序列語料庫上預訓練，學習到跨域的通用時序模式。使用者只需提供歷史觀測值，模型即可直接輸出預測——不需要標記資料，不需要微調，甚至不需要說明這是風速、電力還是機械振動訊號。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔍 MOIRAI 2.0 的關鍵突破</h3>
+                <p>
+                    MOIRAI 2.0 採用<strong>解碼器架構（decoder-only）</strong>，結合分位數預測（quantile forecasting）與多 token 預測（multi-token prediction）。相較於 MOIRAI 1.0-Large，新版本在模型參數量縮小 30 倍的同時，推論速度提升 2 倍，且在多個基準測試中準確度仍優於前版。這種「更小、更快、更準」的設計哲學，體現了 2026 年工業部署對效率的極致追求。
+                </p>
+            </div>
+
+            <h2>二、MOIRAI 2.0 vs. Chronos：風能場景的差異化優勢</h2>
+
+            <p>
+                目前兩大主流開源 TSFM 各有特色，在風能應用中的表現也有所差異：
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>面向</th>
+                        <th>MOIRAI 2.0（Salesforce）</th>
+                        <th>Chronos（Amazon）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>架構</td>
+                        <td>Decoder-only Transformer</td>
+                        <td>T5 Encoder-Decoder</td>
+                    </tr>
+                    <tr>
+                        <td>訓練資料</td>
+                        <td>36M 時間序列</td>
+                        <td>數量較少但資料效率高</td>
+                    </tr>
+                    <tr>
+                        <td>風電預測 nMAE</td>
+                        <td class="good">4.17%（長上下文）</td>
+                        <td class="warn">需進一步評估</td>
+                    </tr>
+                    <tr>
+                        <td>機率校準</td>
+                        <td class="warn">中等</td>
+                        <td class="good">優秀（適合不確定性分析）</td>
+                    </tr>
+                    <tr>
+                        <td>推論速度</td>
+                        <td class="good">快（比前版提升 2×）</td>
+                        <td class="warn">中等</td>
+                    </tr>
+                    <tr>
+                        <td>工業部署</td>
+                        <td class="good">模型小、易部署</td>
+                        <td class="warn">T5 架構較大</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                值得注意的是，最新的電力系統預測基準測試（Empirical Assessment of TSFMs for Power System Forecasting, arXiv 2604.22077）指出：Chronos 在機率預測的<strong>校準性能（calibration）</strong>上表現優異，能夠提供可靠的不確定性邊界，這對風能電網調度中的<strong>風險感知最佳化（risk-aware optimization）</strong>至關重要。風力發電本質上是隨機過程，機率預測遠比點預測更具決策價值。
+            </p>
+
+            <div class="warning-box">
+                <h3>⚠️ 風電預測的特殊挑戰</h3>
+                <p>
+                    相較於太陽能，風電預測對長上下文視窗的改善幅度相對有限（MOIRAI-L 的 nMAE 從 4.76% 降至 4.17%）。這源自風速的<strong>高度非平穩性與短期隨機波動</strong>。即便是最先進的基礎模型，在捕捉風能的湍流特性上仍面臨物理極限。這意味著 TSFM 需要結合氣象數值預報（NWP）輸入，才能在實際工業場景中達到可接受的精度。
+                </p>
+            </div>
+
+            <h2>三、WindAILab 的整合路徑：基礎模型作為診斷前哨</h2>
+
+            <p>
+                WindAILab 目前進行至 Phase 14，核心指標已達 F1=1.0 的故障診斷精度與 R²=0.997 的功率曲線建模。然而，在 Phase 14c 的下一步中，我們正探索如何將外部資料連接器與診斷報告輸出整合為一個閉環系統。
+            </p>
+            <p>
+                在這個框架中，<strong>TSFM 扮演的角色是「異常前哨偵測器」</strong>，而非全面替換現有的深度學習診斷鏈。具體整合策略如下：
+            </p>
+            <ul>
+                <li><strong>零樣本異常評分</strong>：利用 MOIRAI 2.0 對 SCADA 功率時序進行預測，計算殘差分布；當殘差超過特定分位數閾值時，觸發 WindAILab 多代理系統的深層診斷流程。</li>
+                <li><strong>不確定性感知排程</strong>：以 Chronos 輸出的機率預測為基礎，對預測不確定性高的時段優先安排預防性維護，降低非計畫停機風險。</li>
+                <li><strong>多機組跨遷移基線</strong>：對新安裝機組或資料稀缺機組，直接使用 TSFM zero-shot 基線，取代耗時的個別微調流程。</li>
+            </ul>
+
+            <div class="action-box">
+                <h3>🚀 DOF Lab 近期行動項目</h3>
+                <ul>
+                    <li>在 WindAILab 的 SCADA 資料管線中加入 MOIRAI 2.0 zero-shot 評估節點，與現有 PatchTST 結果進行對比（Phase 14c 子任務）</li>
+                    <li>評估 Chronos 在 K13 風場模擬資料上的機率校準質量，探討是否納入 ECN O&amp;M Tool 的風險評估模組</li>
+                    <li>追蹤 arXiv 2604.22077 等最新電力系統 TSFM 基準，更新 WindAILab 的模型比較表</li>
+                    <li>探索 MOIRAI 2.0 部署至 GCP Cloud Run 的可行性（模型小、推論快，具備邊緣部署潛力）</li>
+                </ul>
+            </div>
+
+            <h2>四、研究啟示：從「任務特化」到「通用基礎」的典範轉移</h2>
+
+            <p>
+                時間序列基礎模型的崛起，折射出整個 AI 研究範式的深層轉變：我們正從「為每個問題定制一把鑰匙」轉向「打造一把能開萬扇門的萬能鑰匙」。這對高校研究室的影響是雙面的。
+            </p>
+            <p>
+                一方面，<strong>入門門檻大幅降低</strong>：學生毋需深入理解 SCADA 訊號的物理意義，即可在數小時內建立出準確的預測基線，釋放更多精力投入問題定義與結果解釋。另一方面，<strong>研究的差異化壁壘也在重構</strong>：純粹的模型工程優勢正在消退，真正的競爭力轉移到領域知識的深度（如何將 IEC 61400 標準融入模型約束）、資料治理的嚴謹性（如何確保實驗的可重現性），以及跨模態融合的創新（如何結合振動、影像、氣象等異構感測器）。
+            </p>
+            <p>
+                這正是 WindAILab 選擇以<strong>多代理協作平台</strong>而非單一模型為核心架構的根本原因。基礎模型是強大的武器，但武器的威力最終取決於使用者的戰略智慧。
+            </p>
+
+            <div class="highlight-box">
+                <h3>💡 本週核心洞察</h3>
+                <p>
+                    時間序列基礎模型在風能預測領域的最大價值，不在於取代 PatchTST 或 LSTM 等專用模型，而在於提供高質量的<strong>零成本基線</strong>與<strong>機率不確定性估計</strong>。前者讓我們快速量化「還有多少提升空間」，後者讓我們在決策中納入風險意識。兩者結合，正是 WindAILab Phase 14c 資料連接器設計的核心邏輯。
+                </p>
+            </div>
+
+        </div><!-- end article-content -->
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://arxiv.org/abs/2511.11698" target="_blank">Moirai 2.0: When Less Is More for Time Series Forecasting (arXiv 2511.11698)</a></li>
+                <li><a href="https://arxiv.org/html/2604.22077" target="_blank">Empirical Assessment of Time-Series Foundation Models For Power System Forecasting Applications (arXiv 2604.22077)</a></li>
+                <li><a href="https://arxiv.org/abs/2602.10848v1" target="_blank">Time Series Foundation Models for Energy Load Forecasting: A Multi-Dimensional Zero-Shot Benchmark (arXiv 2602.10848)</a></li>
+                <li><a href="https://machinelearningmastery.com/the-2026-time-series-toolkit-5-foundation-models-for-autonomous-forecasting/" target="_blank">The 2026 Time Series Toolkit: 5 Foundation Models for Autonomous Forecasting</a></li>
+                <li><a href="https://www.mdpi.com/1996-1073/18/7/1680" target="_blank">Artificial Intelligence in Wind Turbine Fault Detection and Diagnosis: Advances and Perspectives (MDPI Energies, 2025)</a></li>
+                <li><a href="https://towardsdatascience.com/moirai-time-series-foundation-models-for-universal-forecasting-dc93f74b330f/" target="_blank">Moirai: Time Series Foundation Models for Universal Forecasting | Towards Data Science</a></li>
+            </ul>
+        </div>
+
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab, 國立勤益科技大學 智慧自動化工程系. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

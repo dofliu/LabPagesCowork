@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>從分數到決策：工業 AI 診斷報告自動化的關鍵突破與 WindAILab Phase 14c 前瞻 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .pipeline-steps { display: flex; flex-direction: column; gap: 0.8rem; margin: 1.5rem 0; }
+        .pipeline-step { display: flex; align-items: flex-start; gap: 1rem; background: rgba(255,255,255,0.03); border-left: 3px solid var(--primary-color); border-radius: 0 8px 8px 0; padding: 1rem; }
+        .step-num { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); min-width: 2rem; }
+        .step-content h4 { color: var(--text-white); margin: 0 0 0.3rem; font-size: 0.95rem; }
+        .step-content p { margin: 0; font-size: 0.88rem; color: var(--text-light); }
+        .challenge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .challenge-card { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 1.2rem; border: 1px solid rgba(255,255,255,0.08); }
+        .challenge-card h4 { color: #fb923c; margin: 0 0 0.5rem; font-size: 0.95rem; }
+        .challenge-card p { margin: 0; font-size: 0.87rem; color: var(--text-light); }
+        @media (max-width: 640px) { .challenge-grid { grid-template-columns: 1fr; } .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">從分數到決策：工業 AI 診斷報告自動化的關鍵突破與 WindAILab Phase 14c 前瞻</h1>
+            <p>2026-04-23 &bull; 劉瑞弘教授團隊 &bull; 工業 AI / 診斷報告 / Agentic AI / WindAILab</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">診斷報告自動化</span>
+                <span class="tag tag-green">WindAILab Phase 14c</span>
+                <span class="tag tag-orange">Agentic AI</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>工業 AI 的研究社群，長期以追求「更高精度的模型」為第一優先。F1-score 要達到 0.99、R² 要突破 0.997——這些數字固然重要，但一個殘酷的現實是：即便模型在測試集上表現完美，如果它的輸出結果無法被現場工程師理解與採用，它的實際價值等於零。</p>
+
+            <p>DOF Lab 在 WindAILab 平台的最新階段（<strong>Phase 14c</strong>），正是要解決這道「最後一哩路」問題：<em>如何讓高性能 AI 模型的診斷結論，自動轉化為工程師可以直接採取行動的結構化報告？</em> 這篇文章將梳理工業診斷報告自動化的技術挑戰、業界最新進展，以及我們即將推進的設計方向。</p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">92%</div>
+                    <div class="label">WindAILab 整體完成度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">F1=1.0</div>
+                    <div class="label">故障診斷精度（測試集）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">Phase 14c</div>
+                    <div class="label">下一個里程碑</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">12+</div>
+                    <div class="label">協作 AI Agent 數量</div>
+                </div>
+            </div>
+
+            <h2>一、工業 AI 的「可信度落差」問題</h2>
+
+            <p>根據 McKinsey 2025 年的工業 AI 報告，超過 60% 的工廠試點 AI 專案最終停留在 Proof-of-Concept（PoC）階段，無法進入生產部署。其中最常見的原因，並不是模型精度不夠，而是<strong>工程師不信任 AI 的輸出</strong>——他們看到的只是一個異常分數（如 0.87）或一個分類標籤（如 "Bearing Fault"），但不知道：為什麼 AI 這樣判斷？依據是哪些感測器資料？建議的維護動作是什麼？</p>
+
+            <p>這個問題在風力發電領域尤為突出。一座海上風場的單台風機停機損失，每天可能超過數萬美元。若運維工程師基於 AI 誤報而緊急停機、派遣海上人員作業，成本同樣高昂。<strong>AI 不僅要「對」，更要能「說清楚」。</strong></p>
+
+            <div class="challenge-grid">
+                <div class="challenge-card">
+                    <h4>&#9888; 挑戰一：黑盒輸出</h4>
+                    <p>深度學習模型（LSTM、Transformer）給出分數，但缺乏人類可讀的因果解釋。工程師難以驗證診斷邏輯。</p>
+                </div>
+                <div class="challenge-card">
+                    <h4>&#9888; 挑戰二：跨系統資料孤島</h4>
+                    <p>SCADA 資料、天氣資料、歷史維護紀錄、零件壽命資料散落在不同系統，診斷報告需整合多源資料才有意義。</p>
+                </div>
+                <div class="challenge-card">
+                    <h4>&#9888; 挑戰三：報告格式不統一</h4>
+                    <p>不同廠商、不同機型的報告格式各異，難以建立可複用的自動化生成流程，也無法積累跨風場的知識庫。</p>
+                </div>
+                <div class="challenge-card">
+                    <h4>&#9888; 挑戰四：動作建議缺失</h4>
+                    <p>多數系統僅輸出「異常警告」，缺乏明確的維護建議、優先級排序與預計工時，讓排程決策仍依賴人工判斷。</p>
+                </div>
+            </div>
+
+            <h2>二、Agentic AI 如何重新定義工業診斷報告</h2>
+
+            <p>2025 至 2026 年間，<strong>Agentic AI</strong> 的興起為工業診斷報告帶來了根本性的改變思路。傳統做法是「模型輸出分數 &#x2192; 人工撰寫報告」，Agentic AI 的做法則是：一群具備不同專業的 AI Agent 協同運作，自動從感測器資料到結構化報告完成整個流程。</p>
+
+            <div class="highlight-box">
+                <h3>&#x1F916; Agentic 診斷報告的核心能力</h3>
+                <p><strong>多 Agent 協作</strong>：數據讀取 Agent 負責拉取 SCADA 資料，分析 Agent 執行模型推理，解釋 Agent 生成人類可讀的因果說明，報告 Agent 統整輸出為結構化文件。每個角色明確，輸出可追溯。</p>
+                <p style="margin-top:0.7rem;"><strong>RAG 知識庫支援</strong>：透過 Retrieval-Augmented Generation，診斷報告可自動引用歷史案例、製造商手冊、法規標準，讓建議動作有文獻依據而非憑空生成。</p>
+                <p style="margin-top:0.7rem;"><strong>結構化輸出協議</strong>：採用 JSON Schema 或 Structured Output 技術，確保報告欄位（故障部位、嚴重程度、建議動作、預計工時、置信度）完整且機器可讀，可直接匯入 CMMS 維護管理系統。</p>
+            </div>
+
+            <p>業界已有先行者在這條路上取得重要進展。Siemens Energy 的 AI 運維平台在 2025 年整合了 LLM 驅動的報告生成模組，將診斷到報告的平均耗時從 4 小時縮短至 15 分鐘。GE Vernova 的 APM（Asset Performance Management）系統則透過 Agent 架構，讓診斷報告自動觸發下游的備件採購工單。</p>
+
+            <h2>三、WindAILab Phase 14c 的設計藍圖</h2>
+
+            <p>WindAILab 在完成 Phase 14b（PatchTST 多模型對比框架、告警規則引擎）後，Phase 14c 的核心任務是打通「診斷結果」到「結構化報告」再到「資料連接器」的完整鏈路。</p>
+
+            <div class="pipeline-steps">
+                <div class="pipeline-step">
+                    <div class="step-num">&#x2460;</div>
+                    <div class="step-content">
+                        <h4>診斷結果聚合層</h4>
+                        <p>整合來自 NBM 異常分數、LSTM 預測偏差、PatchTST 趨勢警示三個模型的多維輸出，統一進入結構化 DiagnosisContext 物件，包含故障部位、時間戳、置信度分佈與觸發規則 ID。</p>
+                    </div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">&#x2461;</div>
+                    <div class="step-content">
+                        <h4>LLM 報告生成 Agent</h4>
+                        <p>以 Google Gemini API 為後端，接收 DiagnosisContext 並透過 Structured Output 生成標準化診斷報告。報告包含：執行摘要（2-3 句）、根因分析（附 SCADA 圖表引用）、風險等級（Critical / Warning / Info）、建議動作清單（含優先級與預計工時）。</p>
+                    </div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">&#x2462;</div>
+                    <div class="step-content">
+                        <h4>RAG 知識庫整合</h4>
+                        <p>在報告生成時自動檢索 ChromaDB 中的歷史案例與技術文件，讓每一條建議動作都能附上「類似案例參考」，提高工程師的信任度與報告的可追溯性。</p>
+                    </div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">&#x2463;</div>
+                    <div class="step-content">
+                        <h4>資料連接器與外部整合</h4>
+                        <p>透過 FastAPI 提供 REST API 端點，讓報告可推送至 Slack 通知、Google Sheets 記錄、或未來的 CMMS 系統。MCP（Model Context Protocol）工具鏈作為連接器標準，確保各下游系統可靈活插拔。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>&#x1F4D0; 結構化診斷報告的欄位標準（Phase 14c 草案）</h3>
+                <p>我們參考 IEC 61400-25（風力發電監控通信協議）與 ISO 13381-1（預測維護資訊規範），設計了以下核心報告欄位：</p>
+                <ul style="margin-top:0.7rem; font-size:0.92rem;">
+                    <li><strong>report_id</strong>：UUID 格式唯一識別碼</li>
+                    <li><strong>turbine_id</strong>：風機識別碼（對應 SCADA 資產編號）</li>
+                    <li><strong>diagnosis_time</strong>：ISO 8601 格式時間戳</li>
+                    <li><strong>fault_components</strong>：故障部位列表（如 gearbox、main_bearing）</li>
+                    <li><strong>severity</strong>：Critical / Warning / Info 三級制</li>
+                    <li><strong>confidence_score</strong>：0.0–1.0 模型置信度</li>
+                    <li><strong>root_cause_summary</strong>：LLM 生成的自然語言根因說明</li>
+                    <li><strong>recommended_actions</strong>：有序動作清單，含優先級與預計工時</li>
+                    <li><strong>evidence_refs</strong>：RAG 知識庫中的參考案例 ID 列表</li>
+                    <li><strong>model_votes</strong>：各模型（NBM / LSTM / PatchTST）的投票結果</li>
+                </ul>
+            </div>
+
+            <h2>四、為什麼「資料連接器」是報告自動化的基石</h2>
+
+            <p>診斷報告的價值，不在於報告本身，而在於報告被「接住」之後觸發了什麼行動。如果報告只是儲存在伺服器上等人查閱，它與傳統的告警日誌並無本質差別。真正讓報告進入決策閉環，需要<strong>資料連接器（Data Connector）</strong>扮演橋梁角色。</p>
+
+            <p>Phase 14c 計畫實作三類連接器：首先是<em>通知連接器</em>——當嚴重性為 Critical 的報告產生時，自動推送 Slack 訊息或電子郵件給當值工程師；其次是<em>記錄連接器</em>——將報告結構化欄位寫入 Google Sheets 或資料庫，形成可分析的歷史診斷庫；第三類是<em>工單連接器</em>（未來規劃）——直接在 CMMS 系統中建立維護工單，消除人工轉填的摩擦。</p>
+
+            <p>值得一提的是，<strong>MCP（Model Context Protocol）</strong> 在這裡發揮了重要的架構角色。MCP 提供了一套標準化的工具呼叫協議，讓 AI Agent 可以用統一的介面調用不同的外部服務，而不需要為每個目標系統撰寫專屬的整合程式碼。WindAILab 的連接器層將優先以 MCP 工具包形式封裝，與 DOF Lab MCP 生態系統保持一致。</p>
+
+            <div class="action-box">
+                <h3>&#x1F680; DOF Lab Phase 14c 研究行動項目</h3>
+                <ul>
+                    <li><strong>DiagnosisReport Schema 定版</strong>：完成欄位設計，輸出 JSON Schema 與 Pydantic Model</li>
+                    <li><strong>Gemini Structured Output 整合</strong>：實作 LLM 報告生成 Agent，驗證欄位完整率 ≥ 98%</li>
+                    <li><strong>RAG 知識庫對接</strong>：確認 ChromaDB 檢索到的案例能正確注入報告的 evidence_refs 欄位</li>
+                    <li><strong>Slack / Sheets 連接器實作</strong>：完成兩個基礎連接器，端對端測試觸發流程</li>
+                    <li><strong>論文撰寫準備</strong>：以 Kelmarsh SCADA 資料集為實驗基準，準備 Case Study 章節素材</li>
+                </ul>
+            </div>
+
+            <p>工業 AI 的未來，不只是更好的模型，而是更完整的<strong>感知-分析-溝通-行動</strong>閉環。WindAILab Phase 14c 正在補上這個閉環中最重要、也最常被忽略的一塊：讓 AI 不只能「診斷」，更能「說清楚」，最終讓工程師與系統能放心地基於 AI 輸出採取行動。</p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ol>
+                <li>McKinsey &amp; Company (2025). <em>The State of AI in Industrial Operations</em>. <a href="https://www.mckinsey.com/capabilities/operations/our-insights" target="_blank">mckinsey.com</a></li>
+                <li>IEC 61400-25 (2021). <em>Wind energy generation systems – Communications for monitoring and control of wind power plants</em>. International Electrotechnical Commission.</li>
+                <li>ISO 13381-1 (2015). <em>Condition monitoring and diagnostics of machines – Prognostics – Part 1: General guidelines</em>. International Organization for Standardization.</li>
+                <li>Anthropic (2024). <em>Model Context Protocol Specification</em>. <a href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io</a></li>
+                <li>Google DeepMind (2025). <em>Gemini API: Structured Output Documentation</em>. <a href="https://ai.google.dev/gemini-api/docs" target="_blank">ai.google.dev</a></li>
+                <li>DOF Lab WindAILab STATUS.yaml — progress: 92%, next_milestone: "Phase 14c - 診斷報告輸出與資料連接器"</li>
+            </ol>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab &mdash; 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授研究室</p>
+        </div>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

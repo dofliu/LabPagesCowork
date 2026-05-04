@@ -71,3 +71,67 @@
 - infoCard 3 個 MCP/本地模型掃描 TODO 持續與 next_milestone 對應，已被追蹤
 - 無新開 issue 必要（P0 零件、P1/P2 全數已被現有 next_milestone 追蹤）
 
+---
+## 2026-04-21 健檢日誌
+
+### 自動處理
+- [RAG_Ultimate] 同步 STATUS.yaml last_updated 2026-04-16 → 2026-04-21（落後 5 天，47 commits）— commit 552c85f
+- [windAILab] 同步 STATUS.yaml last_updated 2026-04-16 → 2026-04-21（落後 5 天，31 commits）— commit 1ecd9f2
+- [digiWindTurbine] STATUS.yaml 已編輯 2026-04-16 → 2026-04-21（落後 5 天，39 commits），但 `.git/index.lock` 在 Dropbox mount 下無法移除，commit 失敗；檔案仍為 working-tree 修改，待教授手動 commit 或下次掃描重試
+
+### 掃描結果摘要
+- 活躍 repo 數：17（dofliu 原創，近一個月有 commit；scanmail_bot_repo 無 remote 已跳過）
+- 近一週有 commit：13+ 個 repo
+- gh CLI 未認證，跳過 GitHub issue 操作，僅本地掃描
+- 最活躍：windAILab 189c、digiWindTurbine 158c、RAG_Ultimate 104c、scanmail-bot 42c、infoCard 31c、LabPagesCowork 33c、citingVerify 22c、zImage 23c
+- 仍有 STATUS.yaml 落差但未自動處理（屬當日/數日內常態工作）：infoCard(5d/6c)、emailassistant(6d/4c)、zImage(3d/6c)
+- 7 天以上沒 commit 但本月有活動：course-scheduling-system（31d）、citingVerify（18d）、translateGemma（10d）、picasa（7d）
+- RAG_Ultimate 目前在 `claude/issue-59-2026-04-21` branch（PR #68 進行中，移除 HelpModal `as any`），STATUS 同步 commit 落在該 branch
+- windAILab `useWebSocket.ts:266`、infoCard 3 個 MCP TODO、InduSpect 5 個表單 TODO 皆持續對應既有 next_milestone，無新增
+- 無新增 FIXME/HACK/BUG，無 P0 問題
+- 無新開 issue 必要
+
+---
+## 2026-05-04 Weekly Update 自動報告 (Cowork 排程任務)
+
+### 執行環境說明
+- 執行身份：Cowork 自動排程任務 (research-os-weekly-update)
+- 執行時間：2026-05-04
+- 限制：`update_research_os.py` 位於 `D:\Project_CodingSimulation\` 根目錄（不在 Cowork 存取允許範圍），無法直接執行；LabPagesCowork git 目錄亦無法透過 bash 存取，git push 需手動執行
+
+### 掃描結果（可存取範圍）
+- 存取路徑：`D:\Project_CodingSimulation\MCP`（filesystem MCP 允許範圍）
+- 找到 STATUS.yaml：3 個（LabPagesCowork、Dof-Customized-mcp、modbus-mcp）
+- 所有 3 個均無變動（last_updated 皆為 2026-04-10 或 2026-04-20，與 data.json 一致）
+
+### 部落格文章狀態
+- posts/ 資料夾：71 篇文章（最新：2026-05-01-physics-informed-rl-wind-turbine-predictive-maintenance.html）
+- blog.html KNOWN_POST_FILES：**已是最新狀態**（包含至 2026-05-01 所有文章，無需更新）
+- 新增文章（自上次 data.json 2026-04-20 起）：11 篇（2026-04-21 至 2026-05-01）
+
+### data.json 狀態
+- 最後產生時間：2026-04-20T12:12:44
+- 記錄專案數：28 個
+- 狀態：**未更新**（需在本機執行 `python update_research_os.py` 重新掃描）
+
+### 動作摘要
+| 步驟 | 狀態 | 說明 |
+|------|------|------|
+| 掃描 STATUS.yaml | ⚠️ 部分完成 | 僅能掃描 MCP 子目錄的 3 個，完整 28 個需本機腳本 |
+| 更新 blog.html | ✅ 已是最新 | 無需修改，已包含至 2026-05-01 |
+| 部署儀表板 | ⛔ 未執行 | 需 update_research_os.py 先產生新資料 |
+| Git push | ⛔ 未執行 | 請手動執行以下指令 |
+
+### 建議手動執行
+```powershell
+cd D:\Project_CodingSimulation
+python update_research_os.py
+cd MCP\LabPagesCowork
+python scripts\update_all.py --all --push
+```
+若 push 失敗（branch protection）：
+```bash
+git checkout -b auto/weekly-2026-05-04
+git push -u origin auto/weekly-2026-05-04
+```
+

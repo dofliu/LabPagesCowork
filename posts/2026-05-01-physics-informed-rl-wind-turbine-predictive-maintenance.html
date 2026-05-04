@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>物理驅動強化學習：下一代風力機預測性維護的融合路徑 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.mid { color: #fb923c; }
+        .compare-table td.bad { color: #f87171; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">物理驅動強化學習：下一代風力機預測性維護的融合路徑</h1>
+            <p>2026-05-01 &bull; 劉瑞弘教授團隊 &bull; WindAILab / 預測性維護 / Physics-Informed RL / SCADA</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">WindAILab</span>
+                <span class="tag tag-green">Physics-Informed RL</span>
+                <span class="tag tag-orange">預測性維護</span>
+                <span class="tag tag-teal">SCADA 資料</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                風力發電機組的維護決策是一個兼具物理複雜性與經濟不確定性的難題。齒輪箱磨損、軸承疲勞、葉片積冰——這些故障都有其物理演進規律，但真實風場中的隨機風況、複雜海況（離岸風機）以及有限的維修窗口，使得「何時派人維修、何時讓機組繼續運轉」成為一個高度動態的最佳化問題。傳統的基於閾值的預警系統過於保守，容易誤報；純資料驅動的深度學習模型雖然精度高，但在物理上不可解釋、且面對分佈外資料時泛化性差。
+            </p>
+            <p>
+                2026 年初，一篇發表於 <em>Energy and AI</em> 的研究提出了一個新框架：<strong>物理驅動強化學習（Physics-Informed Reinforcement Learning, PI-RL）</strong>，將 Weibull 風速分佈、多階段劣化模型與溫度-劣化雙向耦合直接嵌入 RL 智能體的獎勵函數設計，並在真實風場 SCADA 資料上取得了顯著成效。這個方向，與我們 DOF Lab WindAILab 的技術路線高度共鳴。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">60–70%</div>
+                    <div class="label">AI 預測維護降低停機時間（相較傳統反應式維護）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">94.7%</div>
+                    <div class="label">Transformer 模型異常偵測準確率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">35%</div>
+                    <div class="label">多模態感測融合提升預測精度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">2 週</div>
+                    <div class="label">ForeNet 模型故障預測提前量</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼純資料驅動不夠：物理知識的不可或缺性</h2>
+
+            <p>
+                在 DOF Lab 過去兩年的 WindAILab 開發中，我們深刻體會到一件事：高 F1 分數並不等於可部署的維護系統。一個在訓練集上 F1=1.0 的 SCADA 故障分類器，在面對新安裝機型、季節性氣候偏移或設備老化後，準確率可能快速下滑。這背後的根本原因是<strong>資料分佈偏移（Distribution Shift）</strong>——而物理定律不會偏移。
+            </p>
+            <p>
+                以齒輪箱劣化為例：無論資料集如何變化，「負載增大 → 溫升加劇 → 潤滑油膜薄化 → 磨損加速」這條物理因果鏈始終成立。如果我們能把這條鏈編碼進模型，模型就擁有了超越訓練資料的外推能力。這正是 Physics-Informed Neural Networks（PINN）與 PI-RL 的核心賭注：<strong>用物理知識換取資料效率與泛化性</strong>。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔍 三類 AI 維護模型的比較</h3>
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>模型類型</th>
+                            <th>精度（in-distribution）</th>
+                            <th>泛化性</th>
+                            <th>可解釋性</th>
+                            <th>資料需求</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>閾值規則（傳統）</td>
+                            <td class="mid">中</td>
+                            <td class="good">高（規則不漂移）</td>
+                            <td class="good">高</td>
+                            <td class="good">低</td>
+                        </tr>
+                        <tr>
+                            <td>純資料驅動 DL</td>
+                            <td class="good">高</td>
+                            <td class="bad">低（分佈敏感）</td>
+                            <td class="bad">低</td>
+                            <td class="bad">高</td>
+                        </tr>
+                        <tr>
+                            <td>Physics-Informed RL</td>
+                            <td class="good">高</td>
+                            <td class="good">高（物理約束錨定）</td>
+                            <td class="mid">中</td>
+                            <td class="mid">中</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>二、PI-RL 框架的關鍵設計：獎勵函數的物理嵌入</h2>
+
+            <p>
+                PI-RL 在強化學習框架中的核心創新，在於如何設計一個同時反映<strong>經濟最佳化</strong>與<strong>物理可行性</strong>的獎勵函數（Reward Function）。傳統 RL 維護模型的獎勵設計通常僅考慮維修成本與停機損失的線性組合，忽略了物理約束——例如，在風機劣化程度尚淺時派出維修船（離岸風場的主要成本項目），等同於浪費高昂的船班費用。
+            </p>
+            <p>
+                新框架的獎勵函數包含三個耦合項：
+            </p>
+            <ul>
+                <li><strong>劣化懲罰項</strong>：根據 Weibull 多階段劣化模型，當前狀態下劣化進展速度越快，懲罰越大，促使智能體提早介入。</li>
+                <li><strong>維修機會獎勵項</strong>：根據 Weibull 風速分佈估算未來 7 天的預期維修窗口（適合出海的天氣），將窗口稀缺性納入決策，避免「等到故障才發現明天有強風」。</li>
+                <li><strong>溫度-劣化耦合懲罰</strong>：雙向耦合項，考慮高溫不只加速劣化，劣化本身也會因摩擦增加而提升溫度，形成正回饋環。當系統進入此正回饋區域時，智能體獲得強烈懲罰，促使緊急維護。</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h3>💡 物理嵌入的實作要點</h3>
+                <p>獎勵函數中的物理項並非靜態常數，而是基於<strong>實時 SCADA 資料</strong>動態估算的：</p>
+                <ul>
+                    <li>溫度序列 → 劣化速率估算（多段 Arrhenius 方程擬合）</li>
+                    <li>振動頻譜 → 當前劣化階段判斷（Stage 1/2/3）</li>
+                    <li>歷史風速記錄 → Weibull 參數 MLE 更新（滾動視窗）</li>
+                    <li>油溫 + 負載 → 潤滑膜薄化風險指數計算</li>
+                </ul>
+                <p style="margin-top:0.75rem; color: #fb923c;">⚠️ 關鍵：物理量的計算需整合到 RL 環境（Gym Environment）的 <code class="code-inline">step()</code> 函數，而非後處理，才能實現真正的「物理驅動」而非「物理裝飾」。</p>
+            </div>
+
+            <h2>三、與 WindAILab 的接軌：從故障分類走向決策智能化</h2>
+
+            <p>
+                WindAILab 目前的核心能力，是透過 25 個協同 AI 代理完成「SCADA 清洗 → 特徵工程 → ML 故障分類 → 自然語言報告生成」的完整診斷管線，並在 Phase 14 中完成了多代理狀態管理的系統性重構。下一個自然延伸方向，正是將診斷能力升級為<strong>維護決策能力</strong>。
+            </p>
+            <p>
+                PI-RL 框架提供了一條清晰的路徑：WindAILab 的故障分類輸出（故障類型、嚴重程度分級）可直接作為 RL 環境的<strong>狀態觀測向量</strong>的一部分。這意味著我們不需要從頭建構維護決策系統，而是在現有診斷管線頂部疊加一個決策層——故障診斷智能體的輸出成為決策智能體的輸入。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🏗️ WindAILab + PI-RL 整合架構構想</h3>
+                <ul>
+                    <li><strong>Layer 1（現有）：診斷層</strong> — SCADA 清洗 → 特徵工程 → 故障分類（ML 多代理）→ 故障類型 + 嚴重程度分級</li>
+                    <li><strong>Layer 2（新增）：狀態估算層</strong> — 故障輸出 + SCADA 時序 → 物理劣化模型（Weibull + 溫度耦合）→ 劣化階段向量</li>
+                    <li><strong>Layer 3（新增）：決策層</strong> — 劣化向量 + 風場維修窗口預測 + 成本模型 → PI-RL 智能體 → 維護動作（立即維修 / 計畫維修 / 繼續監控）</li>
+                    <li><strong>Layer 4（現有）：報告層</strong> — 診斷 + 決策 → WindGuard AI LLM → 自然語言維護建議報告（含 PDF 輸出）</li>
+                </ul>
+            </div>
+
+            <p>
+                這個四層架構最大的優勢是<strong>模組化可替換性</strong>：Layer 1 的分類器可以從 XGBoost 換成 PatchTST（我們在 Phase 12 已完成 Benchmark），Layer 3 的 RL 智能體可以從 PPO 換成 SAC，而整體系統結構不變。這也呼應了軟體工程中「關注點分離（Separation of Concerns）」的原則——每一層只需對自己的介面負責。
+            </p>
+
+            <h2>四、實務挑戰：離岸風場的資料稀缺性問題</h2>
+
+            <p>
+                PI-RL 聽起來很理想，但在台灣離岸風場的實際應用中，有一個根本性的挑戰難以迴避：<strong>故障樣本極端稀少</strong>。一座 100 MW 離岸風場，一年可能只有 3–5 次嚴重故障事件，這對任何需要大量失敗案例的 RL 訓練都是嚴峻考驗。
+            </p>
+            <p>
+                目前研究社群對此的主流解法有兩條路線：<strong>模擬器預訓練（Sim-to-Real Transfer）</strong>，先在高保真度的風機劣化模擬環境中訓練智能體，再用少量真實資料微調；以及<strong>遷移學習（Transfer Learning）</strong>，從資料豐富的陸上風場或同類型設備遷移已訓練的 RL 策略，再以台灣風場的少量資料做域適應。兩種方法都依賴物理模型的精確性——物理知識在此扮演了「資料增強」的角色，填補了真實故障樣本的空缺。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 DOF Lab 研究室行動項目</h3>
+                <ul>
+                    <li>評估 PI-RL 框架與 WindAILab 現有診斷管線的整合可行性，優先聚焦 Layer 2（劣化狀態估算層）的設計與實作。</li>
+                    <li>建立齒輪箱溫度-劣化耦合模型的 Python 實作原型，基於 WindAILab 已有的 SCADA 特徵工程模組延伸。</li>
+                    <li>調研 OpenAI Gym 相容的風機維護環境（如 <code class="code-inline">wind-farm-env</code>），評估作為 PI-RL 訓練基礎環境的適用性，或自行開發輕量版本。</li>
+                    <li>與 ECN（教育課程導航）研究的蒙地卡羅不確定性量化方法交叉應用：將維修窗口預測的不確定性納入 RL 獎勵函數的風險項。</li>
+                    <li>追蹤 <em>Energy and AI</em> 最新發表，整理 2025–2026 年 Physics-Informed ML 在風能領域的系統性文獻，為下一篇論文的相關工作章節做準備。</li>
+                </ul>
+            </div>
+
+            <div class="source-list">
+                <strong>參考來源</strong><br>
+                <ul>
+                    <li><a href="https://www.sciencedirect.com/science/article/pii/S2666546825001521" target="_blank">Predictive maintenance for wind turbines: A physics-driven reinforcement learning strategy with economic-reliability collaborative optimization (Energy and AI, 2026)</a></li>
+                    <li><a href="https://arxiv.org/abs/2412.17823" target="_blank">RUL forecasting for wind turbine predictive maintenance based on deep learning (arXiv, 2024)</a></li>
+                    <li><a href="https://link.springer.com/article/10.1007/s11831-026-10602-x" target="_blank">A Comprehensive Review of Machine Learning Approaches for Wind Turbine Site Suitability, Prediction and Reliability Analysis (Springer, 2026)</a></li>
+                    <li><a href="https://www.mdpi.com/2076-3417/15/5/2443" target="_blank">Application of Artificial Intelligence in Wind Power Systems (MDPI Applied Sciences, 2025)</a></li>
+                    <li><a href="https://arxiv.org/html/2502.07344v1" target="_blank">Integrating Physics and Data-Driven Approaches: An Explainable and Uncertainty-Aware Hybrid Model for Wind Turbine Power Prediction (arXiv, 2025)</a></li>
+                    <li>WindAILab Phase 14b 工程紀錄 — 多代理狀態管理架構（DOF Lab, 2026-04）</li>
+                    <li>WindAILab Phase 12 Benchmark 報告 — PatchTST vs XGBoost SCADA 故障分類（DOF Lab, 2026-04）</li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 劉瑞弘教授研究室，國立勤益科技大學</p>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>
