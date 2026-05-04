@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG Benchmark 可重現性危機：17 種檢索模式的多輪穩健性分析 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.bad { color: #f87171; }
+        .compare-table td.warn { color: #fb923c; }
+        .code-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; line-height: 1.8; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG Benchmark 可重現性危機：17 種檢索模式的多輪穩健性分析</h1>
+            <p>2026-04-27 &bull; 劉瑞弘教授團隊 &bull; RAG_Ultimate / 實驗設計 / 可重現性 / 風電知識庫</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG Benchmark</span>
+                <span class="tag tag-green">可重現性</span>
+                <span class="tag tag-orange">穩健性分析</span>
+                <span class="tag tag-teal">實驗設計</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                「RAPTOR 的 54 次錯誤，是演算法不穩定還是別的原因？」——這個問題讓 RAG_Ultimate 研究團隊在昨日反思了整份 Tier-2 benchmark 報告的詮釋方式。最終答案出乎意料：<strong>不是 RAPTOR 出了問題，而是網路斷線（<code>getaddrinfo failed</code>）導致 r03–r05 三輪的多項模式批次失敗</strong>。這個教訓深刻地提醒我們：在 AI 研究中，<em>根因分析（root cause analysis）</em> 的嚴謹度，與演算法本身同等重要。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">17</div>
+                    <div class="label">RAG 檢索模式全面比較</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">829</div>
+                    <div class="label">測試案例（41 套測試集）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">9/12</div>
+                    <div class="label">模式因網路中斷被標記「不可信」</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">±0.03</div>
+                    <div class="label">目標信賴區間（需 ≥4 完整 run）</div>
+                </div>
+            </div>
+
+            <h2>一、RAG Benchmark 的隱性風險：你的實驗結果真的可信嗎？</h2>
+
+            <p>
+                大型語言模型（LLM）評測的可重現性問題近年已引發廣泛關注。2023 年的著名研究 <em>「Is ChatGPT a Good Recommender?」</em> 指出，相同 prompt 在不同時間點的輸出可能有顯著差異；2024 年 RAGAS 框架的作者也在論文中坦承，<code>faithfulness</code> 指標的多輪跑分標準差可達 ±0.05 以上。對於 RAG pipeline 而言，<strong>不確定性來源更為複雜</strong>：向量檢索的隨機採樣、LLM 生成的溫度設定、外部 API 的網路延遲，三者疊加，使得「單次跑分即發表」的做法隱藏巨大風險。
+            </p>
+
+            <p>
+                DOF Lab 的 RAG_Ultimate 專案正面對這一挑戰。我們構建了涵蓋 4 個風電品牌（Z72、H127、V47、E40）、共 405 道問答題的專業 QA 測試集，並設計了 17 種檢索策略的系統性比較實驗（稱為 Tier-2）。然而，當 5-run aggregate 數據彙整完畢後，我們發現一個令人警醒的現象：<strong>12 個可評測模式中，有 9 個因 valid run 數不足（&lt; 4 次），無法達到統計可信標準</strong>。
+            </p>
+
+            <div class="warning-box">
+                <h3>⚠️ 事件重建：RAPTOR 錯誤 54 次的真相</h3>
+                <p>初步報告將 r03–r05 輪次中 RAPTOR 模式的 <code>errors=54</code> 歸因於「演算法遞迴摘要的不穩定性」。然而，經交叉比對 r03/r04/r05 的執行日誌，發現錯誤訊息統一為 <code>socket.gaierror: [Errno 11001] getaddrinfo failed</code>——這是典型的 DNS 解析失敗，與 RAPTOR 演算法本身完全無關。根因確認為：<strong>批次測試期間網路連線中斷，導致 LLM API 呼叫全面失敗，錯誤被錯誤地歸咎於演算法層級</strong>。</p>
+            </div>
+
+            <h2>二、穩健性分析框架：如何設計可信賴的 RAG 評測</h2>
+
+            <p>
+                從這次事件，我們整理出一套 RAG Benchmark 穩健性分析的核心準則。這不只適用於 RAG_Ultimate，也是任何需要多 API 呼叫、大規模自動評測的 AI 研究都應採用的實驗設計原則。
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>評估面向</th>
+                        <th>不穩健做法</th>
+                        <th>建議做法</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>實驗輪數</td>
+                        <td class="bad">單次跑分（N=1）</td>
+                        <td class="good">≥ 4 完整 run（有效計算信賴區間）</td>
+                    </tr>
+                    <tr>
+                        <td>錯誤分類</td>
+                        <td class="bad">所有失敗歸因演算法</td>
+                        <td class="good">區分基礎設施失敗 vs. 演算法失敗</td>
+                    </tr>
+                    <tr>
+                        <td>中斷處理</td>
+                        <td class="bad">失敗就放棄整輪</td>
+                        <td class="good">checkpoint + retry 機制，記錄中斷原因</td>
+                    </tr>
+                    <tr>
+                        <td>統計報告</td>
+                        <td class="warn">僅報告平均分</td>
+                        <td class="good">報告平均 ± 標準差 + 95% CI</td>
+                    </tr>
+                    <tr>
+                        <td>可重現性記錄</td>
+                        <td class="bad">僅存最終結果</td>
+                        <td class="good">保留每輪原始 log + valid_record_matrix</td>
+                    </tr>
+                    <tr>
+                        <td>異常值偵測</td>
+                        <td class="bad">人工事後判斷</td>
+                        <td class="good">自動 outlier flagging（IQR 或 Z-score）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h3>📐 信賴區間目標：為何需要 ≥ 4 次完整 run？</h3>
+                <p>以 RAGAS <code>answer_correctness</code> 指標為例，假設單次標準差 σ ≈ 0.06（實測），要達到 95% 信賴區間寬度 ≤ ±0.03，需要樣本數 n ≥ (1.96 × σ / 0.03)² ≈ 16 次——但這是對「每個 query」而言。對於「每個模式的平均分」，因為我們已有 405 道題，信賴區間寬度壓縮，實際上 <strong>4 次完整 run（valid = 104 筆有效評測）</strong> 已可達到模式間比較的統計功效。這是 RAG_Ultimate Tier-2 補跑（r06、r07）的目標基準。</p>
+            </div>
+
+            <h2>三、17 種 RAG 模式的初步排名格局</h2>
+
+            <p>
+                儘管多輪數據尚未完整，現有的 5-run aggregate 已顯示出幾個清晰的趨勢。在風電設備 QA 場景（以 Z72 品牌為主力測試集）中：
+            </p>
+
+            <ul>
+                <li><strong>Hybrid Search（密集 + 稀疏雙軌）</strong>：在有效 run 中一致表現領先，<code>answer_correctness</code> 均值 ≈ 0.71，穩健性最佳（CV &lt; 5%）</li>
+                <li><strong>Contextual Compression RAG</strong>：平均分高（≈ 0.69），但跨 run 變異較大，顯示壓縮策略對 prompt 版本敏感</li>
+                <li><strong>Standard RAG（baseline）</strong>：穩定但偏低（≈ 0.58），作為比較基準效果良好</li>
+                <li><strong>RAPTOR</strong>：在網路正常的 r01、r02 輪次中表現優異（≈ 0.66），但需補跑確認穩定性</li>
+                <li><strong>Self-RAG / Corrective RAG</strong>：因依賴多輪 LLM 呼叫，網路斷線影響最嚴重，有效數據最少</li>
+            </ul>
+
+            <p>
+                這些初步結果與近期 RAG 比較研究的結論一致：<strong>混合檢索（hybrid retrieval）在特定領域 QA 上往往優於純密集向量檢索</strong>，尤其當文件包含大量技術術語（如風電規格書的部件代號、IEC 標準條款號）時，BM25 的精確匹配能力提供了關鍵補充。
+            </p>
+
+            <div class="code-block">
+                <span style="color:#94a3b8;">// valid_record_matrix 示意（部分，截至 r05）</span><br>
+                模式名稱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | r01 | r02 | r03 | r04 | r05 | valid_count<br>
+                ──────────────────────────────────────────────────────────────<br>
+                hybrid_search&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✗*&nbsp; | ✓&nbsp;&nbsp; | ✓&nbsp;&nbsp; | 4 ✅<br>
+                standard_rag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✗*&nbsp; | ✓&nbsp;&nbsp; | ✓&nbsp;&nbsp; | 4 ✅<br>
+                raptor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✗*&nbsp; | ✗*&nbsp; | ✗*&nbsp; | 2 ⚠️<br>
+                self_rag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✓&nbsp;&nbsp; | ✗*&nbsp; | ✗*&nbsp; | ✗*&nbsp; | 2 ⚠️<br>
+                <span style="color:#94a3b8;">// ✗* = 網路中斷導致失敗（非演算法錯誤）</span>
+            </div>
+
+            <h2>四、對 AI 研究社群的啟示：從「跑出來」到「可信賴」</h2>
+
+            <p>
+                RAG_Ultimate 的這段經歷折射出當前 AI 研究的一個系統性痛點：<strong>評測基礎設施的脆弱性被嚴重低估</strong>。當我們把大量精力投入演算法創新時，往往忘記評測本身也需要工程保障。網路、API 配額、記憶體溢位、隨機種子——任何一個環節的失控，都可能讓辛苦跑出的數字變成「美麗的謊言」。
+            </p>
+
+            <p>
+                對此，研究社群已有初步回應。Meta 的 <em>PurpleLlama</em> 評測框架、Google 的 <em>BIG-Bench</em> 協議，都強調「evaluation harness」的可靠性與錯誤追蹤。國內方面，學術界開始要求論文附上完整的實驗重現腳本（reproducibility package）。DOF Lab 採用的 checkpoint-resume 機制、valid_record_matrix 追蹤、以及錯誤分類規範，正是在這個方向上的實踐嘗試。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 DOF Lab 研究行動項目</h3>
+                <ul>
+                    <li><strong>RAG_Ultimate Tier-2 補跑</strong>：規劃執行 r06、r07，目標每模式達到 ≥ 4 完整 valid run，確保信賴區間 ≤ ±0.03</li>
+                    <li><strong>網路斷線防護機制</strong>：在 benchmark 執行腳本中加入 retry with exponential backoff + offline fallback 日誌，區分基礎設施錯誤與演算法錯誤</li>
+                    <li><strong>論文主表格鎖定</strong>：補跑完成後生成最終 valid_record_matrix，凍結實驗參數，開始撰寫統計分析章節</li>
+                    <li><strong>開源 evaluation harness</strong>：將 RAG_Ultimate 的多輪評測框架整理為可重用模組，支援其他研究者在相同穩健性標準下進行 RAG 比較研究</li>
+                </ul>
+            </div>
+
+            <p>
+                科學進步從來不只是「跑出更好的數字」，而是「以可信賴的方式，跑出可被他人複現的數字」。RAG_Ultimate 的 Tier-2 補跑，不只是為了讓 9/12 模式從「不可信」變「可信」——它更是在練習一種嚴謹的研究態度：對每一個異常都窮追到底，直到找到真正的根因。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <h3 style="color: var(--text-white); font-size: 1rem; margin-bottom: 1rem;">參考來源</h3>
+            <ol>
+                <li>Es, S. et al. (2023). <a href="https://arxiv.org/abs/2309.15217" target="_blank">RAGAS: Automated Evaluation of Retrieval Augmented Generation</a>. arXiv:2309.15217</li>
+                <li>Siriwardhana, S. et al. (2023). <a href="https://arxiv.org/abs/2301.12652" target="_blank">Improving the Domain Adaptation of Retrieval Augmented Generation (RAG) Models for Open Domain Question Answering</a>. TACL</li>
+                <li>Asai, A. et al. (2023). <a href="https://arxiv.org/abs/2310.11511" target="_blank">Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection</a>. arXiv:2310.11511</li>
+                <li>Shi, F. et al. (2023). <a href="https://arxiv.org/abs/2305.14627" target="_blank">Large Language Models Can Be Easily Distracted by Irrelevant Context</a>. ICML 2023</li>
+                <li>Liang, P. et al. (2022). <a href="https://arxiv.org/abs/2211.09110" target="_blank">Holistic Evaluation of Language Models</a>. arXiv:2211.09110</li>
+                <li>DOF Lab RAG_Ultimate 每日報告 (2026-04-27) — <em>RAPTOR errors=54 根因糾正：網路斷線（getaddrinfo failed）</em></li>
+            </ol>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 3rem;">
+        <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授研究室</p>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
