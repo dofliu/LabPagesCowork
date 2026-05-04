@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>windMindOM M2 里程碑：把 ECN Cost Engine 移植進 Python 與離岸風場運維 SaaS 的下一步 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.mid { color: #fb923c; }
+        .compare-table td.bad { color: #f87171; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">windMindOM M2 里程碑：把 ECN Cost Engine 移植進 Python 與離岸風場運維 SaaS 的下一步</h1>
+            <p>2026-05-05 &bull; 劉瑞弘教授團隊 &bull; windMindOM / ECN Tool / 離岸風場運維 / O&amp;M SaaS</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-green">ECN Cost Engine</span>
+                <span class="tag tag-orange">離岸風場 O&amp;M</span>
+                <span class="tag tag-teal">Work Order</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                2026 年是台灣離岸風電的關鍵轉折點。第三階段（Phase 3）風場陸續商轉，Cadeler / Nexra 等國際 O&amp;M 服務商已在 2026 年初簽下超過 €2,000 萬歐元的台灣運維合約。然而，現場工程師的日常工具，仍然是 Excel 試算表、LINE 群組，和一本本紙本手冊。這個落差——從十億規模的風場資產到工程師用手機截圖傳派工指令的現實——正是我們開發 windMindOM 的初心。
+            </p>
+            <p>
+                本週，windMindOM 迎來了一個值得記錄的里程碑：<strong>M2 Cost Module 在一天之內完工</strong>，比預定的六月完工時程提前了整整一個月。與此同時，M3 Work Order 模組的設計階段正式啟動。這篇文章記錄這個過程，並談談「把工業標準的 ECN O&amp;M Cost Tool 移植進 Python」這件事對整個產品的意義。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">1天</div>
+                    <div class="label">M2 Cost Module 完工時間</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">8</div>
+                    <div class="label">M2 已完成 sub-tasks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">windMindOM 核心功能模組</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">54%</div>
+                    <div class="label">整體產品進度</div>
+                </div>
+            </div>
+
+            <h2>ECN O&amp;M Cost Tool：業界標準，但只剩 Excel</h2>
+
+            <p>
+                ECN（荷蘭能源研究中心，現已併入 TNO）發布的 O&amp;M Cost Estimator（OMCE-Calculator）是目前離岸風場成本分析的業界黃金標準。這套工具採用時域模擬（time-domain simulation）方式，對三類維護事件——<em>非計畫性糾正維護（unplanned corrective maintenance）</em>、<em>狀態監測維護（condition-based maintenance）</em>、<em>預防性維護（preventive maintenance）</em>——分別建模，輸出整個風場生命週期的 LCOE（度電成本）與成本拆解。
+            </p>
+            <p>
+                問題是：ECN Tool 5.0 的實作是 Excel + VBA。對台灣運維廠商而言，這意味著每月要交給業主的 O&amp;M 成本報表，仍然需要手動填表、複製貼上、再找懂 ECN 的顧問核對——整個流程既費時又容易出錯，且無法與 SCADA 監控數據自動串接。
+            </p>
+
+            <div class="highlight-box">
+                <h3>💡 windMindOM 的核心差異化：ECN 計算 → Python API</h3>
+                <p>
+                    windMindOM 的 Cost Module（<span class="code-inline">modules/cost/</span>）將 ECN 的核心計算邏輯移植為 Python 引擎，包含四個子模組：
+                </p>
+                <ul>
+                    <li><strong>cost_cal</strong>：主要成本計算引擎（材料、工時、吊掛費用）</li>
+                    <li><strong>waiting_time</strong>：等船時間與天氣視窗建模（離岸風機特有的後勤瓶頸）</li>
+                    <li><strong>monte_carlo</strong>：蒙地卡羅不確定性分析（N 次模擬取信賴區間）</li>
+                    <li><strong>var_fluct</strong>：變動成本波動估算（燃油、匯率、工資調漲）</li>
+                </ul>
+                <p>
+                    加上 Cost Adapter 負責 windMindOM 內部 schema ⇄ ECN 計算 schema 的轉換，以及 <span class="code-inline">POST /api/cost/forecast</span>、<span class="code-inline">GET /api/cost/ledger</span> 兩個 REST API endpoint，讓成本計算從「填 Excel」變成「呼叫 API」。
+                </p>
+            </div>
+
+            <h2>M2 在一天內完工：這代表什麼？</h2>
+
+            <p>
+                M2 Cost Module 原本預計是六月的工作，結果在一個工作天內完成了全部 8 個 sub-task（skeleton 架設 → 四個 engine 移植 → adapter → schemas → API → frontend）。這並不是因為「切了很多角落」，而是有幾個關鍵原因：
+            </p>
+            <ul>
+                <li><strong>ECN 邏輯已在 ECN_tool 專案高度模組化</strong>：之前在 researchTopic/ECN 做的計算原型，已將四個 engine 分離，移植時幾乎是「複製 → 整理 imports → 加 FastAPI router」。</li>
+                <li><strong>K13 demo dataset 快速驗證</strong>：使用北海 K13 風場 demo data 立即跑通，計算結果與 ECN Tool 5.0 Excel 版本對齊，確認移植正確。</li>
+                <li><strong>Schema-first 設計</strong>：先定義 Pydantic schemas，讓 API 與 frontend 開發可以並行，大幅減少整合等待時間。</li>
+            </ul>
+            <p>
+                提前完成 M2 的另一個意義在於：<em>這驗證了 windMindOM v0.8.1 的核心假設</em>——以 digiWindTurbine（我們的 SCADA 模擬器平台，完成度約 90%）為基礎，再依序疊加功能模組，確實比從零開始架 platform 快得多。
+            </p>
+
+            <h2>M3 啟動：Work Order 生命週期設計</h2>
+
+            <p>
+                M2 完工後，M3 Workflow Part 1（Work Order + Approval）隨即進入設計階段。目前已完成的是 <strong>DN-01 Work Order Lifecycle 雛形</strong>，定義了一張派工單從建立、審核、派遣、執行到結案的完整狀態機。
+            </p>
+            <p>
+                為什麼 Work Order 是高優先度的模組？因為運維廠商最痛的日常場景是：「現場工程師用 LINE 說『2號機齒輪箱異音，需要換零件』→ 辦公室主管用 LINE 回『好，我叫人過去』→ 到底派誰、帶什麼料、費用怎麼算，全在各自的腦袋或 Excel 裡。」
+            </p>
+            <p>
+                windMindOM 的 Work Order 模組要解決的不是「軟體功能」的問題，而是<em>讓現場工程師在 30 秒內完成派工建立、讓主管在手機上核准、讓成本自動更新進 Cost Module</em>。這三個動作打通，才能取代 LINE + 紙單的組合。
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>現況（運維廠商）</th>
+                        <th>windMindOM 目標</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LINE 群組傳派工指令</td>
+                        <td class="good">Work Order API + mobile UI</td>
+                    </tr>
+                    <tr>
+                        <td>Excel 手動記錄成本</td>
+                        <td class="good">Cost Module 自動匯總</td>
+                    </tr>
+                    <tr>
+                        <td>月底手找 SCADA 數據報給業主</td>
+                        <td class="good">SCADA dashboard + 自動月報</td>
+                    </tr>
+                    <tr>
+                        <td>故障查手冊靠 LINE 問師傅</td>
+                        <td class="good">RAG 知識庫（M5）</td>
+                    </tr>
+                    <tr>
+                        <td>成本估算找顧問跑 ECN Excel</td>
+                        <td class="good">POST /api/cost/forecast（已完成）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                接下來 M3 的開發路線是：WMOM-15（Work Order domain walkthrough）→ WMOM-16/17（domain model + CRUD API）→ WMOM-18（Approval 狀態機）→ WMOM-19/20（前端介面）。目標在七月完成第一個可 demo 的 Work Order 流程。
+            </p>
+
+            <div class="action-box">
+                <h3>▶ 研究室行動項目</h3>
+                <ul>
+                    <li><strong>技術</strong>：WMOM-15 開始 Work Order domain walkthrough，與 cost module 的 cost↔farm 整合（WMOM-10）對齊</li>
+                    <li><strong>驗證</strong>：與 1-2 個 friendly 運維廠商進行 M1 demo，確認「simulator 產生的 SCADA + Cost dashboard」是否能打動客戶</li>
+                    <li><strong>論文</strong>：windMindOM 的 ECN Python 移植 + 蒙地卡羅不確定性分析，可作為「離岸風場 O&amp;M 決策支援系統」期刊論文素材</li>
+                    <li><strong>課程</strong>：ECN Cost Engine + SCADA 模擬器的教學案例，適合「智慧電廠管理」相關課程的期末專題</li>
+                </ul>
+            </div>
+
+            <p>
+                台灣的離岸風電 2026 到 2035 年預計新增 15 GW 裝機容量，以每年 1.5 GW 的速度推進。隨著第三階段風場進入商轉，O&amp;M 服務需求將呈指數成長，而現場人力與成本控管的壓力也隨之上升。windMindOM 的目標，是在這波浪潮中，成為台灣運維廠商最實用的數位工具——不是因為它最「AI」，而是因為它能取代現場工程師手邊的 LINE + Excel + 紙單，讓每一筆派工、每一項成本，都有可追溯的數位紀錄。
+            </p>
+
+            <p style="margin-top:2rem; color: var(--text-gray); font-size:0.95rem;">
+                windMindOM 目前整體進度 54%，預計 2026-Q4 完成第一個運維廠商 PoC。有興趣合作或討論的朋友，歡迎透過 <a href="../contact.html" style="color:var(--primary-color);">聯絡頁面</a> 與我們聯繫。
+            </p>
+
+            <div class="source-list">
+                <strong>參考來源</strong>
+                <ul>
+                    <li><a href="https://publications.tno.nl/publication/34630906/yd759x/m07045.pdf" target="_blank">TNO / ECN: Estimating Costs of Operations and Maintenance for Offshore Wind Farms</a></li>
+                    <li><a href="https://questfwe.com/wp-content/uploads/2018/06/ECN-OM-Study-002.pdf" target="_blank">ECN O&amp;M Rapport — ECN Tool 技術文件</a></li>
+                    <li><a href="https://bw-group.com/newsroom/articles/2026/02/cadeler-nexra-secures-significant-om-campaign-in-taiwan/" target="_blank">Cadeler — Nexra secures significant O&amp;M campaign in Taiwan (2026-02)</a></li>
+                    <li><a href="https://www.blackridgeresearch.com/blog/latest-list-of-top-largest-biggest-offshore-wind-farm-projects-taiwan-asia-pacific" target="_blank">Top Offshore Wind Farms in Taiwan 2026 — Blackridge Research</a></li>
+                    <li><a href="https://www.mdpi.com/2071-1050/18/2/804" target="_blank">Economic and Environmental Impacts of Floating Offshore Wind in Taiwan — MDPI Sustainability</a></li>
+                </ul>
+            </div>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授研究室</p>
+        </div>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
