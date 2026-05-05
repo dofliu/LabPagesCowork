@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>windMindOM M3 設計週：從現場系統逆向工程到領域驅動設計 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .compare-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .compare-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .compare-table td.good { color: #4ade80; }
+        .compare-table td.mid { color: #fb923c; }
+        .compare-table td.bad { color: #f87171; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">windMindOM M3 設計週：從現場系統逆向工程到領域驅動設計</h1>
+            <p>2026-05-05 &bull; 劉瑞弘教授團隊 &bull; windMindOM / 離岸風場運維 / DDD / Work Order</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-green">Domain-Driven Design</span>
+                <span class="tag tag-orange">Work Order</span>
+                <span class="tag tag-teal">離岸風場 O&amp;M</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                開發一套全新的離岸風場運維（O&amp;M）管理平台，最難的地方往往不是技術選型，而是<strong>弄清楚業務流程本身究竟是什麼</strong>。台灣目前的陸上風場維護，許多廠商已有多年運作的現場管理系統——邏輯複雜、歷史包袱深，但同時也蘊含著真實業務場景的寶貴知識。windMindOM 的 M3 里程碑，花了一整個設計週做一件事：把既有的現場系統（陸上版）徹底逆向工程，提取其中的業務語意，再用現代的領域驅動設計（Domain-Driven Design, DDD）原則重新打造。
+            </p>
+            <p>
+                這不只是一次技術重構，更是一次「從看懂別人怎麼做，到用更好的方式重做」的過程。本文記錄 DN-01（工單生命週期）、DN-02（多層簽核）、DN-03（庫存領料）三份設計筆記背後的核心洞察，以及 windMindOM 如何在離岸情境下超越陸上原型。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">3</div>
+                    <div class="label">M3 設計筆記（DN-01/02/03）完成</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">7</div>
+                    <div class="label">WorkOrderStatus 狀態機節點</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">21</div>
+                    <div class="label">Walkthrough 確認問題列表</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">15+</div>
+                    <div class="label">識別出的反模式（Anti-patterns）</div>
+                </div>
+            </div>
+
+            <h2>一、逆向工程的挑戰：讀懂 1,600 行 if 判斷</h2>
+
+            <p>
+                windMindOM 的設計起點是一套真實使用中的陸上風場 CMS，基於 Node.js + MongoDB 架構，由現場工程師多年累積而成。它能運作，但代碼結構反映了「邊做邊加功能」的典型演進路徑：一張工單的生命週期散落在 <code class="code-inline">repairTemp</code>、<code class="code-inline">repair</code>、<code class="code-inline">trackFrom</code>、<code class="code-inline">removeFrom</code> 四個 MongoDB collection 之間；多層簽核邏輯被切成 <code class="code-inline">employeesign</code>、<code class="code-inline">leadersign</code>、<code class="code-inline">supervisorsign</code>、<code class="code-inline">affairsign</code> 四個獨立 collection；前端需要 1,600 行以上的 if 判斷才能正確解讀工單當前狀態。
+            </p>
+            <p>
+                逆向工程的核心任務是：在這些「可運作但難維護」的代碼背後，找到真正的<strong>業務語意</strong>。以簽核流程為例，最令人驚訝的發現之一是：etech 系統中「工單簽核完成」的表達方式，是把簽核紀錄文件（document）<strong>直接刪除</strong>（DELETE）——當某個 collection 內的 doc 消失，代表「已簽完」。這在短期內可以運作，但無法產生任何 audit trail，也無法回答「誰在幾點簽核了什麼」這個問責問題。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔍 識別出的系統性反模式（Anti-patterns）</h3>
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>反模式</th>
+                            <th>影響</th>
+                            <th>windMindOM 對策</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>4 個 collection 表達 1 張工單</td>
+                            <td class="bad">前端 1,600 行 if 判斷，狀態不可見</td>
+                            <td class="good">單一 work_order 表 + 7 態狀態機</td>
+                        </tr>
+                        <tr>
+                            <td>「簽完」= DELETE doc</td>
+                            <td class="bad">零 audit trail，法規遵循困難</td>
+                            <td class="good">status 欄位永不刪，加 event log</td>
+                        </tr>
+                        <tr>
+                            <td>4 個並行 sign collection</td>
+                            <td class="bad">改業務邏輯要動 4 處，無法串聯</td>
+                            <td class="good">SignoffChain + SignoffStep 串鏈模型</td>
+                        </tr>
+                        <tr>
+                            <td>String 欄位連結人員</td>
+                            <td class="bad">改名 = 全 collection updateMany，無交易</td>
+                            <td class="good">surrogate UUID FK，不依字串比對</td>
+                        </tr>
+                        <tr>
+                            <td>庫存 PUT 整份 doc 改數量</td>
+                            <td class="bad">並發競爭，無入庫出庫明細帳</td>
+                            <td class="good">event-sourcing 出入庫流水帳 + 4 quantity 欄位</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>二、DN-01 核心設計：7 態狀態機取代 4 個 Collection</h2>
+
+            <p>
+                工單（Work Order）是整個 O&amp;M 系統的核心業務物件。DN-01 的設計決策，是以<strong>單一資料表 + 明確狀態機</strong>取代原本散落四處的 collection 架構。windMindOM 的 <code class="code-inline">WorkOrderStatus</code> 定義了 7 個狀態節點：<code class="code-inline">DRAFT</code>（草稿）→ <code class="code-inline">DISPATCHED</code>（已派工）→ <code class="code-inline">IN_PROGRESS</code>（進行中）→ <code class="code-inline">AWAITING_SIGNOFF</code>（等待簽核）→ <code class="code-inline">CLOSED</code>（關閉），以及側邊的 <code class="code-inline">CANCELLED</code>（取消）與 <code class="code-inline">REOPENED</code>（重開，對應「需改善」後續追蹤場景）。
+            </p>
+            <p>
+                每一個狀態 transition 都有明確的 Guard 條件與觸發 actor：例如 <code class="code-inline">start_work</code> 從 DISPATCHED 到 IN_PROGRESS，在離岸場景下必須額外確認 <code class="code-inline">vessel_id</code>（維修船 ID）與 <code class="code-inline">weather_window_id</code>（天氣窗口 ID）已綁定——這是陸上系統完全不需要的約束，但在離岸風場卻是攸關工安與成本的關鍵管控點。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🏗️ windMindOM WorkOrder 四大設計原則</h3>
+                <ul>
+                    <li><strong>Surrogate UUID 為主鍵</strong>：所有 FK 與 API 用 UUID，<code class="code-inline">WO-Z72TC-202607-01</code> 格式的 business key 只給人類（UI / 報表 / 列印）閱讀，底層不依賴。</li>
+                    <li><strong>Progress notes append-only</strong>：維修人每次更新狀況用 append（追加紀錄）而非 PUT 就地覆寫，完整保留維修過程的時序紀錄。</li>
+                    <li><strong>Event log 取代 allForm audit copy</strong>：etech 在完工時把整份 doc 複製進 <code class="code-inline">allForm</code>（無時間排序保證），windMindOM 改為輕量 event-sourcing——每次狀態 transition 寫一筆 <code class="code-inline">WorkOrderEventLog</code>，記錄 from/to status、actor、timestamp 與 payload。</li>
+                    <li><strong>離岸延伸欄位預留但可空</strong>：<code class="code-inline">vessel_id</code>、<code class="code-inline">weather_window_id</code>、<code class="code-inline">logistic_hours</code> 在陸上情境下皆為 null，不影響陸上系統使用，但離岸部署時 start_work Guard 會強制要求填入。</li>
+                </ul>
+            </div>
+
+            <h2>三、DN-02 簽核鏈：從 Fan-out 刪除到 Chain Step 模型</h2>
+
+            <p>
+                多層簽核是工業 O&amp;M 系統中不可或缺的合規機制，也是 etech 系統設計最混亂的部分之一。etech 的做法是「fan-out 並行 sign」：當一張工單完工，前端同時往 4 個不同 collection 各塞一份 pending sign 文件；「簽完」等於把 doc DELETE——這意味著沒有任何機器可讀的「核准紀錄」。
+            </p>
+            <p>
+                更關鍵的問題是：這套設計無法支援<strong>順序化簽核需求</strong>。在離岸風場的實際運維中，主管批准工單之後，倉管人員才能撥料——etech 的並行 fan-out 架構根本無法表達這種先後順序。windMindOM 的 DN-02 設計以 <code class="code-inline">SignoffChain</code>（簽核流程定義）+ <code class="code-inline">SignoffStep</code>（每一步的簽核狀態）取代四個並行 collection，每個 step 的狀態為 pending / approved / rejected / skipped，doc 永不刪除，全留 audit trail；支援串聯（sequential）與並聯（parallel）混合的簽核流程；reject 動作可帶 comment 欄位並自動把工單退回 IN_PROGRESS 狀態。
+            </p>
+
+            <div class="highlight-box">
+                <h3>💡 為何 Audit Trail 在離岸風場特別重要</h3>
+                <p>
+                    離岸風場涉及海事作業安全規範與保險理賠，任何一張工單的「誰批了什麼、何時批的」都可能成為事故調查的關鍵證據。台灣的離岸風場開發案通常由國際開發商主導，歐洲 DNV 或 Bureau Veritas 等驗證機構對 O&amp;M 系統的 traceability 有明確要求。windMindOM 的 event log + signoff audit 設計，不只是工程上的「好習慣」，更是未來進入國際市場的合規基礎。
+                </p>
+            </div>
+
+            <h2>四、離岸延伸：天氣窗口與成本核算的前置設計</h2>
+
+            <p>
+                windMindOM M3 設計最與眾不同之處，是在每個設計決策中都刻意預留了「離岸延伸軸線」。陸上風場的工單可以隨時派工；離岸風場則受到海況、天氣窗口（Weather Window）的嚴格限制——當波高超過 1.5 米或風速超過閾值，CTV（crew transfer vessel）無法安全靠岸，工單派工必須等待窗口。這個約束，直接影響了 O&amp;M 成本。
+            </p>
+            <p>
+                windMindOM M2 完成的 ECN cost engine 已能計算「因等待天氣窗口產生的停機損失」；M3 設計的工單 schema 在 <code class="code-inline">closed</code> 事件時自動 emit 4 種成本帳目：人工成本、料件成本（來自 DN-03 的領料單）、船隻費用（<code class="code-inline">logistic_hours × vessel.day_rate</code>），以及發電損失（從警報發生到工單關閉的停機時間 × 風機預期發電量 × 電價）。這 4 個數字會自動寫進 M4 的 cost ledger，提供「預測 vs 實際」的對比分析——正是 ECN K13 成本引擎設計時預留的「actual」欄位。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 DOF Lab 研究室行動項目</h3>
+                <ul>
+                    <li>執行 WMOM-15：與劉老師進行 30 分鐘 walkthrough，確認 DN-01 的 21 個開放問題（含「追蹤觀察 vs 需改善」SLA 差異、同一台風機是否允許多張並行開工單等業務邊界問題）。</li>
+                    <li>WMOM-16/17：依 DN-01 設計實作 Work Order domain model + 狀態機（Python dataclass + enum）及 FastAPI CRUD API。</li>
+                    <li>WMOM-18：依 DN-02 設計實作 Approval API，整合 SignoffChain 觸發機制（工單 finish 事件自動建立對應簽核鏈）。</li>
+                    <li>WMOM-19/20：Work Order 前端（React + Tailwind）實作，包含工單列表、詳情、狀態更新、進度記事與簽核流程頁面。</li>
+                    <li>與 RAG_Ultimate 的 Knowledge module 接點確認：工單建立時帶入 SCADA 警報碼，工單詳情頁呈現 RAG 查詢建議（M5 預留）。</li>
+                </ul>
+            </div>
+
+            <p>
+                windMindOM M3 的設計週展示了一種有效的開發策略：<strong>先逆向工程理解現有業務邏輯，再用現代設計模式重新組織</strong>。這不是「重寫主義」（rewrite from scratch 往往失去業務知識），而是「業務語意提取 + 技術實現替換」。對陸上風場的運維邏輯（誰開單、誰審批、領什麼料）保持高度尊重，同時系統性地清除技術反模式，並預留離岸情境所需的額外維度（天氣窗口、船隻調度、跨國合規）。這個方法，也許正是 DOF Lab 在台灣離岸風電 O&amp;M 數位化這條路上，能夠與陸上系統既有廠商差異化競爭的核心能力之一。
+            </p>
+
+            <div class="source-list">
+                <strong>參考來源</strong><br>
+                <ul>
+                    <li>windMindOM DN-01：Work Order Lifecycle Design Note（DOF Lab, 2026-05-04）</li>
+                    <li>windMindOM DN-02：Approval Multi-level Design Note（DOF Lab, 2026-05-05）</li>
+                    <li>windMindOM DN-03：Inventory Material Request Design Note（DOF Lab, 2026-05-05）</li>
+                    <li>windMindOM STATUS.yaml — M3 進度追蹤（DOF Lab, 2026-05-05）</li>
+                    <li>windMindOM M2 完成紀錄：ECN Cost Engine 移植（DOF Lab, 2026-05-04）</li>
+                    <li><a href="https://www.dddcommunity.org/" target="_blank">Domain-Driven Design Community — dddcommunity.org</a></li>
+                    <li><a href="https://martinfowler.com/eaaCatalog/eventSourcing.html" target="_blank">Martin Fowler — Event Sourcing Pattern</a></li>
+                    <li><a href="https://www.4coffshore.com/offshorewind/offshore-wind-operation-maintenance-r5.html" target="_blank">4C Offshore — Offshore Wind O&M Trends</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 劉瑞弘教授研究室，國立勤益科技大學</p>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>
