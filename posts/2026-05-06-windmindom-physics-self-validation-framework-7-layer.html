@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>物理模型不能只是「採用」：windMindOM 的 7 層 Physics 自我驗證框架 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-red { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .layer-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .layer-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .layer-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .layer-table td.layer-num { color: #818cf8; font-weight: 700; white-space: nowrap; }
+        .layer-table td.layer-name { color: var(--text-white); font-weight: 600; }
+        .layer-table td.layer-key { color: #2dd4bf; font-family: monospace; font-size: 0.84rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">物理模型不能只是「採用」：windMindOM 的 7 層 Physics 自我驗證框架</h1>
+            <p>2026-05-06 &bull; 劉瑞弘教授團隊 &bull; windMindOM / 物理模型驗證 / Digital Twin / 離岸風場</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-orange">Physics Validation</span>
+                <span class="tag tag-green">Digital Twin</span>
+                <span class="tag tag-teal">離岸風場 O&amp;M</span>
+                <span class="tag tag-red">WMOM-23</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                「物理模型不能只是說有採用，要知道結果是否準確。」
+            </p>
+            <p>
+                這句話來自劉瑞弘教授在 2026-05-05 的 windMindOM 開發 review，是一個讓整個 M3 衝刺方向出現重要轉折的決定。原定下一步是推進 M3 的前端工單介面（WMOM-19），但在 code review 之後，教授做出了一個反直覺的選擇：<strong>暫緩 UI 開發，先回頭強化物理模型的驗證機制</strong>。這個決策背後，蘊含著一套關於「數位分身可信度」的深刻工程哲學。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">7</div>
+                    <div class="label">Validator 層次（WMOM-23）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">14</div>
+                    <div class="label">既有物理模組數量</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">11</div>
+                    <div class="label">故障注入情境（Fault Scenarios）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">6</div>
+                    <div class="label">新增 physics backlog 項目</div>
+                </div>
+            </div>
+
+            <h2>一、數位分身的核心矛盾：你怎麼知道它是對的？</h2>
+
+            <p>
+                windMindOM 的物理模擬核心繼承自 digiWindTurbine 計畫，涵蓋範圍相當完整：104 個 SCADA 標籤、Bastankhah–Porté-Agel Gaussian 尾流模型、大氣穩定度五重耦合（shear / TI / wake / veer / L_u）、疲勞損傷 Miner 法則、剩餘壽命（RUL）預測，以及 11 個故障情境（包含葉片結冰、主軸承磨損、齒輪箱過熱等）的物理耦合模擬路徑。
+            </p>
+            <p>
+                問題在於：這些模型「有在跑」，但<strong>從未被系統性地驗證過「跑出來的結果是否物理上合理」</strong>。目前唯一的自動檢查機制是一個半自動的 21 項 data quality check 腳本（<code class="code-inline">examples/data_quality_analysis.py</code>），且其中 3 項已知 fail（個體差異 spread 異常、Region 3 功率 CV 偏高）。
+            </p>
+
+            <div class="warning-box">
+                <h3>⚠️ 既有物理模型的四大驗證空白</h3>
+                <ul>
+                    <li><strong>未驗證物理定律與文獻 benchmark</strong>：Betz 極限（Cp ≤ 0.593）、IEC 61400-1 Kaimal 紊流譜、ISO 10816-3 振動標準是否被滿足，沒有自動化測試確認。</li>
+                    <li><strong>未驗證故障注入 sanity</strong>：「注入軸承磨損故障後，高頻振動應該上升」這個基本物理預期，沒有任何自動驗證會 catch 到異常。</li>
+                    <li><strong>未驗證跨模組一致性</strong>：<code class="code-inline">P_aero × η_drivetrain × η_converter ≈ P_elec</code> 這條能量守恆約束，沒有任何測試會在鏈路斷裂時發出警告。</li>
+                    <li><strong>「憑感覺」的修改流程</strong>：修改物理常數後，只能靠肉眼觀察儀表板來判斷結果，邊角 case 完全靠手動發現。</li>
+                </ul>
+            </div>
+
+            <p>
+                這不只是測試覆蓋率的問題，更是數位分身可信度（trustworthiness）的根本問題。若一套風機 digital twin 無法證明自己遵守 Betz 定律，它就無法取得研究界或業界的信任。這是 WMOM-23 被列為 <strong>P0 critical</strong> 的原因。
+            </p>
+
+            <h2>二、7 層 Physics Validator：從守恆律到測試紀錄</h2>
+
+            <p>
+                WMOM-23「Physics 自我驗證框架」設計了一套 7 層遞進式驗證體系，每一層解決不同維度的物理可信度問題，且<strong>每層獨立 commit、可逐步交付</strong>。
+            </p>
+
+            <table class="layer-table">
+                <thead>
+                    <tr>
+                        <th>層</th>
+                        <th>名稱</th>
+                        <th>核心驗證目標</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="layer-num">Layer 1</td>
+                        <td class="layer-name">守恆律 &amp; 物理上限</td>
+                        <td>Betz 限（Cp ≤ 0.593）、能量守恆、動量平衡、熱平衡、質量守恆</td>
+                    </tr>
+                    <tr>
+                        <td class="layer-num">Layer 2</td>
+                        <td class="layer-name">文獻 Benchmark</td>
+                        <td>IEC 61400-1 Kaimal 紊流譜、Bastankhah wake 公式、Glauert NTF、BPFO/BPFI 軸承頻率、ISO 10816-3 振動標準</td>
+                    </tr>
+                    <tr>
+                        <td class="layer-num">Layer 3</td>
+                        <td class="layer-name">操作邊界</td>
+                        <td>切入/切出風速、緊急停機邏輯、Pitch/Yaw 速率限制、超速保護觸發條件</td>
+                    </tr>
+                    <tr>
+                        <td class="layer-num">Layer 4</td>
+                        <td class="layer-name">跨模組一致性</td>
+                        <td>spread / CV / cubic R² / 溫度 lag / 大氣穩定度「五重耦合」驗證</td>
+                    </tr>
+                    <tr>
+                        <td class="layer-num">Layer 5</td>
+                        <td class="layer-name">故障注入 Sanity</td>
+                        <td>11 個故障情境各自的 SCADA signature 自動驗證（如注入齒輪箱過熱後，oil_temp 必須上升）</td>
+                    </tr>
+                    <tr>
+                        <td class="layer-num">Layer 6</td>
+                        <td class="layer-name">一鍵體檢 CLI</td>
+                        <td><code class="code-inline">tools/physics_health_check.py</code>：彙整前 5 層結果 + 自動產出 matplotlib 圖表</td>
+                    </tr>
+                    <tr>
+                        <td class="layer-num">Layer 7 ⭐</td>
+                        <td class="layer-name">測試紀錄保存</td>
+                        <td><code class="code-inline">tests/physics/reports/</code> 結構 + YAML metadata + baseline diff + retention policy（教授強調「每次測試留紀錄」）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                其中 <strong>Layer 7 被標記為特別重要</strong>（⭐），因為它體現了教授的核心要求：不只是「跑完不報錯」，而是「每一次物理驗證的結果都要被記錄下來，日後可以追蹤趨勢、比對 baseline 差異」。這個思維與軟體工程中的 regression test 類似，但針對的是物理正確性而非程式行為——這是一個在 digital twin 領域相對少見的系統性做法。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔬 Layer 1 詳解：守恆律是物理模型的「地基」</h3>
+                <p>
+                    Layer 1 是整個框架的地基。它驗證的不是某個特定模型的輸出精度，而是所有模型輸出都必須遵守的<strong>物理不可違反原則</strong>。以 Betz 限為例：無論風速、槳距角（pitch）或葉尖速比（λ）取什麼值，風能轉換係數 Cp 在物理上不能超過 0.593（Betz 定律）。若某組參數計算出 Cp = 0.7，這代表模型有嚴重錯誤，而不是「性能特別好的風機」。
+                </p>
+                <p>
+                    類似的，能量守恆要求：<code class="code-inline">P_aero × η_drivetrain × η_converter ≈ P_elec（容差 ±5%）</code>。這個式子連接了氣動、機械傳動、電力轉換三個子系統，任何一個子系統的數值異常都會在這個約束中顯現。Layer 1 測試若失敗，代表整個模型鏈有根本性的錯誤，必須優先修復，後續層次的精細驗證才有意義。
+                </p>
+            </div>
+
+            <h2>三、負向測試：「故意改錯」的重要性</h2>
+
+            <p>
+                WMOM-23 的驗收條件中有一項特別值得注意：<strong>驗收含負向測試（negative test）——故意改錯物理常數，框架必須 catch 到錯誤</strong>。
+            </p>
+            <p>
+                這個要求背後有一個常見的測試陷阱：測試程式本身可能有 bug，導致即使模型是錯的，測試也會「誤放行」。負向測試強制要求開發者主動破壞已知正確的常數（例如把 Betz 係數設為 0.7），確認驗證框架確實會 fail——這等於是「驗證驗證器本身的有效性」。在安全攸關的工業應用中，這種 meta-validation 思維至關重要。
+            </p>
+            <p>
+                這讓人聯想到核電廠控制系統中的「trip test」傳統：定期故意觸發緊急停機程序，不是因為發生了緊急狀況，而是要確認緊急停機系統在真正需要時能夠正常運作。windMindOM 的負向測試哲學，是同樣思維在數位分身開發中的應用。
+            </p>
+
+            <h2>四、並行推進的物理深化項目</h2>
+
+            <p>
+                與 WMOM-23 同步進入 backlog 的，還有另外 5 個物理模型強化項目，形成一套完整的「物理正確性提升計畫」：
+            </p>
+            <ul>
+                <li><strong>WMOM-24</strong>：修復 data quality 3 項 fail——個體差異 spread 異常與 Region 3 功率 CV 偏高，這是目前最影響模型可信度的已知問題。</li>
+                <li><strong>WMOM-25</strong>：前端 RUL（剩餘使用壽命）+ 多頻段警報視覺化，讓物理計算結果能夠被清晰地呈現給運維人員。</li>
+                <li><strong>WMOM-26</strong>：SCADA 標籤深度擴充——增加 25 個新標籤，涵蓋保護電驛狀態、冷卻迴路細部、變頻器內部數據與服務狀態。</li>
+                <li><strong>WMOM-27</strong>：保護電驛協調模型（51/27/59/81），加入過電流、欠電壓、過電壓、頻率繼電器的協調邏輯，強化電氣側故障模擬。</li>
+                <li><strong>WMOM-28</strong>：單齒 pitting/spalling 缺陷特徵模型，細化齒輪箱故障的振動 signature，提升對早期故障的識別精度。</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h3>🌊 離岸情境的物理驗證挑戰</h3>
+                <p>
+                    相比陸上風電，離岸風場的物理模型驗證面臨更高的門檻。大氣邊界層特性在海面上與陸上顯著不同（低表面粗糙度、高TI、塔影效應增強）；機組長期浸泡在高鹽霧環境下，疲勞損傷累積的速率與陸上模型存在系統性差異；而颱風過境或極端海況的模擬，涉及超出 IEC 61400-1 標準設計工況的邊界條件。windMindOM 的物理驗證框架設計，需要特別考慮這些離岸特有的物理情境，未來論文研究的機會也在這裡。
+                </p>
+            </div>
+
+            <h2>五、從 Digital Twin 到「可信 Digital Twin」</h2>
+
+            <p>
+                windMindOM 的 WMOM-23 設計轉折，其實觸及了目前 digital twin 領域的一個核心問題：<strong>可信度（trustworthiness）如何被工程化地建立？</strong>
+            </p>
+            <p>
+                學術界對 digital twin 的研究多聚焦在「如何建立更精確的模型」（例如 Physics-Informed Neural Network、Bayesian filtering、Data-driven surrogate model），但對「如何持續驗證模型仍然是正確的」關注相對不足。隨著模型複雜度提升、多物理場耦合增加，一個沒有持續驗證機制的 digital twin，其可信度會隨著修改和演進而「悄悄衰減」——開發者無從得知模型在哪個 commit 之後開始偏離物理現實。
+            </p>
+            <p>
+                WMOM-23 的 7 層 Physics Validator + Layer 7 測試紀錄保存，提供的不只是「目前模型是否正確」的答案，更提供了「模型物理可信度隨時間演進的歷史記錄」。這個設計思想，可能成為 DOF Lab 未來發表關於「可信 Digital Twin 工程實踐」的重要研究素材。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 DOF Lab 研究室行動項目</h3>
+                <ul>
+                    <li><strong>WMOM-23 Layer 1 開工</strong>：建立 <code class="code-inline">tests/physics/reports/</code> 目錄結構與 YAML metadata 範本，接著實作 <code class="code-inline">tests/physics/test_invariants.py</code>，驗證 Betz 限與能量守恆；納入 1 個負向測試確認 fail 機制有效。</li>
+                    <li><strong>WMOM-24 同步進行</strong>：優先修復 3 項 data quality fail（spread + CV），為 Layer 1 通過提供乾淨的基線。</li>
+                    <li><strong>研究方向探索</strong>：整理「Physics Self-Validation Framework for Digital Twins」的設計模式，評估是否有投稿 IEEE Transactions on Industrial Informatics 或 Renewable Energy 的潛力。</li>
+                    <li><strong>WMOM-25 前端規劃</strong>：待 Layer 1/2 完成後，將驗證結果的 health check report 整合進前端 dashboard，讓物理可信度狀態成為運維介面的一等指標。</li>
+                    <li><strong>parking lot 評估</strong>：完整 BEM 氣動負載、curled-wake yaw 偏斜模型、氣彈耦合 FEM 等進階物理已列入 parking lot，待 M5 之後再評估是否納入主線開發。</li>
+                </ul>
+            </div>
+
+            <p>
+                教授在 review 中的一句話，可以作為整個 WMOM-23 設計哲學的總結：<strong>「物理模型不能只是說有採用，要驗證結果是否準確，而且每次測試要留紀錄。」</strong>這不只是一個開發決策，更是一個關於研究嚴謹性的宣告——在追求功能完整的同時，絕不妥協基礎的物理正確性。這種取捨，正是讓工業 AI 研究從「可展示的 demo」走向「可信賴的工程系統」的關鍵一步。
+            </p>
+
+            <div class="source-list">
+                <strong>參考來源</strong>
+                <ul>
+                    <li>windMindOM ISSUES.md — WMOM-20260505-23 ~ 28 物理強化 backlog（DOF Lab, 2026-05-05）</li>
+                    <li>windMindOM STATUS.yaml — M1/M3 進度追蹤（DOF Lab, 2026-05-05）</li>
+                    <li>windMindOM docs/physics_model_status.md — 物理模組現況（DOF Lab）</li>
+                    <li>windMindOM examples/data_quality_report.txt — 21 項 data quality 檢查結果（DOF Lab）</li>
+                    <li><a href="https://www.iec.ch/homepage" target="_blank">IEC 61400-1: Wind Energy Generation Systems — Design Requirements</a></li>
+                    <li><a href="https://www.iso.org/standard/49553.html" target="_blank">ISO 10816-3: Mechanical vibration — Evaluation of machine vibration by measurements on non-rotating parts</a></li>
+                    <li><a href="https://doi.org/10.1017/jfm.2016.479" target="_blank">Bastankhah, M. &amp; Porté-Agel, F. (2016). Experimental and theoretical study of wind turbine wakes in yawed conditions. Journal of Fluid Mechanics.</a></li>
+                    <li><a href="https://www.nrel.gov/docs/fy10osti/38060.pdf" target="_blank">Jonkman, J. et al. (2009). Definition of a 5-MW Reference Wind Turbine for Offshore System Development. NREL/TP-500-38060.</a></li>
+                    <li><a href="https://www.sciencedirect.com/journal/renewable-energy" target="_blank">Renewable Energy Journal — Elsevier（相關論文投稿方向）</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 劉瑞弘教授研究室，國立勤益科技大學</p>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>
