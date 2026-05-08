@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>工業 SaaS 的設計哲學：windMindOM Calm Operator UI 系統解析 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .theme-card { border-radius: 8px; padding: 1.25rem; }
+        .theme-sage { background: rgba(134,170,139,0.1); border: 1px solid rgba(134,170,139,0.35); }
+        .theme-jade { background: rgba(45,212,191,0.07); border: 1px solid rgba(45,212,191,0.3); }
+        .theme-card h4 { margin: 0 0 0.6rem; font-size: 1rem; }
+        .theme-sage h4 { color: #86aa8b; }
+        .theme-jade h4 { color: #2dd4bf; }
+        .theme-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
+        .comp-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .comp-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .comp-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .comp-table td.comp-name { color: #818cf8; font-family: monospace; font-size: 0.85rem; }
+        .comp-table td.comp-done { color: #4ade80; font-weight: 600; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .theme-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">工業 SaaS 的設計哲學：windMindOM「Calm Operator」UI 系統解析</h1>
+            <p>2026-05-08 &bull; 劉瑞弘教授團隊 &bull; windMindOM / UI Design System / 工業 SaaS / 前端工程</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-sage">Calm Operator</span>
+                <span class="tag tag-teal">Design System</span>
+                <span class="tag tag-green">React 元件庫</span>
+                <span class="tag tag-orange">WMOM-20260507-01</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                一套面向離岸風場運維人員的 SaaS 系統，應該長什麼樣子？這個問題看似只是「UI 美觀與否」的表面問題，實際上卻涉及深刻的工業 HCI（Human-Computer Interaction）設計判斷。在 windMindOM WMOM-20260507-01 任務完成後，DOF Lab 完整落地了「Calm Operator」設計語言——一套以現場操作員心理狀態為核心、兼顧日間與夜間環境、並具備系統級可維護性的前端 UI 架構。本文深入解析這套設計系統的哲學、結構選擇，以及其對後續產品商業化路徑的意義。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">2</div>
+                    <div class="label">雙主題（鼠尾草綠 / 翡翠玻璃）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">10</div>
+                    <div class="label">共用 UI 元件</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">主要頁面全面重畫</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">220px</div>
+                    <div class="label">新 Sidebar 寬度規格</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼工業 SaaS 需要「自己的」設計語言？</h2>
+
+            <p>
+                市面上大多數工業軟體的 UI 問題不是「太醜」，而是「為錯誤的使用者設計」。傳統 SCADA 介面以資訊密度最大化為設計目標，結果是資深工程師才看得懂的儀表板；另一個極端是直接套用 Material UI 或 Bootstrap，做出的介面像是通用管理後台，完全沒有呼應現場操作情境。
+            </p>
+            <p>
+                windMindOM 的使用者畫像非常具體：是在控制室或現場的離岸風場運維操作員，工作時需要快速判讀告警、開立工單、查維修紀錄。他們的工作環境可能是白天辦公室（螢幕自然光）或夜班控制室（低環境光）。他們的認知負荷在高壓事件時已很高，UI 的第一任務是「降低視覺雜訊」，而不是「展示所有資訊」。
+            </p>
+            <p>
+                「Calm Operator」設計語言正是從這個使用者心理模型出發：<strong>用平靜的色調降低非必要的視覺刺激，讓操作員在高壓情境中仍能保持清晰判斷</strong>。這與消費品 App 的設計哲學根本不同——後者的目標往往是吸引注意力，而工業工具的目標是讓使用者省力地完成任務。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 「Calm Technology」的工業應用</h3>
+                <p>
+                    1995 年，Mark Weiser 與 John Seely Brown 提出「Calm Technology」概念：優良的技術應該在「使用者注意力邊緣」安靜地工作，只在真正需要時才進入注意力中心。這個概念在消費電子領域被廣泛引用，但在工業 SaaS 的 UI 設計中卻很少被系統性實踐。windMindOM 的 Calm Operator 設計語言，是將這個哲學落地為具體設計決策的嘗試：用沉穩的色系降低背景噪音，用清晰的告警層級（不是所有東西都紅色）引導操作員的視覺焦點，用一致的元件語義降低學習成本。
+                </p>
+            </div>
+
+            <h2>二、雙主題系統：鼠尾草綠 vs 翡翠玻璃</h2>
+
+            <p>
+                WMOM-20260507-01 定義了兩套互補的視覺主題，分別對應不同的使用情境：
+            </p>
+
+            <div class="theme-grid">
+                <div class="theme-card theme-sage">
+                    <h4>🌿 鼠尾草綠（Sage Green）</h4>
+                    <p>主色調為低飽和度的灰綠色系。適合日間控制室或辦公室環境，在自然光下視覺柔和不刺眼。呼應台灣離岸風能產業的自然背景意象，同時保持足夠的對比度符合 WCAG AA 標準。</p>
+                </div>
+                <div class="theme-card theme-jade">
+                    <h4>🪟 翡翠玻璃（Jade Glass）</h4>
+                    <p>以深色背景搭配翡翠色主強調色，帶有輕微的玻璃質感（glassmorphism）。適合夜班控制室低環境光情境，不傷眼且具有現代工業科技感。強調色純度高，告警視覺層次清晰。</p>
+                </div>
+            </div>
+
+            <p>
+                兩套主題共享同一套 CSS Token 體系（存放於 <span class="code-inline">frontend/theme/</span>），透過主題切換只改變 Token 值，元件本身不需要修改。這種設計決策有兩個重要好處：第一，未來新增主題（例如客製化企業配色）只需要新增一組 Token 設定，不需要改動任何元件程式碼。第二，設計一致性由系統保障，不依賴開發者記住每個顏色的正確使用場景。
+            </p>
+
+            <h2>三、元件庫架構：<code>frontend/components/ui/</code> 的設計決策</h2>
+
+            <p>
+                WMOM-20260507-01 最重要的技術產出，是建立了 <span class="code-inline">frontend/components/ui/</span> 共用元件庫，以及 <span class="code-inline">frontend/theme/</span> 主題系統。這個決策背後有一個關鍵的工程理由：<strong>在 M3+ 的前端工作（WMOM-19、-20、-21、-25）全部到位前，先確立設計語言的「地基」，避免每個任務各自發展出不一致的 UI 風格</strong>。
+            </p>
+
+            <p>
+                以下是已完成的 10 個核心元件，涵蓋 windMindOM 5 大模組所需的基本 UI 積木：
+            </p>
+
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th>元件名稱</th>
+                        <th>功能描述</th>
+                        <th>狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="comp-name">StatusBadge</td>
+                        <td>狀態標籤（正常 / 告警 / 異常 / 離線），支援主題色</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">AlertPanel</td>
+                        <td>告警列表面板，支援嚴重度分層顯示與一鍵開工單</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">MetricCard</td>
+                        <td>關鍵指標卡片，顯示數值 + 趨勢箭頭 + 單位</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">Sidebar</td>
+                        <td>220px 固定寬度側邊導覽列，支援折疊與主題切換</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">PageHeader</td>
+                        <td>頁面標題列，含麵包屑路徑 + 快捷操作按鈕區</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">DataTable</td>
+                        <td>資料表格，支援排序 / 篩選 / 分頁 / 多選</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">Modal</td>
+                        <td>模態對話框，支援確認操作 / 表單輸入兩種模式</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">FormField</td>
+                        <td>統一表單欄位，含 label / validation / error hint</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">TrendChart</td>
+                        <td>時序趨勢圖（基於 Recharts），支援多軸與閾值線</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="comp-name">ThemeToggle</td>
+                        <td>鼠尾草綠 / 翡翠玻璃主題即時切換開關</td>
+                        <td class="comp-done">✅</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                這 10 個元件的設計原則統一：<strong>每個元件只接受來自 Token 系統的顏色值，不寫死任何 hex 色碼；所有互動狀態（hover、active、disabled）都有對應的 Token 定義</strong>。這確保了主題切換的完整性——沒有任何元件會在切換主題後「漏掉」某個角落的顏色。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔧 WMOM-20260507-01 的工程守則：API / hooks 不動</h3>
+                <p>
+                    這次 UI 改版的核心約束是：<strong>保留全部既有 API 呼叫與 React hooks，只改變視覺層</strong>。這個約束看似限制了設計自由度，實際上卻是保護了已完成的後端整合工作（M2 成本模組、M3 工單後端 API）不因前端重構而意外破壞。windMindOM 採用的是「Headless UI + Design Token」架構——業務邏輯（hooks/data fetching）與視覺呈現（CSS Token + 元件 JSX）嚴格分離，這使得 UI 改版的風險被完全隔離在視覺層，不影響任何 API 契約。
+                </p>
+            </div>
+
+            <h2>四、220px Sidebar：一個工程決策背後的產品思考</h2>
+
+            <p>
+                Sidebar 寬度從原本的 Tailwind 預設（通常是 <span class="code-inline">w-64 = 256px</span> 或 <span class="code-inline">w-56 = 224px</span>）重新定義為 220px，並固定為系統規格。這個具體數字看似微小，背後卻有明確的產品理由：
+            </p>
+            <ul>
+                <li><strong>顯示器適應性</strong>：運維控制室常見的工業顯示器解析度為 1366×768（14 吋工業平板）或 1920×1080。220px Sidebar 在 1366 寬度下佔比約 16%，留下 84% 給主內容區，在三欄佈局（告警列表 + 主圖表 + 詳情面板）下仍有足夠操作空間。</li>
+                <li><strong>導覽文字完整顯示</strong>：windMindOM 的導覽項目名稱以繁體中文為主（「即時監控」、「工單管理」、「成本計算」等），220px 能完整顯示 6–7 個中文字 + 前置圖示，不需截斷。</li>
+                <li><strong>折疊後的 icon-only 模式</strong>：折疊後 Sidebar 收縮至 60px（僅顯示圖示），提供給需要最大化主內容區的場景（例如全螢幕告警監控模式）。</li>
+            </ul>
+            <p>
+                這種對細節的考量，正是工業 SaaS 產品設計與通用管理後台最大的差異：<strong>每個 UI 規格都應該有對應的使用情境理由，而不是套用框架預設值了事</strong>。
+            </p>
+
+            <h2>五、設計系統對商業化的戰略意義</h2>
+
+            <p>
+                從商業化角度來看，WMOM-20260507-01 的完成不只是「介面變好看了」，而是在三個層面為產品商業化奠定基礎：
+            </p>
+            <p>
+                首先是 <strong>Demo 可信度</strong>。一個視覺上一致、專業的介面，對非技術背景的採購決策者有不可忽視的第一印象效果。在 PoC 評估階段，決策者對產品的信任往往在最初 5 分鐘就形成。一套有設計感的 UI 傳遞的訊號是「這個團隊有能力做到量產品質」。
+            </p>
+            <p>
+                其次是 <strong>後續開發效率</strong>。M3 前端工作（WMOM-19 工單介面、WMOM-20 簽核介面）現在有了明確的元件庫可以直接使用，開發時間可以專注在業務邏輯而非每次重新思考按鈕要什麼顏色。所有 M3+ 的前端 issue 都已加上「使用新 ui 元件庫」的 directive，防止「設計退化」——即開發者在趕時間時回退到直接寫 Tailwind 硬碼。
+            </p>
+            <p>
+                第三是 <strong>客製化能力的展示</strong>。雙主題系統向潛在客戶傳遞了一個訊號：windMindOM 的 UI 是可以根據企業品牌色客製的，這在 B2B SaaS 評估中是一個重要的加分項。當客戶問「你們的系統可以改成我們公司的顏色嗎？」，現在的答案是「可以，只需要調整主題 Token 設定」。
+            </p>
+
+            <div class="action-box">
+                <h3>🎯 研究室當前行動項目</h3>
+                <ul>
+                    <li><strong>WMOM-19</strong>（最高優先）：使用新元件庫開發前端工單介面——M3 的最後一哩，後端 API 已完整就緒</li>
+                    <li><strong>WMOM-20</strong>：工單簽核前端介面，接續 WMOM-19 完成後啟動</li>
+                    <li><strong>WMOM-20260507-02</strong>：Placeholder 按鈕列表逐項補完（low 優先，WMOM-19/20 完成後接力）</li>
+                    <li><strong>WMOM-24</strong>：Data quality 修正（Layer 4 物理驗證已標記異常位置，可與 WMOM-19 並行推進）</li>
+                    <li><strong>dev server 5179 驗收</strong>：各頁面在鼠尾草綠 / 翡翠玻璃雙主題下的視覺一致性驗收（劉老師 2026-05-07 已確認初版通過）</li>
+                </ul>
+            </div>
+
+            <p>
+                設計語言的建立，是工業 SaaS 從「研究原型」走向「可銷售產品」的必經之路。windMindOM 的 Calm Operator 系統，不是在追求視覺潮流，而是在為現場操作員建立一個真正符合他們工作情境的工具介面。這種以使用者需求為核心的設計思維，也將是 windMindOM 在台灣離岸風場運維市場差異化競爭的長期資產。
+            </p>
+
+            <div class="source-list">
+                <strong>參考來源</strong>
+                <ul>
+                    <li>Weiser, M. &amp; Brown, J. S. (1996). "Designing Calm Technology." <em>PowerGrid Journal</em>, 1(1).</li>
+                    <li>Nielsen Norman Group — <a href="https://www.nngroup.com/articles/industrial-ux/" target="_blank">Industrial UX Design Principles</a></li>
+                    <li>IEC 62241 — Human-machine interfaces for industrial process control</li>
+                    <li>WCAG 2.1 — Web Content Accessibility Guidelines, Level AA contrast requirements</li>
+                    <li>windMindOM ROADMAP.md — M1 milestone: WMOM-20260507-01 前端 UI 改版</li>
+                    <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank">WCAG 2.1 Contrast (Minimum) Success Criterion 1.4.3</a></li>
+                    <li>Brad Frost — <em>Atomic Design</em> (2016), Design System methodology</li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
