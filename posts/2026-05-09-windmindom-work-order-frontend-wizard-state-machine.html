@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>工單前端完成：windMindOM 三步驟精靈與工單狀態機設計實錄 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .flow-steps { display: flex; gap: 0; margin: 1.5rem 0; flex-wrap: wrap; }
+        .flow-step { flex: 1; min-width: 160px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.3); padding: 1rem 1.25rem; position: relative; }
+        .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: #818cf8; font-size: 1.2rem; z-index: 1; }
+        .flow-step h4 { color: #818cf8; margin: 0 0 0.4rem; font-size: 0.9rem; }
+        .flow-step p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
+        .file-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+        .file-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .file-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .file-table td.fname { color: #818cf8; font-family: monospace; font-size: 0.82rem; }
+        .file-table td.role { color: #2dd4bf; }
+        .state-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 1.5rem 0; }
+        .state-card { border-radius: 6px; padding: 0.85rem 1rem; }
+        .state-open   { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.35); }
+        .state-active { background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.35); }
+        .state-done   { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.3); }
+        .state-card .s-name { font-size: 0.82rem; font-weight: 700; }
+        .state-open .s-name   { color: #818cf8; }
+        .state-active .s-name { color: #fb923c; }
+        .state-done .s-name   { color: #4ade80; }
+        .state-card .s-desc { font-size: 0.8rem; color: var(--text-light); margin-top: 0.3rem; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .flow-steps { flex-direction: column; } .flow-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -14px; transform: none; } .state-grid { grid-template-columns: 1fr 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">工單前端完成：windMindOM 三步驟精靈與工單狀態機設計實錄</h1>
+            <p>2026-05-09 &bull; 劉瑞弘教授團隊 &bull; windMindOM / Work Order / Frontend Engineering / 工業 SaaS</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-orange">WMOM-20260504-19</span>
+                <span class="tag tag-teal">工單管理</span>
+                <span class="tag tag-green">React Frontend</span>
+                <span class="tag tag-sage">DDD 狀態機</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                今天（2026-05-09），windMindOM M3 Milestone 的關鍵任務 WMOM-20260504-19 正式完成：工單管理前端全部就位。從後端 11 個 API Endpoint 到前端的三步驟建立精靈（CreateWorkOrderWizard）、工單清單面板、狀態轉換 Modal，整個工單生命週期的 UI 在一次衝刺中完整交付，並通過 TypeScript 無錯誤編譯與 Vite build（725 modules / 1.05 MB）煙霧測試。本文記錄這次前端衝刺的設計思路、技術選擇，以及離岸風場運維工單系統的工程考量。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">11</div>
+                    <div class="label">API Endpoints 串接</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">新增前端元件</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">7</div>
+                    <div class="label">工單狀態轉換表單</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">725</div>
+                    <div class="label">模組 Vite build 成功</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼工單系統是離岸風場 O&M SaaS 的核心？</h2>
+
+            <p>
+                離岸風場的運維管理，本質上是一個精密的「工單排程與追蹤」問題。當 SCADA 系統偵測到渦輪機異常、或定期維保計畫到期，都會觸發一張工單：確認問題類型、派遣技術人員、協調物料準備、安排離岸交通窗口（天氣、波高、CTV 排班），最終完成維修並記錄成本與工時。這個流程的複雜度遠超過一般辦公室的工作單。
+            </p>
+
+            <p>
+                傳統做法是靠 Excel 或通用工單系統（如 Salesforce Field Service、SAP PM）管理，但這些工具缺乏對離岸風能領域的深度語義理解：它們不知道什麼是「翻越波浪限制（Wave Height Limit）」、「鐵塔內部受限空間作業」、或「葉片吊掛 PTW（Permit to Work）」。windMindOM 的目標是打造一套真正懂離岸風場語境的運維工具——而工單模組是整個系統的運作中樞。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 離岸風場工單的特殊性</h3>
+                <p>
+                    相較於陸上工業設備，離岸風機維修有幾個結構性複雜因素：首先是「天氣窗口限制」，CTV（Crew Transfer Vessel）作業的波高上限（通常 Hs ≤ 1.5m）讓工單必須等待合適的天氣窗口，這使得派工不能只考慮人力，還必須納入氣象預報。其次是「PTW（Permit to Work）安全作業許可」，高電壓/高空/受限空間作業都需要多階層授權。第三是「備料周期長」，部分關鍵備品的交期可達 3–6 個月，工單必須提前觸發採購流程。windMindOM 的工單狀態機設計，試圖將這些業務規則結構化為系統約束。
+                </p>
+            </div>
+
+            <h2>二、三步驟建立精靈（CreateWorkOrderWizard）</h2>
+
+            <p>
+                工單建立是使用頻率最高的操作之一，UI 設計的關鍵挑戰是：如何讓資訊填寫有秩序、不讓操作員面對一頁充滿欄位的表單？windMindOM 採用三步驟精靈（Wizard）模式，將工單建立流程拆解為邏輯上前後相依的三個階段：
+            </p>
+
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <h4>Step 1 — 選擇風機</h4>
+                    <p>Farm 自動偵測 + 風機清單，點選目標風機及其目前狀態確認</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Step 2 — 工單細節</h4>
+                    <p>工單類型（預防性 / 故障修復 / 安全巡檢）、優先級、描述、計畫日期</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Step 3 — 派工與工時</h4>
+                    <p>指定主責技術員、預估工時（小時）、備注與特殊作業需求</p>
+                </div>
+            </div>
+
+            <p>
+                這個設計有兩個工程上的考量。第一，步驟間的資料依賴是線性的：Step 2 的選項會根據 Step 1 選定的風機動態調整（例如已有開放工單的風機顯示警示）；Step 3 的派工清單則根據 Step 2 的工單類型過濾具備對應技能的技術員。第二，精靈模式允許使用者中途返回修改，且每步的資料持久在元件狀態中，不會因為切換步驟而遺失。
+            </p>
+
+            <h2>三、工單狀態機：7 個轉換表單的 DDD 設計</h2>
+
+            <p>
+                工單的核心複雜度在於其<strong>生命週期狀態機</strong>。每張工單從建立到結案，需要歷經多個狀態轉換，且每個轉換都需要不同的資訊輸入與授權驗證。windMindOM 遵循 Domain-Driven Design（DDD）原則，將工單狀態定義為領域物件的核心不變量，所有狀態轉換都只能通過明確定義的轉換函數進行。
+            </p>
+
+            <div class="state-grid">
+                <div class="state-card state-open">
+                    <div class="s-name">OPEN</div>
+                    <div class="s-desc">工單建立，待審核</div>
+                </div>
+                <div class="state-card state-active">
+                    <div class="s-name">ASSIGNED</div>
+                    <div class="s-desc">已指派技術員</div>
+                </div>
+                <div class="state-card state-active">
+                    <div class="s-name">IN_PROGRESS</div>
+                    <div class="s-desc">現場作業進行中</div>
+                </div>
+                <div class="state-card state-active">
+                    <div class="s-name">ON_HOLD</div>
+                    <div class="s-desc">暫停（待備料/天氣）</div>
+                </div>
+                <div class="state-card state-active">
+                    <div class="s-name">PENDING_APPROVAL</div>
+                    <div class="s-desc">等待主管審批</div>
+                </div>
+                <div class="state-card state-done">
+                    <div class="s-name">COMPLETED</div>
+                    <div class="s-desc">作業完成，成本確認</div>
+                </div>
+                <div class="state-card state-done">
+                    <div class="s-name">CANCELLED</div>
+                    <div class="s-desc">工單取消，附原因</div>
+                </div>
+            </div>
+
+            <p>
+                前端實作了 7 個 inline 狀態轉換表單，全部嵌入 <span class="code-inline">WorkOrderDetailModal</span>，讓操作員在檢視工單詳情的同時就能執行狀態推進，不需要跳頁。每個轉換表單只顯示該轉換必要的輸入欄位——例如「開始作業（Start Work）」只需確認現場抵達時間；「暫停作業（Put on Hold）」需要填寫暫停原因和預計恢復時間；「完成（Complete）」需要填寫實際工時和維修摘要。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔧 前端元件架構總覽</h3>
+                <table class="file-table">
+                    <thead>
+                        <tr>
+                            <th>檔案</th>
+                            <th>角色</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fname">services/workOrderService.ts</td>
+                            <td class="role">11 個 API endpoint TypeScript wrapper，含 farmApi helper 與 DEV_ACTOR_ID 占位</td>
+                        </tr>
+                        <tr>
+                            <td class="fname">hooks/useWorkOrders.ts</td>
+                            <td class="role">React Query 風格的資料鉤子：list / 9 mutations / AbortController race guard + client-side 搜尋過濾</td>
+                        </tr>
+                        <tr>
+                            <td class="fname">components/workflow/WorkflowPage.tsx</td>
+                            <td class="role">頁面容器：farm 自動偵測 + tab（工單清單 / 審批佇列 -20 預留）</td>
+                        </tr>
+                        <tr>
+                            <td class="fname">components/workflow/WorkOrderListPanel.tsx</td>
+                            <td class="role">工單清單：狀態篩選、關鍵字搜尋、手動刷新</td>
+                        </tr>
+                        <tr>
+                            <td class="fname">components/workflow/CreateWorkOrderWizard.tsx</td>
+                            <td class="role">3 步驟建立精靈（風機選擇 → 工單細節 → 派工工時）</td>
+                        </tr>
+                        <tr>
+                            <td class="fname">components/workflow/WorkOrderDetailModal.tsx</td>
+                            <td class="role">工單詳情 + 7 個 inline 狀態轉換表單</td>
+                        </tr>
+                        <tr>
+                            <td class="fname">components/workflow/statusUtils.ts</td>
+                            <td class="role">狀態 enum → label / PillTone / 時間格式化共用 helper</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>四、AbortController 與 Race Condition 防護</h2>
+
+            <p>
+                工業系統的前端有一個常被忽略但至關重要的問題：<strong>Race Condition</strong>。當使用者快速切換工單或重複點擊刷新，多個 API 請求會同時在途，後發的請求可能比先發的先回應，導致畫面顯示過期資料。
+            </p>
+
+            <p>
+                <span class="code-inline">useWorkOrders.ts</span> 在每次資料獲取請求中建立 <span class="code-inline">AbortController</span>，並在元件 unmount 或新請求發出時呼叫 <span class="code-inline">abort()</span>，確保只有最新的請求結果會更新狀態。這個看似小細節的防護，在生產環境中能避免操作員看到工單狀態「閃回」到舊狀態的困惑現象——在高壓運維情境下，這種視覺錯誤可能導致錯誤的作業決策。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 為什麼 DEV_ACTOR_ID 占位比 mock 更好？</h3>
+                <p>
+                    目前工單的「執行者身份（actor_id）」使用固定的 DEV UUID 占位，等 M5 用戶身份認證模組完成後再替換。這個設計選擇反映一個工程哲學：<strong>使用真實的 API 流程走通整個工單生命週期，而不是用 mock 資料繞過它</strong>。DEV_ACTOR_ID 讓開發階段的測試能真實觸達後端資料庫，確認狀態轉換邏輯正確，之後的 auth 整合只需替換 actor_id 的來源，不需要重寫業務邏輯。相比之下，若使用 mock，auth 整合時往往會發現後端 API 設計與 mock 的假設存在落差，產生更大的重工量。
+                </p>
+            </div>
+
+            <h2>五、M3 里程碑進度與下一步</h2>
+
+            <p>
+                WMOM-20260504-19 完成後，M3 Milestone（工作流程 Part 1：工單 + 審批）的後端已 100% 完成（Issues -14 至 -18），前端工單部分（Issue -19）也已完成，整體 M3 進度達 90%。剩餘的 WMOM-20260504-20「審批前端（Approval Frontend）」——主管審批佇列的工作排程介面，是本里程碑的最後一塊拼圖。
+            </p>
+
+            <p>
+                從更大的產品路線圖來看，M3 完成後進入 M4（庫存管理 + 報表）。結合已完成的 M2 成本模組，windMindOM 的核心商業模組——工單派工、成本追蹤、審批授權——將形成可向第一個 PoC 客戶展示的完整閉環，是 2026-Q4 合約目標（NT$2–4M）的技術基礎。
+            </p>
+
+            <div class="action-box">
+                <h3>🎯 研究室本週行動項目</h3>
+                <ul>
+                    <li><strong>WMOM-20260504-20</strong>：啟動審批前端，完成 M3 最後一塊——主管審批佇列、核准 / 退回流程。</li>
+                    <li><strong>M4 規劃</strong>：開始庫存管理（Inventory）和報表（Reporting）模組的 DDD 領域設計，確保與工單模組的邊界清晰。</li>
+                    <li><strong>PoC 客戶聯繫</strong>：準備 M3 工單前端的 Demo，搭配 M2 成本計算結果，向潛在運維廠商進行技術展示。</li>
+                    <li><strong>Auth 規劃</strong>：為 M5 用戶認證模組制定接口規格，讓 DEV_ACTOR_ID 的替換路徑提前設計好。</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考資源</strong></p>
+            <ul>
+                <li><a href="https://github.com/dofliu/windMindOM" target="_blank">windMindOM GitHub Repository</a>（含 WMOM-20260504-19 commit）</li>
+                <li><a href="https://martinfowler.com/eaaDev/StateMachine.html" target="_blank">Martin Fowler — State Machine Patterns</a></li>
+                <li>WMOM-20260507-01 UI Directive（Calm Operator Design System，見昨日部落格）</li>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController" target="_blank">MDN Web Docs — AbortController API</a></li>
+                <li>IEC 61400-26-3：Wind energy generation systems — Part 26-3: Availability for wind energy power station（離岸風場運維分類標準）</li>
+                <li><a href="https://react.dev/reference/react" target="_blank">React 19 官方文件</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.9rem;">
+        &copy; 2026 DOF Lab, 國立勤益科技大學智慧自動化工程系
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
