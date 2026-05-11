@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>windMindOM M4 端對端貫通：一日四連 Hotfix 背後的系統驗收哲學 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .flow-steps { display: flex; gap: 0; margin: 1.5rem 0; flex-wrap: wrap; }
+        .flow-step { flex: 1; min-width: 130px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.3); padding: 1rem 1.25rem; position: relative; }
+        .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: #818cf8; font-size: 1.2rem; z-index: 1; }
+        .flow-step h4 { color: #818cf8; margin: 0 0 0.4rem; font-size: 0.9rem; }
+        .flow-step p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
+        .hotfix-card { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+        .hotfix-card h4 { color: #f87171; margin: 0 0 0.5rem; font-size: 1rem; }
+        .hotfix-card .fix-note { color: #4ade80; font-size: 0.88rem; margin-top: 0.5rem; }
+        .lifecycle-flow { background: rgba(0,0,0,0.3); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.85rem; color: #cdd3de; line-height: 2; }
+        .lifecycle-flow .ok { color: #4ade80; }
+        .lifecycle-flow .step { color: #818cf8; }
+        .lifecycle-flow .comment { color: #6b7280; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .flow-steps { flex-direction: column; } .flow-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -14px; transform: none; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">windMindOM M4 端對端貫通：一日四連 Hotfix 背後的系統驗收哲學</h1>
+            <p>2026-05-11 &bull; 劉瑞弘教授團隊 &bull; windMindOM / E2E Testing / Demo Flow / Hotfix Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-orange">M4 完工</span>
+                <span class="tag tag-green">E2E Demo Flow</span>
+                <span class="tag tag-teal">Hotfix 工程</span>
+                <span class="tag tag-sage">系統驗收</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                2026-05-10，windMindOM 的 M4 里程碑迎來了最關鍵的一天——不是因為完成了新功能，而是因為劉老師親自進行了一場<strong>完整的端對端（E2E）生命週期實測</strong>：從建立工單、派工、備品申料、三階審批、開始工作、進度紀錄、完工確認、員工簽核、組長審批，到最終生成月度報表並下載 PDF。這場實測踩出了四個連環 bug，觸發了 4 個 PR 加 1 個 cherry-pick 的熱修風暴。最終，所有問題都修到了根本原因（而非表面 patch），M4 宣告 production-ready 狀態，progress 從 90% 推進至 95%。
+            </p>
+
+            <p>
+                這篇文章不只是記錄「我們修了什麼」，更想深入探討一個更根本的問題：<strong>為什麼「劉老師親自點選」能發現 CI 測試沒發現的問題？這對我們設計工業軟體的驗收流程意味著什麼？</strong>
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">4</div>
+                    <div class="label">當日 Hotfix PR</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">1</div>
+                    <div class="label">Cherry-pick</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">E2E 路徑全 pass</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">95%</div>
+                    <div class="label">M4 最終進度</div>
+                </div>
+            </div>
+
+            <h2>一、M4 的最後一公里：從 API 測試到真實 UI 實測</h2>
+
+            <p>
+                在 windMindOM 的開發流程中，每個功能模組上線前都需要通過單元測試（Unit Test）和 HTTP 層整合測試（API Integration Test）。截至 2026-05-09，M4 backend 累積了 446 個測試全數通過，33 個 endpoints 全部覆蓋，看起來已經具備 production 品質。
+            </p>
+
+            <p>
+                然而，<strong>API 測試有一個盲點：它測的是「系統設計者預想的使用路徑」，而非「真實用戶的使用路徑」</strong>。在測試中，我們知道應該先 <span class="code-inline">POST /work-orders</span>，再 <span class="code-inline">POST /material-requests</span>，再按順序呼叫審批 endpoint；但真實用戶會在 UI 上用不同的順序、在不同的網路狀態下、點選各種邊緣情況的按鈕。這些場景不在測試矩陣裡，只能靠真實操作才能發現。
+            </p>
+
+            <p>
+                劉老師的實測路徑涵蓋了 5 種核心 E2E path：
+            </p>
+
+            <div class="lifecycle-flow">
+<span class="step">Path 1</span>: 建單 → 派工 → 開始 → 進度紀錄 → 完工 → <span class="ok">CLOSED ✓</span><br>
+<span class="step">Path 2</span>: 建單 → 派工 → 開始 → 申料 → 三階審批全通過 → 收料 → 完工 → <span class="ok">CLOSED ✓</span><br>
+<span class="step">Path 3</span>: 員工簽核 → 組長審批（通過）→ <span class="ok">APPROVED ✓</span><br>
+<span class="step">Path 4</span>: 員工簽核 → 組長駁回 → 員工重簽 → 組長通過 → <span class="ok">APPROVED ✓</span><br>
+<span class="step">Path 5</span>: /admin/reports 月報 → PDF 生成 → <span class="ok">Download ✓</span><br>
+<span class="comment"># 所有路徑：backend 502 → 504 全部 pass，zero regression</span>
+            </div>
+
+            <h2>二、四連 Bug：每一個都是真實系統會遇到的問題</h2>
+
+            <p>
+                實測過程中踩出的四個 bug，回頭看每一個都有其結構性原因——不是偶然的疏漏，而是在分模組開發、沒有 E2E 層驗證的情況下必然會出現的整合問題。
+            </p>
+
+            <div class="hotfix-card">
+                <h4>Bug 1 — CORS Preflight 規格違反（PR #25）</h4>
+                <p>
+                    症狀：前端某些 API 呼叫被瀏覽器攔截，出現 CORS 錯誤。根本原因：FastAPI 的 CORS middleware 設定中，<span class="code-inline">allow_methods</span> 使用了非標準格式，導致 preflight OPTIONS 請求回傳不符合 CORS 規格的 header，Chrome 判定為 CORS 違規並攔截後續請求。這個問題在 API integration test 中永遠不會出現，因為測試直接呼叫 Python server 不經過瀏覽器的 CORS 檢查。
+                </p>
+                <div class="fix-note">✅ 修正：規範化 CORS header 格式，補充 preflight response 完整欄位</div>
+            </div>
+
+            <div class="hotfix-card">
+                <h4>Bug 2 — <code>work_orders</code> 資料表名稱衝突（PR #25 合並）</h4>
+                <p>
+                    症狀：特定 API endpoint 回傳 500，log 顯示 SQLAlchemy table already defined error。根本原因：workflow 模組的 ORM model 與另一個模組的 model 同樣定義了 <span class="code-inline">work_orders</span> 表名，在 SQLAlchemy 的全局 metadata registry 中發生衝突。個別模組的測試都能通過（各自使用獨立的 test DB），但整合後共用同一個 app instance 時才爆發。
+                </p>
+                <div class="fix-note">✅ 修正：統一命名空間策略，各模組 table 加上 prefix 避免撞名</div>
+            </div>
+
+            <div class="hotfix-card">
+                <h4>Bug 3 — Dispatch 流程不接受 <code>assignee_id</code>（PR #26）</h4>
+                <p>
+                    症狀：UI 上填寫派工人員後送出，API 回傳 422 Unprocessable Entity。根本原因：dispatch endpoint 的 Pydantic schema 在設計時假設 <span class="code-inline">assignee_id</span> 只能在建立工單時指定，派工時只需傳入 <span class="code-inline">scheduled_date</span>；但 UI 的設計允許在派工步驟才指定執行人員（更符合實際工作流程）。Schema 和 UI 對業務流程的理解出現分歧。
+                </p>
+                <div class="fix-note">✅ 修正：dispatch endpoint 的 schema 允許 optional <code>assignee_id</code>，以 dispatch 時的值覆蓋建單時的初始值</div>
+            </div>
+
+            <div class="hotfix-card">
+                <h4>Bug 4 — 天氣窗口 Checkbox UX 造成誤操作（Cherry-pick 9c8f476）</h4>
+                <p>
+                    症狀：用戶反映天氣窗口條件 checkbox 在操作流程中位置不合理，容易誤觸導致工單無法派工（天氣窗口未確認時系統拒絕派工）。根本原因：這是 UX 設計問題而非功能 bug——checkbox 的設計讓用戶在不理解其意義的情況下很容易忽略它，同時系統缺少清楚的提示說明為何派工被阻擋。決定移除強制性 checkbox，改以 issue 追蹤後續的 UX 重設計（WMOM-20260510-01）。
+                </p>
+                <div class="fix-note">✅ 修正：移除天氣窗口 checkbox 強制欄位，改為可選資訊欄，開 issue 規劃完整的離岸天氣窗口 UX 設計</div>
+            </div>
+
+            <h2>三、「修到根本原因」的工程紀律</h2>
+
+            <p>
+                這四個 hotfix 中，最值得記錄的不是 bug 本身，而是修復的方式。面對 hotfix 壓力，最容易的做法是「表面 patch」——例如對 CORS 問題加一個 <span class="code-inline">try-except</span> 略過錯誤，或對 dispatch schema 問題在前端做特殊處理來規避。這些做法能讓眼前的 demo 通過，但會在系統中留下技術債，在未來更難診斷的情境中再次爆發。
+            </p>
+
+            <p>
+                windMindOM 的 hotfix 原則是：<strong>每個修復都必須能解釋「為什麼這個設計在一開始是錯的」，而非「為什麼我在這個地方加了一個例外處理」</strong>。CORS 的修正改的是 middleware 的規格遵循；table 衝突修的是命名空間策略；dispatch schema 的修正改的是對業務流程的定義；天氣窗口改的是 UX 設計決策（並開 issue 追蹤）。每一個修正背後都有清楚的設計理由。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 為什麼要開 Issue 而不是直接修 UX？</h3>
+                <p>
+                    天氣窗口的 UX 問題在 hotfix 中只做了最小必要的修改（移除強制 checkbox），而非直接重新設計完整的天氣窗口體驗。這是一個刻意的決策：UX 重設計需要思考離岸風場的天氣窗口業務邏輯（波高限制、風速限制、潮汐條件）以及如何在 UI 上清楚傳達這些約束，這個思考需要時間和討論，不適合在 hotfix 壓力下倉促完成。開 issue（WMOM-20260510-01）記錄問題脈絡、現象、和預期設計方向，讓這個問題在有充裕時間時得到完整的解決方案，而非一個快速但不完整的 patch。
+                </p>
+            </div>
+
+            <h2>四、A8 月報 + A9 前端：讓數字能說話的最後一哩</h2>
+
+            <p>
+                在 hotfix 風暴同一天，A8（月報 backend）和 A9（reports 前端）也完成了開發與合併。A8 的核心是 <span class="code-inline">monthly_report.py</span>——一個能將 cost_ledger 的所有 confirmed 分錄彙整為月度 PDF 報表的引擎，格式符合運維廠商向業主（風場開發商）請款的財務憑證需求。
+            </p>
+
+            <p>
+                A9 前端在 <span class="code-inline">/admin/reports</span> 頁面提供了一個乾淨的月份選擇介面，讓運維主管能在 3 秒內生成當月的完整成本報表並下載 PDF。這個功能看似簡單，但它是整個 windMindOM 商業模式的最後一哩：<strong>所有精心設計的工單流程、庫存管理、成本台帳，最終都需要在這份 PDF 裡匯聚成業主看得懂、財務部門能核帳的數字</strong>。沒有報表，再完整的後端都只是工程師的自娛自樂。
+            </p>
+
+            <div class="highlight-box">
+                <h3>📊 M4 完整技術成果總結</h3>
+                <ul>
+                    <li><strong>A1–A5</strong>：庫存 Domain、原子派工、申料 API、庫存 API、成本台帳整合（216 個測試，33 endpoints）</li>
+                    <li><strong>A8</strong>：月報 Backend — monthly_report.py + PDF 輸出引擎</li>
+                    <li><strong>A9</strong>：Reports 前端 — /admin/reports 月份選擇 + PDF download</li>
+                    <li><strong>PR #25</strong>：CORS preflight fix + work_orders table 命名衝突修正</li>
+                    <li><strong>PR #26</strong>：Dispatch flow 接受 assignee_id at dispatch time</li>
+                    <li><strong>Cherry-pick 9c8f476</strong>：移除天氣窗口強制 checkbox，開 WMOM-20260510-01</li>
+                    <li><strong>E2E 驗證</strong>：5 種完整生命週期路徑全數 pass，backend 502 → 504 zero regression</li>
+                    <li><strong>M4 進度</strong>：90% → 95%（剩餘：A6/A7 庫存前端 + A10 E2E 自動化測試）</li>
+                </ul>
+            </div>
+
+            <h2>五、最大的教訓：E2E 測試不是「之後再做的事」</h2>
+
+            <p>
+                這次 hotfix 風暴的起點是一個清醒的認識：<strong>今日四連 hotfix 的根源，是過去沒有 lifecycle E2E test</strong>。446 個 API 測試沒有發現的問題，一個真實 UI 操作在 5 分鐘內全部踢出來了。
+            </p>
+
+            <p>
+                這不是「我們的測試不夠好」，而是「API 測試和 E2E 測試測的是不同層次的事情」。API 測試確保每個 endpoint 按設計運作；E2E 測試確保所有 endpoint 組合在一起時，能支撐真實的業務流程。兩者缺一不可，而在 MVP 開發的壓力下，E2E 測試往往是第一個被推遲的投資。
+            </p>
+
+            <p>
+                windMindOM 的下一個優先事項（A10）就是建立自動化的 E2E 測試套件，覆蓋這次劉老師手動驗證的 5 種生命週期路徑。這不只是品質保證，更是讓未來的快速迭代成為可能的基礎建設——有了 E2E 測試，下次加新功能或重構時，我們能在幾分鐘內確認整個系統的行為沒有回歸。
+            </p>
+
+            <div class="warning-box">
+                <h3>⚠️ 給工業軟體開發者的提醒</h3>
+                <p>
+                    工業運維軟體（OMS、CMMS）的 E2E 測試比一般 web 應用更重要，因為業務流程的每一步都有真實的財務或安全後果。一個派工流程的 bug 可能導致備品被重複領料（庫存損失）；一個審批流程的 bug 可能讓未核准的工單被執行（責任認定問題）；一個報表生成的 bug 可能讓請款金額錯誤（合約糾紛）。在這個領域，E2E 測試的 ROI 遠高於一般 SaaS 應用，值得在 M4 完成後立即投資 A10。
+                </p>
+            </div>
+
+            <h2>六、M4 之後：通往第一個 PoC 客戶的路線圖</h2>
+
+            <p>
+                M4 完成後，windMindOM 具備了一個離岸風場運維廠商所需的完整核心功能集：工單管理（M3）、備品庫存（M4）、成本追蹤（M2）、月報輸出（M4 A8-A9）。這個組合足以支撐一個 15-20 分鐘的完整 demo，向潛在客戶展示從派工到請款的完整流程。
+            </p>
+
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <h4>A10 E2E Test</h4>
+                    <p>自動化 5 種生命週期路徑，建立回歸保護網</p>
+                </div>
+                <div class="flow-step">
+                    <h4>A6/A7 前端</h4>
+                    <p>申料單 UI + 庫存管理介面，完整 M4 UI 側</p>
+                </div>
+                <div class="flow-step">
+                    <h4>WMOM-20260510-01</h4>
+                    <p>mock login + is_offshore + 天氣窗口 UX 重設計</p>
+                </div>
+                <div class="flow-step">
+                    <h4>M5 RAG 知識庫</h4>
+                    <p>警報手冊查詢、維修知識整合，通往 M6 PoC</p>
+                </div>
+            </div>
+
+            <p>
+                從研究角度，windMindOM 也逐漸積累了足夠的設計決策記錄，可以提煉為學術貢獻：原子派工的 DDD 設計模式、工業運維軟體的測試策略（unit → integration → E2E 三層）、以及「Simulator-first」開發路徑（先用物理模擬器驗證業務邏輯，再接入真實 SCADA 資料）。這些都是值得深入探討的研究議題，也是 windMindOM 從工具型軟體進化為學術可發表成果的潛在路徑。
+            </p>
+
+            <div class="action-box">
+                <h3>🎯 研究室本週行動項目</h3>
+                <ul>
+                    <li><strong>A10 E2E 測試套件（最優先）</strong>：以 pytest + httpx 或 Playwright 建立覆蓋 5 種 lifecycle path 的自動化測試，確保未來迭代不會引入回歸。</li>
+                    <li><strong>A6 申料單前端</strong>：建立領料申請 UI 和三階審批佇列介面，讓非技術用戶能不透過 API 完成申料流程。</li>
+                    <li><strong>A7 庫存管理前端</strong>：倉庫 CRUD + 料件管理 + 庫存查詢 UI，與 A6 共用 UI 元件庫。</li>
+                    <li><strong>PoC Demo 腳本準備</strong>：整合 M2+M3+M4 的完整流程，撰寫 15 分鐘 demo 腳本，重點展示「工單開立 → 備品申料 → 完工 → 月報 PDF」的完整閉環。</li>
+                    <li><strong>WMOM-20260510-01 規劃</strong>：設計 mock login（開發模式快速切換身分）+ 離岸風場 is_offshore 旗標 + 天氣窗口 UX，列入 M5 backlog 優先議題。</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考資源</strong></p>
+            <ul>
+                <li>windMindOM work-logs: <code>2026-05-10-session-wrapup-handoff.md</code>（本文技術細節主要來源）</li>
+                <li>windMindOM git log: PR #23, #24, #25, #26, cherry-pick 9c8f476（2026-05-10）</li>
+                <li><a href="https://martinfowler.com/bliki/IntegrationTest.html" target="_blank">Martin Fowler — IntegrationTest vs E2E Test</a></li>
+                <li><a href="https://martinfowler.com/articles/practical-test-pyramid.html" target="_blank">Ham Vocke — The Practical Test Pyramid（Fowler 網站）</a></li>
+                <li><a href="https://docs.pytest.org/en/stable/" target="_blank">pytest — Testing Framework Documentation</a></li>
+                <li><a href="https://playwright.dev/python/docs/intro" target="_blank">Playwright for Python — E2E Browser Testing</a></li>
+                <li>windMindOM STATUS.yaml — M4 milestone progress tracking（progress: 95%）</li>
+                <li>IEC 61400-26-3：Wind energy generation systems — Availability for wind energy power station</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
