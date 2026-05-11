@@ -150,6 +150,7 @@
   <script>
     const KNOWN_POST_FILES = [
       '發文流程指南.md',
+      '2026-05-10-windmindom-m4-backend-inventory-atomic-dispatch-cost-ledger.html',
       '2026-05-09-windmindom-work-order-frontend-wizard-state-machine.html',
       '2026-05-08-windmindom-calm-operator-ui-design-system.html',
       '2026-05-07-windmindom-from-digital-twin-to-offshore-wind-om-saas.html',
@@ -349,19 +350,4 @@
 
       const sorted = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
       topicListEl.innerHTML = sorted.map(([cat, count]) => `
-        <li><span>${cat}</span><span class="count">${count}</span></li>
-      `).join('');
-    };
-
-    const main = async () => {
-      const results = await Promise.all(KNOWN_POST_FILES.map(fetchPost));
-      const posts = results.filter(Boolean);
-      posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-      renderPosts(posts);
-      renderStats(posts);
-    };
-
-    main();
-  </script>
-</body>
-</html>
+        <li><span>${cat}</span><span class="count">${count}</span></l

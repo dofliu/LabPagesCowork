@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>windMindOM M4 Backend 全收：庫存原子派工與成本台帳的會計一致性設計 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .flow-steps { display: flex; gap: 0; margin: 1.5rem 0; flex-wrap: wrap; }
+        .flow-step { flex: 1; min-width: 130px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.3); padding: 1rem 1.25rem; position: relative; }
+        .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: #818cf8; font-size: 1.2rem; z-index: 1; }
+        .flow-step h4 { color: #818cf8; margin: 0 0 0.4rem; font-size: 0.9rem; }
+        .flow-step p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
+        .issue-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+        .issue-table th { background: rgba(99,102,241,0.2); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; }
+        .issue-table td { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0.6rem 1rem; color: var(--text-light); }
+        .issue-table td.iid { color: #818cf8; font-family: monospace; font-size: 0.82rem; }
+        .issue-table td.tests { color: #4ade80; font-weight: 600; }
+        .ledger-flow { background: rgba(0,0,0,0.3); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.85rem; color: #cdd3de; line-height: 1.9; }
+        .ledger-flow .comment { color: #6b7280; }
+        .ledger-flow .ok { color: #4ade80; }
+        .ledger-flow .key { color: #818cf8; }
+        .review-fix-card { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+        .review-fix-card h4 { color: #fb923c; margin: 0 0 0.5rem; font-size: 1rem; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .flow-steps { flex-direction: column; } .flow-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -14px; transform: none; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">windMindOM M4 Backend 全收：庫存原子派工與成本台帳的會計一致性設計</h1>
+            <p>2026-05-10 &bull; 劉瑞弘教授團隊 &bull; windMindOM / Inventory Management / Cost Ledger / DDD</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-orange">M4 Backend</span>
+                <span class="tag tag-teal">庫存管理</span>
+                <span class="tag tag-green">會計一致性</span>
+                <span class="tag tag-sage">DDD 原子交易</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                2026-05-09，windMindOM M4 里程碑的 backend 在一個工作日內全部完成。五個 issue（A1–A5）從庫存領域模型設計、原子派工、申料單 API、庫存 API，到成本台帳整合，一路推進，最終形成一條完整的生命週期鏈路：<strong>建料件 → 建工單 → 申料 → 三階審批 → 自動原子派工 → 收料 → 工單完工 → 台帳確認</strong>。加上 code review 的三項 must-fix，共累積 7 個 PR、216 個新測試、33 個 backend endpoints，M4 backend 宣告 production-ready 品質收官。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">216</div>
+                    <div class="label">新增測試（當日）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">33</div>
+                    <div class="label">Backend Endpoints</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">7</div>
+                    <div class="label">PRs merged</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">446</div>
+                    <div class="label">全測試套件 pass</div>
+                </div>
+            </div>
+
+            <h2>一、M4 的核心挑戰：庫存與成本的跨域一致性</h2>
+
+            <p>
+                離岸風場的備品管理，遠比陸上工廠複雜。一張申料單（Material Request）從提交到實際出庫，需要橫跨三個部門核准（技術員 → 主管 → 財務主管），且核准後才能觸發倉庫的庫存扣減。問題的關鍵在於：<strong>當申料單被核准並派工時，如何確保庫存扣減與成本記帳在同一個 transaction 中完成？</strong> 任何部分失敗都可能導致「帳上料已派出但庫存未扣」或「庫存扣了但帳沒記」的資料不一致。
+            </p>
+
+            <p>
+                另一個更細膩的會計挑戰是：<strong>料件單價可能在申料核准後發生變動</strong>。例如，派工時備品單價為 NT$450，但一個月後供應商漲價到 NT$600；這時工單完工後的「確認成本」應該用哪個價格計算？若用當下價格（$600），帳目無法對應到當初的估算依據；若用估算時的單價（$450），才符合財務「成本確認以承諾時點為準」的原則。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 離岸風場成本管控的特殊情境</h3>
+                <p>
+                    在離岸風場運維合約中，備品成本往往是費用糾紛的主要來源。運維廠商向業主（風場開發商）請款時，必須提交每張工單的完整成本憑證：包含備品規格、申料日期、核准過程、實際領料數量，以及成本計算依據。若系統無法提供「申料核准當下的鎖定單價」，財務對帳時就難以自証清白。windMindOM 的 <span class="code-inline">locked_unit_cost</span> 欄位正是為了解決這個實務痛點而設計。
+                </p>
+            </div>
+
+            <h2>二、五個 Issue 的推進順序</h2>
+
+            <p>
+                M4 backend 的推進嚴格遵循由內而外（Domain → Repository → API）的 DDD 開發順序，確保每一層建立在穩固的下層之上：
+            </p>
+
+            <table class="issue-table">
+                <thead>
+                    <tr>
+                        <th>Issue</th>
+                        <th>名稱</th>
+                        <th>核心交付物</th>
+                        <th>新增測試</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="iid">A1</td>
+                        <td>庫存 + 申料單 Domain</td>
+                        <td>InventoryItem、MaterialRequest、MaterialRequestItem domain entities；狀態機定義</td>
+                        <td class="tests">60</td>
+                    </tr>
+                    <tr>
+                        <td class="iid">A2</td>
+                        <td>Repository + Atomic Dispatch</td>
+                        <td>原子雙寫：庫存扣減 + cost_ledger estimated entry 同一 SQLite transaction</td>
+                        <td class="tests">58</td>
+                    </tr>
+                    <tr>
+                        <td class="iid">A3</td>
+                        <td>申料單 API + signoff 整合</td>
+                        <td>27 個 endpoints；三階審批自動觸發 A2 原子派工；REJECTED 終態設計</td>
+                        <td class="tests">27</td>
+                    </tr>
+                    <tr>
+                        <td class="iid">A4</td>
+                        <td>庫存 API</td>
+                        <td>倉庫 CRUD + 料件管理 + 庫存查詢；不暴露直接扣庫存 endpoint</td>
+                        <td class="tests">28</td>
+                    </tr>
+                    <tr>
+                        <td class="iid">A5</td>
+                        <td>成本台帳整合</td>
+                        <td>工單完工 hook → ledger confirmed；locked_unit_cost 快照保證金額不變</td>
+                        <td class="tests">32</td>
+                    </tr>
+                    <tr>
+                        <td class="iid">Review</td>
+                        <td>Code Review Fixes</td>
+                        <td>3 項 must-fix：會計正確性、multi-farm safe、精確 status mapping</td>
+                        <td class="tests">11</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>三、Atomic Dispatch：原子雙寫的設計</h2>
+
+            <p>
+                A2 是整個 M4 的技術核心。當申料單通過三階審批後，系統必須同時完成兩件事：（1）扣減倉庫庫存、（2）在成本台帳寫入 estimated 記帳分錄。這兩個操作橫跨 workflow 與 cost 兩個模組——在 DDD 語境中屬於不同的 Bounded Context——如何確保它們要麼全成功，要麼全失敗？
+            </p>
+
+            <p>
+                windMindOM 的解法是讓 cost_ledger 與 workflow repository 共用同一個 SQLAlchemy <span class="code-inline">Session</span> Base，透過傳遞 session 物件實現同一 transaction 內的雙寫，而非使用分散式 saga 或補償機制。這是一個務實的「單體優先（Monolith-first）」設計決策：在 MVP 階段，過早引入 saga/outbox pattern 的複雜度遠高於其收益；當未來真正需要拆服務時，清晰的邊界設計讓拆分變得可行。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔧 Atomic Dispatch 的完整生命週期</h3>
+                <div class="ledger-flow">
+<span class="comment"># 建料件（dispatch 時鎖定此單價）</span><br>
+POST /api/workflow/inventory → unit_cost=<span class="key">450</span><br>
+<br>
+<span class="comment"># 建工單 → 申料 → 三階核准</span><br>
+POST /api/workflow/work-orders → OPEN → IN_PROGRESS<br>
+POST /api/workflow/material-requests → linked to WO<br>
+POST .../submit → POST .../approve (employee / leader / treasury)<br>
+<br>
+<span class="comment"># 審批完成：原子派工觸發</span><br>
+→ stock: <span class="key">10 → 8</span>  <span class="comment"># 庫存扣減</span><br>
+→ ledger: <span class="ok">estimated</span>, amount=<span class="key">900</span>, <span class="ok">locked_unit_cost=450</span><br>
+<br>
+<span class="comment"># 供應商漲價（不影響已鎖定的帳目）</span><br>
+PATCH /api/workflow/inventory/{id} → unit_cost=<span class="key">600</span><br>
+<br>
+<span class="comment"># 收料 → 工單完工</span><br>
+POST .../receive → actual_qty=2<br>
+POST /api/workflow/work-orders/{id}/finish<br>
+<br>
+<span class="comment"># A5 完工 hook：用 locked_unit_cost 確認帳目</span><br>
+→ ledger: <span class="ok">confirmed</span>, amount=2×<span class="key">450</span>=<span class="key">900</span>  <span class="comment"># 不是 2×600=1200 ✓</span><br>
+→ confirmed_at = 完工時間戳
+                </div>
+            </div>
+
+            <h2>四、Code Review 的三項 Must-Fix</h2>
+
+            <p>
+                backend 全部 issue 完成後，以 code-reviewer subagent 進行獨立審查，找到三項需立即修正的問題，這些修正將系統從「功能可用」提升至「生產品質」：
+            </p>
+
+            <div class="review-fix-card">
+                <h4>Fix 1 — 會計正確性：<code>locked_unit_cost</code> Schema Migration</h4>
+                <p>
+                    原始設計中，cost ledger 的 confirmed amount 是在完工時重新讀取料件的 <span class="code-inline">unit_cost</span> 計算，這意味著若單價在派工後被修改，確認金額就會與估算金額不符——直接違反財務記帳原則。修正方案是在 A2 原子派工時，同步將當下的 <span class="code-inline">unit_cost</span> 快照寫入 ledger 的 <span class="code-inline">locked_unit_cost</span> 欄位，A5 完工確認時使用此快照而非即時單價。這個修正增加了 schema migration 和 6 個確認測試。
+                </p>
+            </div>
+
+            <div class="review-fix-card">
+                <h4>Fix 2 — Multi-Farm Safe：<code>_finish_hook_db_path</code> 改 dict</h4>
+                <p>
+                    工單完工的 hook 設定（用於測試覆寫 DB 路徑）原本是一個全局字串變數，當同一程序內同時操作多個 farm 的工單時（例如 staging 環境的並發測試），不同 farm 的 hook 設定會互相覆蓋，導致非確定性測試失敗。修正為以 <span class="code-inline">farm_id</span> 為 key 的 dict，每個 farm 獨立持有自己的 hook 設定，消除 singleton 競爭條件。
+                </p>
+            </div>
+
+            <div class="review-fix-card">
+                <h4>Fix 3 — 精確 Status Code Mapping：<code>InvalidTransition.reason</code> 屬性</h4>
+                <p>
+                    狀態機的無效轉換例外原本透過字串匹配來決定回傳 HTTP 400 還是 409，這種 fragile pattern 在例外訊息措辭略有變動時就可能誤判 status code。修正為在 <span class="code-inline">InvalidTransition</span> exception class 加上 <span class="code-inline">reason</span> 屬性（<span class="code-inline">bad_request</span> / <span class="code-inline">conflict</span>），讓 API router 直接讀取 reason 決定 status code，測試也更易理解與維護。
+                </p>
+            </div>
+
+            <h2>五、設計哲學：「事實帳本不可直接修改」</h2>
+
+            <p>
+                A4 庫存 API 的設計決策中，有一條明確的規定：<strong>不暴露直接修改 cost_ledger 的 POST/PATCH endpoint</strong>。這不是技術限制，而是領域規則：成本台帳是業務事實（business fact）的記錄，所有寫入都必須透過業務流程的 atomic transaction 觸發——申料核准觸發 estimated entry，工單完工觸發 confirmed entry，未來的退料申請會觸發 ledger 沖銷（F1 follow-up issue）。
+            </p>
+
+            <p>
+                這個原則確保了台帳的每一筆記錄都能溯源到具體的業務事件。在未來的月報生成（A8 reporting）和客戶請款憑證中，審計員可以從任何一筆 ledger entry 向上追溯到對應的工單、申料單、審批記錄，形成完整的業務證明鏈。這正是 Domain-Driven Design 中 <em>Aggregate Root</em> 概念的實務體現：台帳的 aggregate root 只能透過定義好的 domain service 方法修改，外部不得繞過。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 為什麼 Lazy Import 解循環依賴？</h3>
+                <p>
+                    A5 的實作過程中發現一個循環依賴：<span class="code-inline">material_request_repository</span> 需要引用 <span class="code-inline">cost_ledger_repository</span> 來寫入台帳，而 <span class="code-inline">cost_ledger_repository</span> 又需要引用 <span class="code-inline">workflow.repository</span> 的 Base。這種跨 Bounded Context 的相互引用在 Python 的模組系統中會產生 ImportError。解決方案是在需要跨域引用的函數內使用 lazy import（將 import 語句移至函數體內而非模組頂層），讓 Python interpreter 在實際呼叫時才解析依賴，而非在模組載入階段。這是 Python 項目中處理有意義的跨域依賴的標準技法，比強行重構兩個模組的邊界更為務實。
+                </p>
+            </div>
+
+            <h2>六、下一步：從 Backend 到可展示的完整產品</h2>
+
+            <p>
+                M4 backend 的完成是一個重要的里程碑，但對終端用戶（運維廠商）而言，backend API 本身無法說故事。接下來的重點工作是讓 33 個 endpoints 在前端獲得可視化介面，並生成可向 PoC 客戶展示的月度報表。
+            </p>
+
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <h4>A6 申料單前端</h4>
+                    <p>領料申請 UI、三階審批佇列，預估 1 天完成</p>
+                </div>
+                <div class="flow-step">
+                    <h4>A7 庫存前端</h4>
+                    <p>倉庫管理、料件 CRUD、庫存查詢，與 A6 共用元件</p>
+                </div>
+                <div class="flow-step">
+                    <h4>A8 月報 Backend</h4>
+                    <p>monthly_report.py → PDF 輸出，M6 客戶 demo 最大亮點</p>
+                </div>
+            </div>
+
+            <p>
+                從產品路線圖的視角，M4 完成（預計 M4 progress 65%→100%）後，windMindOM 將具備一個完整的運維商業閉環：工單派工（M3）+ 備品庫存管理（M4）+ 成本追蹤（M2）+ 月度報表（M4 A8）。這個組合是 2026-Q4 第一個運維廠商 PoC 合約（NT$2–4M）的核心技術展示基礎。
+            </p>
+
+            <div class="action-box">
+                <h3>🎯 研究室本週行動項目</h3>
+                <ul>
+                    <li><strong>A8 月報 Backend 優先啟動</strong>：利用已就緒的 A5 ledger summary，生成 PDF 月度成本報表，這是客戶 demo 的最大亮點功能。</li>
+                    <li><strong>A6 + A7 前端並行</strong>：申料單前端與庫存管理前端共用 windMindOM UI 元件庫（Card / Btn / PageHeader / StatusPill），一起開發避免重複設計決策。</li>
+                    <li><strong>F1 退料沖銷</strong>：為申料退貨場景補充 ledger 沖銷邏輯，完善台帳的完整性。</li>
+                    <li><strong>PoC Demo 準備</strong>：整合 M2 成本計算 + M3 工單前端 + M4 A8 月報，組成一個 15 分鐘的完整 demo flow，準備向潛在運維廠商客戶展示。</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考資源</strong></p>
+            <ul>
+                <li>windMindOM work-logs: <code>2026-05-09-session-wrapup-handoff.md</code>（本文技術細節主要來源）</li>
+                <li><a href="https://martinfowler.com/bliki/DomainDrivenDesign.html" target="_blank">Martin Fowler — Domain-Driven Design</a></li>
+                <li><a href="https://martinfowler.com/eaaCatalog/aggregateRoot.html" target="_blank">P of EAA: Aggregate（Fowler）</a></li>
+                <li><a href="https://docs.sqlalchemy.org/en/20/orm/session_transaction.html" target="_blank">SQLAlchemy — Managing Transactions</a></li>
+                <li>windMindOM STATUS.yaml — M4 milestone progress tracking</li>
+                <li>IEC 61400-26-3：Wind energy generation systems — Availability for wind energy power station</li>
+                <li>windMindOM WMOM-20260509-01 至 -05 設計文件（<code>docs/design-notes/m3/</code>）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

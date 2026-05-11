@@ -5,9 +5,14 @@
     "last_updated": "2026-04-10"
   },
   "Face Recognition Attendance": {
-    "progress": 90,
+    "progress": 92,
     "status": "production",
-    "last_updated": "2026-04-19"
+    "last_updated": "2026-04-24"
+  },
+  "autoSolverVideo": {
+    "progress": 95,
+    "status": "active",
+    "last_updated": "2026-05-10"
   },
   "Course Scheduling System": {
     "progress": 95,
@@ -23,11 +28,6 @@
     "progress": 95,
     "status": "production",
     "last_updated": "2026-04-13"
-  },
-  "WindGuard AI": {
-    "progress": 100,
-    "status": "completed",
-    "last_updated": "2026-04-10"
   },
   "OPC UA MCP": {
     "progress": 85,
@@ -47,7 +47,7 @@
   "ScanMail+": {
     "progress": 90,
     "status": "production",
-    "last_updated": "2026-04-16"
+    "last_updated": "2026-04-24"
   },
   "SmartFill-Scholar": {
     "progress": 80,
@@ -72,7 +72,7 @@
   "AI Graphic Studio": {
     "progress": 82,
     "status": "active",
-    "last_updated": "2026-04-16"
+    "last_updated": "2026-04-23"
   },
   "LLM Wiki": {
     "progress": 80,
@@ -109,6 +109,11 @@
     "status": "active",
     "last_updated": "2026-04-15"
   },
+  "WindGuard AI": {
+    "progress": 100,
+    "status": "completed",
+    "last_updated": "2026-04-10"
+  },
   "AI PLC Automation": {
     "progress": 85,
     "status": "active",
@@ -120,23 +125,33 @@
     "last_updated": "2026-04-10"
   },
   "RAG Ultimate": {
-    "progress": 88,
+    "progress": 90,
     "status": "active",
-    "last_updated": "2026-04-16"
+    "last_updated": "2026-05-03"
   },
   "WindAI Lab": {
     "progress": 92,
     "status": "active",
-    "last_updated": "2026-04-16"
+    "last_updated": "2026-04-21"
   },
   "Digital Wind Turbine": {
     "progress": 85,
     "status": "active",
-    "last_updated": "2026-04-16"
+    "last_updated": "2026-04-21"
   },
   "WindFarmMonitoring": {
     "progress": 60,
     "status": "active",
     "last_updated": "2026-04-10"
+  },
+  "windMindOM": {
+    "progress": 0,
+    "status": "pending",
+    "last_updated": "2026-05-03"
+  },
+  "第一個運維廠商 PoC + 第一筆合約": {
+    "progress": 0,
+    "status": "planned",
+    "last_updated": "2026-05-10"
   }
 }
