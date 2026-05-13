@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>工業介面的版本考古學：windMindOM 如何管理 4,600 行設計史料與啟動 v2 改版 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .variant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .variant-card { background: rgba(0,0,0,0.25); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 1.1rem 1.25rem; }
+        .variant-card h4 { color: #818cf8; margin: 0 0 0.5rem; font-size: 0.95rem; }
+        .variant-card p { margin: 0; font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+        .process-row { display: flex; align-items: center; gap: 0; margin: 2rem 0; flex-wrap: wrap; justify-content: center; }
+        .process-step { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.4); border-radius: 8px; padding: 1rem 1.25rem; text-align: center; min-width: 130px; }
+        .process-step h4 { color: #818cf8; margin: 0 0 0.3rem; font-size: 0.88rem; }
+        .process-step p { margin: 0; font-size: 0.78rem; color: var(--text-light); }
+        .process-arrow { color: #818cf8; font-size: 1.5rem; padding: 0 0.5rem; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .process-row { flex-direction: column; } .process-arrow { transform: rotate(90deg); } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">工業介面的版本考古學：windMindOM 如何管理 4,600 行設計史料與啟動 v2 改版</h1>
+            <p>2026-05-13 &bull; 劉瑞弘教授團隊 &bull; windMindOM / UI Design / Design Systems / Industrial B2B Software</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-teal">UI Design</span>
+                <span class="tag tag-orange">Design Systems</span>
+                <span class="tag tag-green">版本管理</span>
+                <span class="tag tag-sage">工業 B2B</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                2026 年 5 月 12 日深夜 11 點，windMindOM 的 Git 記錄出現了一筆不尋常的 commit。它不是功能修復，也不是測試補充，而是一個 <span class="code-inline">chore</span>：把 14 個設計檔案、4,600 多行的 React 元件與介面規範，從 repo 根目錄搬進 <span class="code-inline">docs/design/2026-05-07-ui-source/</span>，並在 ISSUES.md 開了一個空白的 placeholder——<strong>WMOM-20260513-01「UI 改版 v2」</strong>，等待劉老師補上新的設計交接書才開工。
+            </p>
+
+            <p>
+                這個動作看似瑣碎，卻體現了一種在工業 B2B 軟體開發中常被忽略的重要實踐：<strong>設計史料的系統性保存</strong>。在功能衝刺的壓力下，設計決策往往隨著版本迭代而消失在 git history 的深處；而當下一輪改版需要回溯「當初為什麼這樣設計」時，答案往往已不可考。windMindOM 選擇了不同的路。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">4,600+</div>
+                    <div class="label">行歸檔設計史料</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">14</div>
+                    <div class="label">設計檔案（元件 + 規範 + Mockup）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">6</div>
+                    <div class="label">設計變體（VA/VB/VC × V1/V2/V3）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">v2</div>
+                    <div class="label">下一個 UI 里程碑（規格制定中）</div>
+                </div>
+            </div>
+
+            <h2>一、Calm Operator：一個設計理念的誕生與完成</h2>
+
+            <p>
+                時間回到 2026 年 5 月 7 日。windMindOM M3 工單系統剛完成，M4 的庫存派工正在推進。此時，劉老師提出了第一輪正式 UI 設計改版需求：平台的操作介面需要能在<strong>離岸風場這種高壓、高噪訊的工作環境</strong>中，讓技術員保持清醒的操作判斷。這個需求催生了「Calm Operator」設計理念。
+            </p>
+
+            <p>
+                Calm Operator 的核心哲學借鑒了工業控制室（Control Room）的設計原則：深色背景降低視覺疲勞、關鍵狀態用顏色而非文字快速傳達、密集資訊透過層級分組而非平鋪展示。設計團隊（與 Claude Opus 協作）在一個 session 內產出了三組 App 變體（VA、VB、VC）和三組頁面變體（V1、V2、V3），共同探索在同一個設計語言下的不同表達方式。
+            </p>
+
+            <div class="variant-grid">
+                <div class="variant-card">
+                    <h4>🎨 設計變體 VA / VB / VC</h4>
+                    <p>三套整體設計方向探索——在配色、排版密度、資訊層級組織上的不同取捨，各自有完整的 React 元件實作。</p>
+                </div>
+                <div class="variant-card">
+                    <h4>📐 頁面變體 V1 / V2 / V3</h4>
+                    <p>針對同一頁面的三種佈局策略——從寬鬆的儀表板風格到緊湊的工程師工具風格，提供具體的選擇對照。</p>
+                </div>
+                <div class="variant-card">
+                    <h4>🧩 Shared 元件庫</h4>
+                    <p>MiniDashboard、i18n 模組等共用元件，確保三套變體在資料層與互動邏輯上的一致性，便於 A/B 比較。</p>
+                </div>
+            </div>
+
+            <p>
+                M4 完工後，Calm Operator 設計已完整體現在現行介面中：工單列表、派工流程、月報 PDF 下載，每一個頁面都沿用同一套設計語言。設計的使命完成了，但設計的記憶必須留存。
+            </p>
+
+            <h2>二、為什麼要把設計史料當作程式碼一樣版本管理？</h2>
+
+            <p>
+                多數開發團隊對「設計稿」的態度是：用完即丟，或放在 Figma 等工具中緩慢腐爛。這在消費級產品中或許可以接受，因為使用者對介面的記憶短暫，改版代價相對低。但在工業 B2B 軟體中，情況截然不同。
+            </p>
+
+            <p>
+                離岸風場的運維人員在與平台打交道時，有極高的<strong>肌肉記憶依賴</strong>——他們在海上作業時，注意力必須分配給環境安全與設備狀態，不允許因介面改版而重新適應操作流程。因此，windMindOM 的任何 UI 改版都必須有充分的設計依據：為什麼改？哪些元素要動？哪些必須保持不變？
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 設計考古學的核心問題</h3>
+                <p>當下一輪 UI 改版團隊問「當初為什麼把派工按鈕放在這裡？」或「為什麼選擇深藍而非深灰作為主背景？」時，他們應該能從 <span class="code-inline">docs/design/2026-05-07-ui-source/WMOM 介面改版交接書.md</span> 找到完整的設計決策記錄，而不是從渺茫的 Git commit message 中拼湊答案。</p>
+            </div>
+
+            <p>
+                把設計檔案放入 Git 版本控制，並附上清楚的設計交接書（Design Handoff Document），是 windMindOM 在這方面的選擇。這讓設計不再是「有人記得的口耳相傳」，而是可以被搜尋、引用、對照的工程知識。
+            </p>
+
+            <p>
+                此外，當 AI 協作成為設計流程的常態，這個實踐變得更加重要。Claude Opus 在下一輪 UI 改版 session 中，可以直接讀取 <span class="code-inline">VA.jsx</span>、<span class="code-inline">VC.jsx</span>、<span class="code-inline">design-canvas.jsx</span> 這 48KB 的完整設計畫布，理解 v1 的設計語言後再提出 v2 的改進方向，而不必從零開始描述整個設計系統。<strong>這是 LLM 輔助設計的新工作模式：把設計史料當作 context，而非憑空生成。</strong>
+            </p>
+
+            <h2>三、WMOM-20260513-01：下一輪改版的正確啟動方式</h2>
+
+            <p>
+                昨晚開啟的 WMOM-20260513-01 是一個刻意保留空白的 placeholder。這個設計決策同樣值得記錄：<strong>沒有 spec 就不開工</strong>。
+            </p>
+
+            <p>
+                在許多開發文化中，「先動起來再說」是一種美德。但在工業 B2B 軟體的 UI 設計中，過早開始意味著開發出難以回滾的 UI 債務。windMindOM 的 issue 系統對此有明確的規範：每一個 UI 改版 issue 必須包含設計交接書、異動範圍說明、Acceptance Criteria，缺一不可。
+            </p>
+
+            <div class="process-row">
+                <div class="process-step">
+                    <h4>設計需求浮現</h4>
+                    <p>劉老師提出改版方向</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <h4>開 Placeholder Issue</h4>
+                    <p>記錄意圖，不急於實作</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <h4>補設計交接書</h4>
+                    <p>主題 / 字型 / 元件範圍</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <h4>開設計 Sprint</h4>
+                    <p>多變體探索 + 評選</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <h4>歸檔史料</h4>
+                    <p>準備下一輪考古</p>
+                </div>
+            </div>
+
+            <p>
+                這個流程看起來「慢」，但它對應的是真實工業場景的需求：每次 UI 改版都會牽動使用者的訓練成本、技術文件的更新、客戶示範流程的調整。謹慎設計，是對最終使用者（離岸風場技術員）的尊重。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔍 windMindOM UI v2 目前已知的方向</h3>
+                <p>基於昨晚的 commit 記錄，v2 改版的觸發點是劉老師在 2026-05-12 提出了「新一輪 UI 改版」的意向。目前 WMOM-20260513-01 的 Acceptance Criteria 框架已備好，等待補充：新的主題風格方向、字型與色系調整範圍、元件異動清單（哪些沿用 v1，哪些需要重新設計）。v1 的六套設計變體史料將是 v2 設計者最重要的參考資產。</p>
+            </div>
+
+            <h2>四、研究室的設計工程實踐啟示</h2>
+
+            <p>
+                windMindOM 的設計管理實踐，對研究室未來的所有軟體專案都有廣泛的參考價值。這裡整理幾個核心原則：
+            </p>
+
+            <p><strong>原則一：設計決策是工程知識，必須版本控制。</strong> JSX 元件、CSS 變數、設計交接書，都應和功能程式碼一起存在 Git 中。設計不是暫時的輸入，而是永久的工程資產。</p>
+
+            <p><strong>原則二：多變體探索優於單一方案。</strong> VA/VB/VC 的探索方式，讓設計決策有了比較基礎。「為什麼選 VB 而非 VA？」有了可引用的具體答案。在時程允許的情況下，寧可多花半天產出三個變體，也不要讓單一方案在沒有對照下被接受。</p>
+
+            <p><strong>原則三：placeholder issue 優於提前開工。</strong> 當需求模糊時，開一個有框架的 placeholder，比在不完整 spec 下開始動手要好得多。等 spec 補齊，再啟動實作 sprint，效率反而更高。</p>
+
+            <p><strong>原則四：以 LLM 為設計協作者時，context 即史料。</strong> 設計檔案的完整保存，讓 LLM 在下一輪改版時能夠讀取完整的設計脈絡，而非從頭描述。這是 AI 協作設計的新基礎設施思維。</p>
+
+            <div class="action-box">
+                <h3>🚀 研究室接下來的行動項目</h3>
+                <p>
+                    <strong>windMindOM</strong>：等待劉老師補充 WMOM-20260513-01 的設計交接書，正式啟動 UI v2 改版 sprint。在此之前，M4 剩餘工作（A6/A7 領料庫存 frontend、A10 E2E test）繼續推進。<br><br>
+                    <strong>設計文化推廣</strong>：考慮將「設計史料歸檔」實踐推廣至 windAILab 與 RAG_Ultimate 的前端元件，建立統一的 <span class="code-inline">docs/design/</span> 規範。<br><br>
+                    <strong>LLM 設計協作 SOP</strong>：根據 windMindOM 的實踐，整理一份「如何讓 Claude 讀取設計史料進行 UI 改版」的標準作業流程，供研究室未來專案參考。
+                </p>
+            </div>
+
+            <p>
+                工業軟體的介面設計，從來不是「美不美觀」的問題，而是「安不安全、用不用得動、改得了嗎」的工程問題。windMindOM 選擇把設計史料當作工程資產，正是這種理念的具體實踐。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考來源與延伸閱讀</strong></p>
+            <ul>
+                <li>windMindOM commit <code>c44e482</code>「chore: archive 2026-05-07 UI design source materials + open WMOM-20260513-01 v2 placeholder」(2026-05-12)</li>
+                <li><a href="https://www.nngroup.com/articles/calm-technology/" target="_blank">Nielsen Norman Group — Calm Technology Principles</a></li>
+                <li><a href="https://designsystemsrepo.com/" target="_blank">Design Systems Repo — Industrial Design System References</a></li>
+                <li><a href="https://github.com/dofliu/windMindOM" target="_blank">windMindOM GitHub Repository</a></li>
+                <li>WMOM ISSUES.md — WMOM-20260513-01「UI 改版 v2」Placeholder（本機文件）</li>
+                <li>windMindOM STATUS.yaml — v0.8.1 / M4 95% / 22 open issues（本機文件）</li>
+            </ul>
+        </div>
+    </article>
+</body>
+</html>
