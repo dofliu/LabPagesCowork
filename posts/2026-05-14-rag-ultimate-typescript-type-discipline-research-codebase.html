@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>研究程式碼的型別紀律：RAG Ultimate 如何用 6 輪 Routine 清除 TypeScript any 污染 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .round-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+        .round-list li { display: flex; gap: 1rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .round-badge { flex-shrink: 0; background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); border-radius: 6px; padding: 0.2rem 0.55rem; font-size: 0.78rem; color: #818cf8; font-weight: 600; white-space: nowrap; margin-top: 0.1rem; }
+        .round-desc { font-size: 0.95rem; color: var(--text-light); line-height: 1.6; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">研究程式碼的型別紀律：RAG Ultimate 如何用 6 輪 Routine 清除 TypeScript <code style="font-size:1.6rem;">any</code> 污染</h1>
+            <p>2026-05-14 &bull; 劉瑞弘教授團隊 &bull; RAG Ultimate / TypeScript / Code Quality / Research Software Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG Ultimate</span>
+                <span class="tag tag-teal">TypeScript</span>
+                <span class="tag tag-orange">Code Quality</span>
+                <span class="tag tag-green">Research Software</span>
+                <span class="tag tag-sage">D3.js</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                2026 年 5 月 13 日，RAG Ultimate 的 Git 歷史新增了 6 個 routine PR——不是新功能，不是論文實驗，而是一場有計畫的<strong>型別清理行動</strong>。從早上第一輪消除後端公開介面的 ruff D 系列警告，到傍晚最後一輪為 D3 force-graph 的 callback 訂製區域型別，整整 6 輪下來，2,524 個測試全數通過，TypeScript 編譯器零錯誤。這不是運氣，而是一套刻意設計的研究程式碼品質工作流的體現。
+            </p>
+
+            <p>
+                學術研究的程式碼長期以來面臨一個兩難困境：<strong>快速驗證想法</strong>的壓力往往讓型別標註、文件字串、測試覆蓋這些「慢功夫」被一再推遲。結果是，三個月後自己都看不懂當初的邏輯，學生接手更是一頭霧水。RAG Ultimate 嘗試用「Routine 制度」打破這個循環——每個開發 session 分成功能衝刺與品質維護兩個模式，後者有專屬的 ROUTINE.md 清單，依優先順序逐項執行，每 5 個 PR 後強制做一次 CR/CI checkpoint。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">6</div>
+                    <div class="label">Routine 輪次（單日）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">2,524</div>
+                    <div class="label">測試通過數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">125/127</div>
+                    <div class="label">Jest 測試套件</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">0</div>
+                    <div class="label">TypeScript 編譯錯誤</div>
+                </div>
+            </div>
+
+            <h2>六輪 Routine 做了什麼？</h2>
+
+            <p>每一輪都有明確的任務邊界、受影響的檔案清單、以及下一輪的 <span class="code-inline">next_hint</span>。這種設計讓每個 PR 都獨立可 revert，也讓未來的協作者能從任一點切入而不失去上下文。</p>
+
+            <ul class="round-list">
+                <li>
+                    <span class="round-badge">r1–r2</span>
+                    <span class="round-desc"><strong>後端 9 個檔案 / 46 個 docstring 補全</strong>：針對 ruff D101/D103/D104 偵測出的公開介面缺漏，逐一補上 module-level、class-level、function-level 文件字串。禁區（<span class="code-inline">services/</span>）暫不動，保留供使用者授權後處理。</span>
+                </li>
+                <li>
+                    <span class="round-badge">r3</span>
+                    <span class="round-desc"><strong>後端 tests 目錄 / 29 個 docstring</strong>：測試類別與 fixture 的文件字串往往是最常被忽略的。本輪補完 <span class="code-inline">test_chunking</span>（13 個方法）與 <span class="code-inline">test_vector_store</span>（10 個方法），讓測試意圖在 ruff 掃描下完全透明。</span>
+                </li>
+                <li>
+                    <span class="round-badge">r4</span>
+                    <span class="round-desc"><strong>CR/CI Checkpoint</strong>（每 5 PR 強制執行）：全套跑 tsc / jest / ruff / pytest，回顧 PR #81–#84 的變更品質，確認無 regression，並將 2 個 pre-existing legacy 失敗標記為不相關。</span>
+                </li>
+                <li>
+                    <span class="round-badge">r5</span>
+                    <span class="round-desc"><strong>config 與 scripts 的殘留 docstring</strong>：ruff 重掃後發現禁區外還剩 4 處，包含 <span class="code-inline">Settings.Config</span> 巢狀類別（D106）與三個 <span class="code-inline">main()</span> 入口（D103）。一次清零。</span>
+                </li>
+                <li>
+                    <span class="round-badge">r6</span>
+                    <span class="round-desc"><strong>D3 force-graph 型別噪音清理</strong>：最技術性的一輪。GraphRagModal 的 D3 simulation callback 充斥著 <span class="code-inline">(d: any)</span> 與 <span class="code-inline">event: any</span>，用三個區域型別 <span class="code-inline">SimNode</span> / <span class="code-inline">SimLink</span> / <span class="code-inline">DragEvent</span> 全數替換。</span>
+                </li>
+            </ul>
+
+            <h2>D3 型別問題的深層邏輯</h2>
+
+            <p>
+                D3 的 force simulation 是 RAG Ultimate 的 GraphRAG 視覺化核心，但 <span class="code-inline">@types/d3</span> 尚未安裝的情況下，d3 的型別推回就是 <span class="code-inline">any</span>——這意味著每個 tick callback、drag handler 的參數都失去靜態檢查能力。最直覺的解法「全域 augment .d.ts」在這個情境下行不通，因為沒有可以 augment 的目標型別。
+            </p>
+
+            <div class="code-block">
+<span style="color:#818cf8;">// 清理前：型別資訊消失，編譯器無法推斷 d 的形狀</span>
+forceLink(...).id(<span style="color:#fb923c;">(d: any)</span> => d.id)
+node.attr("fill", <span style="color:#fb923c;">(d: any)</span> => colorMap[d.type])
+
+<span style="color:#818cf8;">// 清理後：區域型別明確標示 tick 後動態注入的屬性</span>
+<span style="color:#4ade80;">type SimNode</span> = GraphNode & { x?: number; y?: number; vx?: number; vy?: number; fx?: number | null; fy?: number | null }
+<span style="color:#4ade80;">type SimLink</span> = GraphLink & { source: string | SimNode; target: string | SimNode }
+
+forceLink(...).id(<span style="color:#4ade80;">(d: SimNode)</span> => d.id)
+node.attr("fill", <span style="color:#4ade80;">(d: SimNode)</span> => colorMap[d.type])
+</div>
+
+            <p>
+                這個設計有一個特別值得記錄的工程決策：<strong>選擇區域型別而非強行安裝 @types/d3</strong>。原因是引入型別套件屬於 <span class="code-inline">devDependency</span> 變更，需要使用者確認；而區域型別在不改動任何 runtime 行為的前提下，已能完整標注 callback 的意圖，且日後若決定引入 @types/d3，直接替換為官方的 <span class="code-inline">SimulationNodeDatum</span> / <span class="code-inline">SimulationLinkDatum</span> / <span class="code-inline">D3DragEvent</span> 即可，migration cost 為零。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔍 什麼是「禁區」概念？</h3>
+                <p>RAG Ultimate 在 Routine 流程中明確定義了「禁區」（off-limits zones）——通常是核心服務層（<span class="code-inline">services/embeddingService.ts</span>、<span class="code-inline">services/geminiService.ts</span>等），這些檔案的變更風險高、影響範圍廣，每次修改前都需要使用者明確授權。這個機制讓 AI 協作開發在「積極清理」與「謹慎保守」之間取得平衡——能自動處理的就自動處理，需要人類判斷的就停下來等待確認，而不是偷偷修改核心邏輯。</p>
+            </div>
+
+            <h2>Routine 制度：研究室程式碼的「定期健檢」</h2>
+
+            <p>
+                傳統學術軟體開發的典型死亡螺旋是：功能越堆越多 → 技術債越積越深 → 新成員上手成本越來越高 → 更沒有時間清債。RAG Ultimate 的 Routine 制度試圖在源頭打斷這個循環，核心設計原則有三點：
+            </p>
+
+            <ul>
+                <li><strong>每輪有明確的任務邊界</strong>：不做「順手修一下」的模糊改動，每個 PR 的 diff 都應該能在三行以內解釋清楚目的。</li>
+                <li><strong>next_hint 是跨 session 的記憶體</strong>：每輪結束時，在 routine_log.yaml 記錄下一步的候選項目，讓下個 session（或隔天、隔週）的開發者能無縫接手，不需要重新分析程式碼狀態。</li>
+                <li><strong>每 5 個 PR 強制 checkpoint</strong>：避免多個「安全」的小改動在累積後出現意外的交互作用。checkpoint 不只跑 CI，還做人工的 diff review，確保方向正確。</li>
+            </ul>
+
+            <div class="insight-box">
+                <h3>💡 研究程式碼品質的本質矛盾</h3>
+                <p>學術研究需要快速探索、頻繁重構、有時甚至需要「先讓它跑起來」的原型思維；但同時，研究程式碼又是論文可重現性的基礎，需要比商業軟體更嚴格的文件與測試覆蓋。RAG Ultimate 的做法是<strong>把這兩種模式明確分開</strong>：功能衝刺時允許暫時的型別妥協，但 Routine session 是有計畫地清理這些技術債，而不是讓它們永遠留在 codebase 裡。關鍵在於：清理的節奏要快過技術債積累的速度。</p>
+            </div>
+
+            <h2>對研究室同學的啟示</h2>
+
+            <p>
+                不管是做 RAG 系統、工業 AI 或風能故障診斷，當你的研究程式碼規模超過幾千行之後，型別標注與文件字串不再只是「好習慣」，而是<strong>認知負荷管理的基礎設施</strong>。當你三個月後回來改一個 bug，或者學弟妹要接手你的程式碼，清楚的型別定義和 docstring 能省下大量的逆向工程時間。
+            </p>
+
+            <p>幾個可以立刻採用的具體做法：</p>
+
+            <ul>
+                <li>在 Python 專案中加入 <span class="code-inline">ruff --select D101,D103,D104</span> 到 CI pipeline，讓公開介面的文件字串缺漏在 PR 階段就被擋下。</li>
+                <li>TypeScript 專案開啟 <span class="code-inline">"noImplicitAny": true</span>，把 <span class="code-inline">any</span> 的使用限制在有意識的決策，而不是偷懶的逃脫出口。</li>
+                <li>為每個外部函式庫缺少型別定義的情況，建立「最小區域型別」而不是直接用 <span class="code-inline">any</span>——就算只是 <span class="code-inline">type D3Node = { id: string; x?: number; y?: number }</span> 也比什麼都沒有好。</li>
+                <li>維護一份 <span class="code-inline">routine_log.yaml</span>，每次做完維護工作後記錄 next_hint，讓自己和協作者能快速恢復上下文。</li>
+            </ul>
+
+            <div class="action-box">
+                <h3>🚀 RAG Ultimate 下一步</h3>
+                <p>在型別清理完成後，下一個重大里程碑是 <strong>Stage 2B ResearchLab 重組</strong>——把實驗計畫（Experiment Plan）與即時遙測（Live Telemetry）重組為雙欄佈局，並補跑 r06/r07 實驗輪次，積累足夠的完整 run 數量以支撐論文主表的統計分析。目前整個平台已通過 829 個測試（41 個測試套件），17 種 RAG 模式穩定運行，Qdrant 向量資料庫持久化正常，這些基礎條件讓研究團隊能夠更有信心地設計大規模評測實驗。</p>
+            </div>
+
+            <p>
+                一個研究平台的成熟度，不只體現在它能做多酷的功能，也體現在它能以多穩定的節奏自我更新。RAG Ultimate 的 6 輪 routine 是一個縮影：好的研究程式碼需要持續的打磨，而打磨需要制度而不只是善意。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG Ultimate GitHub Repository</a> — PR #81–87, routine_log.yaml (2026-05-13)</li>
+                <li><a href="https://docs.astral.sh/ruff/rules/#pydocstyle-d" target="_blank">ruff D-series Rules (pydocstyle)</a> — D101 Missing docstring in public class, D103 in public function, D104 in public package</li>
+                <li><a href="https://www.typescriptlang.org/tsconfig/#noImplicitAny" target="_blank">TypeScript tsconfig: noImplicitAny</a> — 官方文件</li>
+                <li><a href="https://d3js.org/d3-force" target="_blank">D3 Force Simulation</a> — SimulationNodeDatum / SimulationLinkDatum 型別參考</li>
+                <li>Wilson, G. et al. (2017). <em>Good enough practices in scientific computing.</em> PLOS Computational Biology, 13(6). <a href="https://doi.org/10.1371/journal.pcbi.1005510" target="_blank">DOI:10.1371/journal.pcbi.1005510</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (toggle && navLinks) {
+            toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+        }
+    </script>
+</body>
+</html>
