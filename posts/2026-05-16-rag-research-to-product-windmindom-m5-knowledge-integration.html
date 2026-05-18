@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>研究成果如何轉化為產品功能：RAG_Ultimate 與 windMindOM M5 的解耦整合設計 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .flow-row { display: flex; align-items: center; gap: 0.75rem; margin: 1rem 0; flex-wrap: wrap; }
+        .flow-node { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.4); border-radius: 6px; padding: 0.55rem 1rem; font-size: 0.9rem; color: #818cf8; font-weight: 600; }
+        .flow-arrow { color: var(--text-gray); font-size: 1.2rem; }
+        .flow-node.green { background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.4); color: #4ade80; }
+        .flow-node.teal { background: rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.4); color: #2dd4bf; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+            .flow-row { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">研究成果如何轉化為產品功能：RAG_Ultimate 與 windMindOM M5 的解耦整合設計</h1>
+            <p>2026-05-16 &bull; 劉瑞弘教授團隊 &bull; RAG / windMindOM / System Architecture / Research-to-Product</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">windMindOM</span>
+                <span class="tag tag-orange">System Design</span>
+                <span class="tag tag-green">Research-to-Product</span>
+                <span class="tag tag-sage">Offshore Wind O&amp;M</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                研究室同時維護兩個大型系統：<strong>RAG_Ultimate</strong>（企業級 RAG 研究平台，17 種檢索模式、829 支測試、Qdrant 向量資料庫）與 <strong>windMindOM</strong>（離岸風場運維廠商 SaaS 產品，5 大功能模組）。這兩個系統在技術棧上高度相關，卻又必須保持獨立——一個是研究平台，一個是要交付給真實客戶的產品。
+            </p>
+            <p>
+                隨著 windMindOM M4（庫存派工 + 報表）在本月初正式完成端到端測試，M5「Knowledge / RAG + 現場 mobile UI」已正式排入 2026-09 的里程碑。如何讓研究平台的成果真正流入產品，同時又不讓兩個系統彼此綁架，是我們在規劃 M5 時遇到的核心設計問題。這篇文章記錄我們的解答。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">17</div><div class="label">RAG_Ultimate 檢索模式</div></div>
+                <div class="stat-item"><div class="num">829</div><div class="label">自動化測試數量</div></div>
+                <div class="stat-item"><div class="num">M5</div><div class="label">windMindOM 下一里程碑</div></div>
+                <div class="stat-item"><div class="num">2026-09</div><div class="label">目標上線時程</div></div>
+            </div>
+
+            <h2>問題根源：研究環境與產品環境的天然矛盾</h2>
+
+            <p>
+                在研究室裡，RAG_Ultimate 有完整的開發環境：Qdrant 容器、FastAPI 後端、React 前端評測介面。我們可以隨時切換 embedding model、調整 chunking 策略、對比 RAGAS 指標。這種靈活性是研究工作的命脈。
+            </p>
+            <p>
+                但 windMindOM 的客戶——離岸風場的運維廠商——有截然不同的需求。他們需要一個可以在風場現場部署的工具，不能依賴連線到研究室的 Qdrant 實例，不能在客戶端安裝 Python 研究環境，更不能每次研究員調整實驗參數就讓客戶系統崩潰。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🎯 核心矛盾</h3>
+                <p>研究要求靈活可調（探索未知），產品要求穩定可部署（服務真實客戶）。若直接讓 windMindOM 在 runtime 呼叫 RAG_Ultimate 的 API，任何一方的更新都可能破壞另一方——這是一個必須在架構層面解決的問題。</p>
+            </div>
+
+            <h2>解耦的核心思路：Artifact 交付而非 Runtime 整合</h2>
+
+            <p>
+                我們的設計決策非常明確：<strong>RAG_Ultimate 不作為 windMindOM 的 runtime 依賴，而是作為研究工件（artifact）的生產者</strong>。具體而言，RAG_Ultimate 在研究完成後交付兩類檔案：
+            </p>
+
+            <ul>
+                <li><strong>策略檔（rag_strategy_z72_manual.yaml）</strong>：描述該機型技術手冊的最佳 RAG 策略，包含 chunking 方式、embedding model 選擇、檢索模式組合等超參數。</li>
+                <li><strong>預計算向量檔（.qdrant_snapshot）</strong>：已對特定文件集（如 Z72 機型操作手冊、警報碼說明書）建立好的 Qdrant collection snapshot。</li>
+            </ul>
+
+            <p>windMindOM M5 的 <span class="code-inline">knowledge/</span> 模組只負責載入這兩類檔案，執行查詢，並將結果渲染到前端介面。整個資料流如下：</p>
+
+            <div class="flow-row">
+                <div class="flow-node">RAG_Ultimate<br><small>研究實驗</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node teal">策略檔 + 向量檔<br><small>artifact 交付</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node green">windMindOM M5<br><small>載入 + 查詢</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node green">現場工程師<br><small>警報處置建議</small></div>
+            </div>
+
+            <p>
+                這個架構讓兩個系統各自獨立演進：研究平台可以任意調整實驗設計，只要最終交付的 artifact 格式保持相容；產品端則不需要了解 RAG 的內部機制，只需讀取策略檔並載入向量快照即可。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 為什麼這個設計在工業 AI 場景格外重要</h3>
+                <p>離岸風場的 IT 環境通常有嚴格的網路隔離——控制室不一定能連到外部雲端。「預計算向量檔 + 本地 Qdrant 容器」的模式讓知識檢索可以在完全離線的環境中運作，這對於真實的工業部署場景是關鍵優勢。</p>
+            </div>
+
+            <h2>現場工程師的使用情境：警報頁面的 RAG 整合</h2>
+
+            <p>
+                M5 的核心使用情境是 <span class="code-inline">/field/alerts/{id}</span> 頁面。當風機觸發警報，現場工程師開啟這個頁面時，畫面左側顯示即時 SCADA 數據與警報詳情，右側即時呈現 RAG 查詢結果——從技術手冊與歷史工單中撈取與該警報最相關的處置步驟。
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">📟 警報資訊區（左）</div>
+                    <div class="col-body">
+                        警報碼 / 機組 ID / 觸發時間<br>
+                        SCADA 即時數據（轉速、溫度、振動）<br>
+                        歷史同類警報統計<br>
+                        派工狀態
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">📖 RAG 知識建議區（右）</div>
+                    <div class="col-body">
+                        技術手冊相關段落<br>
+                        警報碼官方處置流程<br>
+                        相似歷史工單的解決方案<br>
+                        信心分數與來源引用
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                這個設計的關鍵不是「AI 有多聰明」，而是「工程師在現場最需要什麼」。不需要生成式 AI 創造新知識——現場工程師需要的是快速找到機型手冊裡那一頁關鍵的處置說明。RAG 在這裡做的是精準索引，而非創作。
+            </p>
+
+            <div class="highlight-box">
+                <h3>📐 M5 知識模組的技術邊界</h3>
+                <p>windMindOM 的 <span class="code-inline">knowledge/</span> 模組預計包含三個核心檔案：<br>
+                <span class="code-inline">strategy_loader.py</span>：讀取 RAG_Ultimate 交付的策略檔<br>
+                <span class="code-inline">vector_store.py</span>：管理本地 Qdrant snapshot 的載入與查詢<br>
+                <span class="code-inline">knowledge_router.py</span>：FastAPI router，提供 <span class="code-inline">/api/knowledge/query</span> endpoint<br><br>
+                <strong>有意設計的邊界</strong>：M5 不自行處理 chunking、不訓練 embedding model、不調整 RAG 超參數——這些全部由 RAG_Ultimate 在研究環境中處理完畢後以 artifact 形式交付。</p>
+            </div>
+
+            <h2>更新策略：不停機升級知識庫</h2>
+
+            <p>
+                當 RAG_Ultimate 研究出更好的 chunking 策略或切換到更強的 embedding model 時，如何讓 windMindOM 的客戶無縫升級？我們的設計是分版本的向量快照交付機制：
+            </p>
+
+            <ul>
+                <li><strong>小幅更新（策略調整）</strong>：只更新 YAML 策略檔，保留現有向量快照。windMindOM 讀取新策略後改變查詢行為，不需要重新建索引。</li>
+                <li><strong>中幅更新（新文件加入）</strong>：RAG_Ultimate 重切新文件並增量加入 collection，交付 diff snapshot。windMindOM 合併後繼續提供服務。</li>
+                <li><strong>大幅更新（換 embedding model）</strong>：RAG_Ultimate 重新建立完整 collection，交付全量 snapshot。windMindOM 在維護視窗期間替換，舊版保留備份以支援回滾。</li>
+            </ul>
+
+            <p>
+                這套分級更新策略讓我們可以在不中斷客戶服務的前提下，持續將研究進展注入產品。對運維廠商而言，他們不需要了解 RAG 的內部機理，只需要在更新提示出現時下載新的知識包並讓系統自動載入即可。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 研究室行動項目（M5 前置準備）</h3>
+                <ul>
+                    <li><strong>RAG_Ultimate 方面</strong>：完成風電技術文件的 benchmark 實驗（Z72 機型手冊 + 警報碼說明書），確定最佳 chunking 策略（目前候選：Semantic Chunking vs. Fixed 512 token + 20% overlap）</li>
+                    <li><strong>RAG_Ultimate 方面</strong>：設計 artifact 打包格式，確保 qdrant snapshot + strategy YAML 的版本相容性保證</li>
+                    <li><strong>windMindOM 方面</strong>：M5 開工前，先完成 A10 E2E 測試（M4 遺留項目），確保 regression test coverage 足夠</li>
+                    <li><strong>windMindOM 方面</strong>：設計 <span class="code-inline">knowledge/</span> 模組的 API contract，讓前端可提前開始 mock 開發</li>
+                    <li><strong>論文方面</strong>：RAG_Ultimate 的風電文件 benchmark 結果可直接成為期刊論文的實驗數據，M5 的工程實踐案例可作為應用段落</li>
+                </ul>
+            </div>
+
+            <h2>小結：「研究平台作為工件生產者」的設計哲學</h2>
+
+            <p>
+                RAG_Ultimate 與 windMindOM 的整合方式，體現了一個更廣泛的設計哲學：<strong>研究系統的產出不應該是 API，而應該是可獨立部署的工件</strong>。這讓研究和產品團隊各自保持最高的自主性，同時又能讓研究成果真正流入能服務真實用戶的產品。
+            </p>
+            <p>
+                對於同樣面臨「研究平台 vs 產品化」抉擇的學術團隊，這個模式值得參考。它的代價是需要明確定義 artifact 格式的 schema，並在兩個系統之間維護版本相容性契約；但帶來的好處是兩個系統都能以自己最適合的節奏演進，不會因為耦合而相互拖慢。
+            </p>
+            <p>
+                windMindOM M5 預計在 2026 年 9 月完成，屆時 DOF Lab 將有一個完整的「研究 → 工件 → 產品」管線的實際案例，期待屆時帶給大家更完整的心得分享。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://qdrant.tech/documentation/concepts/snapshots/" target="_blank">Qdrant Snapshots Documentation — Qdrant Team</a></li>
+                <li><a href="https://arxiv.org/abs/2312.10997" target="_blank">RAGAS: Automated Evaluation of Retrieval Augmented Generation — Es et al., 2023</a></li>
+                <li><a href="https://github.com/dofliu/windMindOM" target="_blank">windMindOM — DOF Lab GitHub（私有）</a></li>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate — DOF Lab GitHub（私有）</a></li>
+                <li>windMindOM MVP_ARCHITECTURE.md — DOF Lab 內部文件（2026-05-02 v0.8.1）</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.9rem; border-top: 1px solid var(--border-color);">
+        <p>© 2026 DOF Lab, 國立勤益科技大學 智慧自動化工程系 &bull; <a href="../privacy.html" style="color:var(--primary-color);">隱私權政策</a></p>
+    </footer>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

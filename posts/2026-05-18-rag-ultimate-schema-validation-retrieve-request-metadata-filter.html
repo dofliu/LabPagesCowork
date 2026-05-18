@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG API 的第一道防線：Schema 型別邊界、Metadata Filter 與 Score Threshold 設計 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .schema-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .schema-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .schema-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .schema-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-new { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); border-radius: 3px; margin-left: 0.3rem; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG API 的第一道防線：Schema 型別邊界、Metadata Filter 與 Score Threshold 設計</h1>
+            <p>2026-05-18 &bull; 劉瑞弘教授團隊 &bull; RAG / API Design / Schema Validation / Research Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">API Design</span>
+                <span class="tag tag-orange">Schema Validation</span>
+                <span class="tag tag-green">Pydantic</span>
+                <span class="tag tag-sage">Research Engineering</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                在設計 RAG（Retrieval-Augmented Generation）研究平台時，多數研究者的注意力自然集中在「檢索效果」本身：哪種分塊策略最好？向量模型怎麼選？Hybrid Search 的權重如何調？但有一個問題常被低估——<strong>壞資料在進入檢索管道前，應該在哪裡攔截？</strong>
+            </p>
+            <p>
+                <strong>RAG_Ultimate</strong> 今日完成了兩個相互呼應的 API Schema 強化：PR #105（<span class="code-inline">IngestRequest</span>）與 PR #106（<span class="code-inline">RetrieveRequest</span>）。這兩個 PR 都只觸碰 <span class="code-inline">schemas.py</span> 與對應測試，完全不動核心向量存取與檢索邏輯——但它們的意義遠超過「加幾個欄位驗證」：它們代表的是<strong>以 Schema 作為研究平台第一道防線</strong>的設計哲學。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">106</div><div class="label">已合併/提交 PR 數</div></div>
+                <div class="stat-item"><div class="num">86</div><div class="label">當前 pytest 測試通過數</div></div>
+                <div class="stat-item"><div class="num">0</div><div class="label">TypeScript 編譯錯誤</div></div>
+                <div class="stat-item"><div class="num">12/21</div><div class="label">Backlog 區段 D 完成進度</div></div>
+            </div>
+
+            <h2>問題的起點：無邊界的自由字串</h2>
+
+            <p>
+                RAG API 的輸入通常看起來很簡單：給我一個 <span class="code-inline">collection_name</span>，一個 <span class="code-inline">query</span>，還有 <span class="code-inline">top_k</span>，我幫你找最相關的文件。問題在於，如果這些欄位沒有任何邊界約束，就可能收到這樣的請求：
+            </p>
+
+            <div class="code-block">
+# 問題場景一：空白 collection_name 流到 Qdrant 才報錯
+{
+  "collection_name": "",
+  "query": "風力發電故障診斷",
+  "top_k": 10
+}
+
+# 問題場景二：超長 query 把 embedding API 餵成 batch
+{
+  "collection_name": "wind_papers",
+  "query": "（2000 字的完整論文段落...）",
+  "top_k": 5
+}
+
+# 問題場景三：collection_name 含斜線，Qdrant 路由混亂
+{
+  "collection_name": "wind/papers/v2",
+  "query": "gearbox vibration",
+  "top_k": 3
+}</div>
+
+            <p>
+                在沒有 schema 邊界的情況下，這些問題通常在服務的最深層——向量資料庫或 embedding 模型——才會以奇怪的錯誤訊息浮現，讓 debug 成本大幅上升。
+            </p>
+
+            <h2>PR #105 + #106：兩層 Schema 的互補強化</h2>
+
+            <p>
+                本次強化以 Pydantic v2 的宣告式驗證為基礎，分別針對資料注入（Ingest）與資料檢索（Retrieve）兩個方向補上邊界。
+            </p>
+
+            <div class="highlight-box">
+                <h3>📌 Schema 強化對照表</h3>
+                <table class="schema-table">
+                    <thead>
+                        <tr>
+                            <th>欄位</th>
+                            <th>強化前</th>
+                            <th>強化後</th>
+                            <th>防範問題</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">collection_name</span>（兩者）</td>
+                            <td>任意字串</td>
+                            <td><span class="code-inline">min_length=1</span>, <span class="code-inline">max_length=128</span>, pattern 限制</td>
+                            <td>空白名稱 / 含 <span class="code-inline">/</span> 等特殊字元流到 Qdrant 層才報錯</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">query</span>（Retrieve）</td>
+                            <td>任意字串</td>
+                            <td><span class="code-inline">min_length=1</span>, <span class="code-inline">max_length=2000</span></td>
+                            <td>超長文本把 embedding API 誤當成批次送入</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">query_filter</span> <span class="badge-new">新增</span></td>
+                            <td>不存在</td>
+                            <td><span class="code-inline">Optional[Dict[str, Any]]</span></td>
+                            <td>為 Qdrant payload filter pass-through 預留型別位置</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">score_threshold</span> <span class="badge-new">新增</span></td>
+                            <td>不存在</td>
+                            <td><span class="code-inline">Optional[float]</span>（ge=0.0, le=1.0）</td>
+                            <td>cosine similarity 超出 [0, 1] 範圍被攔在入口</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                值得注意的是，<span class="code-inline">query_filter</span> 與 <span class="code-inline">score_threshold</span> 這兩個新欄位在這個 PR 中<strong>尚未串接至向量存取層</strong>——它們只是在 Schema 上預留了型別位置。這個設計決策並非偷懶，而是刻意的：
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">🔒 禁區制度（Safe Zone）</div>
+                    <div class="col-body">RAG_Ultimate 的例行維護有嚴格的「禁區」規範：核心 vector_store 與 embedding_service 邏輯不得在未計畫的情況下觸碰。Schema 強化只動 <span class="code-inline">schemas.py</span>，確保每個 PR 的影響範圍清晰可控。</div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">📐 型別先行策略</div>
+                    <div class="col-body">先在 Schema 建立正確的型別宣告，後續的 wire-up PR 才有清楚的 interface 可以對接。這種「contract first」的做法讓後端邏輯和 API 邊界解耦，降低重構成本。</div>
+                </div>
+            </div>
+
+            <h2>Metadata Filter 在 RAG 研究中的意義</h2>
+
+            <p>
+                <span class="code-inline">query_filter</span> 的加入，背後有更深的研究動機。RAG 系統最常見的問題之一是<strong>語意相關但情境不符</strong>：使用者查詢「齒輪箱振動異常」，向量搜尋確實找到了語意接近的文件，但那些文件來自 2018 年、針對不同型號的離岸風機，對當前的診斷任務毫無幫助。
+            </p>
+            <p>
+                Qdrant 的 payload filter 機制允許在語意搜尋之外，額外限定文件的 metadata 條件——例如指定文件年份、來源資料集、設備型號或風場地點。在 RAG_Ultimate 的研究框架中，這個能力對我們正在進行的<strong>風場文件 RAG Benchmark 論文</strong>特別重要：不同品質、不同來源的文件混入同一個 collection 時，metadata filter 就是確保評測可控的關鍵工具。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 研究啟示：Schema 是 RAG 系統的「型別契約」</h3>
+                <p>
+                    Pydantic Schema 在 RAG 平台中不只是「資料驗證工具」，它更像一份公開的型別契約：告訴呼叫端這個端點能接受什麼、不能接受什麼、未來會提供什麼能力（query_filter、score_threshold）。這份契約愈早建立、愈完整，後續添加功能時需要的「溝通成本」就愈低——無論呼叫端是人類工程師、前端元件，還是 AI 代理。
+                </p>
+                <p>
+                    對於 AI 輔助研究平台來說，這一點尤其重要：當自動化例行程序每天數十次觸發 API 呼叫時，清晰的 Schema 邊界是防止靜默失敗（silent failure）累積成資料品質危機的最後一道閘門。
+                </p>
+            </div>
+
+            <h2>21 個新測試：驗證邊界的邊界</h2>
+
+            <p>
+                PR #106 新增了 5 個測試 class、21 個測試案例，涵蓋所有新舊欄位的邊界行為。測試設計遵循「正確路徑 + 邊界合法值 + 邊界非法值」三層結構：
+            </p>
+
+            <div class="code-block">
+# 示例：score_threshold 的邊界測試（6 個案例）
+class TestRetrieveRequestScoreThreshold:
+    def test_valid_none(self): ...             # None → 向後相容
+    def test_valid_zero(self): ...             # 0.0 → 最寬鬆閾值
+    def test_valid_one(self): ...              # 1.0 → 僅完全相符
+    def test_valid_mid(self): ...              # 0.75 → 典型使用值
+    def test_invalid_negative(self): ...       # -0.1 → 攔截
+    def test_invalid_above_one(self): ...      # 1.1 → 攔截
+
+# 合計測試通過：86 passed（65 既有 + 21 新增）
+# ruff check：All checks passed
+# npx tsc --noEmit：0 errors</div>
+
+            <p>
+                完整的測試覆蓋也是這個「禁區外」策略得以成立的前提：當我們保證 schema 層的行為完全可預測，才能安心地在後續 PR 中進行 wire-up，而不用擔心引入隱性的輸入假設。
+            </p>
+
+            <h2>連續等待：PR #106 的 5 連 Skip 現象</h2>
+
+            <p>
+                有一個值得記錄的工程現象：PR #106 自昨晚建立後，例行品質電池今日已連續觸發 5 輪排程，全部因「等候 PR merge」而跳過執行。這與歷史最高紀錄（PR #99 時的 5 連 skip）並列。
+            </p>
+            <p>
+                系統的行為完全如預期：每輪 log 忠實記錄目前狀態、提示建議的人工介入指令，但絕不自行 merge。這種「能見度優先、不擅越界」的設計正是 AI 輔助研究工作流的核心原則——自動化應放大研究者的生產力，而不是繞過決策責任。PR #106 CI 全綠、與既有程式碼向後相容、無任何待解 review，等候的唯一原因是人類尚未批准 merge。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 研究室行動項目</h3>
+                <ul>
+                    <li>Merge PR #106（<span class="code-inline">gh pr merge 106 --squash --delete-branch --repo dofliu/RAG_Ultimate</span>），解鎖例行品質電池 D2/D3 序列</li>
+                    <li>完成 CR/CI checkpoint #5（PR #102–#106 累積回顧），確認「清潔工 + schema 補強」週期的整體一致性</li>
+                    <li>規劃 D2（<span class="code-inline">GET /api/ingest/strategies</span>）與 D3（<span class="code-inline">GET /api/embed/models</span>）端點實作，採「禁區外折衷做法」</li>
+                    <li>探討 query_filter wire-up 時機：待 Qdrant payload filter 測試完備後，作為 Phase 2 後端 API 的里程碑之一</li>
+                    <li>將「schema first + 禁區外部署策略」整理為 windMindOM M5 知識模組的開發參考</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li><a href="https://docs.pydantic.dev/latest/concepts/fields/" target="_blank">Pydantic v2 Field Validation Documentation</a></li>
+                <li><a href="https://qdrant.tech/documentation/concepts/filtering/" target="_blank">Qdrant Payload Filtering Reference</a></li>
+                <li><a href="https://docs.pydantic.dev/latest/" target="_blank">Pydantic v2 — Data Validation using Python type hints</a></li>
+                <li>RAG_Ultimate PR #105 commit message（2026-05-17）</li>
+                <li>RAG_Ultimate PR #106 commit message 及 routine_log.md（2026-05-18）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
