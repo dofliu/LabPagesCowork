@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-11T01:08:13.118165",
+  "generated": "2026-05-18T03:03:13.011522",
   "total": 32,
   "projects": [
     {
@@ -23,7 +23,7 @@
       "description_zh": "運用 Gemini AI 自動生成九個學科的測驗題目，支援五級難度自適應調整。教師可快速建立客製化考卷，學生獲得個人化練習體驗，大幅提升教學效率。",
       "key_metrics": "9 subjects, 5 difficulty levels",
       "_path": "courseRelated/aiExamGen",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/aiExamGen/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/courseRelated/aiExamGen/STATUS.yaml"
     },
     {
       "name": "Face Recognition Attendance",
@@ -45,16 +45,16 @@
       "description_zh": "基於 InsightFace 的智能人臉識別點名系統，自動從 PDF 大頭貼提取人臉，支援多張教室照片辨識與即時動畫展示。系統具有五級信心度評分、不確定案例人工複查等研究級功能，大幅降低誤判率，適用於大班級教學場景。",
       "key_metrics": "v3.3, unified formal+streaming entry, shared result page, 39 unit tests",
       "_path": "courseRelated/attendence",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/attendence/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/courseRelated/attendence/STATUS.yaml"
     },
     {
       "name": "autoSolverVideo",
       "name_zh": "教學影片自動生成平台",
       "category": "edtech",
-      "progress": 95,
+      "progress": 99,
       "status": "active",
-      "last_updated": "2026-05-10",
-      "next_milestone": "v3.3 完整收尾 (Phase 4 + P0/P1 全清); 下一步 v4 平台收斂 (Docker + persistent worker) 或 ideate.py 自動內容企劃",
+      "last_updated": "2026-05-17",
+      "next_milestone": "iter 92 三軸升級: (1) 講者頭像 talking_head 三段選項 (always/long_form_only/off, 短影片自動 skip); (2) scriptor 教學風格 L2 5 preset (academic/storyteller/wuxia/dialogue/comedy) + L3 persona scaffold (jliu v1); (3) Google Cloud TTS provider (zh-TW Wavenet, $16/1M, FallbackTTS 機制). 1071 tests (+41 in 3 new test files). 等用戶實機測試各 preset 觀感 + GCP API key 啟用.",
       "technologies": [
         "Python 3.10+",
         "FastAPI / uvicorn",
@@ -111,7 +111,7 @@
         "core.deck.deck_to_exam_schema_slides 透傳 title + bullets (full 不讀, 保 schema 一致)",
         "SlideEditor 加 layout <select>, split-left 才顯示 bullets 編輯器"
       ],
-      "測試覆蓋": "148 tests (text_utils 22 / deck 27 / youtube 17 / jobs_store 32 /",
+      "測試覆蓋": "695 tests / 14+ modules (含 test_cover_gen 13, test_cover_meta_override",
       "Code review Round 1 (2026-05-09)": "P0 4 + P1 3 條全數修完 (2026-05-10):",
       "P0": "logging lock / utc_now tz-aware / /upload size limit / sys.exit → raise",
       "P1": "PptxStyle 越界 / F5 seg cleanup / publish 雙擊",
@@ -120,8 +120,144 @@
         "F5._lazy_init to_thread (1.35GB safetensors download 阻 event loop,",
         "_render_full letterbox 進 visible_h = HEIGHT - 180 (slide 底部 16.7%"
       ],
+      "v4 暖身完成 (2026-05-11, commit 8abfb2e)": [
+        "core/visuals.py 集中 layout 常數 (SUBTITLE_BAND_HEIGHT / CONTENT_BOTTOM /",
+        "tests/test_visuals.py 7 tests 鎖值 + cross-module import 一致性",
+        "148 → 155 tests",
+        "解 Round 2 lessons-learned #3 「magic number 散一份, 改一處忘改另一處」根因"
+      ],
+      "P0 結構性弱點 (2026-05-11 辨識, 待 v4 各階段解決)": [
+        "#1 無 job 持久化 (asyncio.create_task 即起即忘, 重啟丟所有 job)",
+        "#2 單一 process sync I/O 仍是炸雷 (F5 已踩, 沒 enforcement)",
+        "#3 schema migration 無框架 (Round 2 P0 #4 已踩, 下次改型別還踩)",
+        "#4 無 review gate 強制機制 (require_review flag 可繞)"
+      ],
+      "v4 規劃 (按投報率排序, 詳見 ROADMAP.md / TODO.md)": [
+        "階段 1: C Claude Code skill 包裝 → A Docker (1~2 週) ✅ server-side 全完成",
+        "階段 2: B ideate.py 自動企劃 + E 工程圖 AI (2~3 週) ✅ server-side 全完成",
+        "階段 3: D 持久化 worker (雲端化前置, 等真需要才做) 📋 RFC 階段"
+      ],
+      "2026-05-12~14 /advance 自動化迭代進度 (32 個 iter, 全部 CI 綠)": [],
+      "iter 1~22 基礎 + 第一波收尾 (見 commit history db1a732 之前)": [
+        "Docker (Dockerfile / docker-compose / .env.example)",
+        "ideate 完整 server-side (scan / propose / dedupe / save / route / UI / CLI)",
+        "工程圖 AI scaffold + AST sandbox + subprocess render",
+        "技術債大量清理 (deps / prompts / 死碼)",
+        "補完 CR 已知測試盲點 + 修 CI 紅 2 條"
+      ],
+      "iter 23~31 真實踩雷修補 + UX 翻轉": [
+        "iter 23: CLI scripts/run_ideate.py",
+        "iter 24: 修 retry path (state=FAILED + 無 deck.json 走 schedule_job)",
+        "iter 25: ideate 自動判斷 source_type (Gemini Vision 看前 2 頁分類)",
+        "iter 26 → 27: yaml 設定 + 自動排程 (user 反饋 UX 太繁瑣) → 砍掉,",
+        "iter 28: pptx 主題 + 3 (Frieren / Naruto / Journal,",
+        "iter 29: AST allowlist 補 dunder attribute (review 抓的 🟡, commit 403ffc4)",
+        "iter 30: prompts_loader cache invalidation (commit 439e540)",
+        "iter 31: 工程圖 AI 收尾 — generate_diagram + _propose_matplotlib_code"
+      ],
+      "P0 結構性弱點 (review iter 22 抓的) 全修": [
+        "#1 proposal id collision (秒級→納秒級)",
+        "#2 prompt {{ }} 雙花括號",
+        "#3 retry 路徑 (ingest fail 時走錯)",
+        "#4 AST dunder attribute 繞道"
+      ],
+      "剩下的 (低優先, 等 user 互動再做)": [
+        "F5 中國腔治本 (需實機跑樣本)",
+        "Gemini narration 截斷率 22% (需實跑驗證)",
+        "Pronunciation map 缺漏 (需實聽錄音)",
+        "pipeline.py 拆檔 (中大型 refactor)",
+        "階段 3 D 持久化 worker (要先 RFC 對齊技術選型)"
+      ],
+      "iter 32~62b 自動化迭代 (2026-05-14~16, 全部 CI 綠)": [],
+      "iter 41~50 串接 / quick 長度 / TTS 修補": [
+        "iter 41: prepend_intro 個人 intro 串開場",
+        "iter 43: length_mode (quick 8~15min / lecture 20~40min) 預設",
+        "iter 45: multi-section concat (每 section 獨立 mp4 → final.mp4)",
+        "iter 46: quick 真的「快」(sections 3~4 / slides 4~5 / chars 80~120)",
+        "iter 47~50: 雜項修補 (跳 narration / SRT 對齊 / log)"
+      ],
+      "iter 51~54 Option A — PDF figures 自動配圖 (4 phases)": [
+        "iter 51: PyMuPDF 抽 figures + figure schema 統一",
+        "iter 52: scriptor 看 figures 選 image_path (跨 section dedupe)",
+        "iter 52b: image_path 去重 + intro_rewriter regex boundary 修",
+        "iter 53: split-image-right layout (影片實際看到圖)",
+        "iter 54: SlideEditor figure picker (UI 替換 / 移除)"
+      ],
+      "iter 55~57b Option B + D — AI 配圖 (生圖 + Mermaid)": [
+        "iter 55: done 狀態加「重新渲染整支」入口",
+        "iter 56: Gemini 2.5 Flash Image 生架構圖 (opt-in, 會計費)",
+        "iter 56b: 補回 UI redesign 蓋掉的功能按鈕",
+        "iter 56c: model name → gemini-2.5-flash-image (GA, -preview 去掉)",
+        "iter 56d: AI 生圖自動 attach 到 section 第一張 slide",
+        "iter 57: repo .md 內 mermaid blocks → mermaid.ink 渲染",
+        "iter 57b: AI 生 mermaid syntax fallback (text gen 較便宜)"
+      ],
+      "iter 58~61 Option 2 — 主題真的有區隔感 (4 phases)": [
+        "iter 58: banner_style 4 種 (rectangle / hairline / reverse / neon)",
+        "iter 59: title_decor 4 種 (underline / block / hairline / reverse)",
+        "iter 60: font_role per theme (serif/sans, NotoSerifTC-VF 動態載)",
+        "iter 61: 5 主題簽名裝飾 (shinobi 徽章 / elven 寶石 / arcade 像素 /"
+      ],
+      "iter 62 + 62a + 62b — 封面頁": [
+        "iter 62: 插入封面頁 (intro 之後 / 主內容前), 主題 + 講者 + 日期 +",
+        "iter 62a: meta 文字色 contrast-aware (Rec. 601 luma 差值 < 80 fallback",
+        "iter 62b: 封面 meta per-job UI override (講者 / 單位 / 日期),"
+      ],
+      "iter 63~72 (2026-05-16) 主題系統 + 封面 / 結尾頁收尾": [
+        "iter 63 outro 結尾頁 + iter 63a hotfix (pipeline _RENDERERS 漏登錄",
+        "iter 64 cover/outro 主題差異化 (reverse 主題粗框 + 5 主題 signature",
+        "iter 65 封面 narration 可從 UI 覆寫",
+        "iter 66 outro 個人影片串接 + iter 67 結尾頁 QR codes",
+        "iter 68 bullets layout dispatch (classic / numbered / centered) +",
+        "iter 69 補 10 主題 signature decor (claude design 03)",
+        "iter 71 補 5 個 layout 變體 (offset / arcade_hud / notebook_lined /",
+        "iter 72 主題預覽長廊 modal (15 主題 thumbnail grid)",
+        "1006+ tests, 主題系統徹底成熟"
+      ],
+      "iter 73~85 (2026-05-16~17) 內容品質 roadmap (docs/CONTENT_QUALITY_ROADMAP.md)": [
+        "2026-05-16 劉老師決策: v4 worker 暫緩 (個人使用不痛), 改做內容品質",
+        "A1 字級 / 行距 per-theme (iter 74) + A2 margin per-theme (iter 75) +",
+        "B3 ultra_quick 3-5 min Shorts/Reels mode (iter 77)",
+        "C1 narration 長度驗證 + prompt 強化 (iter 79)",
+        "D2 字幕風格樣式 (字級/字色/描邊色 hex, iter 80)",
+        "D1 v1 outline 預覽 modal (iter 81, 唯讀)",
+        "C3 narration 教學風格 (先舉例 + 多比喻, iter 82)",
+        "B1+B2 動態影片尺寸 (Option B monkey-patch, iter 83 + iter 84 portrait",
+        "1007 tests passed, A/B/C/D 自動化部分全做完"
+      ],
+      "iter 87~89 (2026-05-17) CI 修復 + 用戶實測反饋": [
+        "用戶 screenshot 反映 CI 從 iter 57 起連紅 30 commit",
+        "iter 87/87b/87c/87d 修 4 條獨立根因:"
+      ],
+      "- 87 (302c6a7)": "test_document_adapter/test_mermaid_render/test_diagram_image_gen",
+      "- 87b (4ac0218)": "CI workflow 加 apt-get fonts-noto-cjk + qrcode pip,",
+      "Linux Pillow 缺中文字型導致 OSError": "cannot open resource",
+      "- 87c (6b689a0)": "視覺採點 threshold 放寬 — Windows msjh 跟 Linux",
+      "- 87d (b0016ee)": "補上 web/src/components/ui/ 9 個檔案 — 從 UI redesign",
+      "- iter 88 (a8db669)": "短影片獨立 layout (bg_type=short_video_slide) —",
+      "- iter 89 (db5742b)": "proposal「複製為新 PENDING」按鈕, 解「同檔多",
+      "iter 92 (2026-05-17) 用戶實測三軸反饋 — 內容品質升級": [],
+      "用戶看完 iter 88-91 後三個 ask": [],
+      "解法": [
+        "**talking_head 三段選項** (always / long_form_only / off, 預設後者):"
+      ],
+      "- 短影片判定": "aspect=\"9:16\" OR length_mode=\"ultra_quick\" OR",
+      "dialogue / comedy, 預設 storyteller 跟 iter 82 一致)": [
+        "**L3 persona scaffold** (jliu v1):"
+      ],
+      "- prompts/persona/jliu.txt 基於 CLAUDE.md 已知資訊寫": "副教授背景、",
+      "測試": "1030 → 1071 (+41 in 3 new test files)",
+      "影響": "通過 4 個既有 test fix (補 style_directive/persona_directive",
+      "剩等用戶介入": "C2 TTS 中文發音 (要樣本) / D1 v2 outline edit/approve",
+      "iter 91 (2026-05-17) 短影片實測反饋 — 中文 wrap 後處理": [
+        "用戶 9:16 短影片實測截圖: 「Skill 的本質與差/異」標題斷字, 孤字",
+        "病根: _wrap_text 純貪婪斷字, 沒孤字 / 標點規則. 影響所有 caller",
+        "解: 新增 _balance_wrap_lines post-process, 三輪修整:",
+        "改 _wrap_text 自動 post-process, 所有 caller 自動受惠.",
+        "+8 tests (test_wrap_balance), 1030 total passed."
+      ],
       "_path": "courseRelated/autoSolverVideo",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/autoSolverVideo/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/courseRelated/autoSolverVideo/STATUS.yaml"
     },
     {
       "name": "Course Scheduling System",
@@ -143,7 +279,7 @@
       "description_zh": "為勤益科技大學自動排課系統，解決每學期人工排課耗時且易衝突的問題。支援日間部、進修部、產攜班等多部別同時排課，採用優先級排序 + 限制滿足 + 分割排課三層策略，成功率達 93.7%，可直接產出 Excel/CSV/HTML 課表供校務使用。",
       "key_metrics": "93.7% success rate (59/63 courses)",
       "_path": "courseRelated/course-scheduling-system",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/course-scheduling-system/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/courseRelated/course-scheduling-system/STATUS.yaml"
     },
     {
       "name": "StaticsEngine",
@@ -167,7 +303,7 @@
       "description_zh": "基於 React + SVG 的互動式物理力學視覺化引擎，透過精確的幾何計算呈現靜力學現象。採用 Monorepo + TDD 開發方式，旨在幫助學生透過動態互動深化對物理力學概念的理解，是教育科技創新應用。",
       "key_metrics": "Early phase, test-driven development",
       "_path": "courseRelated/mechanics_AI",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/mechanics_AI/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/courseRelated/mechanics_AI/STATUS.yaml"
     },
     {
       "name": "UniCourse AI Online",
@@ -190,7 +326,7 @@
       "description_zh": "勤益智動系專用的全功能線上考試與班級經營系統。整合 Gemini AI 智慧出題、視窗切換防作弊、自動保存與恢復機制，教師可進行學生資料管理、成績追蹤、班級幹部指派等完整班級經營作業，學生則可查看個人資料與成績分析，已部署於 GCP Cloud Run。",
       "key_metrics": "GCP deployed, anti-cheat detection",
       "_path": "courseRelated/unicourseaionline1219",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/unicourseaionline1219/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/courseRelated/unicourseaionline1219/STATUS.yaml"
     },
     {
       "name": "OPC UA MCP",
@@ -212,7 +348,7 @@
       "description_zh": "為工業自動化系統設計的 MCP 伺服器，提供讀寫 OPC UA 節點的工具，使 AI 代理能即時監控、分析與控制工業設備運作資料。支援無縫整合 Claude Desktop，賦予 LLM 與現場設備互動的能力。",
       "key_metrics": "2 core tools (read/write)",
       "_path": "MCP/Dof-Customized-mcp",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/MCP/Dof-Customized-mcp/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/MCP/Dof-Customized-mcp/STATUS.yaml"
     },
     {
       "name": "LabPagesCowork",
@@ -236,7 +372,7 @@
       "description_zh": "實驗室對外入口網站，整合研究儀表板、部落格文章發布、GitHub 活動追蹤頁面與研究全景地圖。採協作流程讓成員練習 GitHub PR 工作流，並透過自動化腳本統一更新各頁面內容。",
       "key_metrics": "35 commits/month, daily blog automation, 90+ merged PRs",
       "_path": "MCP/LabPagesCowork",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/MCP/LabPagesCowork/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/MCP/LabPagesCowork/STATUS.yaml"
     },
     {
       "name": "Modbus MCP",
@@ -257,7 +393,7 @@
       "description_zh": "統一 Modbus 工業協議的 MCP 伺服器，支援 TCP、UDP、Serial 多種連接方式。提供暫存器讀寫、線圈控制、多暫存器批量讀取，以及基於 LLM 的數據分析工具，使 AI 能直接與工業 IoT 設備通訊，加速智慧巡檢與故障診斷應用。",
       "key_metrics": "6 core tools, multi-connection types",
       "_path": "MCP/modbus-mcp",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/MCP/modbus-mcp/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/MCP/modbus-mcp/STATUS.yaml"
     },
     {
       "name": "ScanMail+",
@@ -280,7 +416,7 @@
       "description_zh": "文件掃描與郵件平台",
       "key_metrics": "75 API endpoints, 7 tool categories",
       "_path": "PersonalHelper/AI智能掃描/scanmail_bot",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/AI智能掃描/scanmail_bot/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/AI智能掃描/scanmail_bot/STATUS.yaml"
     },
     {
       "name": "SmartFill-Scholar",
@@ -303,7 +439,7 @@
       "description_zh": "智能學術表單填寫系統，整合 SQL 資料庫查詢與 RAG 向量檢索，自動將靜態資料（姓名、職稱等）與複雜內容（研究摘要等）分別填入表單。支援 Word 模板與 PDF 表單，具幻覺防護、色碼審查、版本控制等研究級功能，大幅減輕學者填表負擔。",
       "key_metrics": "430+ tests, 5 output modes, multi-user RBAC",
       "_path": "PersonalHelper/autoFill",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/autoFill/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/autoFill/STATUS.yaml"
     },
     {
       "name": "CitingVerify",
@@ -329,7 +465,7 @@
       "description_zh": "上傳 PDF 論文後自動抽取、解析並驗證每筆參考文獻的真實性。整合 CrossRef、OpenAlex、Semantic Scholar、arXiv、DBLP 五大資料庫，具備電路熔斷器、配額感知排程、Redis 跨行程快取與完整延遲指標儀表板，大幅提升學術誠信稽核效率。",
       "key_metrics": "5 databases, circuit breaker + Redis cache, p95 latency tracking",
       "_path": "PersonalHelper/citingVerify",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/citingVerify/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/citingVerify/STATUS.yaml"
     },
     {
       "name": "AI Personal Secretary",
@@ -357,7 +493,7 @@
       "description_zh": "整合 Gmail、Calendar、Tasks 的 AI 智慧郵件管理助手，支援多帳號、個人化分析與主動通知",
       "key_metrics": "支援多帳號管理、6 種郵件分類、AI 回覆草擬、行事曆事件建議、桌面通知",
       "_path": "PersonalHelper/emailassistant",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/emailassistant/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/emailassistant/STATUS.yaml"
     },
     {
       "name": "English Speaking Tutor",
@@ -383,7 +519,7 @@
       "description_zh": "基於 Google Gemini API 的 AI 英語口說家教應用，提供即時對話練習、口音訓練（AccentMaster）、遊戲化學習模式與課後 AI 回饋報告，整合 Firebase 用戶系統，以 React + Tailwind 建構現代化學習介面。",
       "key_metrics": "Real-time AI interaction, accent training, game mode",
       "_path": "PersonalHelper/englishSpeakingTutor",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/englishSpeakingTutor/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/englishSpeakingTutor/STATUS.yaml"
     },
     {
       "name": "AI Graphic Studio",
@@ -410,7 +546,7 @@
       "description_zh": "基於 Google Gemini API 的全方位 AI 視覺內容創作平台，支援文字/網址/文件轉化為圖卡、海報、AI 簡報與連續漫畫，含素材庫、學科資源與簡報編輯 6 大模組，部署於 GCP Cloud Run。MCP 連線功能尚待實作。",
       "key_metrics": "6 modules, GCP Cloud Run deployed, Slide Master template system",
       "_path": "PersonalHelper/infoCard",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/infoCard/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/infoCard/STATUS.yaml"
     },
     {
       "name": "LLM Wiki",
@@ -432,7 +568,7 @@
       "description_zh": "基於 Claude API 的個人知識庫編譯器，支援 PDF、Word、Excel、PowerPoint、Markdown 等 15 種文件格式。一次性將散亂文件編譯成結構化 Wiki，自動建立實體、概念與知識關聯，整合 Obsidian 知識圖譜，實現知識的複利成長。",
       "key_metrics": "15 file formats, 3 API providers",
       "_path": "PersonalHelper/llmWIKI/llm-wiki-project",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/llmWIKI/llm-wiki-project/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/llmWIKI/llm-wiki-project/STATUS.yaml"
     },
     {
       "name": "myPicasa",
@@ -453,7 +589,7 @@
       "description_zh": "個人媒體工具箱，支援影片處理，使用 moviepy 實現剪輯與轉換功能",
       "key_metrics": "Moviepy migration completed, exe packaging flow added",
       "_path": "PersonalHelper/picasa",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/picasa/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/picasa/STATUS.yaml"
     },
     {
       "name": "Research Dashboard",
@@ -477,7 +613,7 @@
       "description_zh": "整合互動式圖表與研究全景地圖的研究管理儀表板，自動掃描所有專案的 STATUS.yaml 產生儀表板資料。支援 Chart.js 及 D3.js 視覺化，部署於 GitHub Pages 供全球存取，每週自動同步更新，是研究者高效管理多元項目的工具。",
       "key_metrics": "Dashboard + Map + JSON API, auto-deploy via script",
       "_path": "PersonalHelper/research-dashboard",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/research-dashboard/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/research-dashboard/STATUS.yaml"
     },
     {
       "name": "TranslateGemma",
@@ -505,7 +641,7 @@
       "description_zh": "本地優先多語翻譯工作台，整合文字翻譯、圖片 OCR、PDF 逐頁翻譯、語音翻譯、即時語音翻譯、影片配音與會議摘要八大功能，使用 Ollama 本地模型，支援術語表與風格指南自訂，並以 FastMCP 暴露翻譯服務供 LLM 工具鏈呼叫。",
       "key_metrics": "8 translation modes, MCP-enabled, SQLite history",
       "_path": "PersonalHelper/translateGemma",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/translateGemma/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/translateGemma/STATUS.yaml"
     },
     {
       "name": "Z-Image-Turbo Web UI",
@@ -529,7 +665,7 @@
       "description_zh": "基於 Flask 的專業 AI 圖片生成 Web 應用，使用 Z-Image-Turbo 擴散模型，針對 12GB VRAM 優化。支援批量生成（最多 20 張）、50+ 風格模板、15+ 尺寸預設、Seed 控制、標籤系統與批量 PDF/PPT 匯出。",
       "key_metrics": "v2.5.0, 50+ style templates, 5-8s/image generation",
       "_path": "PersonalHelper/zImage",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/zImage/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/PersonalHelper/zImage/STATUS.yaml"
     },
     {
       "name": "ECN O&M Tool",
@@ -553,16 +689,16 @@
       "description_zh": "離岸風電營運維護成本計算器，複製強化 ECN Excel 工具功能，包含 6 大模組：氣象等待時間分析、成本計算、Monte Carlo 風險評估、LCOE 計算、VarFluct 生命週期預測、情景比較。已驗證準確度達 10+ 位小數，支援 130+ 風機的大規模風場分析。",
       "key_metrics": "6 major modules, K13 demo 130 turbines",
       "_path": "researchTopic/ECN",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/ECN/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/ECN/STATUS.yaml"
     },
     {
       "name": "InduSpect AI",
       "name_zh": "智慧工業巡檢系統",
       "category": "industrial_ai",
-      "progress": 85,
+      "progress": 87,
       "status": "active",
-      "last_updated": "2026-04-15",
-      "next_milestone": "實機端到端測試：上傳表單 → 拍照 → AI → 匯出 → 分享",
+      "last_updated": "2026-05-16",
+      "next_milestone": "實機端到端測試：上傳表單 → 拍照 → AI → 匯出 → 分享（基礎 CI 已建立）",
       "technologies": [
         "Flutter",
         "Dart",
@@ -576,9 +712,9 @@
       ],
       "description": "Flutter mobile app for AI-powered industrial inspection with offline-first architecture, form auto-fill pipeline, and GPS-tagged history",
       "description_zh": "利用多模態 AI 和 Flutter 行動應用，實現工業設備的智慧巡檢。核心功能為完整檢測 pipeline（表單上傳 → 引導拍照 → AI 分析 → 自動回填 → 摘要報告 → 離線分享）及 GPS 定位歷史紀錄。",
-      "key_metrics": "2 core features, 57 unit tests (43 existing + 14 level tests), 6 open issues (#14-#19)",
+      "key_metrics": "2 core features, 46 Flutter unit tests, backend pytest in CI (auto_fill 43 + sprint3 standards 5 + sprint2 photo-naming 3 + judgment_service 14), 0 open issues",
       "_path": "researchTopic/induSpectApp/InduSpect",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/induSpectApp/InduSpect/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/induSpectApp/InduSpect/STATUS.yaml"
     },
     {
       "name": "WindGuard AI",
@@ -601,7 +737,7 @@
       "description_zh": "參與 Kaggle Gemma4Good 競賽開發的風機智能診斷系統，利用 Gemma 4 大型語言模型分析 36 台風機、3 座風電場的 202 個數據集，自動識別故障模式。結合工業領域知識與 AI 推理能力，支援風電場的預防性維護決策。",
       "key_metrics": "202 datasets, 36 turbines, 3 wind farms",
       "_path": "researchTopic/kaggleGemma4",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/kaggleGemma4/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/kaggleGemma4/STATUS.yaml"
     },
     {
       "name": "AI PLC Automation",
@@ -624,7 +760,7 @@
       "description_zh": "針對工業自動化的企業級 PLC 專案管理平台。整合 AI 進行自動化程式碼生成、硬體檢測、文件管理與工作流自動化，支援 ST/ST-Safe 代碼產出與系統狀態監控。",
       "key_metrics": "v4.0, auto-hardware detection",
       "_path": "researchTopic/PLC/AI_PLC_Automation",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/PLC/AI_PLC_Automation/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/PLC/AI_PLC_Automation/STATUS.yaml"
     },
     {
       "name": "Auto Arduino Coding",
@@ -648,7 +784,7 @@
       "description_zh": "利用 Gemini AI 將自然語言需求直接轉換為 Arduino 完整程式碼。內建自動硬體偵測、編譯驗證、錯誤自我修復、函式庫自動安裝與一鍵燒錄，適合教學與快速原型開發。",
       "key_metrics": "Auto-compilation, self-healing errors",
       "_path": "researchTopic/PLC/autoArduinoCoding",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/PLC/autoArduinoCoding/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/PLC/autoArduinoCoding/STATUS.yaml"
     },
     {
       "name": "RAG Ultimate",
@@ -676,7 +812,7 @@
       "description_zh": "統一企業級 RAG 研究與應用平台，整合 17 種檢索模式、Qdrant 向量資料庫、FastAPI 後端、Control-Room 工控介面。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG benchmark 論文研究 + UI 重構。",
       "key_metrics": "829 tests (41 suites), 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v8.0, tsc 0 errors, Control-Room Stage 1+2A 完成 (BenchmarkLab 三欄+全寬結果區), 6 Foundation 元件可重用",
       "_path": "researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b/STATUS.yaml"
     },
     {
       "name": "RAG Ultimate",
@@ -684,8 +820,8 @@
       "category": "rag_knowledge",
       "progress": 90,
       "status": "active",
-      "last_updated": "2026-05-03",
-      "next_milestone": "Stage 2B ResearchLab 雙欄重組 (Experiment Plan / Live Telemetry) + 補跑 r06/r07 達 ≥4 完整 run → 論文主表",
+      "last_updated": "2026-05-15",
+      "next_milestone": "Routine 品質維護週 #81-#90 收尾（禁區外 as any / docstring 清零），下一輪等使用者裁示：加裝 ts-node + @types/d3、授權碰 services/ 禁區、或啟動 Phase 2/3 issue 拆分",
       "technologies": [
         "React 19",
         "TypeScript",
@@ -704,7 +840,7 @@
       "description_zh": "統一企業級 RAG 研究與應用平台，整合 17 種檢索模式、Qdrant 向量資料庫、FastAPI 後端、Control-Room 工控介面。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG benchmark 論文研究 + UI 重構。",
       "key_metrics": "829 tests (41 suites), 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v8.0, tsc 0 errors, Control-Room Stage 1+2A 完成 (BenchmarkLab 三欄+全寬結果區), 6 Foundation 元件可重用",
       "_path": "researchTopic/RAG_Ultimate",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/STATUS.yaml"
     },
     {
       "name": "WindAI Lab",
@@ -730,7 +866,7 @@
       "description_zh": "風力發電 AI 研究協作系統，匯聚 12 位核心代理與 28 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）、剩餘壽命預測。整合虛擬辦公室 UI、SCADA 真實資料分析、RAG 知識庫、WindGuard AI LLM 推理與自動品質檢查機制，是系統化進行風能科研的協作平台。",
       "key_metrics": "F1=1.0 fault diagnosis, R²=0.997 power curve, 12 core + 10 hirable agents, 28 skills",
       "_path": "researchTopic/windAILab",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windAILab/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/windAILab/STATUS.yaml"
     },
     {
       "name": "Digital Wind Turbine",
@@ -754,7 +890,7 @@
       "description_zh": "風力發電機物理驅動型數位孿生平台。內含完整的轉子-發電機模型、熱力系統、振動譜與警報門檻、電氣反應、疲勞載荷與 DEL 損傷指標、7 種故障場景，模擬 74 個 SCADA 信號與電網事件，支援 Modbus TCP 介面與即時儀表板監控。",
       "key_metrics": "74 SCADA tags, 7 fault scenarios, DEL fatigue monitoring",
       "_path": "researchTopic/windFarmMonitor/digiWindTurbine",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/digiWindTurbine/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/digiWindTurbine/STATUS.yaml"
     },
     {
       "name": "WindFarmMonitoring",
@@ -777,7 +913,7 @@
       "description_zh": "即時風場監控與數據分析平台，集成 15 台風力機組的 SCADA 數據收集、實時儀表板、警報自動偵測與快照功能。提供歷史數據查詢、統計分析、報表生成與多使用者協作支援，助力智慧風場運維。",
       "key_metrics": "15 turbines, 17-second data interval",
       "_path": "researchTopic/windFarmMonitor/WindFarmMonitoring",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/WindFarmMonitoring/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/WindFarmMonitoring/STATUS.yaml"
     },
     {
       "project": [],
@@ -845,7 +981,7 @@
       "product_owner": "Dof (moredof@gmail.com)",
       "tech_lead": "Dof",
       "_path": "researchTopic/windFarmOM_bk",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windFarmOM_bk/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/windFarmOM_bk/STATUS.yaml"
     },
     {
       "name": "第一個運維廠商 PoC + 第一筆合約",
@@ -885,7 +1021,7 @@
       "M5": [],
       "M6": [],
       "issue_stats": [],
-      "open": "21  # +1: WMOM-20260510-01 dev mode + mock login + farm is_offshore",
+      "open": "22  # +1: WMOM-20260513-01 UI 改版 v2 (placeholder, 等劉老師補 spec)",
       "in_progress": 0,
       "blocked": 0,
       "done": 31,
@@ -895,7 +1031,7 @@
       "todo_snapshot": "docs/legacy/digiwt_TODO.md",
       "highlights": [],
       "_path": "researchTopic/windMindOM",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windMindOM/STATUS.yaml"
+      "_yaml_path": "/sessions/serene-quirky-hawking/mnt/Project_CodingSimulation/researchTopic/windMindOM/STATUS.yaml"
     }
   ]
 }

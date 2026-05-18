@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>研究平台也要生產品質：RAG_Ultimate 基礎建設強化的 90 輪例行實踐 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .pr-timeline { margin: 1.5rem 0; }
+        .pr-row { display: flex; align-items: flex-start; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .pr-badge { flex-shrink: 0; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.4); border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.82rem; font-weight: 700; color: #818cf8; min-width: 60px; text-align: center; }
+        .pr-detail { flex: 1; }
+        .pr-title { color: var(--text-white); font-size: 0.95rem; font-weight: 600; }
+        .pr-desc { font-size: 0.85rem; color: var(--text-light); margin-top: 0.2rem; }
+        .pr-tag { display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-right: 0.2rem; background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">研究平台也要生產品質：RAG_Ultimate 基礎建設強化的 90 輪例行實踐</h1>
+            <p>2026-05-17 &bull; 劉瑞弘教授團隊 &bull; RAG / DevOps / Code Quality / Research Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">DevOps</span>
+                <span class="tag tag-orange">Code Quality</span>
+                <span class="tag tag-green">Research Engineering</span>
+                <span class="tag tag-sage">CI/CD</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                研究室的程式碼通常有個隱性預設：「只要實驗能跑、論文能寫，工程品質是次要的。」這個預設在研究早期或許合理，但當平台規模擴大到 17 種 RAG 檢索模式、829 支自動化測試、多個前後端服務同時運作時，品質欠債就會以指數速度累積。
+            </p>
+            <p>
+                <strong>RAG_Ultimate</strong> 在過去幾個月採取了一個不同的策略：透過「例行品質電池（Routine Quality Battery）」機制，以每次一小塊、不超過千行程式碼的節奏，持續對平台進行工程強化。截至今日（2026-05-17），我們已累積超過 90 輪排程觸發、合併超過 100 個 Pull Request。這篇文章回顧這週剛完成的基礎建設強化週期（PR #96–#101），以及背後的工程哲學。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">90+</div><div class="label">例行輪次累計</div></div>
+                <div class="stat-item"><div class="num">101</div><div class="label">合併 PR 數量</div></div>
+                <div class="stat-item"><div class="num">829</div><div class="label">自動化測試數量</div></div>
+                <div class="stat-item"><div class="num">17</div><div class="label">RAG 檢索模式</div></div>
+            </div>
+
+            <h2>這週完成了什麼：基礎建設強化五連發</h2>
+
+            <p>
+                本週的例行輪次聚焦在「讓平台更可觀測、更可部署」，完成了以下五個環環相扣的改善：
+            </p>
+
+            <div class="pr-timeline">
+                <div class="pr-row">
+                    <div class="pr-badge">PR #96</div>
+                    <div class="pr-detail">
+                        <div class="pr-title">後端集中式 Logging 配置</div>
+                        <div class="pr-desc">新增 <span class="code-inline">app/core/logging.py</span> 模組，加上 <span class="code-inline">RequestContextMiddleware</span>，所有請求進出皆自動附帶 request_id 與時間戳記，讓 debug 時不再在 print 語句海中大海撈針。</div>
+                        <span class="pr-tag">可觀測性</span>
+                    </div>
+                </div>
+                <div class="pr-row">
+                    <div class="pr-badge">PR #97</div>
+                    <div class="pr-detail">
+                        <div class="pr-title">Health Check 拆分：Liveness vs. Readiness</div>
+                        <div class="pr-desc"><span class="code-inline">/health</span> 端點從 main.py 抽離為獨立模組，並明確區分「活體檢查（liveness）」與「就緒檢查（readiness）」。這是 Kubernetes / Cloud Run 部署的標準要求——前者確認服務未當機，後者確認資料庫連線等依賴項均已就緒。</div>
+                        <span class="pr-tag">可部署性</span>
+                    </div>
+                </div>
+                <div class="pr-row">
+                    <div class="pr-badge">PR #98</div>
+                    <div class="pr-detail">
+                        <div class="pr-title">Docker Compose：Qdrant Healthcheck + 具名 Volume</div>
+                        <div class="pr-desc">在 <span class="code-inline">docker-compose.yml</span> 加入 Qdrant 服務的 healthcheck 設定，FastAPI 容器改為 <span class="code-inline">depends_on: {condition: service_healthy}</span>，確保向量資料庫完全就緒後才啟動 API 服務；同時將匿名 volume 改為具名 volume，解決每次 <span class="code-inline">docker compose down</span> 後資料消失的問題。</div>
+                        <span class="pr-tag">容器化</span><span class="pr-tag">資料持久性</span>
+                    </div>
+                </div>
+                <div class="pr-row">
+                    <div class="pr-badge">PR #99</div>
+                    <div class="pr-detail">
+                        <div class="pr-title">API Base URL 環境變數強型別化</div>
+                        <div class="pr-desc">前端所有服務的 API 端點 URL 統一改用 Vite 的 <span class="code-inline">import.meta.env</span>，並補上 <span class="code-inline">ImportMetaEnv</span> 型別宣告，消除散落在各元件的硬編碼 <span class="code-inline">localhost:8000</span>。此後切換開發、測試、生產環境只需修改 <span class="code-inline">.env</span> 一個檔案。</div>
+                        <span class="pr-tag">多環境支援</span>
+                    </div>
+                </div>
+                <div class="pr-row">
+                    <div class="pr-badge">PR #100</div>
+                    <div class="pr-detail">
+                        <div class="pr-title">Backlog 補完 + ts-node 開發依賴</div>
+                        <div class="pr-desc">新增 <span class="code-inline">ts-node</span> 作為 devDependency，解鎖後續可直接執行 TypeScript 腳本的能力；同時整理並新增四個 backlog 項目（H1–H3 程式碼健康度修補 + G7），確保品質債的能見度。</div>
+                        <span class="pr-tag">開發工具鏈</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🔬 為什麼這些改善對研究平台同樣重要？</h3>
+                <p>Liveness/Readiness 區分、具名 Docker Volume、環境變數管理——這些聽起來像是 SRE 或 DevOps 工程師才需要煩惱的事。但當研究助理試圖在新電腦重建實驗環境，或者我們需要在 GCP Cloud Run 上跑完整的 RAG benchmark 時，缺少這些基礎設施就意味著數小時的環境除錯，而非數分鐘的部署。<strong>可重現的研究環境，本質上就是生產工程的一個子集。</strong></p>
+            </div>
+
+            <h2>例行品質電池：小步快跑的工程哲學</h2>
+
+            <p>
+                RAG_Ultimate 採用的「例行品質電池」並不是一次性的技術債清償計畫，而是一個持續運作的自動化排程機制。每次觸發遵循嚴格的規則：
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">📏 規模上限</div>
+                    <div class="col-body">每輪 PR 不超過 1000 行、不超過 10 個檔案。超過上限就拆分，本輪只做第一塊。這確保每個 PR 都能快速 review，也讓 git blame 在未來依然有意義。</div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🚦 禁區制度</div>
+                    <div class="col-body">Backlog 明確標記「禁區外（🟢）」「邊界（🟡）」「純禁區（🔴）」。自動輪次只能動禁區外的項目，涉及核心服務邏輯的改動必須等使用者授權，避免自動化過程引入不預期的功能變化。</div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🔍 品質電池</div>
+                    <div class="col-body">每五個 PR 後自動執行一輪 CR/CI checkpoint：tsc 型別檢查、jest 單元測試、ruff 靜態分析、pytest 後端測試全套跑完，結果記錄在 <span class="code-inline">routine_log.md</span>，形成可追溯的品質曲線。</div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">⏸ 等待機制</div>
+                    <div class="col-body">若有自己建立的 open PR 尚未 merge，下一輪自動跳過（skip），並記錄連續等待輪次。歷史紀錄顯示最長曾連等 5 輪——這反映了人工 review 的節奏，也是系統刻意設計的「人機協作卡點」。</div>
+                </div>
+            </div>
+
+            <p>
+                這個機制的設計靈感來自持續交付（Continuous Delivery）的核心思想：與其積累大型變更後一次性合併，不如每次只做一件確定的事，讓主線隨時保持可部署狀態。對於研究平台而言，「可部署」等同於「實驗可重現」。
+            </p>
+
+            <h2>當自動化遇上 PR Review 瓶頸</h2>
+
+            <p>
+                這週有個有趣的現象：PR #101（CR/CI checkpoint #4 文件）在建立後連續 5 輪排程觸發都處於「等待 merge」的狀態。從 routine_log 可以清楚看到系統的行為：
+            </p>
+
+            <div class="code-block">
+- run_id: 2026-05-17-r5
+  status: skipped
+  task_ref: "等候 PR #101 merge"
+  notes: |
+    連續 skip 統計：r4 + r5(=本輪) = 2 連 skip
+    歷史對照：
+      PR #99 等候期：5 連 skip（歷史最高）
+      PR #100 等候期：4 連 skip
+    建議使用者執行：
+      gh pr merge 101 --squash --delete-branch --repo dofliu/RAG_Ultimate</div>
+
+            <p>
+                系統不會自行 merge PR，也不會在等待過程中做任何未授權的改動——它只是忠實地記錄狀況，並在每輪 log 中明確提示人類應採取的行動。這種「明確等待、不擅自行動」的設計，在 AI 輔助開發工作流中至關重要：自動化應該加速工作，而不是繞過人類的判斷。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 研究啟示：AI 輔助程式碼維護的邊界設計</h3>
+                <p>RAG_Ultimate 的例行品質電池提供了一個具體的案例：AI 代理可以安全地在明確邊界內自主執行任務，但關鍵決策（merge、授權進入禁區、調整研究方向）仍應由人類把關。這種「可信邊界（Trusted Boundary）」設計將是下一代 AI 輔助研究系統的核心議題，也是我們在研究室日常工作中正在積累的實踐知識。</p>
+            </div>
+
+            <h2>下一步：從基礎建設到研究主線</h2>
+
+            <p>
+                PR #101 merge 後，例行品質電池的下一個目標是：
+            </p>
+            <ul>
+                <li><strong>H2</strong>：修復 jest haste collision（<span class="code-inline">jest.config.ts</span> 過濾 worktree 路徑，清除本機測試紅字警告）</li>
+                <li><strong>C1</strong>：<span class="code-inline">backendApiService.ts</span> 與後端 <span class="code-inline">schemas.py</span> 完整型別對齊</li>
+                <li><strong>C3/C4</strong>：前端 fetch 重試 middleware + 全域 toast 提示</li>
+            </ul>
+            <p>
+                完成這批基礎建設後，RAG_Ultimate 將正式進入下一個研究主線：Phase 2 後端 ingest/embed/retrieve API 的完整實作，以及 Phase 3 的風場文件 RAG benchmark 論文研究。
+            </p>
+            <p>
+                有趣的是，正是因為前 90 輪例行維護把 TypeScript 嚴格化（tsc 0 errors）、測試覆蓋建立（829 tests）、CI/CD 部署自動化，我們才有信心在接下來的研究主線中快速迭代——知道每一步都有安全網撐著。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 研究室行動項目</h3>
+                <ul>
+                    <li>Merge PR #101，解鎖例行品質電池 H2 → C1 → C3 序列</li>
+                    <li>規劃 Phase 2 後端 API 實作排程（ingest / embed / retrieve）</li>
+                    <li>整理 RAG_Ultimate「禁區制度 + 可信邊界」設計為研討會分享素材</li>
+                    <li>探討將例行品質電池機制移植至 windMindOM（M5 知識模組開發前置）</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li><a href="https://cloud.google.com/run/docs/configuring/healthchecks" target="_blank">Google Cloud Run Health Checks Documentation</a></li>
+                <li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" target="_blank">Kubernetes Liveness and Readiness Probes</a></li>
+                <li><a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#healthcheck" target="_blank">Docker Compose Healthcheck Reference</a></li>
+                <li><a href="https://vitejs.dev/guide/env-and-mode.html" target="_blank">Vite Environment Variables and Modes</a></li>
+                <li>RAG_Ultimate routine_log.md（內部研究日誌，2026-05-17）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
