@@ -357,4 +357,15 @@
 
       const sorted = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
       topicListEl.innerHTML = sorted.map(([cat, count]) => `
-        <li><span>${cat}</span><span class="count">${count}</span></l
+        <li><span>${cat}</span><span class="count">${count}</span></li>
+      `).join('');
+    };
+
+    (async () => {
+      const posts = (await Promise.all(KNOWN_POST_FILES.map(fetchPost))).filter(Boolean);
+      renderPosts(posts);
+      renderStats(posts);
+    })();
+  </script>
+</body>
+</html>
