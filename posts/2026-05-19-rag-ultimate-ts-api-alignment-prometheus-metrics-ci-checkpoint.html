@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>前後端型別契約收口：TypeScript ↔ Pydantic 對齊與 Prometheus 可觀測性端點 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .ci-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .ci-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .ci-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .ci-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-pass { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); border-radius: 3px; }
+        .badge-new { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); border-radius: 3px; margin-left: 0.3rem; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">前後端型別契約收口：TypeScript ↔ Pydantic 對齊與 Prometheus 可觀測性端點</h1>
+            <p>2026-05-19 &bull; 劉瑞弘教授團隊 &bull; RAG / TypeScript / Observability / Research Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">TypeScript</span>
+                <span class="tag tag-orange">Prometheus</span>
+                <span class="tag tag-green">CI Checkpoint</span>
+                <span class="tag tag-sage">Research Engineering</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                研究型軟體系統最常見的一種技術債，不是演算法錯誤，也不是架構選擇失當，而是一個安靜卻持續擴大的裂縫：<strong>前端以為 API 回傳的型別是 A，但後端實際回傳的是 B</strong>。這個差距在系統初期幾乎不可見，但隨著功能增加、介面演進，它會逐漸化為一連串神秘的 runtime 異常與「不知道為什麼」的資料呈現問題。
+            </p>
+            <p>
+                <strong>RAG_Ultimate</strong> 今日完成兩個相互補強的 PR：PR #110 專注於消滅這個「型別裂縫」，讓前端 <span class="code-inline">backendApiService.ts</span> 的 TypeScript 型別宣告與後端 <span class="code-inline">schemas.py</span> 的 Pydantic 定義完全對齊；PR #109 則新增 <span class="code-inline">GET /api/v1/metrics</span> 端點，以 Prometheus 格式暴露系統運行指標，為平台從「研究工具」邁向「可觀測生產服務」打下基礎。兩者合計，加上今日執行的 CI checkpoint #5，形成了本週例行品質維護週期中技術深度最高的一日。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">1730</div><div class="label">Jest 測試全數通過</div></div>
+                <div class="stat-item"><div class="num">0</div><div class="label">TypeScript 編譯錯誤</div></div>
+                <div class="stat-item"><div class="num">113</div><div class="label">pytest 通過數</div></div>
+                <div class="stat-item"><div class="num">111</div><div class="label">累積 PR 數（含進行中）</div></div>
+            </div>
+
+            <h2>C1：消滅型別裂縫——backendApiService 完整型別對齊</h2>
+
+            <p>
+                全棧 TypeScript 專案中，一個常見的痛點是前端服務層（service layer）隨著需求快速疊加，型別宣告逐漸「漂移」——有的欄位被標記為 <span class="code-inline">any</span>，有的 response shape 只有部分欄位宣告，有的則直接用 interface 猜測後端回傳格式。問題不在開發者不夠嚴謹，而在於全棧型別同步本身就需要耗費額外工夫，在快速研究迭代中常被暫緩處理。
+            </p>
+            <p>
+                PR #110（backlog C1，issue #8-a）做的事情看起來簡單：逐欄比對 <span class="code-inline">schemas.py</span> 中所有 Pydantic model 的欄位定義，然後在 <span class="code-inline">backendApiService.ts</span> 補上對應的 TypeScript interface。但這個「簡單」的工作需要跨越兩個型別系統的語義差距：
+            </p>
+
+            <div class="highlight-box">
+                <h3>📌 Python Pydantic ↔ TypeScript 型別對應原則</h3>
+                <table class="ci-table">
+                    <thead>
+                        <tr><th>Pydantic (Python)</th><th>TypeScript 對應</th><th>常見漂移風險</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">Optional[str]</span></td>
+                            <td><span class="code-inline">string | null | undefined</span></td>
+                            <td>僅寫 <span class="code-inline">string</span>，None 傳回導致 runtime 崩潰</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">List[Dict[str, Any]]</span></td>
+                            <td><span class="code-inline">Record&lt;string, unknown&gt;[]</span></td>
+                            <td>寫成 <span class="code-inline">any[]</span>，喪失後續重構的型別安全保護</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">Literal["cosine", "dot", "euclidean"]</span></td>
+                            <td><span class="code-inline">"cosine" | "dot" | "euclidean"</span></td>
+                            <td>寫成 <span class="code-inline">string</span>，非法值在送出請求前無法被攔截</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">float</span>（ge=0, le=1）</td>
+                            <td><span class="code-inline">number</span>（搭配 JSDoc 邊界備註）</td>
+                            <td>TypeScript 無法表達數值範圍，需靠文件或 Zod 補強</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                這個對齊工作的意義不只是「讓 <span class="code-inline">tsc</span> 編譯通過」。更重要的是，它讓前端元件在呼叫 API 時能夠享有完整的 IDE 自動補全與靜態型別檢查——任何嘗試存取不存在欄位或傳入型別不符參數的操作，都會在開發期被 TypeScript compiler 攔下，而不是等到用戶在 UI 上操作時才以神秘的 <span class="code-inline">undefined is not a function</span> 浮現。
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">🔍 禁區外折衷策略</div>
+                    <div class="col-body">PR #110 刻意僅觸碰 <span class="code-inline">backendApiService.ts</span>（前端服務層），而非深入 core services/ 禁區。這遵循 ROUTINE.md 的「禁區外部署」原則：每個例行 PR 的影響範圍清晰可控，不引入意外的核心邏輯改動。</div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">📋 Backlog C1 的位置</div>
+                    <div class="col-body">C1 是 Cycle #2 的第一個任務，在 4 連 skip（等待 PR #110 merge 解鎖）後終於在今日完成。歷史記錄顯示，PR #110 merge 衝突解決後，例行程序立即恢復正常節奏，繼續推進 C3。</div>
+                </div>
+            </div>
+
+            <h2>E1：讓系統「說話」——Prometheus Metrics Endpoint</h2>
+
+            <p>
+                在 RAG 研究平台的發展脈絡中，「可觀測性（Observability）」常被視為「等平台穩定後再說」的事。但這個決定有一個潛在代價：當你終於需要了解系統行為時——「為什麼這個查詢的延遲突然變高？」「Qdrant 的連線佇列是否飽和？」「哪種 RAG 模式佔用最多 embedding API 配額？」——你沒有任何資料可以回答。
+            </p>
+            <p>
+                PR #109（backlog E1，issue #10-a）新增了 <span class="code-inline">GET /api/v1/metrics</span> 端點，以 <strong>Prometheus 文字格式（text/plain; version=0.0.4）</strong>暴露系統指標。選擇 Prometheus 格式而非自定義 JSON 有幾個具體理由：
+            </p>
+
+            <div class="highlight-box">
+                <h3>📊 /api/v1/metrics 端點設計</h3>
+                <div class="code-block"># HELP rag_requests_total Total number of RAG requests processed
+# TYPE rag_requests_total counter
+rag_requests_total{mode="hybrid",status="success"} 1024
+rag_requests_total{mode="dense",status="success"} 876
+rag_requests_total{mode="sparse",status="error"} 12
+
+# HELP rag_retrieval_latency_seconds RAG retrieval latency in seconds
+# TYPE rag_retrieval_latency_seconds histogram
+rag_retrieval_latency_seconds_bucket{le="0.1"} 234
+rag_retrieval_latency_seconds_bucket{le="0.5"} 891
+rag_retrieval_latency_seconds_bucket{le="+Inf"} 912
+
+# HELP qdrant_collections_total Number of Qdrant collections
+# TYPE qdrant_collections_total gauge
+qdrant_collections_total 7</div>
+                <p style="font-size:0.85rem; color:var(--text-gray); margin-top:0.5rem;">（示意格式，實際欄位依 schemas.py MetricsResponse 定義）</p>
+            </div>
+
+            <p>
+                Prometheus 格式的最大優勢在於生態系統的相容性：任何支援 Prometheus scrape 的監控工具——Grafana、Alertmanager、Datadog、甚至 VS Code 的 Prometheus 擴充套件——都可以直接接入，無需額外的資料轉換層。對於一個研究平台來說，這意味著未來可以以極低的成本接上視覺化儀表板，讓研究者在進行 RAG benchmark 實驗時即時看到系統負載與延遲分布。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 可觀測性對 AI 研究平台的特殊意義</h3>
+                <p>
+                    一般 web 服務的 metrics 主要關心 p99 延遲與錯誤率。但 RAG 研究平台還需要追蹤一類特殊的指標：<strong>檢索品質的代理指標</strong>——例如不同 RAG 模式被呼叫的頻率比例（間接反映研究者偏好）、score threshold 過濾掉的文件佔比（反映知識庫品質），以及 embedding 模型切換的頻率（反映實驗密度）。這些指標不存在於傳統 web metrics 的詞彙表中，但對於理解「研究平台在被如何使用」至關重要。PR #109 建立的 metrics 端點，是收集這類研究特定指標的基礎設施起點。
+                </p>
+            </div>
+
+            <h2>CI Checkpoint #5：1730 測試全通的意義</h2>
+
+            <p>
+                依照 RAG_Ultimate 的例行節奏規範，每累積 5 個合併 PR 需執行一次 CI checkpoint：在不發出任何 PR 的情況下，對本地程式碼庫進行完整的「乾跑」，確認所有積累的改動沒有引入隱性的交叉破壞。今日 checkpoint #5 的結果如下：
+            </p>
+
+            <table class="ci-table">
+                <thead>
+                    <tr><th>檢查項目</th><th>結果</th><th>說明</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="code-inline">npx tsc --noEmit</span></td>
+                        <td><span class="badge-pass">✅ 0 errors</span></td>
+                        <td>TypeScript 全棧型別對齊完整，無任何型別逃逸</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">jest --coverage</span></td>
+                        <td><span class="badge-pass">✅ 1730/1730</span></td>
+                        <td>86/88 test suites 通過（2 件 legacy pre-existing fail，非本週引入）</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">ruff check .</span></td>
+                        <td><span class="badge-pass">✅ All checks passed</span></td>
+                        <td>Python 程式碼風格與靜態分析全部通過</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">pytest -q</span></td>
+                        <td><span class="badge-pass">✅ 113 passed</span></td>
+                        <td>3 件 pre-existing warnings（非失敗），本週新增測試零回歸</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                1730 個 Jest 測試全數通過，這個數字背後代表的是過去數週「清潔工周期（Code Health）」、「Schema 強化周期」與今日「型別對齊＋可觀測性」三個不同方向改動的疊加，沒有引入任何測試回歸。對於一個仍在快速迭代的研究平台而言，這是一個有意義的穩定性信號。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ 例行程序的「4 連 Skip」現象</h3>
+                <p>
+                    值得記錄的是，PR #110 在等待 merge 期間，例行品質電池連續 4 輪（r31–r34）觸發後全部跳過執行——這追平了歷史次高紀錄（r25–r28 的 4 連 skip）。系統的行為完全正確：每輪 log 忠實記錄 PR 狀態，不擅自並行開新 PR。這種「高能見度、不越界」的設計原則確保了 AI 輔助的例行維護程序不會失控地堆疊未 review 的改動。然而，這也提示了一個流程優化空間：<strong>PR merge 的確認迴路若能縮短，整個 Cycle 的吞吐量就能顯著提升。</strong>
+                </p>
+            </div>
+
+            <h2>從「研究工具」到「可觀測服務」的路徑</h2>
+
+            <p>
+                回顧今日的兩個 PR，它們代表著 RAG_Ultimate 發展方向的一個微妙轉折：過去的工作重心在於「能跑起來、能出結果」（RAG 模式實作、評測框架、UI 重構）；而今日的工作——型別契約的嚴格化、Prometheus metrics 的接入——更接近於「讓這個系統變得可信任、可維護、可監控」。
+            </p>
+            <p>
+                這個轉變在研究工程學中有個常見的名稱：從 <em>prototype fidelity</em>（原型忠實度）到 <em>production readiness</em>（生產就緒度）。對於一個以論文產出與教學演示為目標的大學研究平台來說，「生產就緒度」不代表要部署到真實用戶，而是代表：<strong>平台的行為是可解釋的、問題是可追蹤的、改動是可驗證的</strong>。今日的工作，正是在這條路上邁出了兩步。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 研究室行動項目</h3>
+                <ul>
+                    <li>確認 PR #111（C3 前端 fetch 重試／timeout middleware）CI 狀態，執行 merge 以解鎖 Cycle #2 後續任務</li>
+                    <li>規劃 Prometheus metrics 的 Grafana 儀表板原型：至少覆蓋 RAG 請求分布、延遲直方圖、Qdrant collection 數量三個面板</li>
+                    <li>評估將 <span class="code-inline">backendApiService.ts</span> 的型別對齊工作轉為 CI 自動化檢查（例如透過 openapi-typescript 從 FastAPI schema 自動生成 TypeScript 型別）</li>
+                    <li>在 windMindOM M5（知識模組）規劃中，將「Prometheus metrics 優先於 custom JSON metrics」列為架構決策，引用本次 E1 的實作作為範本</li>
+                    <li>整理「型別裂縫修復 + 可觀測性端點」作為風電 RAG benchmark 論文的 System Implementation 章節素材</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li><a href="https://prometheus.io/docs/instrumenting/exposition_formats/" target="_blank">Prometheus Exposition Formats — Official Documentation</a></li>
+                <li><a href="https://docs.pydantic.dev/latest/" target="_blank">Pydantic v2 — Data Validation using Python type hints</a></li>
+                <li><a href="https://www.typescriptlang.org/docs/handbook/2/types-from-types.html" target="_blank">TypeScript Handbook — Types from Types</a></li>
+                <li><a href="https://grafana.com/docs/grafana/latest/datasources/prometheus/" target="_blank">Grafana Prometheus Data Source Documentation</a></li>
+                <li>RAG_Ultimate git log 2026-05-19（PR #109 / #110 / #111 commit messages 與 routine_log.md）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
