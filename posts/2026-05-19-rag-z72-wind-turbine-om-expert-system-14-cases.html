@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG 實戰 14 案例：從「翻手冊」到「AI 運維專家」，Harakosan Z72 全解析 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-red { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #f87171; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .case-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .case-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .case-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; line-height: 1.6; }
+        .case-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-simple { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.35); border-radius: 3px; }
+        .badge-complex { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.4); border-radius: 3px; }
+        .badge-danger { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.4); border-radius: 3px; }
+        .pipeline-row { display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+        .pipeline-node { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.4); border-radius: 6px; padding: 0.4rem 0.9rem; font-size: 0.88rem; color: #a5b4fc; white-space: nowrap; }
+        .pipeline-arrow { color: rgba(255,255,255,0.3); font-size: 1rem; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG 實戰 14 案例：從「翻手冊」到「AI 運維專家」，Harakosan Z72 全解析</h1>
+            <p>2026-05-19 &bull; 劉瑞弘教授團隊 &bull; RAG / Wind Energy / O&amp;M / Knowledge Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">windMindOM</span>
+                <span class="tag tag-orange">Wind Energy</span>
+                <span class="tag tag-green">O&amp;M Expert System</span>
+                <span class="tag tag-red">Harakosan Z72</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                一位剛上風機的維修工程師，面對的是數百頁的操作手冊、數十個子系統交織的警報代碼，以及強風中需要快速判斷的現場壓力。傳統做法是：<span class="code-inline">Ctrl+F</span> 搜尋、翻章節、在大腦裡拼湊因果——每次故障排除都是一場與資訊碎片化的角力。
+            </p>
+            <p>
+                RAG（Retrieval-Augmented Generation）技術的出現，讓這個場景有了截然不同的可能性。本文整理了一組以 <strong>Harakosan Z72 風機手冊</strong>為知識庫的 RAG 展示系統，涵蓋 <strong>14 個真實運維案例</strong>，從最簡單的規格查詢，到需要跨章節推演的複雜故障診斷。重要的是，這組案例也誠實地回答了一個關鍵問題：<em>什麼情況下 RAG 只是「進階版 Ctrl+F」，什麼情況下它才是真正的 AI 專家？</em>
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">14</div><div class="label">實戰展示案例</div></div>
+                <div class="stat-item"><div class="num">Z72</div><div class="label">Harakosan 風機型號</div></div>
+                <div class="stat-item"><div class="num">2</div><div class="label">展示模組（簡單/複雜）</div></div>
+                <div class="stat-item"><div class="num">100+</div><div class="label">知識庫原始手冊頁數</div></div>
+            </div>
+
+            <h2>RAG 管線：四步驟工程邏輯</h2>
+
+            <p>
+                在進入案例之前，先理解這個展示系統的底層運作方式。當工程師提出問題，系統並非依靠 LLM 的「記憶」去生成答案，而是走完一套嚴謹的四步驟工程管線：
+            </p>
+
+            <div class="pipeline-row">
+                <div class="pipeline-node">① 工程師提問 (Query)</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-node">② 向量檢索 Top-K (Retrieval)</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-node">③ LLM 跨段落統整 (Reasoning)</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-node">④ 具根據的解答 (Synthesis)</div>
+            </div>
+
+            <p>
+                「Grounding（有根據的生成）」是整個架構的核心原則：每項診斷建議都必須來自手冊中的具體章節或事件代碼，而非模型憑空捏造。對於高風險的重工設備運維，這個原則是系統可被信任的基礎。
+            </p>
+
+            <h2>模組一：簡單事實問答——也值得反思的地方</h2>
+
+            <p>
+                展示系統的第一組案例（1–3）處理的是明確的單一事實查詢，讓系統展現「精準定位」的能力：
+            </p>
+
+            <table class="case-table">
+                <thead>
+                    <tr><th>案例</th><th>問題類型</th><th>RAG 做了什麼</th><th>關鍵答案</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>案例 1</td>
+                        <td>硬體規格</td>
+                        <td>比對 Appendix A 與 5.2 章節，識別 Appendix 精度更高</td>
+                        <td>轉子直徑 <strong>70.65 m</strong>，額定風速 <strong>13 m/s</strong></td>
+                    </tr>
+                    <tr>
+                        <td>案例 2</td>
+                        <td>系統預設值</td>
+                        <td>抓取並解析兩處密碼格式（含空白的排版差異）</td>
+                        <td>預設登入密碼 <strong>0000</strong></td>
+                    </tr>
+                    <tr>
+                        <td>案例 3</td>
+                        <td>安全閾值</td>
+                        <td>精準區分軟體測量超速（28.0 rpm）與硬體繼電器門檻（28.5 rpm）</td>
+                        <td>兩層保護各有不同觸發值，不可混淆</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warn-box">
+                <h3>⚠️ 誠實的反思：這三個案例真的需要 AI 嗎？</h3>
+                <p>
+                    展示系統在此刻「自我質疑」——這三個案例展現了系統的精準與速度，但老實說，它們更像是資料庫索引（Indexing）或進階版的 Ctrl+F。如果目的只是查一個規格或預設密碼，傳統全文搜尋引擎就足夠了。<strong>AI 的真正戰場在別處。</strong>
+                </p>
+            </div>
+
+            <h2>AI 的真正價值：傳統檢索的極限</h2>
+
+            <p>
+                在大型風機的實際運維場景中，故障極少是單一原因觸發的。工程師通常遇到的是：「液壓壓力低」的警報同時出現，但不確定是管路洩漏、感測器誤判，還是 HPU 幫浦故障；或者是「緊急順槳」突然觸發，但需要比對五個不同章節才能確認是哪一層觸發機制。
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">📁 傳統檢索的極限</div>
+                    <div class="col-body">
+                        字面死板匹配，不懂工程語義；搜尋「漏油」丟出 20 個結果分散在 4 個章節；工程師仍須在現場壓力下靠自己的大腦拼湊因果關係。系統只負責提供原始資料，推理工作全部留給人。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🧠 RAG + LLM 的降維打擊</div>
+                    <div class="col-body">
+                        理解「漏油」與「壓力低」與「感測器跳機」之間的物理關聯；自動從百頁手冊編織子系統邏輯鏈條；輸出的不是「一堆段落」，而是直接可用的診斷樹（Diagnostic Tree）與行動指南（SOP）。
+                    </div>
+                </div>
+            </div>
+
+            <h2>模組二：複雜情境推演——14 個案例的真正主角</h2>
+
+            <p>
+                第二組案例（4–14）才是展示系統的核心，全部要求跨章節整合與工程推演能力：
+            </p>
+
+            <div class="highlight-box">
+                <h3>📋 複雜案例一覽（案例 4–14）</h3>
+                <table class="case-table" style="margin:0.75rem 0 0;">
+                    <thead>
+                        <tr><th>案例</th><th>主題</th><th>AI 整合了哪些章節</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>案例 4 <span class="badge-complex">跨章節</span></td>
+                            <td>緊急順槳觸發條件</td>
+                            <td>安全哲學、控制系統、安全特徵、維護模式四大章節 → 歸納為 5 類觸發原因</td>
+                        </tr>
+                        <tr>
+                            <td>案例 5 <span class="badge-complex">故障樹</span></td>
+                            <td>偏航煞車壓力過低診斷</td>
+                            <td>Event 228（壓力低）、Event 261（漏油）、Event 229（感測器斷線）→ 三層診斷樹</td>
+                        </tr>
+                        <tr>
+                            <td>案例 6 <span class="badge-complex">狀態機</span></td>
+                            <td>啟動進入 PRODUCTION 的條件</td>
+                            <td>重組控制器狀態機 START → START PRODUCTION → PRODUCTION 三階段時序邏輯</td>
+                        </tr>
+                        <tr>
+                            <td>案例 7 <span class="badge-complex">物理+邏輯</span></td>
+                            <td>解纜（Cable Unwind）保護邏輯</td>
+                            <td>電纜物理損壞機制 + PLC 風速/圈數動態聯動閾值，解釋「為何要解纜」</td>
+                        </tr>
+                        <tr>
+                            <td>案例 8 <span class="badge-complex">分類推演</span></td>
+                            <td>自動潤滑系統異常分析</td>
+                            <td>Event 275–279 分散代碼 → 歸納為耗材不足、管路阻塞、人為疏失三大類</td>
+                        </tr>
+                        <tr>
+                            <td>案例 9 <span class="badge-danger">高風險</span></td>
+                            <td>超速保護測試先決條件</td>
+                            <td>測試模式下閾值從 28.5 rpm 降至 10 rpm 的操作邏輯與安全前提</td>
+                        </tr>
+                        <tr>
+                            <td>案例 10 <span class="badge-danger">高風險</span></td>
+                            <td>變流器手動關閉禁忌</td>
+                            <td>永磁發電機物理特性 → 強行斷開 → 超速 → 高壓 → 燒毀 IGCT，完整因果鏈</td>
+                        </tr>
+                        <tr>
+                            <td>案例 11 <span class="badge-complex">跨章節</span></td>
+                            <td>禁止偏航（Yaw Inhibit）狀態解析</td>
+                            <td>將 Event 223–227、211 等代碼自動交叉比對附錄，翻譯為工程可讀情境</td>
+                        </tr>
+                        <tr>
+                            <td>案例 12 <span class="badge-complex">遞進防禦</span></td>
+                            <td>強陣風 / 風暴控制策略</td>
+                            <td>整合 Event 283、201 與 STORM PARK 邏輯 → 三層遞進保護（25/27/35 m/s 門檻）</td>
+                        </tr>
+                        <tr>
+                            <td>案例 13 <span class="badge-danger">高風險</span></td>
+                            <td>進入輪轂（Hub）作業安全程序</td>
+                            <td>環境確認 + 電源切換 + 物理鎖定銷三步驟，結構化為標準 Checklist</td>
+                        </tr>
+                        <tr>
+                            <td>案例 14 <span class="badge-complex">邏輯推演</span></td>
+                            <td>自動重啟阻擋（Event 039）處置</td>
+                            <td>PLC 重啟次數上限邏輯 + Logbook 分析程序 + TURBINE RESET 硬體復歸指引</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>最令人印象深刻的三個案例</h2>
+
+            <p>
+                在這 11 個複雜案例中，有三個特別能說明 RAG 系統相較於傳統工具的本質差異：
+            </p>
+
+            <p><strong>案例 10（變流器手動關閉禁忌）</strong>是安全屏障功能的最佳展現。這不是一個「如何關閉變流器」的步驟說明，而是一個完整的因果鏈：永磁發電機的物理特性決定了在轉子旋轉時強行切斷電路，會導致失控超速，進而在變流器產生破壞性高壓，燒毀 IGCT 功率元件——損失可能高達數十萬元。這段因果關係散落在手冊的多個警告標語與技術說明中，傳統搜尋不會主動串聯它們，但 RAG 系統會主動把這個「隱藏的危險」明確呈現。</p>
+
+            <p><strong>案例 12（風暴控制策略）</strong>展示了「遞進式防禦（Layered Defense）」的系統性思維。手冊中的三個不同閾值（暫停解纜、常規跳機、風暴停機）分散在不同章節，沒有工程師會在第一次查閱時就意識到這是一套有序的防禦架構。RAG 系統從這些碎片中重建出系統設計師的原始意圖，把它呈現為一個完整的、有層次的安全設計。</p>
+
+            <p><strong>案例 7（解纜邏輯）</strong>則是「物理直覺 + PLC 邏輯」整合的典型例子。「為什麼要解纜」是工程直覺問題，「在什麼條件下解纜」是程式邏輯問題——兩者在手冊中分屬不同章節，但 RAG 系統把它們整合成一個完整的、有解釋性的回答。</p>
+
+            <div class="insight-box">
+                <h3>💡 從這 14 個案例看 RAG 的真正邊界</h3>
+                <p>
+                    這組展示回答了一個研究上的核心問題：<strong>RAG 的競爭優勢不在「找資料的速度」，而在「把碎片變成知識的能力」</strong>。當問題只需要單一段落的答案時，傳統全文搜尋就夠了。但當診斷需要比對五個事件代碼、重組控制器狀態機，或推演出一個跨子系統的因果鏈時，RAG + LLM 才展現出無法被搜尋引擎取代的價值。
+                </p>
+                <p>
+                    對 DOF Lab 的研究方向而言，這組案例也直接指向了 windMindOM M5 知識模組的設計目標：知識庫不只是「文件的向量索引」，而應該是能支援工程推演、具備安全敏感度的「診斷知識圖譜」。
+                </p>
+            </div>
+
+            <h2>結語：AI 是安全屏障，不是萬能的「幻覺機器」</h2>
+
+            <p>
+                RAG 在高風險工業設備領域的核心價值，可以用三個動詞概括：<strong>打破</strong>資訊孤島（將上百頁手冊無縫縫合）、<strong>拒絕</strong>AI 幻覺（每項診斷皆有文件根據）、<strong>傳承</strong>專家經驗（AI 模擬資深工程師的故障樹分析邏輯）。
+            </p>
+            <p>
+                這套以 Z72 為案例的展示系統，目前已作為 windMindOM 知識模組（M5）的概念驗證基礎。下一步的目標是將其整合進運維平台的「警報手冊查詢」功能，讓現場工程師能在手機上直接以自然語言提問，獲得具備根據、有安全意識的診斷指引。
+            </p>
+
+            <div class="action-box">
+                <h3>🔬 研究室行動項目</h3>
+                <ul>
+                    <li>將 Z72 展示的 14 個案例整理為 windMindOM 知識模組的 <strong>評測 Benchmark 集</strong>，作為 M5 知識 RAG 的品質基線</li>
+                    <li>探討將「警告標語自動關聯」（如案例 10 的安全警告）納入文件切片策略，確保高風險資訊不被遺漏</li>
+                    <li>設計「難度分級」的 RAG 評測框架：Fact Retrieval（簡單）/ Cross-Chapter Reasoning（複雜）/ Safety-Critical（高風險），分別設定不同的品質門檻</li>
+                    <li>以 Harakosan Z72 展示為素材，整理一份適合學生學習的「RAG 應用實戰」教學案例集</li>
+                    <li>研究 Metadata Filter 在風機文件查詢中的應用：以設備型號（Z72、N100 等）或章節類型（規格 / 警報 / 維護程序）作為 payload filter，提高複雜查詢的精準度</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li>Harakosan Z72 Wind Turbine Operation &amp; Maintenance Manual（研究室授權使用資料）</li>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li><a href="https://github.com/dofliu/windMindOM" target="_blank">windMindOM GitHub Repository</a></li>
+                <li><a href="https://qdrant.tech/documentation/concepts/search/" target="_blank">Qdrant Vector Search — Official Documentation</a></li>
+                <li>DOF Lab 課程展示材料：RAG 實戰展示 - 風力發電運維專家系統（2026-05-05）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="../doflab-script.js"></script>
+</body>
+</html>
