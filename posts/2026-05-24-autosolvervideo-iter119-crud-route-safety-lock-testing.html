@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>安全鎖測試哲學：AI 輔助迭代開發中，補上 Route-Level 覆蓋缺口的系統思維 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .test-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .test-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .test-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .test-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-new { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); border-radius: 3px; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">安全鎖測試哲學：AI 輔助迭代開發中，補上 Route-Level 覆蓋缺口的系統思維</h1>
+            <p>2026-05-24 &bull; 劉瑞弘教授團隊 &bull; Testing / FastAPI / AI-Assisted Development / Research Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">autoSolverVideo</span>
+                <span class="tag tag-green">iter 119</span>
+                <span class="tag tag-teal">Route-Level Testing</span>
+                <span class="tag tag-orange">FastAPI / pytest</span>
+                <span class="tag tag-sage">AI 輔助開發</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                在 AI 輔助開發的高速迭代節奏下，一個現象幾乎必然發生：<strong>功能已上線，但對應的測試從來沒被補上。</strong>
+                不是沒打算補，而是當時交付壓力下，功能通了就合併了；測試計畫留在心裡，最後靜靜地消失在 backlog 裡。
+                這種狀態，在 DOF Lab 的 <em>autoSolverVideo</em> 教學影片自動生成平台，被稱為「裸奔路由」——
+                API endpoint 在 production 上跑著，但任何重構都是在沒有測試網的空中鋼索上行走。
+            </p>
+            <p>
+                iter 119 做的事情很單純，卻很有代表性：<strong>為 <code class="code-inline">jobs.py</code> 四個核心 CRUD endpoint
+                補上完整的 route-level 測試覆蓋。</strong>
+                23 個新測試、0 行 production code 改動、測試計數從 1,397 增加到 1,420。
+                這不是功能迭代，而是一次「還債」——把技術欠下的測試債，有條不紊地還清。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">+23</div>
+                    <div class="label">新增測試數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">1,420</div>
+                    <div class="label">總測試計數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">0</div>
+                    <div class="label">Production code 改動</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">4</div>
+                    <div class="label">補齊的 CRUD endpoints</div>
+                </div>
+            </div>
+
+            <h2>一、為什麼是 CRUD 優先？</h2>
+
+            <p>
+                <em>autoSolverVideo</em> 的後端是典型的 FastAPI 架構，核心流程是：
+                使用者提交一個「工作」（Job）——可能是考題 PDF、教學簡報、或是網路文章連結——
+                系統透過 Gemini 處理內容、產生腳本、合成語音、輸出 MP4，最後自動上傳 YouTube。
+                這條流水線的起點，就是 <code class="code-inline">POST /jobs</code> 這個建立工作的 endpoint。
+            </p>
+
+            <p>
+                然而，<code class="code-inline">server/routes/jobs.py</code> 裡的四個 CRUD 路由——
+                <code class="code-inline">POST /jobs</code>（建立）、<code class="code-inline">GET /jobs</code>（列舉）、
+                <code class="code-inline">GET /jobs/{id}</code>（查詢單筆）、<code class="code-inline">DELETE /jobs/{id}</code>（刪除）——
+                自從 PR-3a 合併上線後，就一直處於「裸奔」狀態。
+                iter 117 補了 draft/log/section_render/artifacts 五個 endpoint，iter 118 補了 proposals 的 duplicate，
+                但 CRUD 本身始終是一個懸而未決的缺口。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ 裸奔路由的隱形風險</h3>
+                <p>
+                    在 AI 輔助的高速迭代環境中，每一次 refactor 都是潛在的地雷。
+                    <code class="code-inline">source_type</code> 的早期驗證分支（URL scheme 白名單、path 存在檢查、缺欄位攔截）、
+                    <code class="code-inline">created_at</code> 的降序排序邏輯、cache 與 disk 的同步 cleanup——
+                    這些邏輯只要被無意間改動，就會直接上線，沒有任何測試攔截。
+                    不是因為粗心，而是因為沒有安全網。
+                </p>
+            </div>
+
+            <h2>二、安全鎖的設計哲學</h2>
+
+            <p>
+                iter 111 起，autoSolverVideo 的測試策略確立了「route 安全鎖」的思維：
+                <strong>對每一個 endpoint，先鎖住它的外部契約（輸入驗證、輸出格式、HTTP 狀態碼、副作用），
+                讓任何偏離契約的 refactor 立刻被 CI 攔截。</strong>
+                這不是傳統意義上的 TDD——測試是在功能上線後才補的——但補測試的過程本身就是一次「重新思考設計」的機會。
+            </p>
+
+            <table class="test-table">
+                <thead>
+                    <tr>
+                        <th>測試類別</th>
+                        <th>測試數</th>
+                        <th>鎖住的契約重點</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code class="code-inline">TestCreateJobEndpoint</code> <span class="badge-new">NEW</span></td>
+                        <td>11</td>
+                        <td>全 source_type 建立路徑、exam_pdf 的 require_review 硬規則（強制 True）、URL scheme 白名單（http/https 接受、ftp 400）、缺欄位與不存在 path 攔截、schedule_job 觸發驗證</td>
+                    </tr>
+                    <tr>
+                        <td><code class="code-inline">TestListJobsEndpoint</code> <span class="badge-new">NEW</span></td>
+                        <td>4</td>
+                        <td>空列表回傳、單工作命中、3 工作降序排序（顯式 created_at 避免 Windows microsecond 退化）、跨 source_type 混合列舉</td>
+                    </tr>
+                    <tr>
+                        <td><code class="code-inline">TestGetJobEndpoint</code> <span class="badge-new">NEW</span></td>
+                        <td>2</td>
+                        <td>存在工作的 200 回應與全欄位驗證（id/state/source_type/timestamps/youtube_uploads）、不存在 ID 的 404</td>
+                    </tr>
+                    <tr>
+                        <td><code class="code-inline">TestDeleteJobEndpoint</code> <span class="badge-new">NEW</span></td>
+                        <td>6</td>
+                        <td>204 空 body、不存在 404、刪後 GET 404（cache 清乾淨）、刪後不出現在 list、disk dir rmtree、double delete 第二次 404</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                值得特別記錄的一個細節：<code class="code-inline">TestListJobsEndpoint</code> 的排序測試，刻意為三個工作設定了
+                <strong>顯式且相差一分鐘的 <code class="code-inline">created_at</code> 時間戳</strong>，而非依賴系統自動生成。
+                原因是 Windows 環境下 datetime microsecond 精度退化的邊角案例——
+                在某些環境下兩筆記錄的時間戳「看起來相同」，排序就會變成不穩定的 stable order，
+                導致 CI 上通過、本機失敗的詭異現象。
+                這個細節看似微小，卻是跨平台測試可靠性的重要體現。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔒 安全鎖的核心價值</h3>
+                <p>
+                    「安全鎖」不是為了讓測試覆蓋率數字好看，而是為了讓每一次 AI 輔助的快速 refactor
+                    都有一道自動化的防線。當 Claude 幫你重構 <code class="code-inline">source_type</code>
+                    驗證邏輯時，23 個 CRUD 測試會在背景靜靜地確認：外部行為沒有改變。
+                    這就是「讓 AI 開發更安全」的工程實踐。
+                </p>
+            </div>
+
+            <h2>三、同步進行：人臉辨識點名系統的品質防護</h2>
+
+            <p>
+                同一天，<em>人臉辨識點名系統</em>（Face Recognition Attendance）也有值得記錄的進展。
+                系統在人臉品質評分模組新增了針對 <strong>blur 軸（模糊程度）的跨層單調性回歸測試</strong>——
+                固定其他變因（face bbox、sim/gap/z），只改變影像模糊程度，驗證品質分數是否呈現預期的單調遞減趨勢。
+                如果未來有人重構評分函式，這個測試會立刻告訴你：「你改壞了 blur 軸的物理直覺。」
+            </p>
+
+            <p>
+                此外，系統也實作了「人工覆核動態同步」機制——監考過程中的嚴重度計數現在支援對未知類別的防禦性靜默跳過（silent-skip guard），
+                確保即使遇到訓練時未見過的異常標籤，系統也不會拋出例外、中斷服務。
+                這是一個典型的「防禦性程式設計」實踐，在教學現場尤其重要：課堂不等人，系統必須穩定。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 研究室今日觀察</h3>
+                <p>
+                    今天兩個系統的更新，都沒有新增任何功能。但它們讓系統變得<strong>更值得信任</strong>。
+                    在 AI 輔助開發的世界裡，速度是我們最大的優勢，但也是最大的風險來源。
+                    測試、防禦性設計、以及對「裸奔路由」的系統性盤點，是讓這個速度可持續的工程基礎。
+                    這種思維，我們稱之為「穩健的快」（robust speed）——不是慢下來，而是讓每一步都站得住腳。
+                </p>
+            </div>
+
+            <h2>四、研究室行動項目</h2>
+
+            <div class="action-box">
+                <h3>✅ 今日完成</h3>
+                <ul>
+                    <li><strong>autoSolverVideo iter 119</strong>：jobs.py 四個 CRUD endpoint 補齊 route-level 測試，+23 tests，總計 1,420 tests，0 production code 改動</li>
+                    <li><strong>attendence</strong>：blur 軸跨層單調性回歸測試、人工覆核動態同步、未知嚴重度 silent-skip 防護、「實驗室」課程核心 JSON 納入版控</li>
+                </ul>
+            </div>
+
+            <div class="action-box" style="background: rgba(99,102,241,0.07); border-color: rgba(99,102,241,0.3);">
+                <h3 style="color: #818cf8;">📋 下一輪候選（autoSolverVideo）</h3>
+                <ul>
+                    <li>figures.py：補 invalid JSON / jpeg content-type / dir target 邊角測試</li>
+                    <li>library 內 _read_deck_title：邊角案例（gibberish JSON / 純 bytes）</li>
+                    <li>UI 元件 E2-6 / E1-4</li>
+                    <li>E2-2：Gemini SVG 策略需使用者決議後再動工</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考來源</strong></p>
+            <ul>
+                <li><a href="https://fastapi.tiangolo.com/tutorial/testing/" target="_blank" rel="noopener">FastAPI 官方文件：Testing</a></li>
+                <li><a href="https://docs.pytest.org/en/stable/how-to/parametrize.html" target="_blank" rel="noopener">pytest parametrize：跨場景測試的基礎</a></li>
+                <li><a href="https://martinfowler.com/articles/practical-test-pyramid.html" target="_blank" rel="noopener">Martin Fowler — The Practical Test Pyramid</a>（Route-level 測試策略背景）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle) menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+    </script>
+</body>
+</html>
