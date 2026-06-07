@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Z72 SCADA Phase 3b：選擇 FastAPI 作為 SCADA 後端 & Historian 滾動彙總啟動修復 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+        .compare-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid rgba(99,102,241,0.4); }
+        .compare-table td { padding: 0.65rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-light); }
+        .compare-table tr:last-child td { border-bottom: none; }
+        .winner { color: #4ade80; font-weight: 600; }
+        .loser { color: #94a3b8; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .compare-table { font-size: 0.82rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">Z72 SCADA Phase 3b：選擇 FastAPI 作為工業後端，以及 Historian 第 15 天啟動資料遺失修復</h1>
+            <p>2026-05-28 &bull; 劉瑞弘教授團隊 &bull; Industrial SCADA / Architecture Decision / Java Bridge / Time-Series Historian</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">ADR 架構決策</span>
+                <span class="tag tag-green">FastAPI vs Spring Boot</span>
+                <span class="tag tag-teal">Historian 修復</span>
+                <span class="tag tag-orange">Z72 SCADA</span>
+                <span class="tag tag-sage">Bachmann M1 / OPC UA</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                工業控制系統有一個長期存在的矛盾：<strong>現場硬體往往極度穩定，
+                但上層軟體架構卻累積了大量的歷史包袱與安全死角</strong>。
+                DOF Lab 的 Z72 SCADA 系統監控 14 台 Bachmann M1 風機，
+                在完成 Phase 3a（振動趨勢、CSV 匯出、單元測試套件）之後，
+                現在面臨兩個重要的技術節點：
+                一是架構設計層面的 <strong>Phase 3b ADR——選擇後端語言與框架</strong>，
+                二是一個實際影響時序資料完整性的細緻 Bug，
+                即 <strong>Historian 啟動時 high-water mark 初始化錯誤導致第 15 天資料遺失</strong>。
+                這兩件事雖然看似無關，實際上共同反映了一個命題：
+                <em>工業 AI 研究平台的可信度，最終取決於你在最不顯眼的地方投入了多少工程嚴謹度</em>。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">14</div>
+                    <div class="label">台 Bachmann M1 風機</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">93%</div>
+                    <div class="label">Z72 SCADA 完成度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">ADR 0002</div>
+                    <div class="label">Phase 3b 架構決策</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">~10 GB</div>
+                    <div class="label">SQLite historian 資料量</div>
+                </div>
+            </div>
+
+            <h2>一、Phase 3b ADR：為什麼選 Python FastAPI 而非 Java Spring Boot？</h2>
+
+            <p>
+                Z72 SCADA 的 Phase 3a 架構是純 client-side 設計：
+                瀏覽器直接透過 WebSocket 連接到 Java <span class="code-inline">z72bridge</span>，
+                存取 Bachmann M1 PLC 的即時資料與歷史查詢。這個設計的優點是低延遲、簡單，
+                但它的代價也很明顯——<strong>所有憑證（USERS 陣列）都硬編碼在 HTML/JS 原始碼裡，
+                沒有 JWT、沒有稽核軌跡、沒有角色權限控管</strong>。
+            </p>
+
+            <p>
+                Phase 3b 的目標是引入一個真正的 <strong>SCADA 後端（<span class="code-inline">z72scada-backend</span>）</strong>，
+                作為安全閘道器，處理 JWT 認證、SQLite 使用者管理、LDAP/AD 整合，
+                並代理 HMI 到 bridge 的 WebSocket 連線。
+                核心問題是：<strong>這個後端要用 Java + Spring Boot 3，還是 Python + FastAPI？</strong>
+            </p>
+
+            <div class="highlight-box">
+                <h3>ADR 0002 決策框架</h3>
+                <p>
+                    ADR（Architecture Decision Record）是一種輕量級的架構文件格式，
+                    用來記錄「在什麼情境下、考慮了哪些選項、最終做了什麼決定、以及為什麼」。
+                    DOF Lab 採用 ADR 的目的是確保未來的技術債清理或架構演進都有清晰的決策脈絡，
+                    而不是讓後繼開發者面對一堆不知道為何存在的技術選擇。
+                </p>
+            </div>
+
+            <p>乍看之下，Java 是更自然的選擇：bridge 本身就是 Java，PLC 廠商函式庫（<span class="code-inline">mjsys.jar</span>）是 Java，保持語言統一有其邏輯。但 ADR 0002 分析後，給出了推薦 FastAPI 的幾個關鍵理由：</p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>評估維度</th>
+                        <th>Java + Spring Boot 3</th>
+                        <th>Python + FastAPI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>開發速度</td>
+                        <td class="loser">慢（大量樣板程式碼）</td>
+                        <td class="winner">快（Pydantic 自動驗證、OpenAPI 自動文件）</td>
+                    </tr>
+                    <tr>
+                        <td>記憶體佔用（閒置）</td>
+                        <td class="loser">150–250 MB（JVM 開銷）</td>
+                        <td class="winner">30–50 MB（Uvicorn + asyncio）</td>
+                    </tr>
+                    <tr>
+                        <td>語言一致性</td>
+                        <td class="winner">高（全 JVM 環境）</td>
+                        <td class="loser">低（Java Bridge + Python Backend 混合）</td>
+                    </tr>
+                    <tr>
+                        <td>執行環境需求</td>
+                        <td class="loser">需要 Java 17+（bridge 用 Java 8，需雙版本）</td>
+                        <td class="winner">Python 3.10+（獨立安裝，不干擾 bridge）</td>
+                    </tr>
+                    <tr>
+                        <td>AI/資料科學生態</td>
+                        <td class="loser">有限</td>
+                        <td class="winner">豐富（pandas、scikit-learn、RAG 整合）</td>
+                    </tr>
+                    <tr>
+                        <td>安全認證</td>
+                        <td>Spring Security（成熟）</td>
+                        <td>PyJWT + passlib（輕量、足夠）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                最終推薦 FastAPI 的核心理由有三：
+            </p>
+            <ul>
+                <li><strong>Spring Boot 3 需要 Java 17+</strong>，而現有 bridge 為了相容 Bachmann 環境仍在 Java 8，
+                    這會在同一台工業電腦上產生雙 JVM 版本共存的維護噩夢。</li>
+                <li><strong>Phase 3b 的需求本質上是 I/O 密集型代理（WebSocket proxy + JWT + SQLite）</strong>，
+                    FastAPI 的 asyncio 架構在這個場景下表現優異，且開發迭代速度遠快於 Spring Boot。</li>
+                <li><strong>Python 生態系統為未來的預測性維護功能鋪路</strong>——當 Z72 SCADA 積累了足夠的歷史資料，
+                    直接在 Python backend 呼叫 scikit-learn 或接入 windMindOM 的 RAG 知識庫，
+                    技術障礙遠低於在 JVM 上整合 Python ML 工具。</li>
+            </ul>
+
+            <div class="insight-box">
+                <h3>💡 工業 AI 架構啟示：語言一致性 vs 生態彈性</h3>
+                <p>
+                    ADR 0002 揭示了工業控制系統現代化的一個典型張力：
+                    <strong>底層 PLC 通訊層需要穩定、相容、確定性強的語言（Java/C）</strong>，
+                    但<strong>上層分析與認證層需要開發速度快、生態豐富的語言（Python）</strong>。
+                    一刀切地堅持「全棧統一語言」有時候會為了理想的架構純粹性，
+                    犧牲掉實際研究與產品開發所需的靈活性。
+                    這個決策本身，就是工業 AI 領域中「系統整合現實主義」的典型體現。
+                </p>
+            </div>
+
+            <h2>二、Historian 第 15 天資料遺失：一個 high-water mark 初始化的邊界 Bug</h2>
+
+            <p>
+                Z72 Historian 採用三層時序資料架構：
+                <strong>raw 14 天</strong>（每個 PLC 讀取點完整保留）→
+                <strong>1min rollup 7 天</strong>→
+                <strong>10min rollup 永久保留</strong>。
+                這個設計的核心假設是：rollup 會把較舊的 raw 資料即時彙總到更低頻率的層，
+                確保歷史查詢不論時間跨距都有資料可用。
+            </p>
+
+            <p>
+                但有一個問題在 Day 15（系統運行第 15 天）悄悄浮現：
+                <strong>當 bridge 重啟後，<span class="code-inline">oneMinHighWaterMarkMs</span>
+                與 <span class="code-inline">tenMinHighWaterMarkMs</span> 是從「當下時間往回推 retention 時間」計算的，
+                而不是從「資料庫中實際最舊的 raw 紀錄時間戳」計算的</strong>。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ Bug 根因：high-water mark 初始化沒有錨定實際資料</h3>
+                <p>
+                    原始邏輯：<span class="code-inline">highWaterMark = (now - retentionMs) / windowMs * windowMs</span><br><br>
+                    問題：如果 bridge 在 Day 15 重啟，<span class="code-inline">now - retentionMs</span> 計算出的起點
+                    比資料庫中最舊的 raw 紀錄還要新。那些介於「最舊 raw 時間戳」與「計算起點」之間的資料，
+                    <strong>永遠不會被 rollup——直到 raw 保留期到期被刪除，rollup 窗格就憑空消失了</strong>。
+                    在長時間連續運行的生產環境，這代表歷史趨勢圖會出現間隙，甚至整段的資料遺失。
+                </p>
+            </div>
+
+            <p>修復邏輯很優雅：</p>
+            <ul>
+                <li>在 <span class="code-inline">Historian.java</span> 初始化時，<strong>先查詢 <span class="code-inline">SELECT MIN(ts) FROM history_raw</span></strong>，取得資料庫中最早的原始時間戳。</li>
+                <li>如果 <span class="code-inline">oldestRawTs &gt; 0</span>（資料庫非空），
+                    以 <span class="code-inline">Math.max(oldestRawTs, now - retentionMs - 1day)</span> 作為 high-water mark 起點，
+                    確保 rollup 從真實資料起點出發，而不是從「理論上應該有資料」的時間點出發。</li>
+                <li>同時為這個修復補上<strong>單元測試</strong>，驗證啟動後 high-water mark 與 DB 中最舊資料的一致性。</li>
+            </ul>
+
+            <p>
+                這個 Bug 的可怕之處在於它是<strong>時間依賴性的（time-dependent）</strong>——
+                在系統運行 14 天之內看不出問題（raw 資料還在），
+                只有到第 15 天 raw 保留期開始輪轉時才會觸發資料遺失。
+                這類 Bug 在一般整合測試環境中很難被發現，
+                因為測試通常不會等待 14 天讓 retention 輪轉自然觸發。
+            </p>
+
+            <div class="highlight-box">
+                <h3>時序資料系統的測試挑戰</h3>
+                <p>
+                    這個修復案例展示了時序歷史系統在測試設計上的獨特挑戰：
+                    許多關鍵 Bug 是「時間驅動」的，需要在測試中模擬時間加速或直接注入帶有偏移時間戳的測試資料，
+                    才能在不等待真實時間流逝的情況下驗證邊界行為。
+                    Z72 bridge 的單元測試套件（<span class="code-inline">TestBridgeComponents.java</span>）
+                    已經更新為包含這類邊界情況的驗證，
+                    作為 <span class="code-inline">make_release.bat</span> 打包前的強制關卡。
+                </p>
+            </div>
+
+            <h2>研究室行動項目與工程啟示</h2>
+
+            <div class="action-box">
+                <h3>✅ 下一步：ADR 0002 決策確認與 Phase 3b 啟動</h3>
+                <p>
+                    ADR 0002 目前狀態為「<strong>Proposed（等待決策）</strong>」，
+                    需要劉老師確認以下三個開放問題：
+                </p>
+                <ul>
+                    <li>客戶端（運維廠商）的 IT 部門對允許安裝 Python runtime 是否有限制？</li>
+                    <li>研究室開發團隊在 Spring Boot vs FastAPI 哪邊有更強的實作能力？</li>
+                    <li>預測性維護 AI 功能（anomaly detection、RAG 整合）是否在 Phase 3b 之後的近期計畫內？</li>
+                </ul>
+                <p>確認後，Phase 3b 的第一步是建立 <span class="code-inline">z72scada-backend/</span> 專案骨架，
+                設定 SQLite 使用者資料表，並實作 <span class="code-inline">/login</span> JWT 端點。</p>
+            </div>
+
+            <p>
+                綜合來看，這兩個工程事件共同傳遞了一個訊息：
+                <strong>工業 AI 系統的品質提升，從來不只是加新功能——
+                更多時候是在「確保既有系統在極端邊界條件下也能正確運作」。</strong>
+                Historian 的 Day-15 Bug 沒有被漂亮的功能遮蓋住，而是被一個測試覆蓋到的原因，
+                正是因為研究室選擇了「先建立可信賴的基礎設施，再向前推進架構」的路線。
+                這個路線既是 Phase 3b ADR 的精神，也是整個 Z72 SCADA 系統開發哲學的縮影。
+            </p>
+
+            <p>
+                對於有意將工業資料整合進 AI 研究的團隊，
+                ADR 0002 還提供了一個實用的提醒：
+                <strong>架構決策文件的價值不在於它有多正確，而在於它把「為什麼這樣選」記錄下來</strong>。
+                當六個月後你需要重新評估是否要引入 TimescaleDB、是否要把 Python backend 容器化部署到 GCP Cloud Run，
+                你的 ADR 會告訴你當初考慮了什麼、排除了什麼、還有哪些問題沒有解決——
+                這比任何口頭傳承都更可靠。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li>Z72 SCADA System STATUS.yaml — <code>researchTopic/z72hmiNew/STATUS.yaml</code>（last_updated: 2026-05-28）</li>
+                <li>ADR 0002 — Technology Selection for the Phase 3b SCADA Backend — <code>docs/decisions/0002-backend-selection.md</code>（2026-05-27）</li>
+                <li>Git commit <code>84336c6</code>: fix(historian): query oldestRawTs at startup to initialize high-water marks correctly（2026-05-28）</li>
+                <li>Git commit <code>089f9fa</code>: docs: add Phase 3b backend technology selection ADR (ADR 0002)（2026-05-27）</li>
+                <li>Bachmann Electronic GmbH, <a href="https://www.bachmann.info/solutions/wind-energy/" target="_blank" rel="noopener">M1 Controller Platform for Wind Energy</a></li>
+                <li>FastAPI 官方文件 — <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">https://fastapi.tiangolo.com/</a></li>
+                <li>Nygard, M. T. (2011). <em>Architecture Decision Records</em> — <a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noopener">Cognitect Blog</a></li>
+                <li>IEC 61400-12-1:2017, <em>Wind energy generation systems — Power performance measurements of electricity producing wind turbines</em></li>
+            </ul>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid var(--border-color);">
+        <p>© 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘研究室</p>
+    </footer>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const links = document.querySelector('.nav-links');
+        if (toggle && links) toggle.addEventListener('click', () => links.classList.toggle('open'));
+    </script>
+</body>
+</html>

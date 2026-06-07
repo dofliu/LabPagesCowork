@@ -4,25 +4,35 @@
     "status": "active",
     "last_updated": "2026-04-10"
   },
-  "Face Recognition Attendance": {
-    "progress": 92,
-    "status": "production",
-    "last_updated": "2026-04-24"
-  },
-  "autoSolverVideo": {
-    "progress": 95,
+  "English Speaking Tutor": {
+    "progress": 65,
     "status": "active",
-    "last_updated": "2026-05-10"
+    "last_updated": "2026-04-11"
+  },
+  "StaticsEngine": {
+    "progress": 20,
+    "status": "planning",
+    "last_updated": "2026-04-10"
+  },
+  "windMindOM": {
+    "progress": 0,
+    "status": "pending",
+    "last_updated": "2026-05-03"
+  },
+  "Face Recognition Attendance": {
+    "progress": 100,
+    "status": "production",
+    "last_updated": "2026-06-07"
   },
   "Course Scheduling System": {
     "progress": 95,
     "status": "production",
     "last_updated": "2026-04-10"
   },
-  "StaticsEngine": {
-    "progress": 20,
+  "eduStudio": {
+    "progress": 25,
     "status": "planning",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-06-05"
   },
   "UniCourse AI Online": {
     "progress": 95,
@@ -44,11 +54,6 @@
     "status": "production",
     "last_updated": "2026-04-10"
   },
-  "ScanMail+": {
-    "progress": 90,
-    "status": "production",
-    "last_updated": "2026-04-24"
-  },
   "SmartFill-Scholar": {
     "progress": 80,
     "status": "active",
@@ -64,20 +69,10 @@
     "status": "active",
     "last_updated": "2026-04-15"
   },
-  "English Speaking Tutor": {
-    "progress": 65,
-    "status": "active",
-    "last_updated": "2026-04-11"
-  },
   "AI Graphic Studio": {
-    "progress": 82,
+    "progress": 98,
     "status": "active",
-    "last_updated": "2026-04-23"
-  },
-  "LLM Wiki": {
-    "progress": 80,
-    "status": "active",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-06-03\"  # #27b epic「方向B」啟動 (1)：版型選單縮圖化（LayoutThumbnail 共用元件）"
   },
   "myPicasa": {
     "progress": 60,
@@ -89,10 +84,20 @@
     "status": "active",
     "last_updated": "2026-04-10"
   },
+  "ScanMail+": {
+    "progress": 90,
+    "status": "production",
+    "last_updated": "2026-06-04"
+  },
   "TranslateGemma": {
     "progress": 72,
     "status": "active",
     "last_updated": "2026-04-11"
+  },
+  "WindFarm Battle": {
+    "progress": 95,
+    "status": "active",
+    "last_updated": "2026-05-22"
   },
   "Z-Image-Turbo Web UI": {
     "progress": 70,
@@ -105,9 +110,9 @@
     "last_updated": "2026-04-13"
   },
   "InduSpect AI": {
-    "progress": 85,
+    "progress": 87,
     "status": "active",
-    "last_updated": "2026-04-15"
+    "last_updated": "2026-05-16"
   },
   "WindGuard AI": {
     "progress": 100,
@@ -125,9 +130,9 @@
     "last_updated": "2026-04-10"
   },
   "RAG Ultimate": {
-    "progress": 90,
+    "progress": 98,
     "status": "active",
-    "last_updated": "2026-05-03"
+    "last_updated": "2026-06-07"
   },
   "WindAI Lab": {
     "progress": 92,
@@ -139,19 +144,19 @@
     "status": "active",
     "last_updated": "2026-04-21"
   },
-  "WindFarmMonitoring": {
-    "progress": 60,
+  "Yitai Wind Farm Ops Platform (z72 SCADA / etech)": {
+    "progress": 77,
     "status": "active",
-    "last_updated": "2026-04-10"
-  },
-  "windMindOM": {
-    "progress": 0,
-    "status": "pending",
-    "last_updated": "2026-05-03"
+    "last_updated": "2026-05-30"
   },
   "第一個運維廠商 PoC + 第一筆合約": {
     "progress": 0,
     "status": "planned",
     "last_updated": "2026-05-10"
+  },
+  "Z72 SCADA System": {
+    "progress": 99,
+    "status": "active",
+    "last_updated": "2026-06-04"
   }
 }

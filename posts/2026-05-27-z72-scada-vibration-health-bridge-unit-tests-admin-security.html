@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Z72 SCADA 工程躍升：振動健康監控、點擊趨勢分析與橋接核心單元測試 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .pr-row { display: flex; align-items: flex-start; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .pr-badge { flex-shrink: 0; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-align: center; min-width: 60px; }
+        .badge-done { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .pr-text { flex: 1; color: var(--text-light); font-size: 0.95rem; }
+        .pr-num { font-size: 0.8rem; color: #818cf8; flex-shrink: 0; font-family: monospace; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .pr-row { flex-wrap: wrap; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">Z72 SCADA 工程躍升：振動健康監控、點擊趨勢分析與橋接核心單元測試</h1>
+            <p>2026-05-27 &bull; 劉瑞弘教授團隊 &bull; Industrial SCADA / Wind Energy / Software Quality / Java Bridge</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">Z72 SCADA</span>
+                <span class="tag tag-green">振動健康監控</span>
+                <span class="tag tag-teal">Java Bridge Testing</span>
+                <span class="tag tag-orange">Admin Security</span>
+                <span class="tag tag-sage">Bachmann M1 / OPC UA</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                工業控制系統（ICS）的軟體開發有一個長期存在的鴻溝：
+                <strong>現場設備的資料已經能精確反映機組狀態，但上層應用層的監控能力與軟體品質卻遠遠跟不上</strong>。
+                這不是硬體的問題，而是歷史包袱——傳統 SCADA HMI 往往缺乏現代軟體工程實踐，
+                沒有單元測試、沒有稽核機制、監控視圖也不夠靈活。
+            </p>
+
+            <p>
+                DOF Lab 的 <strong>Z72 SCADA 系統</strong>（Bachmann M1 14 台風機群監控）在最近一輪衝刺（PR #76–#80）
+                集中解決了這三個面向：新增<strong>振動健康點擊趨勢</strong>與 <strong>CSV 批量匯出</strong>、
+                支援<strong>多標籤同步比對趨勢</strong>、實作<strong>管理員強制登出</strong>安全指令，
+                並為 Java WebSocket Bridge 核心補上了<strong>獨立單元測試套件</strong>。
+                每一項改動都在同一天被整合進 CI，並作為 PR #80 的 squash merge 送上 main。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">14</div>
+                    <div class="label">台 Bachmann M1 風機</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">PRs 合併（#76–#80）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">92</div>
+                    <div class="label">專案完成度 %</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">80+</div>
+                    <div class="label">累計合併 PRs</div>
+                </div>
+            </div>
+
+            <h2>一、振動健康監控：從「知道有問題」到「看得到趨勢」</h2>
+
+            <p>
+                風機主軸承、齒輪箱、發電機端的<strong>振動訊號</strong>是預測性維護中最關鍵的指標之一。
+                Z72 系統的 Bachmann PLC 本來就持續採集這些訊號，但舊有介面只能靜態顯示數值，
+                無法讓維運人員快速判斷「這個值是在上升還是下降？短時間內的趨勢是什麼？」
+            </p>
+
+            <p>
+                PR #76 引入了「<strong>點擊即趨勢（click-to-trend）</strong>」功能：
+                操作員在儀表板上點擊任何 PLC tag，系統即時繪製該標籤的時序折線圖，
+                不需要切換頁面、不需要手動選取時段。
+                同一個 PR 也實作了<strong>振動健康 CSV 匯出</strong>功能——
+                以機組 ID、時間戳記、振動量值為欄位，一鍵匯出結構化資料，
+                直接可用於後續的頻域分析或機器學習模型訓練。
+            </p>
+
+            <div class="highlight-box">
+                <h3>💡 設計哲學：資料主權歸現場維運人員</h3>
+                <p>
+                    CSV 匯出格式採用「<strong>per-mode 多模態導出</strong>」設計（PR #77）：
+                    當使用者選取多個標籤進行比對趨勢時，系統可以依模式分別匯出（各標籤獨立檔）
+                    或合併匯出（wide-table，每欄一個標籤）。
+                    這個設計對維運工程師來說極其實用——他們習慣在 Excel 裡用兩種不同的方式
+                    處理「多機比較」與「單機多項」分析場景。
+                </p>
+            </div>
+
+            <p>
+                PR #77 更進一步支援<strong>多標籤同步趨勢選取</strong>：
+                操作員可以同時選定多個 PLC 變數（例如主軸方位加速度 + 齒輪箱輸入端加速度 + 環境溫度），
+                在同一張圖上比較它們的時序走勢。
+                這個能力對於排查「是振動源頭問題還是環境耦合問題」的分析至關重要。
+            </p>
+
+            <h2>二、Bridge 核心安全：強制登出指令與稽核日誌</h2>
+
+            <p>
+                Z72 系統的 Java WebSocket Bridge 是整個架構的核心中介層——
+                它負責連接 Bachmann M1 PLC（透過 OPC UA / Modbus 協議）
+                與瀏覽器端的 React Dashboard，並管理所有使用者的連線與身分驗證。
+                當多位維運人員同時使用系統時，<strong>會話管理安全</strong>就成為不可忽視的議題。
+            </p>
+
+            <p>
+                這次新增的<strong>強制登出（<span class="code-inline">kick_user</span>）管理指令</strong>
+                允許持有 <span class="code-inline">admin</span> 角色 JWT Token 的管理員，
+                透過 WebSocket 訊息強制斷開指定使用者的所有 active 連線。
+                整個流程設計嚴謹：
+            </p>
+
+            <ul>
+                <li><strong>雙層驗證</strong>：先驗 JWT Token 有效性，再驗角色必須為 <span class="code-inline">admin</span>，兩關都過才執行</li>
+                <li><strong>無縫稽核日誌</strong>：操作自動寫入 Bridge 稽核日誌，記錄操作者、被踢使用者名稱、斷線連線總數，格式與 <span class="code-inline">AuditReview</span> CLI 工具 100% 相容</li>
+                <li><strong>邊界行為測試</strong>：單元測試驗證「一般使用者無法執行管理指令」、「管理員正確斷開目標使用者」、「連線確實從列表清除」三個關鍵場景</li>
+            </ul>
+
+            <div class="insight-box">
+                <h3>🔍 為什麼工業 SCADA 特別需要強制登出？</h3>
+                <p>
+                    工業現場有個常見情境：一位值班工程師使用現場電腦登入系統後離開，
+                    但因為忘記登出，導致會話一直保持。
+                    另一位工程師需要以更高權限操作（例如修改 PLC 設定點），
+                    卻因為系統顯示「已有工程師登入」而被鎖定。
+                    在一般 Web 應用裡，這個問題不大；但在直連 PLC 的 SCADA 環境，
+                    <strong>會話狀態直接影響到對物理設備的控制能力</strong>——管理員強制登出功能因此是生產安全的必要保障。
+                </p>
+            </div>
+
+            <h2>三、Java Bridge 單元測試：把「現場驗證」前推到 CI</h2>
+
+            <p>
+                Z72 Bridge 的 Java 程式碼一直有一個隱憂：
+                <strong>核心邏輯（資料切片、歷史彙總、WebSocket 訊息格式）從未有過系統性的自動化測試保護</strong>。
+                一旦重構某個 <span class="code-inline">RollupTier</span> 的邊界計算或修改 <span class="code-inline">Z72Slice</span> 的 schema，
+                開發者必須現場連上真實 PLC 才能驗證行為是否正確——這在開發環境中幾乎不可行。
+            </p>
+
+            <p>
+                PR #80 引入了<strong>獨立的橋接核心單元測試套件</strong>（<span class="code-inline">TestBridgeComponents.java</span>）：
+            </p>
+
+            <ul>
+                <li><strong>Mock WebSocket 連線</strong>：不需要真實 PLC，完整模擬連線生命週期</li>
+                <li><strong>RollupTier 重構</strong>：引入 enum 型別消除 <span class="code-inline">Z72Slice</span> schema 重複定義，同時修復 <span class="code-inline">baseTime</span> 邊界計算的不穩定問題</li>
+                <li><strong>AuditReview CLI 測試</strong>：對稽核日誌查詢工具補上完整 unit test，並同步重構 <span class="code-inline">AuditReview.java</span> 使其可測性（testability）提升</li>
+                <li><strong>CI 整合</strong>：<span class="code-inline">make_release.bat</span> 現在在打包前會強制執行一次完整測試套件，測試失敗直接中止建置</li>
+            </ul>
+
+            <div class="pr-row">
+                <span class="pr-badge badge-done">PR #76</span>
+                <span class="pr-text">feat(scada)：點擊趨勢選取 + 振動健康 CSV 匯出</span>
+                <span class="pr-num">merged</span>
+            </div>
+            <div class="pr-row">
+                <span class="pr-badge badge-done">PR #77</span>
+                <span class="pr-text">feat(scada)：多標籤趨勢選取 + per-mode CSV 格式擴充</span>
+                <span class="pr-num">merged</span>
+            </div>
+            <div class="pr-row">
+                <span class="pr-badge badge-done">PR #79</span>
+                <span class="pr-text">build：make_release.bat rmdir 安全防護 + cmd.exe 註解解析修復</span>
+                <span class="pr-num">merged</span>
+            </div>
+            <div class="pr-row">
+                <span class="pr-badge badge-done">PR #80</span>
+                <span class="pr-text">feat：橋接核心獨立單元測試套件（含 kick_user + AuditReview + RollupTier 重構）</span>
+                <span class="pr-num">merged</span>
+            </div>
+
+            <h2>研究室行動項目與工程啟示</h2>
+
+            <div class="action-box">
+                <h3>✅ 下一步：Phase 3b Backend ADR</h3>
+                <p>
+                    Z72 SCADA 系統的 STATUS.yaml 顯示 <strong>progress: 92%</strong>，
+                    next_milestone 指向「Phase 3b backend ADR」——這意味著下一個重大決策點
+                    是後端架構的進化方向：是否引入更成熟的時序資料庫（InfluxDB / TimescaleDB）
+                    取代現有的 SQLite 三層 historian？還是先在現有架構上把 E2E 測試補完？
+                    ADR（Architecture Decision Record）的撰寫將會是這個決策的正式起點。
+                </p>
+            </div>
+
+            <p>
+                這一輪的工作揭示了一個普遍適用於工業 AI 研究的原則：
+                <strong>軟體品質本身就是研究成果的一部分</strong>。
+                一套沒有測試保護、無法被可靠重現的 SCADA 系統，
+                即使採集了再多真實機組資料，也很難建立學術上可信的實驗環境。
+                當 Z72 Bridge 的核心邏輯開始受到單元測試保護，
+                它就從「一個能跑的工具」晉升為「一個可以信任的研究平台基礎設施」。
+            </p>
+
+            <p>
+                對於有意將工業資料整合進 AI 研究的學術團隊，
+                這個案例提供的最重要建議是：<strong>在資料採集管道的每一個關鍵節點，
+                都要補上確定性的測試保護</strong>——不只是因為它能防止 bug，
+                更因為它迫使你把每一個隱性假設（邊界條件、資料格式、狀態機轉換）
+                明確地寫成可驗證的規格，而這本身就是科學研究的精髓。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li>Z72 SCADA System PROGRESS.md — DOF Lab 內部文件（2026-05-26）</li>
+                <li>Z72 SCADA System STATUS.yaml — <code>researchTopic/z72hmiNew/STATUS.yaml</code>（last_updated: 2026-05-27）</li>
+                <li>Bachmann Electronic GmbH, <a href="https://www.bachmann.info/solutions/wind-energy/" target="_blank" rel="noopener">M1 Controller Platform for Wind Energy</a></li>
+                <li>IEC 61400-12-1:2017, <em>Wind energy generation systems — Power performance measurements</em></li>
+                <li>Kim, H. et al. (2022). "Vibration-based fault detection in wind turbine drivetrains using SCADA data." <em>Renewable Energy</em>, 189, 1–14.</li>
+                <li>Fowler, M. (2018). <em>Refactoring: Improving the Design of Existing Code</em> (2nd ed.). Addison-Wesley — on testability as a design goal.</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid var(--border-color);">
+        <p>© 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘研究室</p>
+    </footer>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const links = document.querySelector('.nav-links');
+        if (toggle && links) toggle.addEventListener('click', () => links.classList.toggle('open'));
+    </script>
+</body>
+</html>
