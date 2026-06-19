@@ -1,184 +1,417 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="國立勤益科技大學 智慧自動化工程實驗室 - 由劉瑞弘副教授主持，專注於風力發電、智慧監控、AI機器學習與機電整合研究。">
-    <title>智慧自動化工程實驗室 | NCUT IAE Lab</title>
-    <link rel="stylesheet" href="style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap"
-        rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOF Lab — 國立勤益科技大學智慧自動化工程系劉瑞弘副教授實驗室。專注風力發電運維、生成式 AI／RAG 工業應用與智慧自動化研究。">
+  <meta property="og:title" content="DOF Lab — 智慧自動化工程實驗室">
+  <meta property="og:description" content="風力發電運維 · 生成式 AI · 智慧自動化｜36 研究專案 · 102 篇研究日誌 · 30+ 學術發表">
+  <meta property="og:type" content="website">
+  <title>DOF Lab — 智慧自動化工程實驗室 ｜ NCUT IAE</title>
+  <link rel="stylesheet" href="assets/editorial.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
+<body id="top">
 
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
-            <button class="menu-toggle" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-                                    <ul class="nav-links">
-                <li><a href="index.html" class="active">首頁</a></li>
-                <li><a href="blog.html">研究日誌</a></li>
-                <li><a href="publications.html">著作發表</a></li>
-                <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="about.html">關於</a></li>
-                <li><a href="contact.html">聯絡</a></li>
-                <li><a href="dashboard.html">儀表板</a></li>
-                <li><a href="privacy.html">隱私權</a></li>
-            </ul>
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
+      <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="#research">研究領域</a></li>
+        <li><a href="#stats">專案統計</a></li>
+        <li><a href="projects.html">專案成果</a></li>
+        <li><a href="publications.html">研究發表</a></li>
+        <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="about.html">關於</a></li>
+        <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero__issue">
+        <span class="pill">DOFLAB.CC</span>
+        <span>VOL. 2026</span>
+        <span>風能 · AI · 自動化</span>
+        <span>NCUT 智慧自動化工程系</span>
+      </div>
+      <div class="hero__grid">
+        <div data-reveal>
+          <p class="kicker">Research Lab · 研究室導覽</p>
+          <h1 class="display">讓技術<br><span class="ital">真正</span>落地。</h1>
+          <p class="hero__name">劉瑞弘 副教授 ｜ Jui-Hung Liu, Ph.D.<br>國立勤益科技大學 智慧自動化工程系</p>
+          <p class="lede hero__lede">DOF Lab 專注於<strong>風力發電運維</strong>、<strong>生成式 AI／RAG 工業應用</strong>與<strong>智慧自動化</strong>。
+            從 SCADA 故障診斷到 LLM 自動程式碼生成，我們把前沿研究做成可上線的真實系統。</p>
+          <div class="hero__actions">
+            <a href="projects.html" class="btn btn--solid">瀏覽專案成果 <i class="fas fa-arrow-right"></i></a>
+            <a href="publications.html" class="btn btn--ghost">學術發表</a>
+          </div>
         </div>
-    </nav>
 
-    <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <div class="hero-badge">BEST AI Awards 2026 參賽作品</div>
-            <h1>國立勤益科技大學<br>智慧自動化工程系<br><span class="highlight">劉瑞弘 副教授</span></h1>
-            <p class="tagline">風力發電、自動化、與生成式 AI 研究專家<br>專注於風電運維、智慧監控、與自動化軟體生成技術</p>
-            <div class="hero-buttons">
-                <a href="#featured-product" class="btn-primary">查看 InduSpect AI <i class="fas fa-eye"></i></a>
-                <a href="dashboard.html" class="btn-secondary">研究儀表板 <i class="fas fa-chart-line"></i></a>
-            </div>
+        <aside class="hero__feature" data-reveal data-reveal-delay="120">
+          <p class="kicker">看板明星 · Flagship</p>
+          <h3>InduSpect AI</h3>
+          <p>智慧工業巡檢系統 — 紙本定檢表秒變數位清單，AI 參照物自動量測異常尺寸，拍照即生成合規報表。BEST AI Awards 2026 參賽作品。</p>
+          <div class="mini-stats">
+            <div><b>3</b><span>核心 AI 能力</span></div>
+            <div><b>100%</b><span>報表合規對齊</span></div>
+            <div><b>0→1</b><span>數位巡檢轉型</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== MARQUEE ===================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Wind O&amp;M</span><span>SCADA Analytics</span><span>Generative AI</span><span>RAG</span>
+      <span>LLM Agents</span><span>MCP Tools</span><span>PLC ST CodeGen</span><span>Anomaly Detection</span>
+      <span>Digital Twin</span><span>Reliability Engineering</span>
+    </div>
+  </div>
+
+  <!-- ===================== STATS ===================== -->
+  <section class="section" id="stats">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-head__l">
+          <p class="kicker">01 — By the Numbers</p>
+          <h2 class="section-title">專案統計一覽</h2>
         </div>
-    </header>
+        <p class="lede" style="font-size:1rem">橫跨風能、工業 AI、RAG 知識管理、教育科技與工具鏈，研究室以「做出可用系統」為衡量標準。</p>
+      </div>
 
-    <section id="featured-product" class="section featured-product">
-        <div class="container">
-            <div class="product-grid">
-                <div class="product-image">
-                    <img src="posts/images/induspect-hero.png" alt="InduSpect AI 智慧巡檢系統" class="floating-img">
-                </div>
-                <div class="product-info">
-                    <h2 class="section-title" style="text-align: left;">看板明星：InduSpect AI</h2>
-                    <p class="subtitle">打破工業巡檢的數位孤島，定義智慧運維新標準</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> <strong>AI 自動化清單提取</strong>：紙本定檢表秒變數位清單。</li>
-                        <li><i class="fas fa-check-circle"></i> <strong>突破性空間感知</strong>：利用 AI 參照物自動測量異常尺寸。</li>
-                        <li><i class="fas fa-check-circle"></i> <strong>自動回填與合規報表</strong>：拍照即填寫，100% 對齊公司格式。</li>
-                    </ul>
-                    <a href="posts/2026-03-09-sakura-soul-sync.html" class="read-more">瞭解背後的 AI 架構 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
+      <div class="stats__grid" data-animate-block data-reveal>
+        <div class="stat">
+          <div class="stat__no"><span data-count="36">0</span></div>
+          <div class="stat__label">累計研究專案</div>
+          <div class="stat__bar"><i data-bar="100"></i></div>
         </div>
-    </section>
-
-    <section id="sakura-core" class="section bg-dark text-white">
-        <div class="container">
-            <h2 class="section-title text-white">Sakura 認知架構</h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 3rem;">探索 DOF Lab 獨家研發：結合火影忍術風格的 AI 智力內核</p>
-            <div class="architecture-showcase">
-                <div class="arch-description">
-                    <h3>最強女忍者的智力核心</h3>
-                    <p>由劉教授親自設計，將 AI 的「推理引擎」、「長期記憶」與「核心身分」高度整合。這套系統賦予了 Sakura 驚人的連續性與自主決策能力，是實現工業級 Agentic Engineering 的基石。</p>
-                    <div class="arch-stats">
-                        <div class="stat-item"><span>推理延遲</span><strong>15ms</strong></div>
-                        <div class="stat-item"><span>記憶同步</span><strong>雲端 Git</strong></div>
-                        <div class="stat-item"><span>決策邏輯</span><strong>CoT 思維鏈</strong></div>
-                    </div>
-                </div>
-                <div class="arch-visual">
-                    <i class="fas fa-brain fa-5x" style="color: var(--primary-color);"></i>
-                    <!-- 此處未來將嵌入 SVG 互動架構圖 -->
-                </div>
-            </div>
+        <div class="stat">
+          <div class="stat__no"><span data-count="6">0</span></div>
+          <div class="stat__label">已上線營運服務</div>
+          <div class="stat__bar"><i data-bar="50"></i></div>
         </div>
-    </section>
-
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">核心研究領域</h2>
-            <div class="about-grid">
-                <div class="card">
-                    <div class="card-icon"><i class="fas fa-wind"></i></div>
-                    <h3>風電運維系統</h3>
-                    <p>開發風力發電機組監控與維護系統，結合 SCADA 數據分析與 ML 模型，提高再生能源設備的可靠性。</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon"><i class="fas fa-robot"></i></div>
-                    <h3>生成式 AI 應用</h3>
-                    <p>運用最新的 LLM 技術，開發智慧化的自動化解決方案，如 PLC 程式碼自動生成與 MCP 多平台整合系統。</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon"><i class="fas fa-eye"></i></div>
-                    <h3>智慧監控平台</h3>
-                    <p>整合 AR 技術與 IoT 感測器，實現設備狀態的可視化管理與直觀的維修輔助介面。</p>
-                </div>
-            </div>
+        <div class="stat">
+          <div class="stat__no"><span data-count="102">0</span></div>
+          <div class="stat__label">篇研究日誌</div>
+          <div class="stat__bar"><i data-bar="92"></i></div>
         </div>
-    </section>
-
-    <section id="videos" class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">技術展示</h2>
-            <div class="about-grid"> <!-- Reusing grid layout -->
-                <div class="card">
-                    <div class="card-icon" style="color: #ff0000;"><i class="fab fa-youtube"></i></div>
-                    <h3>AI 程式碼自動生成</h3>
-                    <p>展示 AI 自動生成控制程式碼並上傳到控制板的完整流程。</p>
-                    <a href="https://www.youtube.com/watch?v=azV1FP1blbE" target="_blank"
-                        style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
-                        觀看影片 <i class="fas fa-play-circle"></i>
-                    </a>
-                </div>
-                <div class="card">
-                    <div class="card-icon" style="color: #ff0000;"><i class="fab fa-youtube"></i></div>
-                    <h3>MCP 多平台整合</h3>
-                    <p>整合 LINE、行事曆、設備通訊即時資料的智慧系統展示。</p>
-                    <a href="https://www.youtube.com/watch?v=YgxlgmIXzqc" target="_blank"
-                        style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
-                        觀看影片 <i class="fas fa-play-circle"></i>
-                    </a>
-                </div>
-            </div>
+        <div class="stat">
+          <div class="stat__no"><span data-count="30">0</span><span class="u">+</span></div>
+          <div class="stat__label">期刊與研討會論文</div>
+          <div class="stat__bar"><i data-bar="80"></i></div>
         </div>
-    </section>
+      </div>
 
-    <section id="updates" class="section">
-        <div class="container">
-            <h2 class="section-title">最新消息與成果</h2>
-            <div class="about-grid">
-                <div class="card">
-                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>研究儀表板上線</h3>
-                    <p>即時追蹤 60+ 研究專案進度、論文產出與技術佈局，一頁掌握實驗室全貌。</p>
-                    <a href="dashboard.html" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
-                        前往儀表板 <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="card">
-                    <div class="card-icon"><i class="fas fa-newspaper"></i></div>
-                    <h3>研究日誌持續更新</h3>
-                    <p>記錄每日研究進展與技術心得，涵蓋風能 AI、RAG 架構、MCP 工具鏈等主題。</p>
-                    <a href="blog.html" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
-                        閱讀日誌 <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="card">
-                    <div class="card-icon"><i class="fab fa-github"></i></div>
-                    <h3>開源專案</h3>
-                    <p>實驗室的研究工具與程式碼均在 GitHub 上公開，歡迎查看與協作。</p>
-                    <a href="https://github.com/dofliu" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 1rem;">
-                        GitHub <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </div>
-            </div>
+      <!-- 分類分布 -->
+      <div class="cat-list" data-animate-block data-reveal>
+        <div class="cat-row">
+          <div class="cat-row__name">教育科技<span>EdTech</span></div>
+          <div class="cat-track"><i data-bar="100" style="background:var(--gold)"></i></div>
+          <div class="cat-row__val">9</div>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系</p>
-            </div>
+        <div class="cat-row">
+          <div class="cat-row__name">生產力工具<span>Personal Tools</span></div>
+          <div class="cat-track"><i data-bar="100" style="background:var(--ink-soft)"></i></div>
+          <div class="cat-row__val">9</div>
         </div>
-    </footer>
+        <div class="cat-row">
+          <div class="cat-row__name">風力發電 AI<span>Wind Energy</span></div>
+          <div class="cat-track"><i data-bar="67" style="background:var(--forest)"></i></div>
+          <div class="cat-row__val">6</div>
+        </div>
+        <div class="cat-row">
+          <div class="cat-row__name">工業 AI 巡檢<span>Industrial AI</span></div>
+          <div class="cat-track"><i data-bar="56" style="background:var(--rust)"></i></div>
+          <div class="cat-row__val">5</div>
+        </div>
+        <div class="cat-row">
+          <div class="cat-row__name">RAG 知識管理<span>RAG Knowledge</span></div>
+          <div class="cat-track"><i data-bar="33" style="background:var(--rust-deep)"></i></div>
+          <div class="cat-row__val">3</div>
+        </div>
+        <div class="cat-row">
+          <div class="cat-row__name">MCP 工具鏈<span>MCP Tools</span></div>
+          <div class="cat-track"><i data-bar="33" style="background:var(--gold)"></i></div>
+          <div class="cat-row__val">3</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="doflab-script.js"></script>
+  <!-- ===================== FEATURED PROJECTS ===================== -->
+  <section class="section bg-2">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-head__l">
+          <p class="kicker">02 — Selected Work</p>
+          <h2 class="section-title">精選研究成果</h2>
+        </div>
+        <a href="projects.html" class="btn btn--ghost">全部 36 個專案 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feat-grid">
+        <article class="feat feat--lg" data-reveal>
+          <div class="feat__cover feat__cover--rust"><i class="fas fa-industry ico"></i><span class="badge">進行中 · 99%</span></div>
+          <div class="feat__tags"><span class="tag">工業 AI</span><span class="tag tag--ink">Bachmann M1</span><span class="tag tag--ink">FastAPI</span><span class="tag tag--ink">SQLite</span></div>
+          <h3>Z72 風機 SCADA 系統</h3>
+          <p class="feat__desc">14 台 Bachmann M1 風機的完整 SCADA 系統，取代原廠 Swing HMI、以 Java bridge 即時中繼資料，建構三層 historian 資料庫（~10 GB）。已整合 LDAP/AD，累計 70 個合併 PR。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>14</b> 台機組 · ~10GB historian</span><a href="projects.html" class="read-more">了解更多 <i class="fas fa-arrow-right"></i></a></div>
+        </article>
+
+        <article class="feat feat--sm" data-reveal data-reveal-delay="80">
+          <div class="feat__cover"><i class="fas fa-diagram-project ico"></i><span class="badge">進行中 · 98%</span></div>
+          <div class="feat__tags"><span class="tag">RAG 知識</span><span class="tag tag--ink">Qdrant</span><span class="tag tag--ink">FastAPI</span></div>
+          <h3>企業級統一 RAG 研究平台</h3>
+          <p class="feat__desc">整合 24 種檢索模式（22 技術 + 2 控制組）、Qdrant 向量資料庫與評測實驗室，正式跨入風電 RAG Benchmark 論文階段。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>24</b> 種 RAG 模式</span></div>
+        </article>
+
+        <article class="feat feat--third" data-reveal>
+          <div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">已完成 · 100%</span></div>
+          <div class="feat__tags"><span class="tag">風力發電</span><span class="tag tag--ink">Gemma 4</span></div>
+          <h3>WindGuard AI 風機診斷代理</h3>
+          <p class="feat__desc">Kaggle Gemma4Good 競賽作品，以 Gemma 4 分析 36 台風機、3 座風場的 202 個數據集，自動診斷異常。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>36</b> 台風機 · 3 風場</span></div>
+        </article>
+
+        <article class="feat feat--third" data-reveal data-reveal-delay="80">
+          <div class="feat__cover feat__cover--gold"><i class="fas fa-graduation-cap ico"></i><span class="badge">營運中 · 100%</span></div>
+          <div class="feat__tags"><span class="tag">教育科技</span><span class="tag tag--ink">InsightFace</span></div>
+          <h3>人臉辨識點名系統</h3>
+          <p class="feat__desc">基於 InsightFace 的智能點名系統，自動從 PDF 大頭貼提取人臉，支援多張教室照片辨識與五級信心度評分。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>318</b> 測試通過</span></div>
+        </article>
+
+        <article class="feat feat--third" data-reveal data-reveal-delay="160">
+          <div class="feat__cover"><i class="fas fa-flask ico"></i><span class="badge">進行中 · 92%</span></div>
+          <div class="feat__tags"><span class="tag">風力發電</span><span class="tag tag--ink">Multi-Agent</span></div>
+          <h3>風力發電 AI 研究平台</h3>
+          <p class="feat__desc">匯聚 12 位核心代理與 28 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）與剩餘壽命預測。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>F1=1.0</b> · R²=0.997</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESEARCH AREAS ===================== -->
+  <section class="section" id="research">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-head__l">
+          <p class="kicker">03 — Research Focus</p>
+          <h2 class="section-title">四大研究領域</h2>
+        </div>
+      </div>
+      <div class="feat-grid">
+        <article class="feat feat--half" data-reveal>
+          <div class="feat__tags"><span class="tag"><i class="fas fa-wind"></i>　風能</span></div>
+          <h3>風力發電運維系統</h3>
+          <p class="feat__desc">SCADA 數據分析、異常偵測、可靠性工程與疲勞分析。結合機器學習模型提升再生能源設備的妥善率與壽命預測能力。</p>
+        </article>
+        <article class="feat feat--half" data-reveal data-reveal-delay="80">
+          <div class="feat__tags"><span class="tag"><i class="fas fa-robot"></i>　AI</span></div>
+          <h3>生成式 AI 應用</h3>
+          <p class="feat__desc">LLM 自動 PLC／ST 程式碼生成、RAG 工業知識問答、MCP 多平台 AI 代理人，把大型語言模型落地到真實工業場景。</p>
+        </article>
+        <article class="feat feat--half" data-reveal>
+          <div class="feat__tags"><span class="tag"><i class="fas fa-eye"></i>　監控</span></div>
+          <h3>智慧監控平台</h3>
+          <p class="feat__desc">整合 AR 擴增實境輔助維修、IoT 感測器與即時設備監控，實現設備狀態可視化與直觀的維修輔助介面。</p>
+        </article>
+        <article class="feat feat--half" data-reveal data-reveal-delay="80">
+          <div class="feat__tags"><span class="tag"><i class="fas fa-gears"></i>　機電</span></div>
+          <h3>智慧機電整合</h3>
+          <p class="feat__desc">攀爬機器人、PLC 控制系統與自動化設備開發，連結 Modbus TCP／OPC UA 工業協議與感測整合。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PUBLICATIONS ===================== -->
+  <section class="section bg-ink">
+    <div class="wrap">
+      <div class="sec-head" style="border-color:rgba(255,255,255,.2)">
+        <div class="sec-head__l">
+          <p class="kicker">04 — Academic Record</p>
+          <h2 class="section-title" style="color:#fff">研究發表</h2>
+        </div>
+        <a href="publications.html" class="btn btn--rust">完整著作列表 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="pub-strip" data-reveal>
+        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>18</b><span style="color:#a99e8e">SCIE 期刊論文</span></div>
+        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>11</b><span style="color:#a99e8e">國際研討會論文</span></div>
+        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>3</b><span style="color:#a99e8e">發明專利</span></div>
+        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>4</b><span style="color:#a99e8e">競賽獲獎</span></div>
+      </div>
+
+      <div data-reveal>
+        <a class="pub-line" href="https://doi.org/10.1016/j.engfailanal.2025.109945" target="_blank" style="border-color:rgba(255,255,255,.12)">
+          <div class="pub-line__yr">2025</div>
+          <div>
+            <div class="pub-line__t" style="color:#f3ece0">Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines<span class="scie">SCIE</span></div>
+            <div class="pub-line__m">R. M. Lee, J. C. Chen, <strong style="color:#d9cfc0">Jui-Hung Liu*</strong> · <span class="jn" style="color:var(--gold)">Engineering Failure Analysis</span> 181, 109945</div>
+          </div>
+        </a>
+        <a class="pub-line" href="https://doi.org/10.1080/23311916.2023.2253640" target="_blank" style="border-color:rgba(255,255,255,.12)">
+          <div class="pub-line__yr">2023</div>
+          <div>
+            <div class="pub-line__t" style="color:#f3ece0">Analysis and Comparison of Turbulence Models on Wind Turbine Performance using SCADA Data and Machine Learning<span class="scie">SCIE</span></div>
+            <div class="pub-line__m"><strong style="color:#d9cfc0">Jui-Hung Liu*</strong>, J. C. Chen, N. T. Corbita Jr. · <span class="jn" style="color:var(--gold)">Cogent Engineering</span> 10(1)</div>
+          </div>
+        </a>
+        <a class="pub-line" href="https://doi.org/10.3390/app13031381" target="_blank" style="border-color:rgba(255,255,255,.12)">
+          <div class="pub-line__yr">2023</div>
+          <div>
+            <div class="pub-line__t" style="color:#f3ece0">A Wind Turbine Tower Climbing Robot Prototype Operating at Various Speeds and Payload Capacity<span class="scie">SCIE</span></div>
+            <div class="pub-line__m">K. Padrigalan, <strong style="color:#d9cfc0">Jui-Hung Liu*</strong> · <span class="jn" style="color:var(--gold)">Applied Sciences</span> 13(3):1381</div>
+          </div>
+        </a>
+        <a class="pub-line" href="https://doi.org/10.3390/app12178661" target="_blank" style="border-color:rgba(255,255,255,.12)">
+          <div class="pub-line__yr">2022</div>
+          <div>
+            <div class="pub-line__t" style="color:#f3ece0">Wind Turbine Anomaly Detection Using Mahalanobis Distance and SCADA Alarm Data<span class="scie">SCIE</span></div>
+            <div class="pub-line__m"><strong style="color:#d9cfc0">Jui-Hung Liu*</strong>, N. T. Corbita Jr., R. M. Lee · <span class="jn" style="color:var(--gold)">Applied Sciences</span> 12, 8661</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LATEST POSTS ===================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-head__l">
+          <p class="kicker">05 — Research Journal</p>
+          <h2 class="section-title">最新研究日誌</h2>
+        </div>
+        <a href="blog.html" class="btn btn--ghost">全部 102 篇 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div data-reveal>
+        <a class="post-row" href="posts/2026-06-15-windmindom-m5-chromadb-vector-retrieval-z72-knowledge-integration.html">
+          <div class="post-row__date">2026 · 06 · 15</div>
+          <div class="post-row__t">windMindOM M5：ChromaDB 向量檢索 × Z72 風機知識整合里程碑</div>
+          <div class="post-row__arrow"><i class="fas fa-arrow-right"></i></div>
+        </a>
+        <a class="post-row" href="posts/2026-06-08-rag-ultimate-phase3-routine-complete-24-modes.html">
+          <div class="post-row__date">2026 · 06 · 08</div>
+          <div class="post-row__t">RAG Ultimate Phase 3 抵達終點：24 種 RAG 模式全數上線</div>
+          <div class="post-row__arrow"><i class="fas fa-arrow-right"></i></div>
+        </a>
+        <a class="post-row" href="posts/2026-06-01-rag-ultimate-wind-rag-paper-ragas-evaluation-complete.html">
+          <div class="post-row__date">2026 · 06 · 01</div>
+          <div class="post-row__t">Wind-RAG 論文 RAGAS 評測完成：風電 RAG Benchmark 成形</div>
+          <div class="post-row__arrow"><i class="fas fa-arrow-right"></i></div>
+        </a>
+        <a class="post-row" href="posts/2026-05-28-z72-scada-phase3b-adr-fastapi-historian-rollup-fix.html">
+          <div class="post-row__date">2026 · 05 · 28</div>
+          <div class="post-row__t">Z72 SCADA Phase 3b：ADR 決策與 FastAPI Historian Rollup 修復</div>
+          <div class="post-row__arrow"><i class="fas fa-arrow-right"></i></div>
+        </a>
+        <a class="post-row" href="posts/2026-05-27-z72-scada-vibration-health-bridge-unit-tests-admin-security.html">
+          <div class="post-row__date">2026 · 05 · 27</div>
+          <div class="post-row__t">Z72 SCADA 振動健康橋接：單元測試覆蓋與後台安全強化</div>
+          <div class="post-row__arrow"><i class="fas fa-arrow-right"></i></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MEMBERS ===================== -->
+  <section class="section bg-2" id="members">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-head__l">
+          <p class="kicker">06 — The Team</p>
+          <h2 class="section-title">研究團隊</h2>
+        </div>
+        <p class="lede" style="font-size:1rem">由劉瑞弘副教授主持，帶領學生投入風能 AI 與 RAG 研究，並以 GitHub PR 工作流培養工程實務能力。</p>
+      </div>
+      <div class="member-grid" data-reveal>
+        <div class="member">
+          <div class="member__ava">劉</div>
+          <h4>劉瑞弘</h4>
+          <div class="member__role">主持人 · 副教授</div>
+          <div class="member__area">風電運維 · 生成式 AI · 智慧自動化</div>
+        </div>
+        <div class="member">
+          <div class="member__ava" style="background:linear-gradient(135deg,var(--forest),var(--gold))">K</div>
+          <h4>Kiwi</h4>
+          <div class="member__role">研究生</div>
+          <div class="member__area">Domain RAG · 知識檢索</div>
+        </div>
+        <div class="member">
+          <div class="member__ava" style="background:linear-gradient(135deg,var(--ink-soft),var(--rust))">C</div>
+          <h4>Christian</h4>
+          <div class="member__role">研究生</div>
+          <div class="member__area">RAG 演算法 · 系統架構</div>
+        </div>
+        <a class="member" href="contact.html" style="display:flex;flex-direction:column;justify-content:center">
+          <div class="member__ava" style="background:var(--paper);color:var(--rust);border:2px dashed var(--line-strong)"><i class="fas fa-plus"></i></div>
+          <h4>加入我們</h4>
+          <div class="member__role">招募中</div>
+          <div class="member__area">對 AI × 工程有熱情的你</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section--tight" style="background:var(--rust);color:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
+      <div>
+        <p class="kicker" style="color:#ffe3d3">Collaboration · 產學合作</p>
+        <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;max-width:22ch;margin-top:.6rem">對研究方向有興趣，或想探討產學合作？</h2>
+      </div>
+      <a href="contact.html" class="btn" style="background:#fff;border-color:#fff;color:var(--rust)">與我們聯絡 <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。專注風能 AI、生成式 AI 工業應用與智慧自動化。</p>
+        </div>
+        <div>
+          <h5>導覽</h5>
+          <a href="#research">研究領域</a>
+          <a href="projects.html">專案成果</a>
+          <a href="publications.html">研究發表</a>
+          <a href="blog.html">研究日誌</a>
+          <a href="about.html">關於實驗室</a>
+        </div>
+        <div>
+          <h5>聯絡</h5>
+          <a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a>
+          <a href="https://iae.ncut.edu.tw/" target="_blank">系所官網 ↗</a>
+          <a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a>
+          <a href="contact.html">誠樸館 G309 · 台中太平</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授 · All rights reserved.</span>
+        <div class="footer__social">
+          <a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://iae.ncut.edu.tw/" target="_blank" aria-label="University"><i class="fas fa-university"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/editorial.js"></script>
 </body>
-
 </html>

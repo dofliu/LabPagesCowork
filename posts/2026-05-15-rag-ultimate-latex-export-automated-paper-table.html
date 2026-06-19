@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>從實驗結果到論文表格：RAG Ultimate 的 LaTeX 自動化輸出系統 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .func-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .func-card { background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.25rem; }
+        .func-card .func-name { font-family: monospace; font-size: 0.9rem; color: #818cf8; font-weight: 600; margin-bottom: 0.4rem; }
+        .func-card .func-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .func-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">從實驗結果到論文表格：RAG Ultimate 的 LaTeX 自動化輸出系統</h1>
+            <p>2026-05-15 &bull; 劉瑞弘教授團隊 &bull; RAG Ultimate / LaTeX / Research Automation / Academic Writing</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG Ultimate</span>
+                <span class="tag tag-teal">LaTeX Automation</span>
+                <span class="tag tag-orange">Research Software</span>
+                <span class="tag tag-green">Academic Writing</span>
+                <span class="tag tag-sage">TypeScript</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                研究者跑完一批實驗，拿到 precision、recall、faithfulness、latency 各項數字之後，最讓人頭痛的往往不是分析，而是<strong>把數字排進論文表格</strong>。對齊小數點、找出最佳值、加粗標記、計算統計顯著性、確認 booktabs 格式符合期刊規範……每一步手動操作都是潛在的錯誤來源，也是重複性極高的體力勞動。RAG Ultimate 今天完成了 PR #88 的合併，進一步強化了 <span class="code-inline">latexExportUtils</span> 模組的型別安全——這個模組正是為了把這套繁瑣工序自動化而生。
+            </p>
+
+            <p>
+                這篇文章介紹 RAG Ultimate 的 LaTeX 自動化輸出系統：它能做什麼、怎麼設計、以及今天的 PR 解決了哪個容易被忽視的隱性問題。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">4</div>
+                    <div class="label">LaTeX 輸出函式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">17</div>
+                    <div class="label">RAG 模式（ModeType）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">ACL / EMNLP / IEEE</div>
+                    <div class="label">相容格式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">2,524</div>
+                    <div class="label">測試全數通過</div>
+                </div>
+            </div>
+
+            <h2>為什麼需要自動化 LaTeX 輸出？</h2>
+
+            <p>
+                在一般的研究工作流中，「從實驗到論文表格」通常是這樣的：在 Jupyter Notebook 或 Python 腳本裡產生一個 DataFrame，把它 <span class="code-inline">print</span> 出來，然後對著螢幕手動把數字貼進 <span class="code-inline">.tex</span> 檔。聽起來很直覺，但代價龐大：
+            </p>
+            <ul>
+                <li><strong>手動對齊</strong>：小數點位數不一致、單位不統一（ms vs. s），在 review 時被要求修改就要全部重來。</li>
+                <li><strong>最佳值標記遺漏</strong>：忘記把某個 metric 的最高值加粗，或是加粗了錯誤的數字，評審一眼就能看出來。</li>
+                <li><strong>實驗有更新時重做整張表</strong>：補跑了幾個 run、修正了某個 bug，整張表都要重製，而且不知道哪格有沒有同步更新。</li>
+                <li><strong>顯著性符號遺漏</strong>：統計顯著性（p &lt; 0.05）標記要手動對照 t-test 結果，容易遺漏或標錯位置。</li>
+            </ul>
+
+            <p>
+                RAG Ultimate 的解法是把這一切封裝在 <span class="code-inline">utils/latexExportUtils.ts</span> 裡，讓研究者只需要傳入聚合好的實驗數據，就能拿到可以直接貼進論文的 booktabs 格式 LaTeX 程式碼。
+            </p>
+
+            <h2>latexExportUtils 的四個核心功能</h2>
+
+            <div class="func-grid">
+                <div class="func-card">
+                    <div class="func-name">generateComparisonTable()</div>
+                    <div class="func-desc">多模式對比主表。輸入多個 RAG 模式的聚合結果，自動加粗最佳值、底線第二名，支援 ACL/EMNLP booktabs 格式（\toprule / \midrule / \bottomrule）。</div>
+                </div>
+                <div class="func-card">
+                    <div class="func-name">generateSignificanceMatrix()</div>
+                    <div class="func-desc">統計顯著性矩陣。依 p-value 輸入自動標注 †（p&lt;0.05）、‡（p&lt;0.01）等符號，生成各模式兩兩比較的顯著性表格。</div>
+                </div>
+                <div class="func-card">
+                    <div class="func-name">generateAblationTable()</div>
+                    <div class="func-desc">消融實驗表。針對某一基準模式，呈現逐步添加或移除元件後的效能變化，常見於論文的 Ablation Study 章節。</div>
+                </div>
+                <div class="func-card">
+                    <div class="func-name">generateCrossFormatTable()</div>
+                    <div class="func-desc">跨文件格式比較表。比較同一 RAG 模式在 PDF、Word、Markdown 等不同來源文件上的表現差異。</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🔬 LaTeXTableOptions：精細控制每張表格</h3>
+                <p style="margin:0;color:var(--text-light);">每個函式都接受 <span class="code-inline">LaTeXTableOptions</span> 參數，可控制：<strong>boldBest</strong>（是否加粗最佳值）、<strong>underlineSecond</strong>（是否底線第二名）、<strong>significanceMarkers</strong>（是否標注顯著性符號）、<strong>fontSize</strong>（表格字體大小，支援 footnotesize / scriptsize 以配合雙欄格式）、<strong>caption</strong> 與 <strong>label</strong>。論文投稿前只需調整這幾個旗標，不需改動核心邏輯。</p>
+            </div>
+
+            <h2>PR #88：看似小修，實則關鍵的型別安全升級</h2>
+
+            <p>
+                今天合併的 PR #88 修改的是測試檔案 <span class="code-inline">services/__tests__/latexExportUtils.test.ts</span>，乍看只是「把字串改成 enum」，但背後邏輯值得深入說明。
+            </p>
+
+            <p>修改前，測試 mock data 長這樣：</p>
+
+            <div class="code-block">// 修改前：以字串字面值繞過型別檢查
+{
+  mode: 'Basic RAG' as any,
+  chunkingStrategy: 'Recursive Character' as any,
+  // ...
+}</div>
+
+            <p>修改後：</p>
+
+            <div class="code-block">// 修改後：使用 enum member，拿回型別安全
+{
+  mode: ModeType.BASIC_RAG,
+  chunkingStrategy: ChunkingStrategy.RECURSIVE,
+  // ...
+}</div>
+
+            <div class="warn-box">
+                <h3>⚠️ as any 的隱性風險：改了 enum 卻不知道測試已失準</h3>
+                <p style="margin:0;color:var(--text-light);">
+                    假設三個月後，因應新的 RAG 模式命名規範，<span class="code-inline">ModeType.BASIC_RAG</span> 的底層字串值從 <span class="code-inline">'Basic RAG'</span> 改成 <span class="code-inline">'basic-rag'</span>。使用 <span class="code-inline">as any</span> 的測試 mock 不會跟著更新——TypeScript 編譯器不會報錯，jest 可能也不會失敗（如果測試沒有直接比較字串值的話）。結果是：<strong>測試繼續通過，但測試的對象已經不再反映真實程式的行為</strong>。使用 <span class="code-inline">ModeType.BASIC_RAG</span> 後，未來的重新命名會立刻在編譯期被抓到，不會靜默失準。
+                </p>
+            </div>
+
+            <p>
+                這個道理在研究程式碼中尤其重要。LaTeX 輸出函式所顯示的欄位標籤，直接對應到 <span class="code-inline">ModeType</span> 和 <span class="code-inline">ChunkingStrategy</span> 的字串表示。一旦這些字串在測試中失準，就可能出現「測試全過，但生成的表格欄位名稱和論文本文描述對不上」的情況——這種錯誤在 peer review 的截止日前最容易出現，也最難追蹤。
+            </p>
+
+            <h2>研究可重現性的基石：從資料到論文的型別安全鏈</h2>
+
+            <p>
+                RAG Ultimate 的設計哲學之一，是讓「從原始實驗資料到論文截圖」這條路盡可能<strong>自動化且可驗證</strong>。這包含幾個層次：
+            </p>
+            <ul>
+                <li><strong>資料層</strong>：RAGAS 評測結果存入 Qdrant 向量資料庫，每筆記錄帶有實驗 run ID、模式、切塊策略等結構化欄位。</li>
+                <li><strong>聚合層</strong>：<span class="code-inline">academicExportUtils.ts</span> 負責從多個 run 聚合均值與標準差，產生 <span class="code-inline">AggregatedResult[]</span>。</li>
+                <li><strong>輸出層</strong>：<span class="code-inline">latexExportUtils.ts</span> 將聚合結果轉換為 booktabs LaTeX，直接貼進 <span class="code-inline">.tex</span> 主檔。</li>
+                <li><strong>驗證層</strong>：2,524 個測試（含 PR #88 後的 latexExportUtils tests）確保每一個轉換步驟的正確性，TypeScript 嚴格模式保障型別一致。</li>
+            </ul>
+
+            <p>
+                當審稿人要求「補充 95% confidence interval」或「加入 cross-document-format 比較」，研究者只需在聚合層補上計算邏輯，呼叫對應的 <span class="code-inline">generateXxxTable()</span> 函式，即可立刻拿到更新後的 LaTeX——而不是重新開始一輪手動作業。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 對學生的啟示：測試 mock 也是論文的一部分</h3>
+                <p style="margin:0;color:var(--text-light);">
+                    許多研究生把測試 mock data 視為「隨便填就好的假資料」。但在研究軟體中，測試 mock 實際上定義了你對系統行為的斷言——它說的是「當輸入是 ModeType.BASIC_RAG 時，輸出的 LaTeX 應該包含 Basic RAG 這個欄位名稱」。如果 mock 的型別是 <span class="code-inline">any</span>，這個斷言就有一個默默漏水的缺口。把 mock 改成強型別的 enum，是讓測試真正說出你的意圖。
+                </p>
+            </div>
+
+            <h2>下一步：Stage 2B 與論文主表的完整 run</h2>
+
+            <p>
+                PR #88 完成後，RAG Ultimate 的 <span class="code-inline">latexExportUtils</span> 測試基礎已經扎實。下一個里程碑是 Stage 2B——ResearchLab 的雙欄重組（Experiment Plan / Live Telemetry），以及補跑 r06/r07 讓完整 run 數達到 ≥4，為論文主表提供統計上足夠的重複次數。一旦四輪完整實驗資料就位，<span class="code-inline">generateComparisonTable()</span> 就能自動生成論文的核心比較表，配合 <span class="code-inline">generateSignificanceMatrix()</span> 呈現各模式間的統計顯著性，整個投稿流程將大幅縮短。
+            </p>
+
+            <div class="action-box">
+                <h3>🚀 DOF Lab 行動項目</h3>
+                <ul style="margin:0.5rem 0 0; padding-left:1.25rem; color:var(--text-light);">
+                    <li>完成 Stage 2B ResearchLab 雙欄重組（Experiment Plan / Live Telemetry）</li>
+                    <li>補跑 r06/r07 達 ≥4 完整 run，確保論文主表統計基礎</li>
+                    <li>對研究生同學：下次跑實驗前，先確認 <span class="code-inline">AggregatedResult</span> 的欄位型別，避免在輸出層出現 undefined / NaN</li>
+                    <li>未來擴充：考慮在 UI 層加入「一鍵匯出 LaTeX」按鈕，讓非工程背景的合作者也能直接使用</li>
+                </ul>
+            </div>
+
+            <div class="source-list">
+                <strong>參考來源</strong>
+                <ul>
+                    <li><a href="https://github.com/dofliu/LabPagesCowork" target="_blank">DOF Lab LabPages GitHub</a></li>
+                    <li>RAG Ultimate PR #88：<em>refactor: latexExportUtils 測試以 ModeType/ChunkingStrategy enum 取代 as any 字面值</em>（2026-05-15）</li>
+                    <li><a href="https://www.acm.org/publications/taps/latex-best-practices" target="_blank">ACM LaTeX Best Practices</a></li>
+                    <li><a href="https://ctan.org/pkg/booktabs" target="_blank">booktabs package documentation — CTAN</a></li>
+                    <li>Es Sai'd et al. (2023). "RAGAS: Automated Evaluation of Retrieval Augmented Generation." <em>arXiv:2309.15217</em></li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const links = document.querySelector('.nav-links');
+        if (toggle && links) {
+            toggle.addEventListener('click', () => links.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

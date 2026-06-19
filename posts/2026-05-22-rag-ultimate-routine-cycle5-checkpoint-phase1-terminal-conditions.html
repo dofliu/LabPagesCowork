@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Routine Cycle #5 全綠通過：為 AI 代理設計「知道何時停手」的終點條件 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .tag-red { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .terminal-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .terminal-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .terminal-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .terminal-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-pass { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); border-radius: 3px; }
+        .badge-pending { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.4); border-radius: 3px; }
+        .phase-progress { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+        .phase-progress .prog-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; font-size: 0.88rem; }
+        .phase-progress .prog-label { color: var(--text-light); flex: 1; }
+        .phase-progress .prog-bar-wrap { width: 45%; background: rgba(255,255,255,0.08); border-radius: 99px; height: 8px; margin: 0 1rem; }
+        .phase-progress .prog-bar { height: 8px; border-radius: 99px; background: var(--primary-color); }
+        .phase-progress .prog-val { color: var(--text-white); font-weight: 600; font-size: 0.85rem; min-width: 4rem; text-align: right; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">Routine Cycle #5 全綠通過：為 AI 代理設計「知道何時停手」的終點條件</h1>
+            <p>2026-05-22 &bull; 劉瑞弘教授團隊 &bull; RAG / Agentic AI / Research Engineering / Quality Gate</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">Routine Phase 1</span>
+                <span class="tag tag-green">Cycle #5 Checkpoint</span>
+                <span class="tag tag-orange">Agentic AI</span>
+                <span class="tag tag-sage">CI/CD</span>
+                <span class="tag tag-red">Research Engineering</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                一個真正好的工具，必須知道自己的界限。對於一個每日自動執行的 AI 代理而言，這句話有著更深刻的意涵：<strong>它不僅要知道怎麼做，還必須知道什麼時候停下來讓人類決定接下來的方向。</strong>
+            </p>
+            <p>
+                2026 年 5 月 22 日，RAG_Ultimate 的自動化 Routine 系統完成了 Cycle #5 的里程碑 checkpoint，四項品質指標全數通過。更重要的是，在這次 checkpoint 中，系統正式寫下了自己的<strong>「Phase 1 終點條件」</strong>——四個清晰、可量測的停止準則，規範了這個 AI 代理應在何種情況下暫停自主執行、轉交人類判斷。這是一個關於 Agentic AI 設計哲學的實踐案例，也是 DOF Lab 研究工程方法論的一次具體呈現。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">5/10</div><div class="label">Cycle 完成進度</div></div>
+                <div class="stat-item"><div class="num">~25</div><div class="label">累積 Routine PR</div></div>
+                <div class="stat-item"><div class="num">895</div><div class="label">Jest 測試全綠</div></div>
+                <div class="stat-item"><div class="num">197</div><div class="label">Pytest 全通過</div></div>
+                <div class="stat-item"><div class="num">0</div><div class="label">回歸錯誤</div></div>
+            </div>
+
+            <h2>一、Cycle #5 Checkpoint：四項品質閘道全數通過</h2>
+
+            <p>
+                RAG_Ultimate 的 Routine 系統採用「每 5 個 PR 執行一次 checkpoint」的設計節奏。Cycle #5 在今日凌晨完成了最後一個 PR（#129），並執行了完整的品質閘道驗證：
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">🔷 TypeScript 型別檢查</div>
+                    <div class="col-body">
+                        <span class="code-inline">tsc</span> 靜態分析：<strong>0 errors</strong>（silent exit 0）。前端型別安全完整，無隱性 <span class="code-inline">any</span> 殘留，API 回應介面與元件 props 全數對齊。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🟢 Jest 單元 / 整合測試</div>
+                    <div class="col-body">
+                        <strong>46 個 suite，895 個 test case</strong>，全數通過，耗時 10.4 秒。較上一個 checkpoint（829 tests）新增 66 個測試，覆蓋率持續擴大。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🐍 Ruff Python Linting</div>
+                    <div class="col-body">
+                        後端程式碼（<span class="code-inline">RAG_Enterprise_Backend/</span> + <span class="code-inline">scripts/</span>）：<strong>All checks passed!</strong> 程式碼風格、import 排序、安全性規則三層全綠。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🧪 Pytest 後端測試</div>
+                    <div class="col-body">
+                        <strong>197 個測試通過，3 個 pre-existing warnings</strong>（與前次 checkpoint r79 相同，屬已知非阻塞問題）。FastAPI endpoint、RAG 策略邏輯、向量存取層全數通過。
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                五次 checkpoint（r35、r47、r66、r79、r87），五次全綠。這不是偶然——它是系統性設計的結果：每次 routine PR 在提交前都必須通過本地 CI 驗證，checkpoint 只是對這個過程的週期性確認，而非補救機制。
+            </p>
+
+            <div class="highlight-box">
+                <h3>📊 Routine 累積成果（截至 Cycle #5）</h3>
+                <div class="phase-progress" style="border:none;padding:0.5rem 0 0;margin:0;">
+                    <div class="prog-row">
+                        <span class="prog-label">Cycle 完成率（目標 10）</span>
+                        <div class="prog-bar-wrap"><div class="prog-bar" style="width:50%"></div></div>
+                        <span class="prog-val">5 / 10</span>
+                    </div>
+                    <div class="prog-row">
+                        <span class="prog-label">Backlog 完成率（23/25 項）</span>
+                        <div class="prog-bar-wrap"><div class="prog-bar" style="width:92%"></div></div>
+                        <span class="prog-val">92%</span>
+                    </div>
+                    <div class="prog-row">
+                        <span class="prog-label">累積 Routine PR（目標 50）</span>
+                        <div class="prog-bar-wrap"><div class="prog-bar" style="width:50%"></div></div>
+                        <span class="prog-val">~25</span>
+                    </div>
+                    <div class="prog-row">
+                        <span class="prog-label">Checkpoint Regression（目標 0）</span>
+                        <div class="prog-bar-wrap"><div class="prog-bar" style="width:0%;background:#4ade80;"></div></div>
+                        <span class="prog-val">0 次</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>二、Phase 1 終點設計：讓 AI 代理知道何時停手</h2>
+
+            <p>
+                Agentic AI 研究領域正面臨一個共同的設計難題：<strong>如何讓自主代理在適當的時機停止行動、交還主導權？</strong> 過於保守的代理頻繁詢問確認，打斷使用者工作流程；過於激進的代理則在沒有明確邊界的情況下持續執行，可能偏離使用者的真實意圖。
+            </p>
+            <p>
+                RAG_Ultimate 的 Routine 系統選擇了一條工程化的解法：<strong>在 Cycle #5 checkpoint 時，由 routine 本身將 Phase 1 的終點條件寫入文件，並在之後每個 checkpoint 中追蹤這些指標</strong>。這個設計有幾個值得借鑒的特點：
+            </p>
+
+            <table class="terminal-table">
+                <thead>
+                    <tr><th>條件</th><th>描述</th><th>量測方式</th><th>截至今日</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>A — 里程碑完成</strong></td>
+                        <td>Cycle #10 完成（累積 50 個 routine PR）</td>
+                        <td>計算 routine/* 分支的 PR 總數</td>
+                        <td><span class="badge-pending">5/10</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>B — Backlog 清零</strong></td>
+                        <td>所有 🟢/🟡 項目全部勾完（含需授權的 F1b + J3）</td>
+                        <td><span class="code-inline">grep -c "^- \[ \]" routine_backlog.md</span> = 0</td>
+                        <td><span class="badge-pending">2 項待授權</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>C — 無法修復的回歸</strong></td>
+                        <td>Checkpoint 發現 tsc/jest/ruff/pytest 任一紅燈，且 routine 無法自動修復</td>
+                        <td>checkpoint log 中出現 checks: fail</td>
+                        <td><span class="badge-pass">0 次</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>D — 連續 12 輪 Skip</strong></td>
+                        <td>連續 12 輪沒有可執行的任務（無 PR 可開）</td>
+                        <td>計算 routine_log.md 中連續 skipped 筆數</td>
+                        <td><span class="badge-pass">0 輪</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                任一條件達成，routine 就停下來，不再自動選取下一個任務，而是產出 Phase 1 完整報告，等待研究者決定是否繼續、結案或暫停。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 設計洞見：可量測的停止條件 vs. 模糊的「完成感」</h3>
+                <p>
+                    大多數 Agentic AI 的停止機制依賴任務完成的主觀判斷，但「完成」在開放式研究任務中往往是模糊的。RAG_Ultimate Routine 的設計選擇了完全不同的路徑：<strong>用可量測的工程指標替代主觀判斷</strong>。Cycle 數、PR 數、backlog 勾選數、連續 skip 數——這些指標沒有模糊地帶，每個 checkpoint 都能在 30 秒內判斷是否應該停下。這個設計哲學與 SRE（Site Reliability Engineering）中的 SLO 概念高度相似：與其說「系統很穩定」，不如說「錯誤率低於 0.1% 且 P99 延遲低於 200ms」。
+                </p>
+            </div>
+
+            <h2>三、Cycle #6 啟動與「等待人類」的藝術</h2>
+
+            <p>
+                Cycle #5 checkpoint 完成後，routine 隨即啟動了 Cycle #6，第一個任務是對齊 DEVELOPMENT_GUIDE 至 v8.0（PR #130）。然而，從今日清晨至截稿時，PR #130 雖已通過所有 CI 檢查、處於 MERGEABLE/CLEAN 狀態，卻尚未被 merge——導致 routine 記錄了連續 5 輪 skip。
+            </p>
+            <p>
+                這個「等待狀態」並非系統故障，而是 Routine 設計中刻意保留的<strong>人類決策節點</strong>。研究室的 PR merge 工作流程要求研究者閱讀、確認變更內容後才能合入主幹，這個確認動作不可被自動化。Skip streak 的記錄，正是 routine 對「我已準備好，等待你的確認」這句話的工程化表達。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ Skip Streak 的正確解讀：等待，不是失敗</h3>
+                <p>
+                    當 Agentic AI 系統出現連續 skip 時，直覺反應往往是「系統出了問題」。但在 RAG_Ultimate 的設計語境中，skip 代表的是：系統已完成所有可以自主完成的任務，現在需要人類介入才能繼續推進。連續 5 輪 skip 不是 bug，它是系統在如實報告「人工瓶頸在哪裡」。Phase 1 終點條件 D（連續 12 輪 skip）的設計，正是對這個狀況的安全網：若等待時間過長，代表可能需要重新評估任務方向，而非繼續等待。
+                </p>
+            </div>
+
+            <h2>四、從 RAG 工程到 Agentic AI 研究：一個可複製的框架</h2>
+
+            <p>
+                RAG_Ultimate Routine 系統的設計，提供了一個在研究環境中部署 Agentic AI 的參考框架。它回答了幾個實踐中最常見的問題：
+            </p>
+            <ul>
+                <li><strong>代理應該多自主？</strong> 答：在工程任務（linting、測試補完、文件對齊）上充分自主；在架構決策（是否授權安裝新套件、是否結束 Phase 1）上必須等待人類。</li>
+                <li><strong>如何避免代理無限執行？</strong> 答：在啟動前寫下清晰的、可量測的終點條件，並在每個 checkpoint 中主動追蹤。</li>
+                <li><strong>代理如何與人類協作？</strong> 答：透過 PR（Pull Request）作為知識移交節點——代理提出變更，人類審查確認，保留人類對程式碼庫的最終認可權。</li>
+                <li><strong>如何評估代理的健康狀態？</strong> 答：用連續 skip 數監控人工瓶頸，用 checkpoint 品質閘道監控程式碼健康，兩個維度互補。</li>
+            </ul>
+
+            <div class="action-box">
+                <h3>✅ DOF Lab 近期行動</h3>
+                <ul>
+                    <li><strong>立即</strong>：merge PR #130（DEVELOPMENT_GUIDE v8.0 對齊），解除目前的 5 連 skip，讓 Cycle #6 恢復推進</li>
+                    <li><strong>授權決策</strong>：評估是否授權安裝 <span class="code-inline">sentry-sdk[fastapi]</span> + <span class="code-inline">opentelemetry-*</span>（Backlog F1b），完成 backlog 25/25 最後兩項</li>
+                    <li><strong>本週</strong>：持續推進 Phase 3 風電 RAG Benchmark 主線——修正 Tier-1 的 104 個 errors，完成 5-run 完整實驗</li>
+                    <li><strong>Cycle #10 之前</strong>：根據 Phase 1 終點條件追蹤進度，目前最接近達成的是條件 B（Backlog 清零，剩 F1b + J3 各一項待授權）</li>
+                    <li><strong>研究室討論</strong>：借鑒 Routine Phase 1 終點設計框架，評估在 windMindOM M5 知識模組中引入類似的代理品質閘道機制</li>
+                </ul>
+            </div>
+
+            <p>
+                設計一個知道自己界限的 AI 代理，比設計一個什麼都敢嘗試的代理更難，也更有價值。RAG_Ultimate Routine 的 Phase 1 終點條件，或許是目前研究室最值得對外分享的工程設計之一：<strong>不是因為它讓代理更強大，而是因為它讓代理更可信。</strong>
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li>RAG_Ultimate ROUTINE.md §7（Phase 1 終點條件，2026-05-22 r87 版）</li>
+                <li>RAG_Ultimate docs/routine_log.md（r87–r95 輪次紀錄）</li>
+                <li><a href="https://docs.anthropic.com/en/docs/agents" target="_blank">Anthropic — Building Effective Agents</a></li>
+                <li><a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book — Service Level Objectives（SLO 設計參考）</a></li>
+                <li><a href="https://docs.ragas.io/" target="_blank">RAGAS — Evaluation Framework for RAG Pipelines</a></li>
+                <li><a href="https://jestjs.io/docs/configuration" target="_blank">Jest Testing Framework Documentation</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

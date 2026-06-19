@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Safety Lock 工程方法論：autoSolverVideo Closeout Backlog 衝刺，iter 119–134，1600 條測試全綠 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .iter-row { display: flex; align-items: flex-start; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .iter-badge { flex-shrink: 0; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-align: center; min-width: 60px; }
+        .badge-done { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .iter-text { flex: 1; color: var(--text-light); font-size: 0.95rem; }
+        .iter-count { font-size: 0.8rem; color: #818cf8; flex-shrink: 0; font-family: monospace; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .iter-row { flex-wrap: wrap; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">Safety Lock 工程方法論：autoSolverVideo Closeout Backlog 衝刺，iter 119–134，1600 條測試全綠</h1>
+            <p>2026-05-26 &bull; 劉瑞弘教授團隊 &bull; EdTech / Software Quality / Test Engineering / Production Hardening</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">autoSolverVideo</span>
+                <span class="tag tag-green">1600 Tests</span>
+                <span class="tag tag-teal">Safety Lock</span>
+                <span class="tag tag-orange">Closeout Backlog</span>
+                <span class="tag tag-sage">FastAPI / pytest / CI</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                生產級系統有一種特殊的技術債，比功能缺失更隱蔽、更危險：
+                <strong>功能已經跑了幾個月、一直沒問題，但從來沒有直接的測試保護它</strong>。
+                任何一次重構、一個不起眼的變數名稱調整，都可能無聲無息地改變行為，
+                直到用戶回報奇怪的輸出你才意識到問題已經上線了。
+            </p>
+
+            <p>
+                DOF Lab 的教學影片自動生成平台 <strong>autoSolverVideo</strong> 在過去兩天（2026-05-24 至 05-25）
+                展開了一場針對這類技術債的系統性清除行動——「<strong>Closeout Backlog</strong>」。
+                這不是修 bug，也不是加新功能：它是一套稱為 <strong>Safety Lock</strong> 的工程方法論，
+                目標是為所有「裸奔中的 production 函式」補上行為鎖定測試，確保任何未來的重構
+                都有護欄可以依靠。從 iter 119 的 1,397 條測試出發，到 iter 134 的 <strong>1,600 條</strong>，
+                兩天之內新增 203 條，CI 四組矩陣（Ubuntu/Windows × Python 3.10/3.12 + frontend typecheck）全綠。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">1,600</div>
+                    <div class="label">測試總數（全綠）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">+203</div>
+                    <div class="label">兩天新增</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">16</div>
+                    <div class="label">Closeout iter 次數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">0</div>
+                    <div class="label">Production code 改動</div>
+                </div>
+            </div>
+
+            <h2>一、什麼是 Safety Lock？為什麼不叫 TDD？</h2>
+
+            <p>
+                傳統的測試驅動開發（TDD）是「先寫測試，再寫功能」。但對一個已上線、已被用戶信賴的
+                production 系統而言，這個順序是反過來的。autoSolverVideo 的許多核心函式——
+                <code class="code-inline">_run_ingest_repo</code>、
+                <code class="code-inline">_run_render_phase</code>、
+                <code class="code-inline">_merge_sections_to_final</code>——
+                從最初的 PR 就在跑，一路迭代新增功能，從未有對應的直接單元測試。
+            </p>
+
+            <p>
+                Safety Lock 的核心哲學是：<strong>「不改 production code，只為它的行為立下契約」</strong>。
+                每一條測試都是一份合約：這個函式收到什麼輸入，應該產出什麼輸出，遇到例外時應該
+                如何降級（graceful degrade）而非炸掉整個任務。一旦契約存在，未來的重構就有了
+                可以安心依靠的護欄——任何行為漂移都會立刻被 CI 抓到，而不是在幾週後的用戶回報中才浮現。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔒 Safety Lock 三原則</h3>
+                <ul>
+                    <li><strong>0 production code 改動：</strong>每個 iter 只加測試，不動功能程式碼。這避免了「修測試順手改了邏輯」的風險。</li>
+                    <li><strong>行為意圖文件化：</strong>測試本身就是設計文件。例如「<code class="code-inline">mermaid</code> 抽取失敗應吞例外不擋 ingest 主流程」這樣的 design intent，現在被測試永久保存。</li>
+                    <li><strong>對比鎖（Symmetric Locking）：</strong>對有對稱邏輯的函式（如 intro/outro、image/mermaid 兩條生圖路徑），明確鎖住「這兩條路徑日誌訊息不同、行為對稱但不相同」，防止重構時被合併成同一條。</li>
+                </ul>
+            </div>
+
+            <h2>二、16 個 iter 究竟鎖住了什麼？</h2>
+
+            <p>
+                Closeout Backlog 的 iter 119–134 橫跨整個 server 層，從最外層的 HTTP route
+                一路往下覆蓋到 runner orchestrator 內部的每一個 helper wrapper。以下是這次衝刺
+                的完整地圖：
+            </p>
+
+            <div style="margin: 1.5rem 0;">
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">119</span>
+                    <span class="iter-text">jobs.py 四個 CRUD endpoint（POST/GET/DELETE /jobs）— 包含 source_type 早期驗證、created_at desc 排序、cache+disk 同步清除</span>
+                    <span class="iter-count">+23</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">120</span>
+                    <span class="iter-text">figures.py route 三層防呆邊角補測——invalid JSON / binary bytes / figures=None / 空 path 的 graceful degrade</span>
+                    <span class="iter-count">+10</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">121</span>
+                    <span class="iter-text">library.py _read_deck_title 邊角補測，同時揪出 non-str title 會 AttributeError 500 的潛在 bug（記錄 findings，不在 routine 改）</span>
+                    <span class="iter-count">+5</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">122–123</span>
+                    <span class="iter-text">themes.py：preview cache 命中率鎖 + 失敗不污染 cache；主題順序契約鎖（15 個主題 ID 順序與 frontend THEME_OPTIONS 嚴格對齊）</span>
+                    <span class="iter-count">+14</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">124</span>
+                    <span class="iter-text">runner._rewrite_deck_intros_inplace：source_type → audience 映射，ensure_ascii=False / indent=2 格式鎖</span>
+                    <span class="iter-count">+10</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">125</span>
+                    <span class="iter-text">runner._log_deck_duration_estimate：over/under budget 分流、narration validator 例外降級不擋主流程</span>
+                    <span class="iter-count">+10</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">126–127</span>
+                    <span class="iter-text">runner._apply_intro_postprocess + _merge_sections_to_final：parts 順序鎖（顛倒 = intro 變結尾）、SRT padding 雙閘條件（path AND duration &gt; 0）、例外吞是 design intent</span>
+                    <span class="iter-count">+20</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">128</span>
+                    <span class="iter-text">runner._prepare_intro_for_problems + _prepare_outro_for_problems：AudioSpec(96000,1,aac) 寫死規格鎖、intro「前」vs outro「後」方向對比鎖</span>
+                    <span class="iter-count">+10</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">129</span>
+                    <span class="iter-text">runner._start_stage / _end_stage_ok / _end_stage_fail：stage state machine 契約（state 字串寫死、tz-aware UTC timestamp、error 原樣保存不 truncate）</span>
+                    <span class="iter-count">+14</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">130</span>
+                    <span class="iter-text">runner._generate_ai_diagrams_for_outline + _generate_mermaid_for_outline：existing+new 順序鎖（防覆蓋 PDF figures）、兩條路徑對比日誌鎖</span>
+                    <span class="iter-count">+14</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">131</span>
+                    <span class="iter-text">runner._run_ingest dispatch wrapper：5 種 source_type 完整 dispatch 表鎖，URL 跳過本機 path check，REPO/DOCUMENT/URL 不互選 inner helper</span>
+                    <span class="iter-count">+15</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">132</span>
+                    <span class="iter-text">runner._run_render：video_dimensions + talking_head 兩 context manager 巢狀鎖，三個 fallback 字串鎖，is_short 的 OR 三條件鎖</span>
+                    <span class="iter-count">+18</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">133</span>
+                    <span class="iter-text">runner._run_render_phase：stale error 清除（PR-3j）、stage_name 模板鎖、own_log gate（防 FileHandler FD 洩漏）</span>
+                    <span class="iter-count">+20</span>
+                </div>
+                <div class="iter-row">
+                    <span class="iter-badge badge-done">134</span>
+                    <span class="iter-text">runner._run_ingest_repo：src_path.is_dir() 防呆、max_files fallback、mermaid 抽取例外吞、mock vs real 分流、narration_style+persona 透傳規格</span>
+                    <span class="iter-count">+20</span>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>💡 一個意外的收穫：揪出 non-str title bug</h3>
+                <p>
+                    Safety Lock 最有趣的副產品，往往不是測試本身，而是「寫測試時發現的問題」。
+                    iter 121 在補 <code class="code-inline">_read_deck_title</code> 的邊角測試時發現：
+                    若 deck 頂層回傳 <code class="code-inline">list</code> 或 title 欄位是 <code class="code-inline">int</code>，
+                    函式會在 <code class="code-inline">.strip()</code> 呼叫時炸出 <code class="code-inline">AttributeError</code>，
+                    影響整個 Library 頁面的渲染。由於 Gemini 在特定情境下確實可能產生結構偏差，
+                    這是一個真實的生產風險。依據 Safety Lock 硬規則，此 bug 已記錄進
+                    <code class="code-inline">docs/ROUTINE_FINDINGS.md</code>，等待下一個 session 正式修復。
+                </p>
+            </div>
+
+            <h2>三、為什麼這對研究型工程團隊特別重要？</h2>
+
+            <p>
+                學術研究室的軟體開發有一個典型困境：<strong>快速迭代驗證想法</strong>和
+                <strong>穩定可靠的系統品質</strong>之間的張力。autoSolverVideo 從一開始就是
+                一個「快速驗證教學影片自動化」的研究工具，功能一個接著一個加進去，
+                每一個 iter 都要交付可運行的成果，很難每次都先寫測試。
+            </p>
+
+            <p>
+                Closeout Backlog 提供了一個「補票」的系統性路徑：<strong>功能開發衝刺與測試補全衝刺
+                在時間上分離</strong>，各自有明確的節奏。功能衝刺讓研究快速推進；測試補全衝刺
+                讓系統在累積夠多功能之後，能夠安全地進行更大規模的重構，而不必擔心悄悄引入回歸。
+                對於任何走向 production 的研究系統，這套「先做後鎖」的節奏，或許比教科書式的
+                TDD 更符合研究室的實際工作流。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ 「裸奔的 production 函式」的真實代價</h3>
+                <p>
+                    iter 123 在補 themes.py 的主題順序契約時，揭示了一個無聲 bug 的存在路徑：
+                    frontend 的 <code class="code-inline">THEME_OPTIONS</code> 和 backend 的
+                    <code class="code-inline">THEME_LIST</code> 分別寫死了 15 個主題的順序，
+                    兩者<em>應該完全一致</em>，但從沒有自動化驗證。若有人改了 backend 順序忘了
+                    更新 frontend，用戶選的是 forest 風格但渲染出來的卻是 navy——這種靜默錯誤
+                    不會炸程式，只會讓用戶困惑，而且很難 debug。Safety Lock 把這種「隱式契約」
+                    變成了「顯式測試」。
+                </p>
+            </div>
+
+            <h2>四、下一步：Closeout Backlog 2/4 到 4/4</h2>
+
+            <p>
+                iter 134 標誌著 Closeout Backlog 第一階段（1/4）的完成。
+                接下來的三個階段已經規劃好：
+            </p>
+
+            <ul>
+                <li><strong>iter 135（Closeout 2/4）：</strong><code class="code-inline">_run_ingest_long_form</code> 測試覆蓋——處理 document 和 URL 來源、PDF figures 抽取、outline_long_form / script_long_form 透傳</li>
+                <li><strong>Closeout 3/4：</strong><code class="code-inline">run_job</code> 主流程串接（ingest → awaiting_review → render）以及三個 entry point（schedule_job / schedule_render / schedule_section_render）</li>
+                <li><strong>Closeout 4/4：</strong>E2E 整合測試，從 API call 到 artifacts 輸出的完整 smoke test，為日後的重構和新功能開發提供最後一道安全網</li>
+            </ul>
+
+            <div class="action-box">
+                <h3>✅ 研究室行動項目</h3>
+                <ul>
+                    <li>繼續推進 Closeout Backlog iter 135（_run_ingest_long_form），完成 Closeout 2/4</li>
+                    <li>修復 iter 121 記錄的 non-str title AttributeError 潛在 bug（需擴大 try/except 範圍）</li>
+                    <li>規劃 Closeout 3/4（run_job 主流程串接）與 Closeout 4/4（E2E smoke test）的執行時程</li>
+                    <li>將 Safety Lock 方法論整理成實驗室工程規範文件，供其他研究專案（InduSpect、windMindOM）參考採用</li>
+                </ul>
+            </div>
+
+            <p>
+                1,600 條測試是一個數字，但它背後代表的是 <strong>1,600 個明確的行為契約</strong>——
+                每一個都是未來重構的護欄，每一個都是這個系統「我知道自己在做什麼」的聲明。
+                對一個以研究為驅動、以工具為產出的實驗室而言，這種品質基礎設施的建立，
+                和論文產出、功能開發一樣，是核心競爭力的一部分。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考來源</strong></p>
+            <ul>
+                <li>autoSolverVideo STATUS.yaml，iter 119–134 key_metrics（2026-05-24/25，DOF Lab 內部紀錄）</li>
+                <li>Feathers, M. (2004). <em>Working Effectively with Legacy Code</em>. Prentice Hall. — Safety Lock 概念與書中「Characterization Tests」思路相呼應</li>
+                <li>Beck, K. (2002). <em>Test Driven Development: By Example</em>. Addison-Wesley. — TDD 與後置測試補全的方法論對比</li>
+                <li><a href="https://martinfowler.com/bliki/TestPyramid.html" target="_blank">Martin Fowler — Test Pyramid</a>（測試層次與單元測試策略參考）</li>
+                <li><a href="https://docs.pytest.org/en/stable/how-to/monkeypatch.html" target="_blank">pytest monkeypatch 官方文件</a>（Safety Lock 使用的主要 patching 技術）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

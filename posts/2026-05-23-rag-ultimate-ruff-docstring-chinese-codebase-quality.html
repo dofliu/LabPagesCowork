@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>自動化品質管理的邊界：當 ruff 遇上中文 docstring | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .tag-red { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .rule-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .rule-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .rule-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .rule-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-fix { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); border-radius: 3px; }
+        .badge-skip { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.4); border-radius: 3px; }
+        .badge-discuss { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.35); border-radius: 3px; }
+        .code-block { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 1rem 1.25rem; font-family: monospace; font-size: 0.85rem; color: #cdd3de; margin: 1.25rem 0; overflow-x: auto; line-height: 1.6; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .ok { color: #4ade80; }
+        .code-block .warn { color: #fb923c; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">自動化品質管理的邊界：當 ruff 遇上中文 docstring 的不可解張力</h1>
+            <p>2026-05-23 &bull; 劉瑞弘教授團隊 &bull; Python / Code Quality / Research Engineering / i18n</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">Routine Cycle #6</span>
+                <span class="tag tag-green">Code Quality</span>
+                <span class="tag tag-orange">ruff / linting</span>
+                <span class="tag tag-sage">i18n Research Code</span>
+                <span class="tag tag-red">Docstring Engineering</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                在 AI 研究程式碼庫的日常維護中，有一個問題很少被公開討論：<strong>當你的程式碼用中文撰寫 docstring，但程式碼品質工具是為英文設計的，自動化修復應該走到哪裡，又應該在哪裡停下？</strong>
+            </p>
+            <p>
+                2026 年 5 月 22 日，RAG_Ultimate 的 Routine 系統完成了 Cycle #6 的第三個 PR（#132）：使用 ruff 自動修補 12 處 D 系列 docstring 警告。這看起來是一個平凡的程式碼品質任務，但在執行過程中，routine 做出了幾個值得深思的技術決策——哪些警告可以安全自動修、哪些必須保留給人類判斷、哪些根本無法在不破壞中文一致性的情況下自動處理。這些決策，折射出研究型程式碼庫在「可自動化品質管理」邊界上的獨特挑戰。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">12</div><div class="label">本輪自動修補數</div></div>
+                <div class="stat-item"><div class="num">169→157</div><div class="label">D 系列警告遞減</div></div>
+                <div class="stat-item"><div class="num">140</div><div class="label">無法自動修的中文警告</div></div>
+                <div class="stat-item"><div class="num">28/50</div><div class="label">累計 Routine PR</div></div>
+            </div>
+
+            <h2>一、PR #132 的技術決策地圖</h2>
+
+            <p>
+                執行 <span class="code-inline">ruff --select D --fix</span> 聽起來很簡單，但 RAG_Ultimate 的 routine 在執行前，仔細分類了所有 D 系列（pydocstyle）規則，得出一份「可以修 / 不能修 / 需討論」的決策地圖：
+            </p>
+
+            <table class="rule-table">
+                <thead>
+                    <tr><th>規則</th><th>問題描述</th><th>本輪決策</th><th>理由</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>D212</strong></td>
+                        <td>多行 docstring 的摘要應從第一行開始（不是第二行）</td>
+                        <td><span class="badge-fix">自動修 ×7</span></td>
+                        <td>純格式問題，不涉及語意，ruff <span class="code-inline">--fix</span> 安全可靠</td>
+                    </tr>
+                    <tr>
+                        <td><strong>D403</strong></td>
+                        <td>單行 docstring 首字應大寫</td>
+                        <td><span class="badge-fix">自動修 ×2</span></td>
+                        <td>英文首字大寫是通用慣例，自動修不影響語意與中文段落</td>
+                    </tr>
+                    <tr>
+                        <td><strong>其他 D 系列</strong></td>
+                        <td>各類格式問題</td>
+                        <td><span class="badge-fix">自動修 ×3</span></td>
+                        <td>安全類格式問題，批次修補</td>
+                    </tr>
+                    <tr>
+                        <td><strong>D407 / D413</strong></td>
+                        <td>section 標題後應有破折線分隔（numpy-style）</td>
+                        <td><span class="badge-skip">明確 --ignore</span></td>
+                        <td>已存在 Google-style docstring（<span class="code-inline">Args:</span> 後無破折線）；強制修改會造成風格不一致</td>
+                    </tr>
+                    <tr>
+                        <td><strong>D400 / D415</strong></td>
+                        <td>docstring 應以英文句點 <span class="code-inline">.</span> 結尾</td>
+                        <td><span class="badge-discuss">永久跳過（需人類決策）</span></td>
+                        <td>140 處中文 docstring 以全形句號 <span class="code-inline">。</span> 結尾——自動修會把 <span class="code-inline">。</span> 改成 <span class="code-inline">.</span>，破壞中文語言一致性</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                這 5 類規則的決策，構成了一個「可自動化程度」的光譜：從完全安全的格式調整，到需要技術判斷的風格選擇，再到涉及語言本質的不可自動化問題。
+            </p>
+
+            <div class="highlight-box">
+                <h3>📋 PR #132 實際執行指令</h3>
+                <div class="code-block">
+<span class="comment"># 對 scripts/ 與 RAG_Enterprise_Backend/app/api/endpoints/ 執行</span>
+ruff --select D --ignore D407,D413 --fix .
+
+<span class="comment"># 驗證結果</span>
+<span class="ok">ruff check → All checks passed!</span>       <span class="comment"># D 系列警告從 169 降至 157</span>
+<span class="ok">pytest test_benchmark_ingest.py → 41 passed in 0.12s</span>
+<span class="ok">tsc --noEmit → 0 errors</span>              <span class="comment"># 前端型別安全無變化</span>
+jest → 89 suites pass                  <span class="comment"># +2 pre-existing legacy (與本 PR 無關)</span>
+                </div>
+            </div>
+
+            <h2>二、D400/D415 與中文句號：一個無法用工具解決的問題</h2>
+
+            <p>
+                最有趣的案例是 D400 和 D415。這兩條規則要求 docstring 以英文句點 <span class="code-inline">.</span> 結尾——這在全英文程式碼庫中是完全合理的慣例，但在 RAG_Ultimate 這樣的中英混用研究程式碼庫中，卻形成了一個根本性的矛盾。
+            </p>
+            <p>
+                RAG_Ultimate 的 API endpoints 和 scripts 中，有 <strong>140 個 docstring</strong> 以中文全形句號 <span class="code-inline">。</span> 結尾，例如：
+            </p>
+
+            <div class="code-block">
+def get_collection_stats(collection_name: str) -> dict:
+    <span class="warn">"""取得指定集合的向量統計資訊。"""</span>
+    <span class="comment"># D400/D415: 應以 . 結尾 — 但這個 。 是正確的中文標點</span>
+</div>
+
+            <p>
+                如果強制執行 <span class="code-inline">ruff --unsafe-fixes</span>，它會把 <span class="code-inline">。</span> 改成 <span class="code-inline">.</span>，產出：
+            </p>
+
+            <div class="code-block">
+    <span class="warn">"""取得指定集合的向量統計資訊."""</span>
+    <span class="comment"># ↑ 中文句子以 ASCII 英文句點結尾 — 語法上「合規」，閱讀上很奇怪</span>
+</div>
+
+            <p>
+                這 140 個警告，因此進入了「routine 永遠跳過」清單。它們在技術上是 ruff 的警告，但在語言使用上沒有任何問題。正確的解法不是自動修補，而是在 <span class="code-inline">pyproject.toml</span> 的 ruff 設定中加入規則例外，或改用 <span class="code-inline">convention = "google"</span> convention 整體切換。但這個決策涉及程式碼庫的文件風格政策，不應由自動化代理單方面決定——routine 因此把這個問題轉成了一個 GitHub issue，等待研究者與學生團隊討論。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 洞見：工具的「合規」與語言的「正確」是兩回事</h3>
+                <p>
+                    程式碼品質工具的規則，幾乎全部假設程式碼的自然語言部分是英文。在全球化的研究環境中，這個假設越來越不成立。中文、日文、韓文的研究程式碼庫日益增多，但 ruff、pylint、flake8 的 docstring 規則並未針對非 ASCII 語言設計。<strong>這不是工具的 bug，而是工具的設計邊界</strong>——識別這個邊界，比強行繞過它更重要。RAG_Ultimate routine 的做法是：把 140 個「工具認為不合規但語言上完全正確」的警告，明確標記為「需人類決策的設計問題」，而非技術債。
+                </p>
+            </div>
+
+            <h2>三、風格一致性：Google-style vs. numpy-style 的選擇困境</h2>
+
+            <p>
+                另一個有趣的決策是 D407/D413 的 <span class="code-inline">--ignore</span>。這兩條規則要求 section 標題（如 <span class="code-inline">Args:</span>、<span class="code-inline">Returns:</span>）後應有破折線分隔——這是 numpy-style docstring 的格式要求。但 RAG_Ultimate 在 <span class="code-inline">services/</span> 等核心模組中，已有大量 Google-style docstring：
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">Google-style（現有）</div>
+                    <div class="col-body">
+                        <div class="code-block" style="margin:0;">
+Args:
+    query: 查詢字串
+    top_k: 返回數量
+
+Returns:
+    檢索結果列表
+                        </div>
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">numpy-style（D407/D413 要求）</div>
+                    <div class="col-body">
+                        <div class="code-block" style="margin:0;">
+Args
+----
+    query : str
+        查詢字串
+    top_k : int
+        返回數量
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                若在不明確設定 <span class="code-inline">convention = "google"</span> 的情況下啟用 D407/D413 自動修，ruff 會把所有 Google-style 的 <span class="code-inline">Args:</span> 後面加上破折線，造成與 <span class="code-inline">services/</span> 現有格式的風格衝突。更糟糕的是，這個改動在功能上完全無害，但在 code review 時會引發大量雜訊，分散對實質內容的注意力。
+            </p>
+            <p>
+                Routine 的決策很簡單：<strong>沒有明確選型就不動</strong>。在 pyproject.toml 明確設定 docstring convention 之前，D407/D413 維持在 ignore 清單，避免製造人為的風格分裂。
+            </p>
+
+            <h2>四、給研究型程式碼庫的品質管理建議</h2>
+
+            <p>
+                RAG_Ultimate PR #132 的經驗，提供了幾個對中文研究型程式碼庫有參考價值的品質管理原則：
+            </p>
+
+            <ul>
+                <li>
+                    <strong>分層管理 linting 規則</strong>：把規則分成「安全自動修」、「需要技術判斷的忽略」、「需要人類決策的設計問題」三層，而不是全部啟用或全部關閉。
+                </li>
+                <li>
+                    <strong>在 pyproject.toml 明確宣告 docstring convention</strong>：選定 Google-style 或 numpy-style，在設定檔中明確寫出，讓工具和人類都清楚基準是什麼。
+                </li>
+                <li>
+                    <strong>語言本質問題轉成設計討論</strong>：對於 D400/D415 這類與語言本質衝突的規則，不要用 <span class="code-inline">noqa</span> 一行一行壓制，應在 <span class="code-inline">pyproject.toml</span> 的 <span class="code-inline">[tool.ruff.lint]</span> 中統一 ignore，並在 issue tracker 留下為什麼這樣做的理由。
+                </li>
+                <li>
+                    <strong>自動修只做無損操作</strong>：每次自動修補後都應完整跑測試套件（ruff check + pytest + tsc），確認沒有任何行為變化，只有格式改善。
+                </li>
+                <li>
+                    <strong>記錄「刻意不修」的原因</strong>：在 commit message 或 PR 描述中明確說明哪些警告被忽略、為什麼，讓未來的維護者（和 AI 代理）理解決策脈絡。
+                </li>
+            </ul>
+
+            <div class="warn-box">
+                <h3>⚠️ 警示：不加思索的「全部修」可能比「不修」更糟</h3>
+                <p>
+                    自動化品質工具最危險的使用方式，是在沒有理解規則意涵的情況下執行 <span class="code-inline">--fix --unsafe-fixes</span> 全量修補。在中文研究程式碼庫中，這可能把 140 個語言正確的中文句號改成語感奇怪的英文句點、把精心選定的 Google-style docstring 改成 numpy-style、或在 services/ 等禁止自動修改的核心模組中引入不必要的 diff。<strong>自動化的價值在於一致執行人類已設計好的規則，而非替代人類進行風格設計決策。</strong>
+                </p>
+            </div>
+
+            <h2>五、Cycle #6 進度與 Routine Phase 1 的後半段</h2>
+
+            <p>
+                PR #132 完成後，RAG_Ultimate Routine 的 Cycle #6 進度達到 3/5。距離 Phase 1 終點（Cycle #10，累積 50 個 routine PR）還有 22 個 PR。目前的 Phase 1 終點條件追蹤：
+            </p>
+
+            <ul>
+                <li><strong>Cycle 完成率</strong>：5/10（Cycle #5 已全綠收尾，Cycle #6 進行中）</li>
+                <li><strong>累計 Routine PR</strong>：28/50（本輪 +1）</li>
+                <li><strong>Backlog 完成率</strong>：92%（23/25，剩 F1b Sentry/OTel SDK 與 J3 benchmark 各一項等待授權）</li>
+                <li><strong>Checkpoint regression</strong>：0（五個 checkpoint 全部全綠）</li>
+                <li><strong>連續 skip 數</strong>：0（PR #132 正常推進）</li>
+            </ul>
+
+            <p>
+                Cycle #6 的下一個任務（第 4 個 PR）方向：將 D400/D415 中文句號鬆綁需求轉成正式 GitHub issue，讓研究室討論是否在 pyproject.toml 設定 ruff convention 或針對這兩條規則加入全域 ignore。這個決策雖然技術上很小，但對程式碼庫長期的文件品質政策有深遠影響。
+            </p>
+
+            <div class="action-box">
+                <h3>✅ DOF Lab 研究室行動項目</h3>
+                <ul>
+                    <li><strong>技術決策</strong>：在 <span class="code-inline">pyproject.toml</span> 的 <span class="code-inline">[tool.ruff.lint]</span> 中設定 <span class="code-inline">pydocstyle.convention = "google"</span>，統一解決 D407/D413/D400/D415 的風格爭議</li>
+                    <li><strong>Issue 追蹤</strong>：Routine 下一輪將建立 GitHub issue：「[Quality] D400/D415 中文全形句號 docstring 政策討論」，labels: quality, docs, discussion</li>
+                    <li><strong>授權評估</strong>：Backlog F1b（Sentry/OTel SDK 套件安裝授權）——若授權，可完成 backlog 25/25，達到 Phase 1 終點條件 B</li>
+                    <li><strong>本週重點</strong>：Phase 3 風電 RAG Benchmark 主線——修正 Tier-1 的 104 個 errors，完成 5-run 完整實驗，這才是論文貢獻的核心</li>
+                    <li><strong>跨專案啟示</strong>：windMindOM 的 Python 後端（FastAPI）也應評估 ruff D 系列設定，趁早建立 docstring convention，避免日後積累同樣的 140 個「工具警告但語言正確」的中文 docstring 問題</li>
+                </ul>
+            </div>
+
+            <p>
+                程式碼品質管理的藝術，不在於讓所有警告歸零，而在於清楚知道：哪些警告代表真正的問題、哪些代表工具的設計假設與你的使用情境不符。RAG_Ultimate Routine 在 PR #132 中的決策，為中文研究型程式碼庫提供了一個具體的參考案例：<strong>自動化應該做它最擅長的事（一致執行安全規則），而把真正需要判斷的問題交還給人類（語言政策、風格選型、套件授權）。</strong>
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li>RAG_Ultimate docs/routine_log.md（r97 輪次紀錄，2026-05-22）</li>
+                <li>RAG_Ultimate PR #132：ruff D 系列 D212/D403 自動修補 12 處</li>
+                <li><a href="https://docs.astral.sh/ruff/rules/#pydocstyle-d" target="_blank">ruff Documentation — pydocstyle D rules</a></li>
+                <li><a href="https://peps.python.org/pep-0257/" target="_blank">PEP 257 — Docstring Conventions</a></li>
+                <li><a href="https://google.github.io/styleguide/pyguide.html#383-functions-and-methods" target="_blank">Google Python Style Guide — Docstrings</a></li>
+                <li><a href="https://numpydoc.readthedocs.io/en/latest/format.html" target="_blank">NumPy Docstring Guide</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

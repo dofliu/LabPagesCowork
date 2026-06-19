@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "doflab-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5777"],
+      "port": 5777
+    }
+  ]
+}

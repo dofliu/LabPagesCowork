@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>當運維平台遇上知識引擎：windMindOM M5 RAG 整合構想與離岸風場 AI 的下一步 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warning-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.35); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warning-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .bridge-diagram { display: flex; align-items: center; gap: 0; margin: 2rem 0; flex-wrap: wrap; justify-content: center; }
+        .bridge-node { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.4); border-radius: 8px; padding: 1rem 1.25rem; text-align: center; min-width: 140px; }
+        .bridge-node h4 { color: #818cf8; margin: 0 0 0.3rem; font-size: 0.9rem; }
+        .bridge-node p { margin: 0; font-size: 0.8rem; color: var(--text-light); }
+        .bridge-arrow { color: #818cf8; font-size: 1.5rem; padding: 0 0.75rem; }
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .module-card { background: rgba(0,0,0,0.25); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 1.1rem 1.25rem; }
+        .module-card h4 { color: #818cf8; margin: 0 0 0.5rem; font-size: 0.95rem; }
+        .module-card p { margin: 0; font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+        .milestone-row { display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap; }
+        .milestone-chip { flex: 1; min-width: 120px; padding: 0.75rem 1rem; border-radius: 6px; text-align: center; }
+        .chip-done { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.4); }
+        .chip-active { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.5); }
+        .chip-planned { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); }
+        .chip-label { font-size: 0.75rem; color: var(--text-gray); }
+        .chip-name { font-size: 0.9rem; font-weight: 600; }
+        .chip-done .chip-name { color: #4ade80; }
+        .chip-active .chip-name { color: #818cf8; }
+        .chip-planned .chip-name { color: var(--text-light); }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .bridge-diagram { flex-direction: column; } .bridge-arrow { transform: rotate(90deg); } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../github.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">當運維平台遇上知識引擎：windMindOM M5 RAG 整合構想與離岸風場 AI 的下一步</h1>
+            <p>2026-05-12 &bull; 劉瑞弘教授團隊 &bull; windMindOM / RAG_Ultimate / Knowledge Engineering / Offshore Wind O&amp;M</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM M5</span>
+                <span class="tag tag-teal">RAG_Ultimate</span>
+                <span class="tag tag-green">知識引擎</span>
+                <span class="tag tag-orange">離岸風場 O&amp;M</span>
+                <span class="tag tag-sage">Agentic AI</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                M4 剛宣告完工。工單從建立到完工、從備品申料到組長審批、從月報產出到 PDF 下載——整個離岸風場運維生命週期在 windMindOM 平台上端對端全通。進度條停在 95%，代表系統已達 production-ready 狀態，等待真實客戶的第一個 PoC 部署。
+            </p>
+
+            <p>
+                然而，M4 的完成也同時揭開了一個問題：<strong>平台能「管理」工單，但它還不會「思考」。</strong> 當技術員在海上面對一台發出異常聲響的齒輪箱時，他需要的不只是填寫一張工單，而是立刻調出這型機組的歷史故障記錄、適用的維修 SOP、相關的警報手冊說明，以及過去類似案例的處置決策。這正是 M5 的核心任務——為 windMindOM 注入知識智能，而我們的 RAG_Ultimate 研究平台，就是這個目標的研究基礎。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">17</div>
+                    <div class="label">RAG_Ultimate 支援檢索模式數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">90%</div>
+                    <div class="label">RAG_Ultimate 平台完成度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">95%</div>
+                    <div class="label">windMindOM M4 完成度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">USD 10.7B</div>
+                    <div class="label">2034 Agentic AI 能源市場規模預測</div>
+                </div>
+            </div>
+
+            <h2>一、M4 完工後，M5 站在什麼起點上？</h2>
+
+            <p>
+                windMindOM 的六個里程碑分別對應運維廠商最核心的業務層次：M1 建立基礎設施、M2 完成成本引擎、M3 實現工單流程、M4 完成庫存調度與報表、M5 引入知識與 RAG 模組、M6 完成第一個客戶 PoC。
+            </p>
+
+            <div class="milestone-row">
+                <div class="milestone-chip chip-done"><div class="chip-label">M1–M4</div><div class="chip-name">✅ 已完成</div></div>
+                <div class="milestone-chip chip-active"><div class="chip-label">M5 (2026-09)</div><div class="chip-name">🔵 下一步</div></div>
+                <div class="milestone-chip chip-planned"><div class="chip-label">M6 (2026-10)</div><div class="chip-name">⬜ 計畫中</div></div>
+            </div>
+
+            <p>
+                M5 的目標是兩個互補的能力：<strong>知識庫查詢（Knowledge Base QA）</strong> 與 <strong>現場行動裝置介面（Mobile UI）</strong>。前者讓技術員能對著語音或文字輸入問題，系統從警報手冊、設備規格書、過去工單記錄中精準召回答案；後者讓這些能力在海上的平板或手機上流暢運作，不依賴穩定的辦公室網路。
+            </p>
+
+            <p>
+                兩者的交集點是：<strong>一個能在低頻寬、高噪訊環境下工作的 RAG 系統</strong>。這正是我們在 RAG_Ultimate 中持續研究的核心挑戰。
+            </p>
+
+            <h2>二、RAG_Ultimate 如何成為 windMindOM M5 的研究橋梁？</h2>
+
+            <p>
+                RAG_Ultimate 是一個整合 17 種檢索模式的企業級研究平台，目前正進行風電文件 RAG benchmark 研究，目標是找出在特定領域文件（風場技術手冊、IEC 標準文件、故障分析報告）上表現最佳的檢索策略組合。這個研究的答案，將直接決定 windMindOM M5 的知識模組應採用哪種 RAG 架構。
+            </p>
+
+            <div class="bridge-diagram">
+                <div class="bridge-node">
+                    <h4>RAG_Ultimate</h4>
+                    <p>17 模式 benchmark<br>風電文件 QA 研究<br>RAGAS 評測</p>
+                </div>
+                <div class="bridge-arrow">→</div>
+                <div class="bridge-node">
+                    <h4>最佳 RAG 策略</h4>
+                    <p>Recall@k / 精準率<br>延遲 / 邊緣推論能力<br>中文分詞最佳化</p>
+                </div>
+                <div class="bridge-arrow">→</div>
+                <div class="bridge-node">
+                    <h4>windMindOM M5</h4>
+                    <p>警報手冊查詢<br>工單歷史問答<br>Mobile-first UI</p>
+                </div>
+            </div>
+
+            <p>
+                目前 RAG_Ultimate 正在進行 Stage 2B 實驗：補跑 r06/r07 達到足夠的完整 run 數量，產出論文主表所需的統計顯著性資料。這個研究的核心假設是——在風電技術文件這類高度專業、包含大量數字與縮略詞的語料上，<strong>Hybrid（稀疏 + 稠密）檢索配合 cross-encoder reranker</strong> 將顯著優於純粹的語意向量搜尋。一旦這個假設得到 17 模式的系統性驗證，M5 的技術選型就有了堅實的實驗依據。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🔬 RAG_Ultimate → windMindOM M5 的關鍵研究問題</h3>
+                <p>在離岸風場設備手冊、SOP 文件、IEC 標準（繁體中文 + 英文混合語料）上，哪一種 RAG 策略在 <strong>Recall@5 ≥ 0.85、答案精確率 ≥ 0.80、推論延遲 ≤ 2s</strong> 的三重約束下最具實用性？這個答案將決定 M5 知識引擎的核心架構。</p>
+            </div>
+
+            <h2>三、全球趨勢：Agentic AI 正在重新定義離岸風場 O&amp;M</h2>
+
+            <p>
+                研究室的探索並非孤立事件。2026 年，全球主要科技公司與能源業者正在以前所未有的速度將 Agentic AI 引入再生能源運維。
+            </p>
+
+            <p>
+                微軟在 2026 年 4 月的 Energy Frontier 白皮書中指出，Agentic AI 正從「決策支援工具」進化為能夠「跨價值鏈自主規劃與行動」的系統。在離岸風場情境下，這意味著：不只是預測某台機組可能在 3 天後發生主軸承磨損，而是系統自動根據當前備品庫存、天氣窗口、維修船隻排程，主動提出最優的派工時序，並在技術員作業時即時提供相關 SOP 片段。
+            </p>
+
+            <p>
+                同樣值得關注的是規模化趨勢：2026 年離岸風場的商業標準機組已達到 14–15 MW 等級。機組愈大，維修視窗的成本代價愈高。根據 Agentic AI 能源市場報告，ABMS（基於代理人的運維模擬）已在部分歐洲離岸案例中實現每日節省最高 USD 300,000 的船舶成本，年度 OPEX 降低 10%。這樣的數字，正是 windMindOM 需要在 2026 Q4 PoC 中向潛在客戶展示的商業價值。
+            </p>
+
+            <div class="module-grid">
+                <div class="module-card">
+                    <h4>📚 文件知識 RAG</h4>
+                    <p>從警報手冊、設備規格書、IEC 標準即時召回精準答案，支援中文與英文混合查詢。</p>
+                </div>
+                <div class="module-card">
+                    <h4>🗂️ 工單歷史問答</h4>
+                    <p>從過去工單記錄中搜尋類似案例：「上次 T03 齒輪箱異音是什麼原因？怎麼處理的？」</p>
+                </div>
+                <div class="module-card">
+                    <h4>📱 Mobile-first 介面</h4>
+                    <p>針對海上低頻寬環境最佳化，支援離線快取常用文件段落，語音輸入轉文字查詢。</p>
+                </div>
+                <div class="module-card">
+                    <h4>🔗 工單流程串接</h4>
+                    <p>知識查詢結果可直接轉換為工單備註或備品需求，閉合「知道要做什麼」到「把它做完」的迴圈。</p>
+                </div>
+            </div>
+
+            <h2>四、技術架構預想：M5 知識引擎的三層設計</h2>
+
+            <p>
+                根據 RAG_Ultimate 的研究進展與 windMindOM 現有的 FastAPI + React + SQLite 技術棧，M5 的知識引擎初步設計為三層架構：
+            </p>
+
+            <p><strong>第一層：文件索引與向量化</strong>——使用 Qdrant 作為向量資料庫（與 RAG_Ultimate 同款），配合 sentence-transformers 的中文多語言模型建立離岸風場文件語料庫。初始語料優先涵蓋警報手冊、設備維護 SOP、歷史工單摘要三大類。</p>
+
+            <p><strong>第二層：混合檢索引擎</strong>——整合 BM25 稀疏檢索（針對設備型號、故障代碼等精確詞彙）與語意向量搜尋（針對自然語言問題），並利用 cross-encoder 做 reranking。RAG_Ultimate 的 benchmark 結果將直接決定此層的超參數配置。</p>
+
+            <p><strong>第三層：回答生成與引用追蹤</strong>——以 Gemini Flash 作為生成引擎（呼應研究室優先使用 Google Gemini API 的開發慣例），每則回答強制附上來源文件章節與頁碼，確保技術員可以回查原始依據，維持工業場域對答案可追溯性的高標準要求。</p>
+
+            <div class="insight-box">
+                <h3>💡 研究室的關鍵洞察</h3>
+                <p>RAG 在工業 O&amp;M 場域的核心挑戰不是「找到相關文件」，而是「找到正確的段落，並確保技術員信任這個答案」。可引用性（citability）——每個答案都能追溯到具體文件的具體位置——是工業 RAG 與消費型 RAG 最大的差異點，也是我們在 RAG_Ultimate 評測框架中加入引用正確率指標的原因。</p>
+            </div>
+
+            <h2>五、從 M4 到 M5：一個研究室如何把論文變成產品</h2>
+
+            <p>
+                windMindOM 從 digiWindTurbine 的學術數位分身演化而來，RAG_Ultimate 則是在純學術語境下建立的 17 模式研究平台。M5 是兩者第一次真正的交會點——一個在有真實使用者壓力的運維系統中，驗證企業級 RAG 架構的機會。
+            </p>
+
+            <p>
+                對研究室而言，這條路徑代表著一種方法論的確立：<strong>先在控制環境中建立嚴謹的 benchmark（RAG_Ultimate），再把最佳策略移植到實際產品中（windMindOM M5），最後用真實客戶數據反哺學術研究（論文主表）</strong>。這個「實驗室 → 產品 → 論文」的正向閉環，正是我們希望每個核心研究方向都能走到的終點。
+            </p>
+
+            <div class="action-box">
+                <h3>🚀 研究室下一步行動項目</h3>
+                <ul>
+                    <li><strong>RAG_Ultimate</strong>：完成 Stage 2B（r06/r07 補跑），產出 17 模式 benchmark 論文主表，重點觀察 Hybrid+Reranker 在風電文件上的 Recall@5 數值。</li>
+                    <li><strong>windMindOM M4 收尾</strong>：推進 A10 E2E 自動化測試，解決 WMOM-20260510-01（dev mode、mock login、is_offshore）進入 M5 backlog。</li>
+                    <li><strong>M5 知識模組 PoC</strong>：建立最小可行的 RAG QA 端點，以警報手冊 PDF（約 200 頁）作為初始語料，實測 Mobile 端查詢延遲目標 ≤ 2s。</li>
+                    <li><strong>論文規劃</strong>：以「RAG for Industrial O&amp;M Knowledge Management — A Wind Turbine Case Study」為框架，同時服務 RAG_Ultimate 與 windMindOM 兩條研究線的發表需求。</li>
+                </ul>
+            </div>
+
+            <p>
+                M4 的完工是一個里程碑，更是 M5 的發射台。當運維平台的工作流骨架已經穩固，真正讓它從「流程工具」升級為「智慧夥伴」的，將是即將加入的知識引擎。我們對此既期待，也謹慎——畢竟，在海上，錯誤的知識比沒有知識更危險。
+            </p>
+
+        </div><!-- /article-content -->
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://www.microsoft.com/en-us/microsoft-cloud/blog/energy-and-resources/2026/04/21/how-agentic-ai-is-transforming-renewable-energy-operations-realizing-the-energy-frontier/" target="_blank">Microsoft Cloud Blog: How agentic AI is transforming renewable energy operations (2026-04-21)</a></li>
+                <li><a href="https://vocal.media/futurism/agentic-ai-in-energy-market-to-exceed-usd-10-700-million-by-2034" target="_blank">Futurism: Agentic AI in Energy Market to Exceed USD 10,700 Million By 2034</a></li>
+                <li><a href="https://nstarxinc.com/blog/the-next-frontier-of-rag-how-enterprise-knowledge-systems-will-evolve-2026-2030/" target="_blank">NStarX: The Next Frontier of RAG — How Enterprise Knowledge Systems Will Evolve (2026–2030)</a></li>
+                <li><a href="https://www.vhive.ai/wind-energy-trends-recapping-2025-and-whats-changing-in-2026/" target="_blank">Vhive AI: Wind Energy Trends — What's Changing in 2026</a></li>
+                <li><a href="https://squirro.com/squirro-blog/state-of-rag-genai" target="_blank">Squirro: RAG in 2026 — Bridging Knowledge and Generative AI</a></li>
+                <li><a href="https://www.preprints.org/manuscript/202512.0359" target="_blank">Preprints.org: RAG and LLMs for Enterprise Knowledge Management — Systematic Literature Review (2025)</a></li>
+            </ul>
+        </div>
+
+    </article>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

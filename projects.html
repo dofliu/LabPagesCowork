@@ -1,204 +1,98 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NCUT IAE Lab - Research & Tools">
-    <title>研究與工具 | NCUT IAE Lab</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOF Lab 研究專案全集 — 風能 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈共 36 個專案。">
+  <title>專案成果 ｜ DOF Lab</title>
+  <link rel="stylesheet" href="assets/editorial.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
-<body>
+<body id="top">
 
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
-            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-                                    <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="blog.html">研究日誌</a></li>
-                <li><a href="publications.html">著作發表</a></li>
-                <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="about.html">關於</a></li>
-                <li><a href="contact.html">聯絡</a></li>
-                <li><a href="dashboard.html">儀表板</a></li>
-                <li><a href="privacy.html">隱私權</a></li>
-            </ul>
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
+      <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="projects.html" class="active">專案成果</a></li>
+        <li><a href="publications.html">研究發表</a></li>
+        <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="about.html">關於</a></li>
+        <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="kicker">Projects · 專案成果</p>
+      <h1>36 個研究專案<br>從實驗到上線。</h1>
+      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與生產力工具鏈。每個專案都以可驗證的測試、指標與真實部署為目標。資料即時來自各專案 <code>STATUS.yaml</code>。</p>
+    </div>
+  </header>
+
+  <section class="section--tight">
+    <div class="wrap">
+      <div class="tabs" id="cat-tabs">
+        <button class="tab active" data-filter="all">全部</button>
+        <button class="tab" data-filter="wind_energy">風力發電 AI</button>
+        <button class="tab" data-filter="industrial_ai">工業 AI 巡檢</button>
+        <button class="tab" data-filter="rag_knowledge">RAG 知識</button>
+        <button class="tab" data-filter="edtech">教育科技</button>
+        <button class="tab" data-filter="mcp_tools">MCP 工具鏈</button>
+        <button class="tab" data-filter="personal_tools">生產力工具</button>
+      </div>
+      <div class="feat-grid" id="proj-grid" data-animate-block>
+        <p style="color:var(--muted)">載入專案中…</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p>
         </div>
-    </nav>
-
-    <header class="page-header">
-        <div class="container">
-            <h1>Research & Tools</h1>
-            <p style="color: var(--text-gray);">AI 線上工具與產學合作研究計畫</p>
+        <div>
+          <h5>導覽</h5>
+          <a href="index.html">首頁</a><a href="projects.html">專案成果</a>
+          <a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a>
         </div>
-    </header>
-
-    <section class="section">
-        <div class="container">
-            
-            <!-- Online AI Tools -->
-            <div class="tool-category">
-                <div class="category-header">
-                    <h2>🛠️ AI 線上工具</h2>
-                    <span class="category-badge">Live</span>
-                </div>
-                <div class="tools-grid">
-                    <a href="https://infocard.doflab.cc/" target="_blank" class="tool-card">
-                        <div class="tool-icon">🎨</div>
-                        <div class="tool-info">
-                            <div class="tool-name">AI Graphic Studio</div>
-                            <div class="tool-desc">AI 圖文卡片生成器 — 一鍵生成資訊圖表、技術摘要卡、社群貼文，由 Gemini 驅動。</div>
-                            <div class="tool-meta">
-                                <span class="meta-tag">Gemini API</span>
-                                <span class="meta-tag">Flutter</span>
-                                <span class="meta-tag">Firebase</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="tool-card">
-                        <div class="tool-icon">💬</div>
-                        <div class="tool-info">
-                            <div class="tool-name">MCP WhatsApp Agent</div>
-                            <div class="tool-desc">透過 WhatsApp / LINE 與 AI 助手對話，整合行事曆、設備資料與教學資源。</div>
-                            <div class="tool-meta">
-                                <span class="meta-tag">MCP</span>
-                                <span class="meta-tag">Gemini</span>
-                                <span class="meta-tag">Node.js</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="tool-card">
-                        <div class="tool-icon">⚙️</div>
-                        <div class="tool-info">
-                            <div class="tool-name">PLC-ST 自動程式碼生成</div>
-                            <div class="tool-desc">運用 LLM 自動生成 PLC 結構化文本程式碼，並整合 Arduino 控制板自動上傳。</div>
-                            <div class="tool-meta">
-                                <span class="meta-tag">LLM</span>
-                                <span class="meta-tag">PLC</span>
-                                <span class="meta-tag">Automation</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="tool-card">
-                        <div class="tool-icon">🔍</div>
-                        <div class="tool-info">
-                            <div class="tool-name">SCADA 數據分析平台</div>
-                            <div class="tool-desc">風力發電機 SCADA 數據視覺化與異常偵測系統，支援歷史數據查詢。</div>
-                            <div class="tool-meta">
-                                <span class="meta-tag">Python</span>
-                                <span class="meta-tag">SCADA</span>
-                                <span class="meta-tag">Analytics</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="tool-card">
-                        <div class="tool-icon">🤖</div>
-                        <div class="tool-info">
-                            <div class="tool-name">AR 輔助維修系統</div>
-                            <div class="tool-desc">擴增實境即時系統，整合設備 3D 模型、SOP 流程與即時感測數據。</div>
-                            <div class="tool-meta">
-                                <span class="meta-tag">AR</span>
-                                <span class="meta-tag">Unity</span>
-                                <span class="meta-tag">IoT</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="tool-card">
-                        <div class="tool-icon">📊</div>
-                        <div class="tool-info">
-                            <div class="tool-name">紊流強度分析工具</div>
-                            <div class="tool-desc">使用 ML 技術分析風場不同紊流條件下的風力機效能變化與疲勞預測。</div>
-                            <div class="tool-meta">
-                                <span class="meta-tag">ML</span>
-                                <span class="meta-tag">Python</span>
-                                <span class="meta-tag">Fatigue</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Research Projects -->
-            <div class="tool-category research-section">
-                <div class="category-header">
-                    <h2>📋 產學計畫與研究</h2>
-                    <span class="category-badge">Projects</span>
-                </div>
-
-                <div class="project-year-group">
-                    <span class="year-label">2025</span>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-running">Running</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">生成式 AI 應用於智慧機電整合系統之開發</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 計畫編號：NSTC 113-xxxx</p>
-                    </div>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-running">Running</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">基於 MCP 技術的工廠自動化整合平台</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：業界合作</p>
-                    </div>
-                </div>
-
-                <div class="project-year-group">
-                    <span class="year-label">2024</span>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-finished">Finished</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">風力發電機主軸承失效分析與多物理耦合理論框架</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 Engineering Failure Analysis (SCIE)</p>
-                    </div>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-finished">Finished</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">運用冪律過程於風場可靠性分析之研究</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 JCSME (SCIE)</p>
-                    </div>
-                </div>
-
-                <div class="project-year-group">
-                    <span class="year-label">2023</span>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-finished">Finished</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">AR 風力發電設備維修輔助平台系統</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 Sensors and Materials (SCIE)</p>
-                    </div>
-                </div>
-
-                <div class="project-year-group">
-                    <span class="year-label">2022</span>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-finished">Finished</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">風力發電機異常偵測系統開發</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：國科會 | 成果：發表於 Applied Sciences (SCIE)</p>
-                    </div>
-                </div>
-
-                <div class="project-year-group">
-                    <span class="year-label">2021</span>
-                    <div class="card research-card" style="margin-bottom: 1.5rem; text-align: left; padding-left: 2rem;">
-                        <span class="status-badge status-finished">Finished</span>
-                        <h3 style="color: var(--text-white); margin-bottom: 0.5rem;">風力發電機塔架攀爬機器人開發</h3>
-                        <p style="color: var(--text-gray); font-size: 0.9rem;">合作單位：勤益科大 | 成果：發表於 Applied Sciences (SCIE)</p>
-                    </div>
-                </div>
-
-            </div>
-
+        <div>
+          <h5>聯絡</h5>
+          <a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a>
+          <a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a>
+          <a href="contact.html">誠樸館 G309 · 台中太平</a>
         </div>
-    </section>
-
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="about.html">關於實驗室</a>
-                <a href="contact.html">聯絡我們</a>
-                <a href="privacy.html">隱私權政策</a>
-            </div>
-            <div class="footer-bottom" style="width: 100%; margin-top: 1.5rem;">
-                <p>&copy; 2026 NCUT IAE Lab. All rights reserved.</p>
-            </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
+        <div class="footer__social">
+          <a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a>
         </div>
-    </footer>
+      </div>
+    </div>
+  </footer>
 
-    <script>
-        document.querySelector('.me
+  <script src="assets/editorial.js"></script>
+  <script>
+    DOFProjects.render('#proj-grid').then(function () {
+      var tabs = document.getElementById('cat-tabs');
+      var cards = document.querySelectorAll('#proj-grid .feat');
+      tabs.addEventListener('click', function (e) {
+        var btn = e.target.closest('.tab'); if (!btn) return;
+        tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        var f = btn.getAttribute('data-filter');
+        cards.forEach(c => { c.style.display = (f === 'all' || c.getAttribute('data-cat') === f) ? '' : 'none'; });
+      });
+    });
+  </script>
+</body>
+</html>

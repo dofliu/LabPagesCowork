@@ -1,6 +1,6 @@
 {
-  "generated": "2026-05-11T01:08:13.118165",
-  "total": 32,
+  "generated": "2026-06-15T01:07:52.817531",
+  "total": 36,
   "projects": [
     {
       "name": "AI Exam Generator",
@@ -22,342 +22,8 @@
       "description": "AI-powered multi-subject quiz generation system with adaptive difficulty levels",
       "description_zh": "運用 Gemini AI 自動生成九個學科的測驗題目，支援五級難度自適應調整。教師可快速建立客製化考卷，學生獲得個人化練習體驗，大幅提升教學效率。",
       "key_metrics": "9 subjects, 5 difficulty levels",
-      "_path": "courseRelated/aiExamGen",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/aiExamGen/STATUS.yaml"
-    },
-    {
-      "name": "Face Recognition Attendance",
-      "name_zh": "人臉辨識點名系統",
-      "category": "edtech",
-      "progress": 92,
-      "status": "production",
-      "last_updated": "2026-04-24",
-      "next_milestone": "Persist manual annotations + streaming-originated research dataset export",
-      "technologies": [
-        "Python",
-        "InsightFace",
-        "Streamlit"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "AI-powered facial recognition attendance system with confidence scoring",
-      "description_zh": "基於 InsightFace 的智能人臉識別點名系統，自動從 PDF 大頭貼提取人臉，支援多張教室照片辨識與即時動畫展示。系統具有五級信心度評分、不確定案例人工複查等研究級功能，大幅降低誤判率，適用於大班級教學場景。",
-      "key_metrics": "v3.3, unified formal+streaming entry, shared result page, 39 unit tests",
-      "_path": "courseRelated/attendence",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/attendence/STATUS.yaml"
-    },
-    {
-      "name": "autoSolverVideo",
-      "name_zh": "教學影片自動生成平台",
-      "category": "edtech",
-      "progress": 95,
-      "status": "active",
-      "last_updated": "2026-05-10",
-      "next_milestone": "v3.3 完整收尾 (Phase 4 + P0/P1 全清); 下一步 v4 平台收斂 (Docker + persistent worker) 或 ideate.py 自動內容企劃",
-      "technologies": [
-        "Python 3.10+",
-        "FastAPI / uvicorn",
-        "Pydantic v2",
-        "React 18 + TypeScript + Vite + Tailwind CSS",
-        "Flask (legacy v1 review UI, 已 redirect, 過渡期保留)",
-        "Gemini 2.5 Flash (Vision + Text)",
-        "PyMuPDF",
-        "BeautifulSoup4 (URL adapter)",
-        "Edge TTS / F5-TTS (聲音複製, 預切句修中文邊界)",
-        "Pillow / FFmpeg (含 hardsub subtitles filter)",
-        "Google YouTube Data API v3 + OAuth 2.0",
-        "pytest + GitHub Actions CI",
-        "structured logging (JSONL per-job)"
-      ],
-      "outputs": [
-        "tool",
-        "course",
-        "presentation",
-        "api"
-      ],
-      "description": "Three input types (exam PDF / slides PDF / blog-or-doc) -> Gemini -> human review -> MP4 + SRT -> YouTube. v3.1 platform consolidation done; v3.2 infrastructure done; Track A retired on the workflow level.",
-      "description_zh": "三種輸入(考題 PDF / 教學簡報 PDF / blog 或文件)→ Gemini 處理 → 人工 review → MP4 + SRT → YouTube。v3.1 平台合一 + v3.2 基礎建設完成,Track A 工作流上正式退場。",
-      "key_metrics": "|",
-      "v3.0 平台基礎完成 (PR-1 ~ PR-3e)": [
-        "5 種 source: exam_pdf / slides_pdf / repo / document / url",
-        "3 種 renderer: 黑板 / 簡報原圖 / Forest pptx (Pillow, 0 LibreOffice 依賴)",
-        "REST API + React UI (port 8000) + 既有 Flask review UI (port 5000)",
-        "CLI: scripts/submit_job.py 給排程端用"
-      ],
-      "v3.1 平台合一 完成 (PR-3f ~ PR-3m)": [
-        "PR-3f: Track B 接 YouTube 上傳通道 (per-artifact upload + meta 預填 + 章節時間軸)",
-        "PR-3g: 考卷 v1 schema 接 React UI (取代 Flask /edit)",
-        "PR-3h: slides_pdf 升 deck schema, React UI 顯示投影片縮圖",
-        "PR-3i: Track A redirect (預設 / → :8000/ui/, KEEP_TRACK_A=1 可關)",
-        "PR-3j: FAILED 狀態可編輯 + retry render",
-        "PR-3k: Track B 加 PDF multipart 上傳",
-        "PR-3l: 聲音切換 picker + 試聽 sample",
-        "PR-3m: 跨 job 影片 Library 頁"
-      ],
-      "v3.2 基礎建設 完成 (PR-4a ~ PR-4c)": [
-        "PR-4a: 單章 / 單題重 render (省 30+ 分鐘整份重跑)",
-        "PR-4b: pytest 基底 + GitHub Actions CI (140 tests, 4 組 matrix)",
-        "PR-4c: per-job structured logging + React UI tail panel"
-      ],
-      "v3.2 加分項目 完成 (PR-5a ~ PR-5c)": [
-        "PR-5a: Navy pptx 主題 (forest / navy 切換)",
-        "PR-5b: F5-TTS 中文預切句 (修「處」+「理與應用」mid-word 切錯)",
-        "PR-5c: 燒字幕進 MP4 選項 (UI checkbox + ffmpeg subtitles filter)"
-      ],
-      "v3.3 Phase 4 split-left layout 完成 (Option A 靜態版, 2026-05-10)": [
-        "SlideRenderer.render() 依 step.layout dispatch _render_full / _render_split_left",
-        "左半 940 寬投影片, 右半 920 寬 title + bullets, 字幕黑帶 180px",
-        "core.deck.deck_to_exam_schema_slides 透傳 title + bullets (full 不讀, 保 schema 一致)",
-        "SlideEditor 加 layout <select>, split-left 才顯示 bullets 編輯器"
-      ],
-      "測試覆蓋": "148 tests (text_utils 22 / deck 27 / youtube 17 / jobs_store 32 /",
-      "Code review Round 1 (2026-05-09)": "P0 4 + P1 3 條全數修完 (2026-05-10):",
-      "P0": "logging lock / utc_now tz-aware / /upload size limit / sys.exit → raise",
-      "P1": "PptxStyle 越界 / F5 seg cleanup / publish 雙擊",
-      "Code review Round 2 (2026-05-10) — Round 1 漏抓 + 實戰才踩出的三條": [
-        "AwareDatetime AfterValidator (P0 #4 沒做 schema migration, 既存 naive",
-        "F5._lazy_init to_thread (1.35GB safetensors download 阻 event loop,",
-        "_render_full letterbox 進 visible_h = HEIGHT - 180 (slide 底部 16.7%"
-      ],
-      "_path": "courseRelated/autoSolverVideo",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/autoSolverVideo/STATUS.yaml"
-    },
-    {
-      "name": "Course Scheduling System",
-      "name_zh": "自動排課系統",
-      "category": "edtech",
-      "progress": 95,
-      "status": "production",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Multi-semester optimization",
-      "technologies": [
-        "Python",
-        "Tkinter",
-        "pandas"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Intelligent constraint-based university course scheduling system",
-      "description_zh": "為勤益科技大學自動排課系統，解決每學期人工排課耗時且易衝突的問題。支援日間部、進修部、產攜班等多部別同時排課，採用優先級排序 + 限制滿足 + 分割排課三層策略，成功率達 93.7%，可直接產出 Excel/CSV/HTML 課表供校務使用。",
-      "key_metrics": "93.7% success rate (59/63 courses)",
-      "_path": "courseRelated/course-scheduling-system",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/course-scheduling-system/STATUS.yaml"
-    },
-    {
-      "name": "StaticsEngine",
-      "name_zh": "力學AI視覺化引擎",
-      "category": "edtech",
-      "progress": 20,
-      "status": "planning",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Phase 1 complete - monorepo + component library",
-      "technologies": [
-        "TypeScript",
-        "React",
-        "SVG",
-        "Vitest"
-      ],
-      "outputs": [
-        "tool",
-        "paper"
-      ],
-      "description": "Test-driven interactive mechanics visualization platform for physics education",
-      "description_zh": "基於 React + SVG 的互動式物理力學視覺化引擎，透過精確的幾何計算呈現靜力學現象。採用 Monorepo + TDD 開發方式，旨在幫助學生透過動態互動深化對物理力學概念的理解，是教育科技創新應用。",
-      "key_metrics": "Early phase, test-driven development",
-      "_path": "courseRelated/mechanics_AI",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/mechanics_AI/STATUS.yaml"
-    },
-    {
-      "name": "UniCourse AI Online",
-      "name_zh": "AI線上考試與課堂管理",
-      "category": "edtech",
-      "progress": 95,
-      "status": "production",
-      "last_updated": "2026-04-13",
-      "next_milestone": "Analytics dashboard v2",
-      "technologies": [
-        "React 19",
-        "Supabase",
-        "GCP Cloud Run"
-      ],
-      "outputs": [
-        "platform",
-        "course"
-      ],
-      "description": "Comprehensive AI-driven online exam and classroom management platform",
-      "description_zh": "勤益智動系專用的全功能線上考試與班級經營系統。整合 Gemini AI 智慧出題、視窗切換防作弊、自動保存與恢復機制，教師可進行學生資料管理、成績追蹤、班級幹部指派等完整班級經營作業，學生則可查看個人資料與成績分析，已部署於 GCP Cloud Run。",
-      "key_metrics": "GCP deployed, anti-cheat detection",
-      "_path": "courseRelated/unicourseaionline1219",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/courseRelated/unicourseaionline1219/STATUS.yaml"
-    },
-    {
-      "name": "OPC UA MCP",
-      "name_zh": "OPC UA工業MCP",
-      "category": "mcp_tools",
-      "progress": 85,
-      "status": "production",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Subscription-based monitoring",
-      "technologies": [
-        "Python",
-        "asyncua",
-        "MCP"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "MCP integration layer for real-time OPC UA industrial automation systems",
-      "description_zh": "為工業自動化系統設計的 MCP 伺服器，提供讀寫 OPC UA 節點的工具，使 AI 代理能即時監控、分析與控制工業設備運作資料。支援無縫整合 Claude Desktop，賦予 LLM 與現場設備互動的能力。",
-      "key_metrics": "2 core tools (read/write)",
-      "_path": "MCP/Dof-Customized-mcp",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/MCP/Dof-Customized-mcp/STATUS.yaml"
-    },
-    {
-      "name": "LabPagesCowork",
-      "name_zh": "實驗室入口網站與研究協作平台",
-      "category": "mcp_tools",
-      "progress": 75,
-      "status": "active",
-      "last_updated": "2026-04-20",
-      "next_milestone": "研究成果頁面自動化更新 + GitHub 活動整合完善",
-      "technologies": [
-        "HTML",
-        "JavaScript",
-        "Python",
-        "GitHub Actions"
-      ],
-      "outputs": [
-        "tool",
-        "presentation"
-      ],
-      "description": "Lab website with blog, research dashboard, GitHub activity tracking and collaborative contribution workflow",
-      "description_zh": "實驗室對外入口網站，整合研究儀表板、部落格文章發布、GitHub 活動追蹤頁面與研究全景地圖。採協作流程讓成員練習 GitHub PR 工作流，並透過自動化腳本統一更新各頁面內容。",
-      "key_metrics": "35 commits/month, daily blog automation, 90+ merged PRs",
-      "_path": "MCP/LabPagesCowork",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/MCP/LabPagesCowork/STATUS.yaml"
-    },
-    {
-      "name": "Modbus MCP",
-      "name_zh": "Modbus工業協議MCP",
-      "category": "mcp_tools",
-      "progress": 85,
-      "status": "production",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Advanced register mapping",
-      "technologies": [
-        "Python",
-        "Modbus TCP/UDP/Serial"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Standardized MCP interface for Modbus TCP/UDP/Serial industrial IoT systems",
-      "description_zh": "統一 Modbus 工業協議的 MCP 伺服器，支援 TCP、UDP、Serial 多種連接方式。提供暫存器讀寫、線圈控制、多暫存器批量讀取，以及基於 LLM 的數據分析工具，使 AI 能直接與工業 IoT 設備通訊，加速智慧巡檢與故障診斷應用。",
-      "key_metrics": "6 core tools, multi-connection types",
-      "_path": "MCP/modbus-mcp",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/MCP/modbus-mcp/STATUS.yaml"
-    },
-    {
-      "name": "ScanMail+",
-      "name_zh": "文件掃描郵件平台",
-      "category": "personal_tools",
-      "progress": 90,
-      "status": "production",
-      "last_updated": "2026-04-24",
-      "next_milestone": "OCR accuracy improvements + AI 檔案重命名優化",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "OpenCV",
-        "Docker"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Document scanning and mailing platform",
-      "description_zh": "文件掃描與郵件平台",
-      "key_metrics": "75 API endpoints, 7 tool categories",
-      "_path": "PersonalHelper/AI智能掃描/scanmail_bot",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/AI智能掃描/scanmail_bot/STATUS.yaml"
-    },
-    {
-      "name": "SmartFill-Scholar",
-      "name_zh": "RAG智慧表單填寫",
-      "category": "personal_tools",
-      "progress": 80,
-      "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Phase 6.3 - Advanced entity graph",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "React",
-        "ChromaDB"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Hybrid AI form-filling system combining SQL database and RAG knowledge retrieval",
-      "description_zh": "智能學術表單填寫系統，整合 SQL 資料庫查詢與 RAG 向量檢索，自動將靜態資料（姓名、職稱等）與複雜內容（研究摘要等）分別填入表單。支援 Word 模板與 PDF 表單，具幻覺防護、色碼審查、版本控制等研究級功能，大幅減輕學者填表負擔。",
-      "key_metrics": "430+ tests, 5 output modes, multi-user RBAC",
-      "_path": "PersonalHelper/autoFill",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/autoFill/STATUS.yaml"
-    },
-    {
-      "name": "CitingVerify",
-      "name_zh": "AI 學術引用驗證系統",
-      "category": "rag_knowledge",
-      "progress": 78,
-      "status": "active",
-      "last_updated": "2026-04-11",
-      "next_milestone": "M6 - 壓力測試完善 + 前端應用整合 + 論文品質閘門",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "Google Gemini API",
-        "Redis",
-        "aiohttp",
-        "ReportLab"
-      ],
-      "outputs": [
-        "tool",
-        "paper"
-      ],
-      "description": "AI-powered academic citation verification system with LLM parsing, multi-database cross-validation and circuit breaker resilience",
-      "description_zh": "上傳 PDF 論文後自動抽取、解析並驗證每筆參考文獻的真實性。整合 CrossRef、OpenAlex、Semantic Scholar、arXiv、DBLP 五大資料庫，具備電路熔斷器、配額感知排程、Redis 跨行程快取與完整延遲指標儀表板，大幅提升學術誠信稽核效率。",
-      "key_metrics": "5 databases, circuit breaker + Redis cache, p95 latency tracking",
-      "_path": "PersonalHelper/citingVerify",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/citingVerify/STATUS.yaml"
-    },
-    {
-      "name": "AI Personal Secretary",
-      "name_zh": "隨行 AI 秘書",
-      "category": "personal_tools",
-      "progress": 70,
-      "status": "active",
-      "last_updated": "2026-04-15",
-      "next_milestone": "安全性修正 + Gemini 3 模型升級",
-      "technologies": [
-        "React",
-        "TypeScript",
-        "Vite",
-        "Google Gemini API",
-        "Google Gmail API",
-        "Google Calendar API",
-        "Google Tasks API",
-        "Supabase",
-        "PWA / Service Worker"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "AI-powered email management assistant integrating Gmail, Calendar, Tasks with Gemini AI analysis",
-      "description_zh": "整合 Gmail、Calendar、Tasks 的 AI 智慧郵件管理助手，支援多帳號、個人化分析與主動通知",
-      "key_metrics": "支援多帳號管理、6 種郵件分類、AI 回覆草擬、行事曆事件建議、桌面通知",
-      "_path": "PersonalHelper/emailassistant",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/emailassistant/STATUS.yaml"
+      "_path": "backup/aiExamGen",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/backup/aiExamGen/STATUS.yaml"
     },
     {
       "name": "English Speaking Tutor",
@@ -382,402 +48,32 @@
       "description": "AI-powered English speaking tutor with real-time practice sessions, accent training and post-session feedback generation",
       "description_zh": "基於 Google Gemini API 的 AI 英語口說家教應用，提供即時對話練習、口音訓練（AccentMaster）、遊戲化學習模式與課後 AI 回饋報告，整合 Firebase 用戶系統，以 React + Tailwind 建構現代化學習介面。",
       "key_metrics": "Real-time AI interaction, accent training, game mode",
-      "_path": "PersonalHelper/englishSpeakingTutor",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/englishSpeakingTutor/STATUS.yaml"
+      "_path": "backup/englishSpeakingTutor",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/backup/englishSpeakingTutor/STATUS.yaml"
     },
     {
-      "name": "AI Graphic Studio",
-      "name_zh": "AI 視覺工作站（圖卡生成平台）",
-      "category": "personal_tools",
-      "progress": 82,
-      "status": "active",
-      "last_updated": "2026-04-23",
-      "next_milestone": "MCP 連線實作 + 本地模型掃描功能完善",
+      "name": "StaticsEngine",
+      "name_zh": "力學AI視覺化引擎",
+      "category": "edtech",
+      "progress": 20,
+      "status": "planning",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 1 complete - monorepo + component library",
       "technologies": [
-        "React",
         "TypeScript",
-        "Node.js",
-        "Express",
-        "Google Gemini API",
-        "Docker",
-        "GCP Cloud Run"
-      ],
-      "outputs": [
-        "tool",
-        "presentation"
-      ],
-      "description": "Full-featured AI visual content creation platform for infographics, posters, slides and comics generation",
-      "description_zh": "基於 Google Gemini API 的全方位 AI 視覺內容創作平台，支援文字/網址/文件轉化為圖卡、海報、AI 簡報與連續漫畫，含素材庫、學科資源與簡報編輯 6 大模組，部署於 GCP Cloud Run。MCP 連線功能尚待實作。",
-      "key_metrics": "6 modules, GCP Cloud Run deployed, Slide Master template system",
-      "_path": "PersonalHelper/infoCard",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/infoCard/STATUS.yaml"
-    },
-    {
-      "name": "LLM Wiki",
-      "name_zh": "LLM知識庫編譯器",
-      "category": "rag_knowledge",
-      "progress": 80,
-      "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Auto-linking and graph visualization",
-      "technologies": [
-        "Python",
-        "Claude API",
-        "Obsidian"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "LLM-powered knowledge base compiler converting multiple file formats into structured wiki",
-      "description_zh": "基於 Claude API 的個人知識庫編譯器，支援 PDF、Word、Excel、PowerPoint、Markdown 等 15 種文件格式。一次性將散亂文件編譯成結構化 Wiki，自動建立實體、概念與知識關聯，整合 Obsidian 知識圖譜，實現知識的複利成長。",
-      "key_metrics": "15 file formats, 3 API providers",
-      "_path": "PersonalHelper/llmWIKI/llm-wiki-project",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/llmWIKI/llm-wiki-project/STATUS.yaml"
-    },
-    {
-      "name": "myPicasa",
-      "name_zh": "我的 Picasa 媒體工具箱",
-      "category": "personal_tools",
-      "progress": 60,
-      "status": "active",
-      "last_updated": "2026-04-14",
-      "next_milestone": "Next feature roadmap (see CHANGELOG.md)",
-      "technologies": [
-        "Python",
-        "moviepy"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Personal media toolkit with video processing utilities",
-      "description_zh": "個人媒體工具箱，支援影片處理，使用 moviepy 實現剪輯與轉換功能",
-      "key_metrics": "Moviepy migration completed, exe packaging flow added",
-      "_path": "PersonalHelper/picasa",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/picasa/STATUS.yaml"
-    },
-    {
-      "name": "Research Dashboard",
-      "name_zh": "研究管理儀表板",
-      "category": "personal_tools",
-      "progress": 90,
-      "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "GitHub Pages 部署上線",
-      "technologies": [
-        "HTML",
-        "Chart.js",
-        "D3.js",
-        "Python",
-        "GitHub Pages"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Multi-view research project dashboard with auto-synchronization to GitHub Pages",
-      "description_zh": "整合互動式圖表與研究全景地圖的研究管理儀表板，自動掃描所有專案的 STATUS.yaml 產生儀表板資料。支援 Chart.js 及 D3.js 視覺化，部署於 GitHub Pages 供全球存取，每週自動同步更新，是研究者高效管理多元項目的工具。",
-      "key_metrics": "Dashboard + Map + JSON API, auto-deploy via script",
-      "_path": "PersonalHelper/research-dashboard",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/research-dashboard/STATUS.yaml"
-    },
-    {
-      "name": "TranslateGemma",
-      "name_zh": "本地優先多語翻譯工作台",
-      "category": "personal_tools",
-      "progress": 72,
-      "status": "active",
-      "last_updated": "2026-04-11",
-      "next_milestone": "Phase 4 - 語言學習評估模組完善 + MCP 工具整合",
-      "technologies": [
-        "Python",
-        "Gradio",
-        "FastAPI",
-        "Ollama",
-        "FastMCP",
-        "faster-whisper",
-        "edge-tts",
-        "PyMuPDF",
-        "yt-dlp"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Local-first multilingual translation workbench with text, OCR, PDF, speech, real-time voice, video translation and meeting summarization",
-      "description_zh": "本地優先多語翻譯工作台，整合文字翻譯、圖片 OCR、PDF 逐頁翻譯、語音翻譯、即時語音翻譯、影片配音與會議摘要八大功能，使用 Ollama 本地模型，支援術語表與風格指南自訂，並以 FastMCP 暴露翻譯服務供 LLM 工具鏈呼叫。",
-      "key_metrics": "8 translation modes, MCP-enabled, SQLite history",
-      "_path": "PersonalHelper/translateGemma",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/translateGemma/STATUS.yaml"
-    },
-    {
-      "name": "Z-Image-Turbo Web UI",
-      "name_zh": "AI 圖片生成工作站",
-      "category": "personal_tools",
-      "progress": 70,
-      "status": "active",
-      "last_updated": "2026-04-18",
-      "next_milestone": "生產環境設定完善 + 依賴驗證腳本整合",
-      "technologies": [
-        "Python",
-        "Flask",
-        "PyTorch",
-        "Diffusers",
-        "Transformers"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Flask-based professional AI image generation web UI using Z-Image-Turbo model, optimized for 12GB VRAM",
-      "description_zh": "基於 Flask 的專業 AI 圖片生成 Web 應用，使用 Z-Image-Turbo 擴散模型，針對 12GB VRAM 優化。支援批量生成（最多 20 張）、50+ 風格模板、15+ 尺寸預設、Seed 控制、標籤系統與批量 PDF/PPT 匯出。",
-      "key_metrics": "v2.5.0, 50+ style templates, 5-8s/image generation",
-      "_path": "PersonalHelper/zImage",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/PersonalHelper/zImage/STATUS.yaml"
-    },
-    {
-      "name": "ECN O&M Tool",
-      "name_zh": "離岸風電運維成本計算器",
-      "category": "wind_energy",
-      "progress": 80,
-      "status": "active",
-      "last_updated": "2026-04-13",
-      "next_milestone": "Phase 4 - Monte Carlo validation",
-      "technologies": [
-        "Next.js",
-        "FastAPI",
-        "ECharts",
-        "SQLAlchemy"
-      ],
-      "outputs": [
-        "tool",
-        "paper"
-      ],
-      "description": "Comprehensive web application for offshore wind farm operational maintenance cost analysis",
-      "description_zh": "離岸風電營運維護成本計算器，複製強化 ECN Excel 工具功能，包含 6 大模組：氣象等待時間分析、成本計算、Monte Carlo 風險評估、LCOE 計算、VarFluct 生命週期預測、情景比較。已驗證準確度達 10+ 位小數，支援 130+ 風機的大規模風場分析。",
-      "key_metrics": "6 major modules, K13 demo 130 turbines",
-      "_path": "researchTopic/ECN",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/ECN/STATUS.yaml"
-    },
-    {
-      "name": "InduSpect AI",
-      "name_zh": "智慧工業巡檢系統",
-      "category": "industrial_ai",
-      "progress": 85,
-      "status": "active",
-      "last_updated": "2026-04-15",
-      "next_milestone": "實機端到端測試：上傳表單 → 拍照 → AI → 匯出 → 分享",
-      "technologies": [
-        "Flutter",
-        "Dart",
-        "Gemini AI",
-        "SQLite",
-        "GPS (geolocator + geocoding)"
-      ],
-      "outputs": [
-        "paper",
-        "app"
-      ],
-      "description": "Flutter mobile app for AI-powered industrial inspection with offline-first architecture, form auto-fill pipeline, and GPS-tagged history",
-      "description_zh": "利用多模態 AI 和 Flutter 行動應用，實現工業設備的智慧巡檢。核心功能為完整檢測 pipeline（表單上傳 → 引導拍照 → AI 分析 → 自動回填 → 摘要報告 → 離線分享）及 GPS 定位歷史紀錄。",
-      "key_metrics": "2 core features, 57 unit tests (43 existing + 14 level tests), 6 open issues (#14-#19)",
-      "_path": "researchTopic/induSpectApp/InduSpect",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/induSpectApp/InduSpect/STATUS.yaml"
-    },
-    {
-      "name": "WindGuard AI",
-      "name_zh": "風機診斷AI代理",
-      "category": "wind_energy",
-      "progress": 100,
-      "status": "completed",
-      "last_updated": "2026-04-10",
-      "next_milestone": "N/A",
-      "technologies": [
-        "Gemma 4",
-        "Gradio",
-        "Python"
-      ],
-      "outputs": [
-        "competition",
-        "paper"
-      ],
-      "description": "AI diagnostic agent for wind turbine fault detection using Kaggle Gemma4 competition",
-      "description_zh": "參與 Kaggle Gemma4Good 競賽開發的風機智能診斷系統，利用 Gemma 4 大型語言模型分析 36 台風機、3 座風電場的 202 個數據集，自動識別故障模式。結合工業領域知識與 AI 推理能力，支援風電場的預防性維護決策。",
-      "key_metrics": "202 datasets, 36 turbines, 3 wind farms",
-      "_path": "researchTopic/kaggleGemma4",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/kaggleGemma4/STATUS.yaml"
-    },
-    {
-      "name": "AI PLC Automation",
-      "name_zh": "AI驅動PLC自動化管理",
-      "category": "industrial_ai",
-      "progress": 85,
-      "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Dashboard analytics enhancement",
-      "technologies": [
-        "Node.js",
-        "Express",
-        "PostgreSQL",
-        "Gemini"
-      ],
-      "outputs": [
-        "tool"
-      ],
-      "description": "Enterprise Node.js platform for AI-driven PLC automation project lifecycle management and code generation",
-      "description_zh": "針對工業自動化的企業級 PLC 專案管理平台。整合 AI 進行自動化程式碼生成、硬體檢測、文件管理與工作流自動化，支援 ST/ST-Safe 代碼產出與系統狀態監控。",
-      "key_metrics": "v4.0, auto-hardware detection",
-      "_path": "researchTopic/PLC/AI_PLC_Automation",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/PLC/AI_PLC_Automation/STATUS.yaml"
-    },
-    {
-      "name": "Auto Arduino Coding",
-      "name_zh": "自然語言Arduino程式生成",
-      "category": "industrial_ai",
-      "progress": 85,
-      "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Multi-board support expansion",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "Arduino CLI",
-        "Gemini"
-      ],
-      "outputs": [
-        "tool",
-        "course"
-      ],
-      "description": "Python-based AI system converting natural language to Arduino code with auto-compilation, self-healing and one-click deployment",
-      "description_zh": "利用 Gemini AI 將自然語言需求直接轉換為 Arduino 完整程式碼。內建自動硬體偵測、編譯驗證、錯誤自我修復、函式庫自動安裝與一鍵燒錄，適合教學與快速原型開發。",
-      "key_metrics": "Auto-compilation, self-healing errors",
-      "_path": "researchTopic/PLC/autoArduinoCoding",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/PLC/autoArduinoCoding/STATUS.yaml"
-    },
-    {
-      "name": "RAG Ultimate",
-      "name_zh": "企業級統一RAG研究平台",
-      "category": "rag_knowledge",
-      "progress": 90,
-      "status": "active",
-      "last_updated": "2026-05-03",
-      "next_milestone": "Stage 2B ResearchLab 雙欄重組 (Experiment Plan / Live Telemetry) + 補跑 r06/r07 達 ≥4 完整 run → 論文主表",
-      "technologies": [
-        "React 19",
-        "TypeScript",
-        "Tailwind CSS",
-        "lucide-react",
-        "Gemini",
-        "Qdrant",
-        "FastAPI",
-        "Sentence-Transformers"
-      ],
-      "outputs": [
-        "platform",
-        "paper"
-      ],
-      "description": "React-based enterprise RAG research platform integrating 17 retrieval modes with RAGAS evaluation, Qdrant vector DB, multi-document knowledge base, and Control-Room industrial UI",
-      "description_zh": "統一企業級 RAG 研究與應用平台，整合 17 種檢索模式、Qdrant 向量資料庫、FastAPI 後端、Control-Room 工控介面。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG benchmark 論文研究 + UI 重構。",
-      "key_metrics": "829 tests (41 suites), 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v8.0, tsc 0 errors, Control-Room Stage 1+2A 完成 (BenchmarkLab 三欄+全寬結果區), 6 Foundation 元件可重用",
-      "_path": "researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b/STATUS.yaml"
-    },
-    {
-      "name": "RAG Ultimate",
-      "name_zh": "企業級統一RAG研究平台",
-      "category": "rag_knowledge",
-      "progress": 90,
-      "status": "active",
-      "last_updated": "2026-05-03",
-      "next_milestone": "Stage 2B ResearchLab 雙欄重組 (Experiment Plan / Live Telemetry) + 補跑 r06/r07 達 ≥4 完整 run → 論文主表",
-      "technologies": [
-        "React 19",
-        "TypeScript",
-        "Tailwind CSS",
-        "lucide-react",
-        "Gemini",
-        "Qdrant",
-        "FastAPI",
-        "Sentence-Transformers"
-      ],
-      "outputs": [
-        "platform",
-        "paper"
-      ],
-      "description": "React-based enterprise RAG research platform integrating 17 retrieval modes with RAGAS evaluation, Qdrant vector DB, multi-document knowledge base, and Control-Room industrial UI",
-      "description_zh": "統一企業級 RAG 研究與應用平台，整合 17 種檢索模式、Qdrant 向量資料庫、FastAPI 後端、Control-Room 工控介面。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG benchmark 論文研究 + UI 重構。",
-      "key_metrics": "829 tests (41 suites), 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v8.0, tsc 0 errors, Control-Room Stage 1+2A 完成 (BenchmarkLab 三欄+全寬結果區), 6 Foundation 元件可重用",
-      "_path": "researchTopic/RAG_Ultimate",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/STATUS.yaml"
-    },
-    {
-      "name": "WindAI Lab",
-      "name_zh": "風力發電AI研究平台",
-      "category": "wind_energy",
-      "progress": 92,
-      "status": "active",
-      "last_updated": "2026-04-21",
-      "next_milestone": "Phase 14c - 診斷報告輸出與資料連接器",
-      "technologies": [
-        "Python",
-        "FastAPI",
         "React",
-        "PyTorch",
-        "ChromaDB"
-      ],
-      "outputs": [
-        "paper",
-        "platform",
-        "tool"
-      ],
-      "description": "Multi-agent collaborative research platform with virtual office interface for wind energy AI",
-      "description_zh": "風力發電 AI 研究協作系統，匯聚 12 位核心代理與 28 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）、剩餘壽命預測。整合虛擬辦公室 UI、SCADA 真實資料分析、RAG 知識庫、WindGuard AI LLM 推理與自動品質檢查機制，是系統化進行風能科研的協作平台。",
-      "key_metrics": "F1=1.0 fault diagnosis, R²=0.997 power curve, 12 core + 10 hirable agents, 28 skills",
-      "_path": "researchTopic/windAILab",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windAILab/STATUS.yaml"
-    },
-    {
-      "name": "Digital Wind Turbine",
-      "name_zh": "數位孿生風機模擬器",
-      "category": "wind_energy",
-      "progress": 85,
-      "status": "active",
-      "last_updated": "2026-04-21",
-      "next_milestone": "Deployment hardening (JWT auth, Docker Compose)",
-      "technologies": [
-        "FastAPI",
-        "React",
-        "SQLite",
-        "Modbus TCP"
+        "SVG",
+        "Vitest"
       ],
       "outputs": [
         "tool",
         "paper"
       ],
-      "description": "FastAPI-based physics-driven digital twin simulating wind turbine dynamics with 74 SCADA tags, fault injection, fatigue/DEL monitoring, vibration alarm thresholds, and Modbus TCP interface",
-      "description_zh": "風力發電機物理驅動型數位孿生平台。內含完整的轉子-發電機模型、熱力系統、振動譜與警報門檻、電氣反應、疲勞載荷與 DEL 損傷指標、7 種故障場景，模擬 74 個 SCADA 信號與電網事件，支援 Modbus TCP 介面與即時儀表板監控。",
-      "key_metrics": "74 SCADA tags, 7 fault scenarios, DEL fatigue monitoring",
-      "_path": "researchTopic/windFarmMonitor/digiWindTurbine",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/digiWindTurbine/STATUS.yaml"
-    },
-    {
-      "name": "WindFarmMonitoring",
-      "name_zh": "風場即時監控系統",
-      "category": "wind_energy",
-      "progress": 60,
-      "status": "active",
-      "last_updated": "2026-04-10",
-      "next_milestone": "Frontend integration with OPC backend",
-      "technologies": [
-        "FastAPI",
-        "React",
-        "PostgreSQL",
-        "TimescaleDB"
-      ],
-      "outputs": [
-        "platform"
-      ],
-      "description": "FastAPI + React real-time wind farm monitoring system with 15-turbine SCADA data, alarm detection and historical analytics",
-      "description_zh": "即時風場監控與數據分析平台，集成 15 台風力機組的 SCADA 數據收集、實時儀表板、警報自動偵測與快照功能。提供歷史數據查詢、統計分析、報表生成與多使用者協作支援，助力智慧風場運維。",
-      "key_metrics": "15 turbines, 17-second data interval",
-      "_path": "researchTopic/windFarmMonitor/WindFarmMonitoring",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/WindFarmMonitoring/STATUS.yaml"
+      "description": "Test-driven interactive mechanics visualization platform for physics education",
+      "description_zh": "基於 React + SVG 的互動式物理力學視覺化引擎，透過精確的幾何計算呈現靜力學現象。採用 Monorepo + TDD 開發方式，旨在幫助學生透過動態互動深化對物理力學概念的理解，是教育科技創新應用。",
+      "key_metrics": "Early phase, test-driven development",
+      "_path": "backup/mechanics_AI",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/backup/mechanics_AI/STATUS.yaml"
     },
     {
       "project": [],
@@ -844,8 +140,1363 @@
       "contacts": [],
       "product_owner": "Dof (moredof@gmail.com)",
       "tech_lead": "Dof",
-      "_path": "researchTopic/windFarmOM_bk",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windFarmOM_bk/STATUS.yaml"
+      "_path": "backup/windFarmOM_bk",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/backup/windFarmOM_bk/STATUS.yaml"
+    },
+    {
+      "name": "Face Recognition Attendance",
+      "name_zh": "人臉辨識點名系統",
+      "category": "edtech",
+      "progress": 100,
+      "status": "production",
+      "last_updated": "2026-06-14",
+      "next_milestone": "Refactor remaining forms and page components in app.py to further reduce entrypoint size",
+      "technologies": [
+        "Python",
+        "InsightFace",
+        "Streamlit"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "AI-powered facial recognition attendance system with confidence scoring",
+      "description_zh": "基於 InsightFace 的智能人臉識別點名系統，自動從 PDF 大頭貼提取人臉，支援多張教室照片辨識與即時動畫展示。系統具有五級信心度評分、不確定案例人工覆核等研究級功能，大幅降低誤判率，適用於大班級教學場景。",
+      "key_metrics": "v3.3.85, refined localized strings by removing mixed-in English words in proctoring and uncertain cases UIs; 318 tests passed",
+      "_path": "courseRelated/attendence",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/courseRelated/attendence/STATUS.yaml"
+    },
+    {
+      "name": "Course Scheduling System",
+      "name_zh": "自動排課系統",
+      "category": "edtech",
+      "progress": 95,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Multi-semester optimization",
+      "technologies": [
+        "Python",
+        "Tkinter",
+        "pandas"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Intelligent constraint-based university course scheduling system",
+      "description_zh": "為勤益科技大學自動排課系統，解決每學期人工排課耗時且易衝突的問題。支援日間部、進修部、產攜班等多部別同時排課，採用優先級排序 + 限制滿足 + 分割排課三層策略，成功率達 93.7%，可直接產出 Excel/CSV/HTML 課表供校務使用。",
+      "key_metrics": "93.7% success rate (59/63 courses)",
+      "_path": "courseRelated/course-scheduling-system",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/courseRelated/course-scheduling-system/STATUS.yaml"
+    },
+    {
+      "name": "eduStudio",
+      "name_zh": "教學內容工作站（影片／簡報／圖卡／在地化整合平台）",
+      "category": "edtech",
+      "progress": 99,
+      "status": "active",
+      "last_updated": "2026-06-07",
+      "next_milestone_edustudio": "✅ /app surface UI 大批接線 (2026-06-07 互動 session, 劉老師逐批驗): slides_pdf ingest 卡死修復 (2.5-flash thinking_budget=0 + 逐頁 logging + HTTP timeout, 140 頁論文從 ~26-77min→~5min) / 視覺站移除漫畫 + 圖卡海報合併單一 poster 模式(版式選直式海報·方形圖卡·橫式) / 影片站來源九宮格 6→9 併入影音工具(配音·會議·歌詞抽取)+下方只留進行中 / 發布站統一任務管理(詳情·審查·發布·刪除, TaskCard onDelete) / 教學簡報恢復全 16 主題 + 受眾/目的/語氣/視覺取向/動畫引導(presentation_service _build_steer) / 視覺成品自動存素材庫(core/infocards/visual_library.py SQLite, /api/generate 成功即存, /api/visual-library CRUD, ProjectStation 縮圖牆). 後續同 session 再補: 任務狀態集中到「製作狀態」站(TaskCard 詳情/審查/重試/刪除/發布)、發布站專心挑成品+語言 / **Project 接成一課一工作空間**(頂部選課→影片/視覺生成自動歸屬該課: /upload+/api/generate 加 project_id 掛 jobs/artifacts, ProjectStation 由 activePid 驅動顯示該課 來源/任務/成品, 素材庫與 Project 成品合一) / **設定頁模型更新 Gemini 3 系列**(2.5 將停, 文字 gemini-3.5-flash·gemini-3.1-flash-lite·gemini-3.1-pro-preview / 圖片 gemini-3.1-flash-image·gemini-3-pro-image-preview·gemini-2.5-flash-image, id 經 live 實測校正) / 頭像接個人品牌姓名+移除無作用鈴鐺. **2388 pytest 綠**. 兩 repo 皆已 commit(autoSolver=examReviewVideo / infoCard=infoCardGen)但**未 push**. **/app 已從薄殼補成可用**. **未盡**: 計費只算視覺/在地化 Gemini 呼叫不含影片 render pipeline(最大宗)且為估價; 影片旁白仍 gemini-2.5-flash(待驗 3.x 品質再遷). 先前盤點: 本 repo = eduStudio 物理基底, 三專案合併單一 Python server. autoSolver(本體) + infoCard(已移植 Python: 漫畫/海報/圖卡/簡報生成 + 兩階段大綱 + 單頁微調 + PPTX 匯出) + translateGemma(已移植: 翻譯/配音/OCR/會議/學習). 同 server 掛三前端: /app (Claude Design 統一重設計 4 工作站, **薄殼** — 每站主生成動作已接後端但多數選項/次要動作待補) / /studio (原版 infoCard 全功能, client-side Gemini) / /ui (原版 autoSolver). 後端 API 大多齊備, 缺口在 /app surface 出能力的 UI 控制項 (多為純前端接線). **完整接線盤點 + 補完清單見 docs/EDUSTUDIO_UI_WIRING.md**, TODO.md 🌟 eduStudio 段. PR-M1~M22 (Phase A 立基底 / B translateGemma / C infoCard + presentation 全套). 全套 2341 pytest 綠. 前端源碼 infoCard/edustudio/app.jsx, build 帶 --base=/app/ (漏了 /app 空白 404). 下一步等劉老師定接線優先序 (建議: 視覺站選項真化 + 學習工具箱).",
+      "next_milestone": "🎯 新方向 (2026-06-03 互動 session, 劉老師回歸) — Phase 3 wind-down 結束, 給三條展開: (1) **第 4 條 track「歌曲 → AI 生圖 MV 影片」正式做** — source_type=song, 歌曲音檔 (AI 產, 如 Suno) + 純文字歌詞 (無 LRC) → forced alignment 對齊 → 逐段 AI 生圖 → MV → YouTube. forced alignment 拍板**方案 2 (Demucs 分人聲 + WhisperX word-level + 手動 review 微調層)**, 畫面 AI 生圖逐段配. 完整設計見 docs/SONG_MV_TRACK_RFC.md (M0 POC→M1 對齊→M2 生圖→M3 整合上傳). (2) **新功能 backlog 挑 4 項**: LaTeX 公式渲染 (🔴 offline 材力剛需, 接 slide_renderer 圖片路徑) / YouTube 自動章節 (🔴 offline 近零成本, deck section→YT description 時間軸) / 雙語字幕 (🟡 翻譯 GATE, SRT 合併渲染 offline 可先做) / 學生提問→RAG→影片 (🟢 探索, 戰略價值高工程重, 先寫 RFC). (3) **routine 維持 hourly, 恢復自主推進** (offline 料補回來了, 不再 wind-down 空轉). **routine 推進順序**: ✅ V2 執行包 tools/gen_icon_svgs.py (2026-06-04 commit 9830e2e) → ✅ V2 icon 25 SVG 入庫 + 驗收完整性鎖 (2026-06-04 互動 session, 劉老師產 SVG, tests/test_icon_library_complete.py +128, 1862→1990) → ✅ YouTube 自動章節 (offline, 2026-06-04, 見 next_milestone_yt_chapters) → ✅ LaTeX 公式渲染 backend (2026-06-04, iter 18~21, 劉老師授權 GATE 解鎖 matplotlib 進核心 dep, 見 next_milestone_latex) → ✅ 雙語字幕 proposal (GATE, 2026-06-04, docs/bilingual-subtitle-proposal.md, 列格式 A/B/C + 字幕帶 180px 溢出 + cue 對齊三決策, 建議 B 雙獨立軌繞溢出, STOP 等用戶選格式+開翻譯額度+確認 require_review) → ✅ SONG M0 環境 spike + M0a 渲染骨架 (2026-06-04 互動 session: CUDA torch cu124/demucs/whisper 轉錄通, whisperx 自動對齊卡依賴地獄降 M1, M0 用手動時間軸; core/song_render.py is_song_schema+song_segments_to_srt+build_song_mv_cmd, +18 tests 1990→2008) → ✅ M0b helper tools/song_mv.py (2026-06-04, song.json → SRT → ffmpeg → MV mp4, --dry-run, +12 tests 2008→2020) → ✅ 雙語字幕 SRT 雙軌組裝層 (2026-06-04, 劉老師拍板格式 B + 本機 Ollama translategemma + 第二軌跳過 review; core/srt.py build_bilingual_srt_tracks 出 {primary,secondary} step 邊界對齊, +6 tests 2020→2026) → ✅ 雙語翻譯層 core/translate.py (2026-06-04, 本機 Ollama translategemma, urllib 不加 dep, translate_text/translate_steps 產 narration_secondary, +13 tests 2026→2039; ✅ 劉老師本機實測通過「材料力學的應力分析」→ 正確英譯, 預設 prompt 不需調) → 雙語 schema 透傳 + 渲染燒第二軌 (publish.py YouTube 多軌 OAuth=GATE) + M0b 真跑驗收 (✅ 劉老師實機跑出 此刻的溫度.mp4) + M1 自動對齊 (whisperx 隔離環境) 等劉老師. **SONG M2 生圖層 (2026-06-04)**: core/song_images.py build_image_prompt (歌詞+統一風格 0 API) + generate_segment_image (gemini-2.5-flash-image GATE) + 執行包 tools/gen_song_images.py (dry-run 預設不燒額度, --execute 生圖寫回 song.json reviewed=false 停 review, 同 gen_icon_svgs 安全模式), +13 tests 2039→2052. ✅ 劉老師開額度跑 --execute 生圖實機通過 (seg_s2.png 暖色咖啡廳場景符合歌詞, 風格 suffix 生效無文字). **ken burns 渲染串接 (2026-06-04)**: build_song_mv_kenburns_cmd 每段圖 zoompan 推鏡→concat→燒歌詞+音軌, song_mv.py 偵測全段有圖走 ken burns 否則退純色, +8 tests 2052→2060. M2 三塊 (生圖層/真生圖/ken burns) 全通 → 劉老師可一行跑出完整有畫面 MV. 假設 segments 連續, 前奏 gap 對齊精修待後續. **SONG M3 整合啟動 (2026-06-04)**: M3a source_type 註冊 + review policy — schemas.py SONG enum + jobs.py _resolve_default_review song→True (對齊+生圖全估值同硬規則 #1), +1 test 2060→2061. M3b ingest_song (2026-06-04, 劉老師拍板選 B 自包含: _run_ingest 加 SONG 分支 → _run_ingest_song 複製 audio/圖進 job dir + 路徑改寫相對, 缺檔 graceful, +8 tests 2061→2069). **M3c render_song 完成 (2026-06-04, routine 自主, offline)**: _run_render_inner 讀 deck 後加 is_song_schema early-return → 新 _run_render_song 繞 v0/render_video TTS pipeline (song_segments_to_srt 寫 job_dir/song.srt → 每 valid segment 都備圖且檔案存在走 build_song_mv_kenburns_cmd 否則退 build_song_mv_cmd 純色不混搭 → subprocess.run cwd=job_dir → artifacts/song.mp4; 空/全無效 segment + 缺 audio_path → ValueError, returncode!=0 → RuntimeError, 無 ffmpeg → FileNotFoundError 清楚訊息; section_id 忽略整首單一; state 由 _run_render_phase 收尾不自設). +15 tests (2069→2084, monkeypatch subprocess.run 不真跑 ffmpeg). 改 3 檔 (server/runner.py + tests/test_runner_render_song.py + TODO/STATUS). **M3d youtube meta song 分支完成 (2026-06-04, routine 自主, offline)**: core/youtube.py auto_youtube_meta 最前面加 is_song_schema 分流 (在 deck/exam 之前, song 無 sections/problems 否則誤走 problems 路徑) → 新 _song_youtube_meta (title=song_title, description=歌詞章節: 每段首句 + 對齊絕對 start 繞字數估算). _song_chapter_durs 把絕對 start 轉段間距餵既有 _build_chapter_lines (累積回絕對時間戳不漂移), 首段非 0 補「🎵 前奏」(YouTube 首章須 0:00). category 10 (Music) 非 27, tags 加 song 條目. +15 tests (2084→2099). 改 2 檔 (core/youtube.py + tests/test_youtube_helper.py). M3e web UI song review 拆 3 小 iter: ✅ M3e-1 types 基礎 (2026-06-04, types.ts SourceType+'song'/SongDeck/SongSegment/isSongDraft + SourceBadge SOURCE_META song 條目, tsc 綠 2099 不變, 改 2 檔) → M3e-2 CreateJobForm song 下拉+建 job 輸入流 → ✅ M3e-2 CreateJobForm song 下拉+path-only 建 job (2026-06-05, 見 key_metrics) → M3e-3 JobEditor isSongDraft 分流 SongReviewPane (逐段 [start–end] 歌詞+圖預覽+reviewed). **M3e-3 拆兩半 (圖預覽需後端): ✅ M3e-3a song 圖預覽 endpoint (2026-06-05, routine 自主, offline) — song 逐段圖存 jobs/<id>/images/<name> (M3b 複製) 既無 endpoint 可預覽, reviewer 看不到 AI 生圖無法依硬規則 #1 標 reviewed; server/routes/jobs.py 加 GET /jobs/{id}/images/{name} 鏡像 download_figure (同 path-traversal 防呆 ../\\/ → 400, target 限 images/ 下, 缺檔/目錄 → 404), +6 tests 2223→2229, 改 2 檔 (jobs.py + tests/test_song_images_route.py)。routine 下一輪 = M3e-3b (JobEditor isSongDraft 分流 SongReviewPane 逐段 [start–end] 歌詞 + 圖預覽接此 endpoint 剝 images/ 前綴 + reviewed 勾選, 動 web/ 跑 tsc).** **✅ M3e-3b 完成 (2026-06-05, routine 自主): JobEditor.tsx isSongDraft 分流 + 新 SongReviewPane (逐段卡片 [start–end] mm:ss + dur + 歌詞 + 圖預覽 + reviewed checkbox, api.songImageUrl 剝 images/ 前綴接 M3e-3a endpoint) + header 🎵/song title/subtitle/隱藏 outline 鈕; tsc 綠 + 2229 pytest 不變, 改 2 檔 (api.ts + JobEditor.tsx). → SONG M3 整條 track (M0 渲染骨架 → M1 對齊(等劉老師 whisperx 隔離環境) → M2 生圖/ken burns → M3a~M3e 整合+上傳 meta+web review) 全收尾。下一輪無新 offline 主線 (M1 自動對齊/雙語多軌 YouTube OAuth/生圖燒額度全 GATE 等劉老師) → routine 回 wind-down, 等劉老師給新 offline 方向。** **GATE 不變 offline-first**: Gemini image 額度 (V2 / SONG M2 / 雙語翻譯) + demucs/whisperx/torch 新 dep (方案 2 已授權, M0 先確認環境再實裝) 碰到一律寫 proposal/STOP 不自主燒額度. require_review 不可繞 (song.json 對齊+生圖 prompt 全 AI 估值, 停 awaiting_review 人工微調). 上一步 = S 軸全完成, 見 next_milestone_s3.",
+      "next_milestone_latex": "✅ LaTeX 公式渲染 backend 完成 (2026-06-04, iter 18~21, 劉老師互動 session 授權 GATE 解鎖). 進場時 routine 查證『offline 下輪』實為 GATE (matplotlib 不在 requirements/CI), 寫 proposal STOP (見下); 劉老師當場拍板後端 A (matplotlib mathtext) + 同意 matplotlib 進核心依賴 → 解鎖, routine 一路做完 backend. 端到端: deck.json slide.formula (dict {latex,position?,size_ratio?,color?}) → normalize/flatten 透傳 → render_latex_to_png (Figure+FigureCanvasAgg 不碰 pyplot 全域 thread-safe, mathtext → 透明 PNG, 失敗回 False 不炸) → compose_formula (render 到 tempfile 再複用 compose_icons 定位/縮放/alpha paste, 暫存 PNG 疊完即清) → 三大 renderer 4 seam (Blackboard / Slide full+split-left / Pptx 集中 4 路 layout, 緊接既有 compose_icons 同 canvas_h 規矩公式不壓字幕帶). 無 formula 舊 deck NoOp 向後相容. iter 18 render core + matplotlib 進 requirements+CI (+12) / iter 19 deck.py 透傳 (+6) / iter 20 compose_formula helper (+9) / iter 21 renderer 4 seam (+6). 1829→1862 (+33). 改 8 檔次 (formula_render.py 新 + test 新 + deck.py + test_deck + pipeline.py + pptx_style.py + integration test 新 + requirements + CI). **剩 (非本輪, 另開)**: ① review UI 逐 slide 編 formula (前端 web/) ② auto-formula (Gemini 從 narration 偵測自動建議, GATE 需額度不可繞 require_review). 下一輪 = SONG M0 (等用戶確認 demucs+whisperx CUDA 環境) 或劉老師給新 offline 方向. 上一步 = YouTube 自動章節, 見 next_milestone_yt_chapters.\\\\n\\\\n--- (進場 GATE 查證原始紀錄) --- ⛔ LaTeX 公式渲染 — 改判 GATE (2026-06-04, hourly routine 進場查證). STATUS 推進順序原列『offline 下輪 (matplotlib mathtext 接 slide_renderer 圖片路徑)』, 但 routine 查證: matplotlib **不在** requirements.txt / requirements-optional.txt / CI 安裝清單 (.github/workflows/test.yml:70 明列 fastapi...pymupdf 無 matplotlib). 既有用 matplotlib 的 core/diagram_gen.py + diagram_image_gen.py 是 GATE 功能 (Gemini 產 code → subprocess lazy import), CI 無 matplotlib 時對應測試 skip → matplotlib 目前是 optional/GATE 級, 非核心 runtime dep. 接 LaTeX 進主線 slide render = 把 matplotlib 升核心依賴 (進 requirements + CI 安裝清單) 才能讓 CI 4 matrix 過 → 命中 STOP 清單『不加新 pip dep / 改 CI 屬架構決策』. 寫 proposal STOP: docs/latex-formula-rendering-proposal.md (渲染後端 A matplotlib mathtext / B usetex+TeX Live / C Pillow 自繪 / D 線上 API 四選項 trade-off, 建議 A; 解鎖後 routine 可自主 offline 實作 — core/formula_render.py + schema slide.formula 透傳 + renderer 疊放, 沿用 icon_overlay/image_frames 既有圖片路徑 + 單筆失敗靜默 skip 契約). **要劉老師: 拍板後端 + 同意 matplotlib 進核心 dep (改 requirements + CI), 解鎖後 routine 接著做.** 0 production code 改動 (純 proposal + STATUS/TODO 記錄). 改 3 檔 (docs/latex-formula-rendering-proposal.md 新 + TODO.md + STATUS.yaml). 1829 tests 不變. 下一輪 = SONG M0 (等用戶確認 demucs+whisperx CUDA 環境) 或劉老師給其他 offline 方向; LaTeX 等解鎖. 上一步 = YouTube 自動章節, 見 next_milestone_yt_chapters.",
+      "next_milestone_yt_chapters": "✅ YouTube 自動章節 — deck schema 支援 (2026-06-04, hourly routine 恢復自主推進首項) — 新功能 backlog 之一. 核心發現: core/youtube.py auto_youtube_meta 只認 exam schema (problems/steps), 既有 '📍 章節時間軸' (0:00 章節名) 只對 exam_pdf / slides_pdf 生成. 但 repo/document/url 存盤的 deck.json 是 deck schema (頂層 sections/slides 無 problems, 已用 jobs/*/deck.json 實證), auto_youtube_meta 走 deck.get('problems',[]) 必空 → 回 basic meta description 全空, **所有 deck 來源影片 (final.mp4 整份 + {section_id}.mp4 單章) 都拿不到章節**. 修: 加 _is_deck_schema type guard (硬規則 #9, sections is list 且 problems 非 list, 不靠 'problems' in deck 硬判) + _deck_youtube_meta — artifact stem 對到 section.id → 單章影片章節=該章 slides (title 'deck | section'); 對不到 (final.mp4 整份) → 章節=各 section (該章 slides 旁白估算秒數總和, _cover/_outro 不過濾保時間軸不漂移). 順手抽 _estimate_narration_seconds + _build_chapter_lines 兩共用 helper (exam/deck 同一條切分不漂移, exam 路徑改用後行為不變). 時間軸仍是 narration 字數估算 (中文 3.5 字/秒, 既有近似法; final.mp4 intro prepend 偏移未計, 文件註明). +15 tests (TestIsDeckSchema 4 / TestBuildChapterLines 2 / estimate 1 / TestAutoYoutubeMetaDeckSchema 8). 1814→1829. 改 2 檔 (core/youtube.py + tests/test_youtube_helper.py). 0 行為改舊測 (exam 路徑 53 youtube tests 全綠). 下一輪 = LaTeX 公式渲染 (offline, matplotlib mathtext/MathJax→PNG 接 slide_renderer 圖片路徑). 上一步 = S 軸全完成, 見 next_milestone_s3.",
+      "next_milestone_s3": "✅ S 軸 (S1→S3) 全完成 (2026-05-30) — S3: VoiceInfo schema 加 has_sample: bool, list_voices 以 (VOICE_SAMPLE_DIR / v['sample']).exists() 逐 voice 回填。google voice 無預錄 voices/samples/*.mp3 → has_sample==False (sample endpoint 仍維持 404 行為不變), 前端據此 disable 試聽鈕優雅降級 (前端 web/ 改動另開小項, 後端契約先就緒)。+4 tests (TestHasSample: 空 dir 全 False / google 永遠 False 即使 edge+f5 鋪了 / edge+f5 鋪檔則 True / 逐 voice 獨立判斷) + test_voice_info_shape 加 has_sample 欄。1790→1794。改 2 檔 (server/routes/voices.py + tests/test_voices_route.py)。**S 軸三步全收尾 → 回 wind-down**: 剩下大目標 (GitHub issue #12 P0 穩固化 / #13 V2-V3 GATE / #14 發佈擴展) 多需架構決策 / Gemini 額度 / 用戶操作, routine 不自主碰。下一輪預設 STOP, 不硬找事。等劉老師互動 session 給新 offline 方向, 或補 V2 的 25 SVG 進 assets/icon_library/ 觸發驗收測試。上一步 = S2, 見 next_milestone_s2。",
+      "next_milestone_s2": "⏭️ S 軸 S2 完成 (2026-05-30) — VOICES 清單加 3 個 Google 選項 (cmn-TW-Wavenet-A 女預設 / B 男中性 / C 男深沉, label 標『(Google 雲端 TTS, 需 GCP 額度)』, VOICE_IDS 自動含). 順帶收緊 _write_current_voice: S1 曾為 google: prefix 開命名空間放行 (清單未補時過渡), S2 補進預設清單後改回一律走 VOICE_IDS 白名單 → 未知 google id 也 400 (符合 S2 驗收『未知 google id 仍 400』); _read_current_voice 仍如實顯示 cfg 裡清單外 GCP voice (UI 下拉切換限這 3 預設). +8 tests (list 3: 3 google / 進 VOICE_IDS / label 標額度; endpoint 5: GET 含 3 google / POST 各 google 成功套用 parametrized 3 / 未知 google 400). 1782→1790. 改 3 檔 (voices.py + test_voices.py + test_voices_route.py six→nine). **下一輪 = S3** (VoiceInfo schema 加 has_sample: bool, 掃 voices/samples/*.mp3 存在與否, list_voices 回填 → 無預錄 sample 的 google voice 試聽優雅降級; 驗收 google voice has_sample==False / edge / f5==True; 前端 disable 試聽鈕另開小項). 做完 S3 = S 軸 (S1→S3) 全完成 → 回 wind-down. 細則見 TODO.md 🎙️ S 軸段.\\\\n\\\\n--- (S 軸進場原始說明) --- 查 TTS 現況發現 server/routes/voices.py 的 _read_current_voice / _write_current_voice 只認 edge / f5 無 google 分支 → backend=google 時 UI 顯示錯的 current (掉成 edge 小陳) 且使用者選任何聲音都會覆蓋掉 google (Google 在 UI 上管不到還會騙人). 三步 offline 修 (各 ≤2 檔 voices.py + tests/test_voices.py, 一輪一項): S1 兩 helper 加 google 分支 (id 格式 google:<voiceName> 如 google:cmn-TW-Wavenet-A) / S2 VOICES 清單加 3 個 Google 選項 (Wavenet-A 女預設 / B 男 / C 男深沉) / S3 VoiceInfo 加 has_sample 讓無預錄 sample 的 google voice 試聽優雅降級. 做完 S 軸回 wind-down. 細則見 TODO.md 🎙️ S 軸段. (語音路線用戶決定: 維持現況, 自己在頁面選『劉老師 (F5 聲音複製)』用本機 voice clone 念自己的聲音; Google TTS 給不了自己的聲音, GCP Custom Voice 等 allowlist; ElevenLabs 之後再評估.) 其餘大目標見 GitHub issue #12/#13/#14, 多需架構決策/額度/用戶操作 routine 不自主碰. 上一步 = 文件大整理, 見 next_milestone_docreorg.",
+      "next_milestone_docreorg": "專案文件大整理 + 2 bug 修復 + routine wind-down (2026-05-29, 用戶互動 session) — 劉老師要求重整專案文件並收掉 hourly routine. 四件事: (1) 清暫存檔 ~2.9GB (work/* render scratch 2930MB + __pycache__ + _scriptor_errors/* + 根目錄 gemini_error_*.txt + 5 支未追蹤 docs/*.mp4; 保留 jobs/ Library + videos/ 輸出 + tracked docs/intro_journal.mp4). (2) git rm 4 份過期文件 (plan_slidevideo.md / plan_youtube_agent.md 自標 DEPRECATED 已併入 ROADMAP; docs/ROUTINE_CLOSEOUT.md closeout 階段已過; docs/SESSION_HANDOFF.md 2026-05-14 過期快照) + 清掉 README/ROADMAP/onboarding/advance.md/ideate-design 對它們的 7 處 dangling 引用. (3) 修 docs/ROUTINE_FINDINGS.md 累積的 2 個真 bug (順手, 各 1 行 + 補測試): editor.py:323 JS-context XSS (json.dumps(deck) 注入 <script> 未 escape </script>, 修成 .replace('</','<\\\\\\\\/') + 2 tests TestEditorScriptContextEscape) / library.py:59 _read_deck_title try 範圍太窄 (deck 非 dict 或 title 非 str 時 .strip() 噴 500, 擴大 try 包到 return + 4 tests). (4) 開 5 個 GitHub issue 追後續 (2 bug 已修先關 + 3 大目標: P0 產品穩固化 / V軸 V2-V3 GATE / 發佈擴展) + 寫 docs/dynamic-visual-v2-v3-proposal.md + 更新 ROUTINE_ADVANCE_PROMPT.md 加 Phase 3 wind-down 段. **routine 狀態: hourly 自主推進到此 STOP** — N 軸全完成 / V 軸 V1 (offline) 收尾, 剩 V2 (Gemini 25 SVG) / V3 (cairosvg) 都 GATE 需用戶開額度/新 dep. 等劉老師補 V2 SVG 後 routine 可恢復做驗收測試, 或給新方向 / 切 daily summary. 測試 1771→1777 (+6). **硬約束 offline-first** 不變. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 3 段.",
+      "next_milestone_iter12": "Phase 2 iter 12 完成 (2026-05-29) — V 軸 V1d: icon-suggestions / image-frames endpoint 序列化 + 過濾契約補測試 (offline), V1 (offline) 收尾. icon-suggestions endpoint 親手組的 payload dict (server/routes/jobs.py:179-193) 的 `position` / `size_ratio` 兩欄沒被既有 happy path 鎖過 (只測 key/matched_keyword/domain/file_exists/icon) — 重構漏掉前端 alpha_composite 疊圖位置/大小就錯但測試不紅; max_icons ge=1 le=20 只測界外 (0/21→422) 沒測界內值被接受 (1/20→200, 鎖含端點防被改 gt/lt). image-frames endpoint 既有 query-param 測試是『全存在』或『全缺檔』兩極端, 沒測混合 (同 slide 缺檔 frame 被 valid_frames 踢但存在的保留, terminal 取存在裡 display_ratio 最大那筆非整批最大) / 亂序輸入 terminal 仍取最大 ratio (鎖『terminal=max display_ratio』透過 endpoint 序列化, 防重構成取陣列末筆). +5 tests (icon 3 + frames 2). 純 endpoint 序列化/過濾契約 0 production code 改動. 1766→1771 (+5). 改 2 檔 (tests/test_icon_suggestions_endpoint.py + tests/test_image_frames_endpoint.py). **V1 (offline) V1a~V1d 全完成.** 下一輪 = V2 (E2-2 Gemini 產 25 SVG icon) / V3 (E1-3 flow_diagram SVG + cairosvg) 皆 GATE 需用戶開額度/新 pip dep → 寫 proposal + STOP. **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "next_milestone_iter11": "Phase 2 iter 11 完成 (2026-05-29) — test_duplicate_proposal JobStore 隔離 (修 routine 自身 baseline 污染 production jobs/): 進場發現 prior routine run 留下未 commit fix (self-labeled iter 11), 補 commit 解 routine blocker. test_duplicate_then_approve_succeeds 呼叫 /approve, 但 approve route 以 Depends(get_default_store) 解析 store (server/routes/proposals.py:230/371/417) — fixture 沒 override 它, 每次 baseline 跑都在 production jobs/ 真建 job + schedule_job ingest 假路徑 /x/prop_approved_1.pdf, 漏一筆 ingest 失敗 job (routine 每 2 小時跑 baseline → 每 2 小時冒一筆髒 job). fixture 加 app.dependency_overrides[get_default_store] = lambda: tmp JobStore (沿用全 repo route 測試慣例). 純測試隔離 0 production code 改動, 1766 passed 不變. 改 1 檔 (tests/test_duplicate_proposal.py). 下一輪 = V1d (image_frames / icon-suggestions API endpoint 既有 slice 補測試, offline); V2 (E2-2 Gemini SVG) / V3 (E1-3 cairosvg) GATE 需用戶開額度/新 dep STOP. **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "next_milestone_iter10": "Phase 2 iter 10 (hotfix) 完成 (2026-05-29) — test_icon_overlay TestSlideRendererIntegration NameError 修正: iter 9 (V1c) 新增的 5 個整合測試用 `_Image.open` 但檔案頂 (line 12) 是 `from PIL import Image` — `_Image` 從未定義, 5 測全 NameError. baseline 實際是 5 failed / 1761 passed (V1c commit 訊息誤報 1766 passed, 那批測試從沒真正跑綠過). 純 typo: _Image.open → Image.open (5 處: line 494/508/520/543/560), 0 production code 改動, baseline 恢復 1766 passed. 改 1 檔 (tests/test_icon_overlay.py).",
+      "next_milestone_iter9": "Phase 2 iter 9 (V 軸 V1c) 完成 (2026-05-29) — SlideRenderer icon 疊圖整合補測試 (offline): V1c 接 V1b, 同樣鎖『從沒被驗過的契約』. SlideRenderer (pipeline.py, iter 102) 是最早接 E2-5 compose_icons 的 renderer (full / split-left 兩 layout), 但 iter 103 整合測試只補了 BlackboardRenderer + PptxStyleRenderer, SlideRenderer 自己從沒被直接整合測過 (test_slide_renderer.py 0 個 icon test, test_icon_overlay.py 只有 Blackboard/Pptx 兩 Integration class). 核心契約: 兩 layout 都以 canvas_h=CONTENT_BOTTOM(900) 呼叫 compose_icons, 讓 bottom-* icon 停在字幕帶上方 — 若誤傳 1080(整高) bottom icon 會掉進 y>=900 字幕黑帶被蓋掉. +5 tests (TestSlideRendererIntegration): (1) full layout 疊 top-right icon 渲出非黑底 (2) full 無 overlay NoOp top-right 仍純黑底 (3) split-left 疊 icon 渲出 (底色 18,18,22 上紅 icon) (4) bottom-right icon size_ratio 0.1 (192px) 用 canvas_h=900 定位 y 668..860 — 取 (1820,700) 在 icon 內證非 1080 (1080 會是 848..1040 該點落黑底) + y=950 字幕帶內證 icon 沒漏進帶 (5) split-left 字幕帶 y=1000 仍 SUBTITLE_STRIP_COLOR(15,15,18) icon 不污染. 純整合測試 0 production code 改動. 1761→1766 (+5). 改 1 檔 (tests/test_icon_overlay.py). 下一輪 = V1d (image_frames / icon-suggestions API endpoint 既有 slice 補測試, offline); V2 (E2-2 Gemini SVG) / V3 (E1-3 cairosvg) GATE 需用戶開額度/新 dep STOP. **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_v1b": "Phase 2 iter 8 (V 軸 V1b) 完成 (2026-05-29) — icon_picker manifest 優先序 + image_frames require_file_exists 透傳補測試 (offline): V1b 接 V1a, 同樣鎖『從沒被驗過的契約』而非 wrapper safety-lock. 兩個缺口: (1) icon_picker.pick_icons docstring 明定『結果順序按 manifest 出現順序 = priority』且 max_icons 截斷依此序保留前 N — 但既有 test_multiple_entries_match 用 set 驗命中『集合』, 順序與『截斷依 manifest 序非 narration 提及序』兩契約沒鎖; manifest 缺 'icons' key 的 graceful fallback 也沒測. (2) image_frames.select_frame / terminal_frame 的 require_file_exists kwarg 透傳給 valid_frames 從沒驗過 (既有只在 valid_frames/frame_count/summarize_for_deck 測 loose 模式), select_frame 全 missing 嚴格回 None 也沒對稱測; 空字串 path 過濾沒測. +7 tests: icon_picker 3 (TestManifestOrderPriority 2: narration 以 gamma→alpha→beta 序提及但結果照 manifest alpha→beta→gamma / max_icons=2 截斷保留 manifest 前兩個非 narration 先提的 gamma; TestManifestMissingIconsKey 1: 缺 icons key 回 [] 不噴 KeyError); image_frames 4 (valid_frames 空字串 path drop / select_frame 全 missing 嚴格回 None / select_frame require_file_exists=False 透傳挑得到 missing frame / terminal_frame require_file_exists=False 透傳回最大 ratio missing frame). 0 production code 改動 (純測試). 1754→1761 (+7). 改 2 檔 (tests/test_icon_picker.py + tests/test_image_frames.py). 下一輪 = V1c (E1-2 SlideRenderer frame fallback / E2-5 renderer icon 疊圖 既有 slice 補測試, offline); V2 (E2-2 Gemini SVG) / V3 (E1-3 cairosvg) 是 GATE 需用戶開額度/新 dep STOP. **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_v1a": "Phase 2 iter 7 (V 軸 V1a) 完成 (2026-05-29) — icon_overlay 尺寸/比例計算路徑補測試 (offline, V 軸啟動): N 軸 (N1-N4 + §5) 全收尾後接 V 軸 (動態視覺). V1 第一刀挑 core/icon_overlay.py compose_icons 的『真正計算邏輯』缺口 — 既有 test_icon_overlay.py 27 tests 雖蓋 NoOp / SVG fallback / 5 位置 / 字幕帶, 但測試 icon **全是 256×256 正方形**, 兩條計算路徑從沒被真正驗過: (1) size_ratio 上界 clamp 0.50 (既有只測下界 0→0.02); (2) aspect-ratio 縮放 target_h = icon_h * target_w/icon_w (正方形時 target_w==target_h 看不出比例有沒有保住). 跟 closeout 期 wrapper safety-lock 不同 — 這是真 image math, refactor 容易踩錯. +6 tests: TestSizeRatioEdges 4 (上界 clamp 0.9→0.50 用落在 0.9 寬內/0.5 寬外的 pixel 區分 / 缺 size_ratio key→預設 0.10 / 非數值 'big'→float() 炸→單筆靜默 skip 鎖設計契約 / 壞 size_ratio 不擋同 list 好 icon per-entry 隔離); TestAspectRatioPreserved 2 (256×128 寬 icon size_ratio 0.1→寬192高96 用 y=200 超 136 證高沒拉成192 / 128×256 高 icon→寬192高384 用 x=300 超 232 證寬鎖 size_ratio 沒被高度連動拉大). 純 PIL pixel 驗 0 production code 改動. 1748→1754 (+6). 改 1 檔 (tests/test_icon_overlay.py). 下一輪 = V1b (image_frames / icon_picker 剩餘 slice 補測試 + parser 強化, offline); V2 (E2-2 Gemini SVG) / V3 (E1-3 cairosvg) 是 GATE 需用戶開額度/新 dep STOP. **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_n4s5": "Phase 2 iter 6 (N4-§5 配套) 完成 (2026-05-29) — measure 工具加 uncuttable_long_cues counter (offline, N 軸全收尾): N4 proposal §5 列的離線配套 — A/B 驗證流程 Step 3 需要量『無次級標點的長句數』(缺口 A 殘留指標), 工具原本只算 over-cue / over-slide / 長度分布沒這欄. 加 is_uncuttable_long_cue(cue, threshold=SUBTITLE_CUE_CHAR_BUDGET) 純函式: len(cue) > threshold 且復用 core.srt._CLAUSE_SPLIT 切不出 >1 個非空 segment (= 無次級標點, _split_long_cue 原樣保留, 字幕帶溢出). threshold **故意綁固定 40 (SUBTITLE_CUE_CHAR_BUDGET) 而非測量用 cue_budget** — 主用途是 --cue-budget 0 量 Gemini 源頭 raw 句, 那時 cue_budget=0 當門檻會把每 cue 都算過長失意義. measure_deck 每 cue 加 uncuttable flag + uncuttable_long_count; aggregate group + overall 加 uncuttable_long_count + uncuttable_long_ratio. 報告全域摘要 + 分組表 + intro 各加『無標點長句』一列. 數學不變式: 修後 (cue_budget=40) uncuttable_long_count == over_cue_count (cue 切完仍 >40 必然是無標點切不動的單段, 有標點早被 greedy 裝箱切散); 修前 (budget 0) uncuttable <= over. fixture locked: 修後 0/265 + 修前 0/196 都 0 — 4 deck 長句『剛好』每個都有逗號 (= proposal 缺口 A『運氣不是保證』的離線實證, prompt 沒明文要求長句加逗號). +12 tests (TestUncuttableLongCue 6 / measure_deck 3 / aggregate 1 / fixture lock 1 / report 1), 1736→1748. 改 3 檔 (tool + test + report 重生). 0 行為改舊測 (新增 key 不破壞既有 assert). **N 軸 (N1-N4 + §5 配套) 全部完成.** 下一輪 = V 軸 V1 (offline 補測試 — E1-5/E2 既有 slice + icon_picker/image_frames parser 強化, 不需 Gemini/新 dep 的部分); V2 (E2-2 Gemini SVG) / V3 (E1-3 cairosvg) / N4 A/B 本身是 GATE 需用戶開額度/新 dep STOP. **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_n4": "Phase 2 iter 5 (N4) 完成 (2026-05-29) — narration prompt 強化提案 (GATE, offline-first, STOP 等用戶開額度): N 軸 N3 確定性後處理 (字幕帶切分層) 已把 over-cue 治到 0, 但留兩個 prompt 層缺口 — (A) _split_long_cue 只在標點切不硬斷詞, Gemini 若產『整句 40 字 0 逗號』長句 N3 切不動會原樣溢出 (fixture 剛好每長句都有逗號 = 運氣不是保證); (B) over-slide 仍 79.5% (fixture) / 88% (真實), slide 層字數指令 Gemini 遵守度差, 影響影片總時長估算. 寫 docs/narration-prompt-tuning-proposal.md: prompt diff 草稿 (prompts/scriptor_longform_section.txt + scriptor_repo_section.txt 兩檔同步, 『本章 narration 規格』段加【句子層】約束 — 每句以 。！？ 結尾 ≤40 字理想 ≤30, 真要長則每 ~20 字內必須有逗號/分號讓字幕能斷行, 附反例『42 字 0 逗號』vs 正例; 句子層 40 對齊 core.srt.SUBTITLE_CUE_CHAR_BUDGET, 提案先寫死 40 變數化另案) + A/B 驗證流程 (固定 3~5 source × quick/lecture → Gemini 產 A 對照/B 處理兩版 deck → offline 用 measure 工具 --cue-budget 0 量源頭 over-cue + over-slide 比 B vs A; 修後預設 budget 40 兩版都被 N3 切到 ~0 故必須 --cue-budget 0 量源頭才看得出 prompt 效果) + 主觀 TTS 試聽 + STOP gate. 0 production code 改動 (純 doc). 不動 exam/solve.py (require_review 另案). N 軸 N1-N4 全部完成. routine 在 N4 STOP 期間可自主推 §5 offline 配套: tools/measure_narration_truncation.py 加 uncuttable_long_cues counter (長度>budget 且 _CLAUSE_SPLIT 後 segments<=1 = N3 切不動的殘留指標, 讓 A/B Step 3 指標就緒, +tests ≤2 檔); 之後接 V 軸 (V1 offline 補測試 — E1-5/E2 slice + icon_picker/image_frames parser, V2/V3 GATE 需 Gemini/cairosvg). 改 3 檔 (proposal doc + TODO + STATUS), 1736 tests 不變 (0 code 改動). **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度, prompt 效果只能用戶開額度跑 A/B. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_n3verify": "Phase 2 iter 4 (N3-verify) 完成 (2026-05-29) — narration 截斷治本驗證 (offline-first): tools/measure_narration_truncation.py 的 split_cues 接上 core.srt.narration_to_cues (build_srt 同一條字幕帶切分), 工具/CI 直接量『修後』. (1) DEFAULT_CUE_CHAR_BUDGET 改綁 SUBTITLE_CUE_CHAR_BUDGET (兩邊同一常數, 改一處兩邊一起動不漂移); (2) measure_deck 把 cue_budget 透傳給 split_cues; (3) split_cues 加 max_cue_chars kwarg, <=0 關閉過長句切分 = 回退修前對照. N2 locked baseline (TestCommittedFixture) 更新成修後數字: cue 196→265 (切更細), over-cue 61 (31.1%) → 0 (0.0%), max-cue 105→40; over-slide 31 / slide 39 不受 cue 切分影響維持不變. 加 test_prefix_baseline_reproducible_with_budget_zero — 證 --cue-budget 0 能離線還原修前 baseline (196 cue / max 105), 同一支工具可重現『修前 vs 修後』對照. 報告 docs/narration-truncation-report.md 從 N2 fixture 重生 (匿名化 → 無真實教材外洩, CI 可重現): over-cue 0.0% (0/265), max 40 字. 改 3 檔 (tool + test + report), +3 tests 1733→1736. 下一輪 = N4 Gemini prompt 強化提案 (GATE — 寫 docs/narration-prompt-tuning-proposal.md, prompt diff + A/B 驗證流程, STOP 等用戶開額度, 不自主呼叫 Gemini). **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_n3": "Phase 2 iter 3 (N3) 完成 (2026-05-29) — narration 截斷治本核心: core/srt.py 加 per-cue 字數上限. 真實截斷發生在字幕帶視覺層 (ffmpeg subtitles FontSize=22/1080p 把過長 cue wrap 出多行頂出 180px 字幕帶), build_srt 雖按終止標點切句但單一 cue 無字數上限. 治本: (1) SUBTITLE_CUE_CHAR_BUDGET=40 常數 (≈字幕帶 2 行 CJK, 跟 N1 工具 DEFAULT_CUE_CHAR_BUDGET 同值, 文件註明兩邊一起改不漂移); (2) _split_long_cue 把過長句在次級標點 (，、；：,;: lookbehind 保留標點+其後空白, 英文逗號後空白不被吃成 'Hello,world') greedy 裝箱到 ≤budget — 只在標點切不硬斷詞 (沒次級標點的長句寧可超出也整段保留, 語意優先); (3) narration_to_cues 成字幕帶切分單一真實來源 (終止標點切句→過長句次級標點切), build_srt 與 N1 工具都該走這條; (4) build_srt 加 max_cue_chars kwarg (預設常數, <=0 關閉切分對照修前). 量修前 vs 修後 (N2 fixture, 純離線): over-cue 61 (31.1%) → 0 (0.0%), max cue 105 → 40 字, cue 196 → 265 (更細, 時長按字數比例細分最後 cue 吃 step 結束時間避 float 誤差). 4 個 fixture deck 每過長句都有可切的次級標點 → 全消化. +14 tests (TestNarrationToCues 9 + TestBuildSrtPerCueCap 5). 1719→1733. 改 2 檔 (core/srt.py + tests/test_srt.py). 下一輪 (N3-verify) = 把 tools/measure_narration_truncation.py split_cues 接 narration_to_cues 讓工具/CI 直接量修後 + 更新 N2 locked baseline 數字 (TestCommittedFixture 196/61→新值) + 重生報告; 之後 N4 Gemini prompt 提案 (GATE 不自動跑). **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_n2": "Phase 2 iter 2 (N2) 完成 (2026-05-28) — narration 截斷可重現 eval fixture: 從既有 jobs 抽 4 個代表性 deck (lecture/storyteller, quick/comedy 含 _cover/_outro, quick/storyteller, ultra_quick/storyteller) body 取前 ~10 slide, narration/title/bullet/code/路徑全經 length-preserving 匿名化 (CJK→文 / ASCII字母→x / 數字→0, 保留 。！？!? 與標點空白 → cue 切分與字數跟原 deck 逐字相同), 寫進 tests/fixtures/narration/decks.json (50KB, 不含真實教材內容). 工具加 make_record 共用 helper (build_record 與 fixture 走同路徑不 drift) + load_fixture_records + --fixtures CLI 模式 → CI 無 Gemini / 無 jobs 資料也能逐字重現截斷率測量. locked baseline: 4 deck / 39 slide / 196 cue / over-cue 61 (budget 40, 31.1%) / over-slide 31 / max-cue 105. +17 tests (1702→1719). 下一輪 (Phase 2 iter 3) = N3 確定性後處理治本核心: core/srt.py build_srt 加 per-cue 字數上限, 過長句按逗號/分號/語意再切 (greedy 裝箱), 時長按字數比例細分, 對齊 _draw_subtitle_strip 真實可容字數 — 真實截斷發生在字幕帶視覺層, 單一 cue 目前無字數上限. 改完用 N2 fixture (重生 → 數字下降) 量修前 vs 修後. 之後 N4 Gemini prompt 提案 (GATE 不自動跑). **硬約束 offline-first**: routine 不自主呼叫 Gemini / GCP TTS 燒額度. 細則見 docs/ROUTINE_ADVANCE_PROMPT.md Phase 2 段.",
+      "old_next_milestone_iter_n1": "Phase 2 iter 1 (N1) 完成 (2026-05-28) — narration 截斷真實 baseline 測出: 寫 tools/measure_narration_truncation.py 掃 19 個 jobs/*/deck.json (2423 cue), 算 slide over-budget + per-cue 過長句統計 + 多 threshold 分布, 輸出 docs/narration-truncation-report.md. **真實數字: over-cue ratio (>40 字) = 44.9% (1088/2423), 比舊估『~22%』高一倍; over-slide ratio 88%**.",
+      "old_next_milestone_iter_136": "iter 136 完成 (Closeout backlog 3/4) — server/runner.py _run_render_inner (render-phase schema dispatch + section_id 過濾 + 缺檔防呆) 補測試覆蓋. _run_render_inner 從 PR-3a / PR-3h / iter 88 上線後一路加 feature (slides_pdf 分流 / pptx 主題 / short_video_layout 大字 layout) 但 wrapper 本身沒對應直接測試. tests/test_runner_render_inner.py +14 tests, 5 個 class (TestMissingDeckFile / TestV1SchemaPassthrough / TestSchemaDispatch / TestShortVideoLayoutPassthrough / TestSectionIdFilter). 策略 = monkeypatch core.deck.deck_to_exam_schema / _pptx / _slides 三 helper 計呼叫 + core.problem_to_v0_json + core.render_video stub; OUTPUT_DIR + JOBS_DIR 指 tmp_path. 不真打 ffmpeg / TTS / Gemini. 0 production code 改動 (純測試). 1622 → 1636 tests (+14).",
+      "old_next_milestone_iter_135": "iter 135 完成 (Closeout backlog 2/4) — server/runner.py _run_ingest_long_form (DOCUMENT / URL ingest 共用 helper) 補測試覆蓋. 跟 _run_ingest_repo 結構一致, 差別在 source 分流 (DOCUMENT scan_document + format 分流 pdf→extract_pdf_figures / md|txt→mermaid_text / 其他→figures=[]; URL scan_url + setdefault) + URL 防呆 + outliner/scriptor 換成 *_long_form. 從上線後一路加 feature (iter 51 PDF figure / iter 57 .md mermaid / iter 56 AI 圖 / iter 62 cover / iter 63 outro / iter 92 narration_style + persona) 但 wrapper 沒對應直接測試. 任何 refactor 不小心動 URL 防呆訊息 / 三 format 分流條件 / PDF figure 失敗吞例外 + raw['figures']=[] / .md mermaid 失敗吞例外 + raw['figures']=[] / URL raw.setdefault / mock vs real 分流 / length_mode 兩處透傳 / narration_style + persona 只到 script_long_form (iter 92 設計) / AI helper gate / cover/outro override 全透傳 / 三檔寫盤 ensure_ascii=False+indent=2 就直接上線, 跟 iter 111-134 同思路 (route / helper / orchestrator safety lock). tests/test_runner_ingest_long_form.py +22 tests (TestUrlValidation 2: missing url ValueError 含 'source_type=url' + scan_url 0 calls / url 有值只叫 scan_url 不叫 scan_document 鎖分支不混選 / TestDocumentInvocation 1: scan_document 收 Path 型不被 str 化 / TestPdfFormatBranch 2: pdf 格式 extract_pdf_figures 抽圖到 job_dir/figures + raw['figures'] 寫入 + logger 'PDF figure 抽取' / RuntimeError 吞例外 + raw['figures']=[] fallback + logger 'PDF figure 抽取失敗' + '不擋 ingest' / TestMdMermaidBranch 3: md 格式 mermaid_text 抽 + source_label=raw.title + extract_pdf_figures 0 calls 鎖兩條路不混 + logger 'Mermaid 抽取' + '.md' / RuntimeError 吞 + raw['figures']=[] / txt 格式對稱跑 mermaid 鎖條件含 'txt' / TestUnknownFormatBranch 1: html 假未來 format → 兩條圖路徑都 skip + raw['figures']=[] 鎖 else 分支 / TestUrlFiguresSetdefault 1: URL raw.setdefault('figures', []) 不被偷拿掉, scriptor 依賴此 key / TestMockBranchDispatch 2: mock=True 只走 mock_outline+mock_deck / mock=False 只走 *_long_form / TestScriptOptionsPassthrough 2: length_mode 兩處都收 / narration_style+persona 只到 script_long_form 鎖 outline 不該收 / TestAiHelpersGated 3: 兩 flag False 全 skip / diagrams True 只觸發 AI 圖 / mock=True 即使 flag 開也 skip 鎖 mock 繞 Gemini / TestCoverOutroGated 3: 兩 flag False 全 skip / prepend_cover 收 speaker/org/date/narration 四 override / append_outro 收 7 override 含 iter 63b long_form ingest 漏 hook fix / TestDiskWrites 2: 三檔 ensure_ascii=False + indent=2 + return value == deck.json on disk). 策略 = monkeypatch core.adapters.document.scan_document + extract_pdf_figures / core.adapters.url.scan_url / core.mermaid_render.extract_and_render_mermaid_from_text / core.outliner.mock_outline + outline_long_form / core.scriptor.mock_deck_from_outline + script_long_form (function-local from-import, module attr patch 直接生效); runner_mod._generate_ai_diagrams_for_outline / _generate_mermaid_for_outline / _prepend_cover_to_deck / _append_outro_to_deck (module 本身 lookup, 同 module patch 直接生效). 不真打 Gemini / 真讀 PDF / mermaid.ink HTTP. 0 production code 改動. 1600 → 1622 tests (+22). 下一輪 (iter 136, Closeout 3/4): _run_render_inner (server/runner.py:518) schema dispatch 補測試 (sections vs problems / source_type → SlideRenderer / pptx / blackboard 分流). 舊 iter 134 next_milestone 保留在 key_metrics.",
+      "old_next_milestone_iter_134": "iter 134 完成 (Closeout backlog 1/4) — server/runner.py _run_ingest_repo (REPO source ingest 主流程) 補測試覆蓋. tests/test_runner_ingest_repo.py +20 tests, 8 個 class (TestPathValidation / TestScanRepoInvocation / TestMermaidExtraction / TestMockBranchDispatch / TestScriptOptionsPassthrough / TestAiHelpersGated / TestCoverOutroGated / TestDiskWrites). 1580 → 1600 tests (+20).",
+      "old_next_milestone_iter_133": "iter 133 完成 — server/runner.py _run_render_phase (PR-3j / PR-4a / PR-4c orchestrator) 補測試覆蓋. _run_render_phase 是 awaiting_review → render → done 主入口 (也供 /approve + schedule_section_render 共用), 從 PR-3a 上線後沒對應直接測試. value-add 全在這層 wrapper: PR-3j 進入時 store.update(state=RENDERING, error=None) 把 FAILED retry 留下的 stale error 清掉 (不清會讓成功後 record.error 仍掛上次失敗訊息, UI 誤判又紅) / PR-4a stage_name = 'render-section-{section_id}' if section_id else 'render' (UI / log filter 分得出哪一章在跑) / PR-4c own_log gate — schedule_section_render 進來時 current_job_id 還沒 set 自己 attach log file, run_job 已 attach 過則不重 attach (避免 handler 重複 + double-write log.jsonl 每行兩次) / 例外吞 _run_render 任一 raise → state FAILED + error='render 失敗: {msg}' + _end_stage_fail, **不該** propagate 出 task 讓 asyncio 噴未捕捉錯誤 / 成功 refresh_artifacts → state DONE + error=None (清掉之前 retry) + output_dir='jobs/{id}/artifacts' forward slash / finally own_log=True 才 reset contextvar + detach (重複 detach 不安全, FileHandler 累積 FD 洩漏). 任何 refactor 動 state 字串 / 例外傳播 / stage_name 模板 / own_log 條件就直接上線, 跟 iter 111-132 同思路 (route / helper safety lock). TestSuccessPath 6: state PENDING→DONE / output_dir = 'jobs/{job_id}/artifacts' 鎖 forward slash (前端 / YT description 拼 URL, 反斜線會 escape 亂) / stale error 清 (PR-3j) — 起 FAILED+error='上次 ffmpeg 炸' 進來, mid-call snapshot 證明 _run_render 看到 state=RENDERING + error=None, done 後仍 None / done 二次清 error 雙閘 (entry + done 兩段都該 set error=None, 鎖不被改成只 set state) / stage[0] name='render' state='done' error=None / _run_render 透傳 (store / rec.id / section_id=None default). TestFailurePath 4: RuntimeError caught 不 propagate + state=FAILED / error='render 失敗: {orig msg}' 前綴鎖 (debug grep + UI badge 依賴格式, 不被偷改前綴或 truncate) / ValueError 也吞 (鎖 except Exception 範圍不被改成 except RuntimeError 只擋特定型別) / stage[-1] state='failed' + stage.error 原 msg (不被 'render 失敗' prefix 污染 — _end_stage_fail 收 str(e) 而非 record.error). TestStageName 3: section_id=None → 'render' / section_id='q1' → 'render-section-q1' (鎖 f-string 模板不被改成 'render-{q1}' / 'section-q1' 變體, UI 解析依此前綴) / section_id 該以 kwarg 透傳 _run_render (不被改 positional / 拿掉). TestLoggerDispatch 3: 整份路徑 caplog 含 'render 開始 (整份)' + 'render 完成' (INFO level) / section 路徑 caplog 含 'section_id=q1' + 嚴格排除 '(整份)' (防被合併成同一條訊息) / 例外路徑 caplog ERROR level 含 'render 失敗' (logger.exception). TestOwnLogGate 4: contextvar 預設 None → attach 該被叫一次 + log_path = jobs/<id>/log.jsonl + finally detach 一次 / contextvar 已 set 同 job_id (run_job 路徑) → 不該 attach 不該 detach (run_job 那層 finally 自己 detach) / contextvar set 不同 job_id (理論不該發生, 防呆) → own_log=True 仍 attach (鎖條件是 != job_id 不被改 is None) / _run_render raise → 仍走 finally → detach (失敗 job 累積 FileHandler 不 close FD 洩漏). 策略 = monkeypatch server.runner._run_render 成 async stub, 在 stub 內 snapshot store.get(job_id) 證明 entry 時 error 已被清; monkeypatch attach_job_log / detach_job_log 計次驗 own_log gate. 不真跑渲染 / ffmpeg / TTS. 0 production code 改動 (純測試). 1560 → 1580 tests (+20). 下一輪可推: 其他 runner orchestrator 安全鎖 (_run_render_inner schema dispatch / run_job 主流程 ingest→awaiting_review→render 串接 / schedule_job/schedule_render/schedule_section_render 三 entry) / E2-6 / E1-4 UI 元件 / E2-2 (需用戶決議 Gemini SVG).",
+      "technologies": [
+        "Python 3.10+",
+        "FastAPI / uvicorn",
+        "Pydantic v2",
+        "React 18 + TypeScript + Vite + Tailwind CSS",
+        "Flask (legacy v1 review UI, 已 redirect, 過渡期保留)",
+        "Gemini 2.5 Flash (Vision + Text + Image)",
+        "PyMuPDF",
+        "BeautifulSoup4 (URL adapter)",
+        "Edge TTS / F5-TTS / Google Cloud TTS (cmn-TW Wavenet)",
+        "Pillow / FFmpeg (含 hardsub subtitles filter)",
+        "Google YouTube Data API v3 + OAuth 2.0",
+        "pytest + GitHub Actions CI",
+        "structured logging (JSONL per-job)"
+      ],
+      "outputs": [
+        "tool",
+        "course",
+        "presentation",
+        "api"
+      ],
+      "description": "Self-hostable AI teaching-content studio. Exams / slides / docs / repos / audio -> narrated teaching videos + subtitles + YouTube, slide decks / infographics / posters, and translation / dubbing / meeting-summary / learning tools. Unified per-course workspace with a human review gate over every AI output. Single FastAPI server + React 19 app, powered by Gemini 3 + F5-TTS voice cloning.",
+      "description_zh": "可自架的 AI 教學內容工作站。考卷 / 簡報 / 文件 / 程式碼 / 音檔 → 旁白教學影片+字幕+YouTube、簡報 / 圖卡 / 海報、翻譯 / 配音 / 會議摘要 / 學習工具。一門課一工作空間,每個 AI 產出都有人工審查關卡。單一 FastAPI server + React 19 前端,Gemini 3 + F5-TTS 聲音複製驅動。",
+      "key_metrics": "|",
+      "測試覆蓋": "2229 tests passed, CI 4 組 matrix (ubuntu/win × py 3.10/3.12) +",
+      "SONG M3e-3b JobEditor SongReviewPane (2026-06-05, routine 自主, offline, 動 web/ tsc)": [
+        "M3e (song review web UI) 最後一塊, 完成 → SONG M3 (M3a~M3e) 收尾。JobEditor.tsx"
+      ],
+      "加 isSongDraft 分流": "既有只認 isExam/isDeck, song draft 會掉進「無法辨識 schema」",
+      "[start–end] mm": "ss + dur + end≤start 標 ⚠ (對齊 _valid_segment 渲染跳過) + 歌詞行",
+      "SONG M3e-3a song 圖預覽 endpoint (2026-06-05, routine 自主, offline)": [
+        "M3e-3 (JobEditor song review pane) 的圖預覽硬相依: song 逐段圖存",
+        "server/routes/jobs.py 加 GET /jobs/{id}/images/{name}, 鏡像 download_figure:",
+        "+6 tests (serves png / 缺檔 404 / 缺 job 404 / ..foo 400 / %2F 擋 / 目錄 404)。"
+      ],
+      "SONG M3e-2 CreateJobForm song 建 job 流 (2026-06-05, routine 自主, offline, 動 web/ tsc)": [
+        "M3e (song review web UI) 第 2 小 iter. CreateJobForm.tsx 加 song 建 job 入口。",
+        "source_type 下拉加 `song — 歌曲 MV (song.json)`; PATH_ONLY 加 'song' → song 走"
+      ],
+      "path-only (非 upload)": "song.json 引用的 audio/逐段圖以其所在目錄解析, 上傳單檔會",
+      "強制 awaiting_review)。`isSong` 收斂面板": "隱藏長寬比/解析度 + 講者頭像 + 整排渲染",
+      "SONG M3e-1 web UI types 基礎 (2026-06-04, routine 自主, offline, 動 web/ 跑 tsc)": [
+        "M3e (song review web UI) 太大, 拆 3 小 iter 守 ≤3 檔: M3e-1 types 基礎 / M3e-2",
+        "web/src/types.ts: SourceType 加 'song' + SongDeck/SongSegment interface (對應 song.json"
+      ],
+      "consumed 欄位": "track_type/song_title/deck_title/audio_path/visual_style/segments —",
+      "(比照 core.song_render.is_song_schema": "track_type==='song' && Array.isArray(segments),",
+      "SONG M3d youtube meta song 分支 (2026-06-04, routine 自主, offline)": [
+        "core/youtube.py auto_youtube_meta 最前面加 is_song_schema 分流 (在 deck/exam"
+      ],
+      "新 _song_youtube_meta": "title=song_title, description=歌詞章節 (每段首句 + 對齊好",
+      "(YouTube 首章須 0": "00); 無效 segment 比照 song_segments_to_srt 跳過。",
+      "SONG M3c render_song (2026-06-04, routine 自主, offline)": [
+        "server/runner.py _run_render_inner 讀 deck 後加 is_song_schema (硬規則 #9) early-return",
+        "防呆: 空/全無效 segment + 缺 audio_path → ValueError; returncode!=0 → RuntimeError;",
+        "+15 tests (2069→2084, monkeypatch subprocess.run 不真跑 ffmpeg). 改 3 檔."
+      ],
+      "LaTeX 公式渲染 backend (2026-06-04, iter 18~21, 劉老師授權 GATE 解鎖)": [
+        "進場查證『offline 下輪』實為 GATE (matplotlib 不在 requirements/CI), 寫",
+        "端到端: deck.json slide.formula → normalize/flatten 透傳 → render_latex_to_png",
+        "iter 18 core+dep (+12) / 19 deck 透傳 (+6) / 20 compose_formula (+9) / 21"
+      ],
+      "YouTube 自動章節 deck schema 支援 (2026-06-04, hourly routine 恢復推進首項)": [
+        "core/youtube.py auto_youtube_meta 原本只認 exam schema (problems/steps) →",
+        "加 _is_deck_schema type guard (硬規則 #9) + _deck_youtube_meta: stem 對到",
+        "+15 tests. 1814→1829. 改 2 檔 (core/youtube.py + tests/test_youtube_helper.py)."
+      ],
+      "文件大整理 + 2 bug 修復 + routine wind-down (2026-05-29, 用戶互動 session)": [
+        "清暫存 ~2.9GB (work/* 2930MB scratch + caches + _scriptor_errors + gemini_error_*.txt",
+        "修 ROUTINE_FINDINGS 累積 2 真 bug (各 1 行 + 補測試): editor.py JS-context XSS",
+        "開 5 GitHub issue 追後續; 寫 dynamic-visual-v2-v3-proposal.md; ROUTINE_ADVANCE_PROMPT"
+      ],
+      "加 Phase 3 wind-down. 測試 1771→1777 (+6": "editor 2 + library 4).",
+      "Phase 2 iter 12 (2026-05-29, 每 2 小時 routine, V 軸 V1d) — icon-suggestions / image-frames endpoint 序列化 + 過濾契約補測試 (offline, V1 收尾)": [
+        "V1d 接 V1a~V1c, 同樣鎖『從沒被驗過的契約』. 兩個 review-UI batch endpoint 的"
+      ],
+      "既有測試蓋了 happy path / exam schema / 404 / 基本 query param, 但漏掉兩類缺口": [
+        "icon-suggestions (GET /jobs/{id}/icon-suggestions): endpoint 親手把 IconMatch"
+      ],
+      "搬成 payload dict (server/routes/jobs.py": "179-193), 但既有 happy path 只 assert",
+      "* icon 3": "TestIconSuggestionsSerialization 1 (全 7 欄序列化 + position/size_ratio",
+      "* frames 2": "混合存在/缺檔嚴格只算存在 (count=2, terminal=存在裡最大; 寬鬆 count=3",
+      "Phase 2 iter 10 (2026-05-29, 每 2 小時 routine, hotfix) — test_icon_overlay TestSlideRendererIntegration NameError 修正": [
+        "進場跑 baseline 抓到 5 failed: iter 9 (V1c) 新增的 5 個 TestSlideRendererIntegration"
+      ],
+      "測試全 `NameError": "name '_Image' is not defined`. 檔案頂 (line 12) 是",
+      "Phase 2 iter 9 (2026-05-29, 每 2 小時 routine, V 軸 V1c) — SlideRenderer icon 疊圖整合補測試 (offline)": [
+        "V1c 接 V1b, 鎖「從沒被驗過的契約」. SlideRenderer (pipeline.py, iter 102) 是",
+        "核心契約: 兩 layout 都以 canvas_h=CONTENT_BOTTOM(900) 呼叫 compose_icons, 讓",
+        "+5 tests (TestSlideRendererIntegration): full 疊 top-right icon 渲非黑底 / full",
+        "0 production code 改動 (純整合測試). 1761 → 1766 (+5). 改 1 檔"
+      ],
+      "Phase 2 iter 8 (2026-05-29, 每 2 小時 routine, V 軸 V1b) — icon_picker manifest 優先序 + image_frames require_file_exists 透傳補測試 (offline)": [
+        "V1b 接 V1a, 同樣挑『從沒被驗過的契約』而非 closeout 期 wrapper safety-lock.",
+        "缺口 1 (icon_picker): pick_icons docstring 明定『結果順序按 manifest 出現順序",
+        "缺口 2 (image_frames): select_frame / terminal_frame 的 require_file_exists",
+        "+7 tests:"
+      ],
+      "* icon_picker 3": "TestManifestOrderPriority 2 (narration 以 gamma→alpha→beta 序",
+      "* image_frames 4": "valid_frames 空字串 path drop / select_frame 全 missing 嚴格",
+      "Phase 2 iter 7 (2026-05-29, 每 2 小時 routine, V 軸 V1a) — icon_overlay 尺寸/比例計算路徑補測試 (offline, V 軸啟動)": [
+        "N 軸全收尾後啟動 V 軸 (動態視覺). V1 第一刀挑 core/icon_overlay.py compose_icons",
+        "缺口: 既有 test_icon_overlay.py 27 tests 蓋 NoOp / SVG fallback / 5 位置 / 字幕帶,"
+      ],
+      "但測試 icon **全是 256×256 正方形**, 兩條計算分支從沒被真正驗過": [
+        "+6 tests (純 PIL pixel 驗, 不 mock):"
+      ],
+      "* TestSizeRatioEdges 4": "上界 clamp (size_ratio=0.9 → 寬 clamp 到 960 而非",
+      "* TestAspectRatioPreserved 2": "256×128 (2:1) 寬 icon size_ratio 0.1 → 寬 192",
+      "高 96, 用 y=200 超出 136 證高沒被拉成 192 / 128×256 (1": "2) 高 icon → 寬 192",
+      "Phase 2 iter 6 (2026-05-29, 每 2 小時 routine, N4-§5 配套) — measure 工具加 uncuttable_long_cues counter (offline, N 軸全收尾)": [
+        "N4 proposal §5 列的離線配套 (routine 在 N4 GATE STOP 期間可自主做的事). N4 A/B",
+        "tools/measure_narration_truncation.py 改動:"
+      ],
+      "(= 無次級標點 ，、；：,;": ", _split_long_cue 會原樣保留 → 字幕帶溢出). 復用",
+      "* threshold **故意綁固定 SUBTITLE_CUE_CHAR_BUDGET (40) 而非測量 cue_budget**": [],
+      "* 報告": "全域摘要 + 分組表 + intro 各加『無標點長句』一列.",
+      "算標點/custom threshold; measure_deck 3": "無標點修前修後皆殘留+等於over_cue / 有標點",
+      "皆 0 / 短句 0; aggregate 1": "group+overall+ratio 透傳; fixture 1: 兩 budget 鎖 0;",
+      "report 1": "『無標點長句』出現). 1736 → 1748. 改 3 檔 (tool + test + report 重生).",
+      "Phase 2 iter 5 (2026-05-29, 每 2 小時 routine, N 軸 N4) — narration prompt 強化提案 (GATE, offline-first, STOP 等用戶)": [
+        "N 軸最後一項. N3 確定性後處理 (字幕帶切分層) 已把 over-cue 治到 0, 但那是",
+        "兩個缺口 (N3 沒蓋到):"
+      ],
+      "* 缺口 A": "_split_long_cue 只在次級標點切不硬斷詞, Gemini 若產『整句 40 字",
+      "* 缺口 B": "over-slide 仍 79.5% (fixture) / 88% (真實), slide 層字數指令 Gemini",
+      "* prompt diff 草稿": "prompts/scriptor_longform_section.txt + scriptor_repo_section.txt",
+      "* A/B 驗證流程": "固定 3~5 source (repo/document/url) × quick/lecture → Gemini",
+      "* §5 配套 (offline, routine 在 STOP 期間可自主做)": "measure 工具加",
+      "Phase 2 iter 4 (2026-05-29, 每 2 小時 routine, N 軸 N3-verify) — narration 截斷治本驗證": "工具/CI 直接量修後 (offline-first):",
+      "→ 無真實教材外洩, CI 可重現)": "deck 4 / slide 39 / cue 265 / over-cue **0.0%",
+      "Phase 2 iter 3 (2026-05-29, 每 2 小時 routine, N 軸 N3) — narration 截斷治本核心": "build_srt per-cue 字數上限 (offline-first):",
+      "N3 是治本": "真實「截斷」發生在字幕帶視覺層 — ffmpeg subtitles filter",
+      "* _CLAUSE_SPLIT = re.compile(r\"(?<=[，、；：,;": "])\") — 次級標點 lookbehind 切,",
+      "* _split_long_cue(sentence, max_cue_chars)": "過長句在次級標點 greedy 裝箱到",
+      "* narration_to_cues(narration, *, max_cue_chars=常數)": "字幕帶切分單一真實來源,",
+      "* TestNarrationToCues 9": "none/空 / 短句不切 / 預設 budget = 模組常數 /",
+      "* TestBuildSrtPerCueCap 5": "多 cue 全 ≤budget / 最後 cue 吃 step 結束時間 /",
+      "Phase 2 iter 2 (2026-05-28, 每 2 小時 routine, N 軸 N2) — narration 截斷可重現 eval fixture (offline-first)": [
+        "接 N1 (iter 1): N1 量出真實 over-cue 44.9%, 但測量來源是本機 jobs/ (gitignored,",
+        "tests/fixtures/narration/decks.json (50KB): 從既有 jobs 抽 4 個代表性 deck —",
+        "**length-preserving 匿名化** (關鍵設計): narration/title/bullet/code/路徑逐字",
+        "tools/measure_narration_truncation.py: 抽 make_record(deck, options, source)"
+      ],
+      "{\"fixtures\"": "[{name,options,deck}]} 格式 (壞檔/格式不符回 []); CLI 加",
+      "over-cue 61 (31.1%) / over-slide 31 / max-cue 105. 分組": "lecture/storyteller",
+      "Phase 2 iter 1 (2026-05-28, 每 2 小時 routine, N 軸 N1) — narration 截斷真實 baseline 測量工具 (offline-first)": [
+        "用戶 2026-05-28 給新方向: closeout 結束, 焦點轉「內容品質 — narration",
+        "tools/measure_narration_truncation.py: 掃 jobs/*/deck.json (+ OUTPUT_DIR),"
+      ],
+      "對每個 (length_mode × narration_style) 算兩層統計": [
+        "**真實數字 (docs/narration-truncation-report.md): 19 deck / 458 slide /"
+      ],
+      "分布": ">20 字 88.7% / >30 66.5% / >50 25.8% / >80 2.9%. 最長 cue 136 字.",
+      "分組": "quick/storyteller 13 deck over-cue 47%, lecture/storyteller 44%,",
+      "cue budget 邊界 > 非 >= / 壞 json fallback / rglob dedup). 踩坑": "site-packages",
+      "iter 137 (2026-05-28, hourly routine, Closeout backlog 4/4 最後一項) — runner.py run_job 主流程串接補測試覆蓋": [
+        "server/runner.py run_job 是整條 pipeline 最外層 orchestrator (routes 層"
+      ],
+      "不小心動以下任一就直接上線, 跟 iter 111-136 同思路": [],
+      "* entry": "attach_job_log(job_id, jobs/<id>/log.jsonl) + current_job_id 設值",
+      "* ingest 失敗 → state FAILED + error='ingest 失敗": "{e}' + **early return**",
+      "_run_render_phase NOT called** (CLAUDE.md 硬規則 #1": "AI 產出考題答案",
+      "* 外層 catch-all": "沒被內層 handle 的例外 → state FAILED + error='unexpected: {e}",
+      "* finally": "own_log=True 才 reset contextvar + detach (重複 detach 不安全,",
+      "* TestJobNotFound 1": "不存在 job_id → 早 return + attach / ingest / detach",
+      "全 0 calls (鎖 `if rec is None": "return` 在 attach_job_log 之前, 否則對",
+      "* TestIngestPhase 3": "_run_ingest 收 (store, rec) / mid-call snapshot",
+      "* TestRequireReviewPause 3": "require_review=True → AWAITING_REVIEW +",
+      "* TestIngestFailure 4": "error 前綴 'ingest 失敗: ' (跟 'render 失敗: ' /",
+      "'unexpected": " 前綴 + detach 仍跑 + contextvar reset",
+      "* TestPostIngestHooks 4": "rewrite 收 source_type.value='exam_pdf' (非 enum) /",
+      "* TestDeckPathUpdate 2": "deck_path='jobs/{id}/deck.json' relative forward",
+      "* TestLogLifecycle 4": "attach 1 call (job_id, jobs/<id>/log.jsonl) / detach",
+      "* TestCatchAll 2": "render_phase raise (defense-in-depth — 正常",
+      "iter 136 (2026-05-27, hourly routine, Closeout backlog 3/4) — runner.py _run_render_inner (render-phase schema dispatch + section_id 過濾 + 缺檔防呆) 補測試覆蓋": [
+        "server/runner.py _run_render_inner 是 render 階段最內層 (由 _run_render"
+      ],
+      "大字 layout) 但 wrapper 本身沒對應直接測試. 任何 refactor 不小心動": [],
+      "* 三分支 dispatch": "SLIDES_PDF → deck_to_exam_schema_slides (PR-3h:",
+      "* section_id 過濾": "None → 全 render / 字串 → filter problems[].id == value /",
+      "* TestMissingDeckFile 1": "deck.json 沒寫過 → FileNotFoundError + 訊息含",
+      "* TestV1SchemaPassthrough 2": "problems-only v1 schema → 三 helper 全 0 calls",
+      "* TestSchemaDispatch 5": "SLIDES_PDF + sections → deck_to_exam_schema_slides",
+      "* TestShortVideoLayoutPassthrough 2": "short_video_layout=True 透傳給",
+      "* TestSectionIdFilter 4": "section_id=None → 3 problems 全 render (預設整份",
+      "iter 135 (2026-05-25, hourly routine, Closeout backlog 2/4) — runner.py _run_ingest_long_form (DOCUMENT / URL 共用 ingest helper) 補測試覆蓋": [
+        "server/runner.py _run_ingest_long_form 跟 _run_ingest_repo (iter 134) 結構"
+      ],
+      "一致, 差別在 source 分流": "DOCUMENT 走 scan_document + format 分流",
+      "但 wrapper 沒對應直接測試. 任何 refactor 不小心動": [],
+      "* URL 防呆": "rec.source.url None/空 → ValueError 含 'source_type=url",
+      "* TestUrlValidation 2": "source_type=url + url=None → ValueError 訊息含",
+      "* TestDocumentInvocation 1": "scan_document 收 Path 型不被 str 化 (adapter",
+      "* TestPdfFormatBranch 2": "raw['format']='pdf' → extract_pdf_figures 被叫 +",
+      "* TestMdMermaidBranch 3": "raw['format']='md' → mermaid_text 被叫 +",
+      "* TestUnknownFormatBranch 1": "raw['format']='html' (假未來 format) →",
+      "* TestUrlFiguresSetdefault 1": "URL adapter 不抽圖 + raw.setdefault('figures',",
+      "* TestMockBranchDispatch 2": "mock=True 只走 mock_outline + mock_deck_from_outline",
+      "* TestScriptOptionsPassthrough 2": "length_mode 兩處都收 (iter 43 設計:",
+      "* TestAiHelpersGated 3": "兩 flag False 全 skip / diagrams True 只觸發 AI 圖",
+      "* TestCoverOutroGated 3": "兩 flag False 全 skip / prepend_cover 收",
+      "* TestDiskWrites 2": "三檔 ensure_ascii=False (中文 grep / git diff 友善) +",
+      "iter 134 (2026-05-25, hourly routine, Closeout backlog 1/4) — runner.py _run_ingest_repo (REPO source ingest 主流程) 補測試覆蓋": [
+        "server/runner.py _run_ingest_repo 從 iter 17 (PR-2b-i) 上線後一路累積"
+      ],
+      "但 wrapper 本身沒對應直接測試. 任何 refactor 不小心動": [],
+      "* extract_and_render_mermaid_from_repo try/except 吞 (design intent": [
+        "tests/test_runner_ingest_repo.py +20 tests, 8 個 class:"
+      ],
+      "* TestPathValidation 1": "file path → NotADirectoryError + 訊息含原路徑 +",
+      "* TestScanRepoInvocation 3": "max_files None → 50 fallback / 顯式 10 透傳",
+      "* TestMermaidExtraction 3": "非空 mermaid figs 順序鎖 existing+mermaid",
+      "narration_style + persona 只到 script_repo (iter 92 設計": "風格只在",
+      "* TestAiHelpersGated 4": "兩 flag False 全 skip / diagrams True 只觸發 AI",
+      "`if mock": "... else:` 的 else 分支)",
+      "append_outro 收 7 個 override (iter 63 + 67 全套": "speaker / org 跟",
+      "iter 133 (2026-05-24, hourly routine) — runner.py _run_render_phase (PR-3j / PR-4a / PR-4c orchestrator) 補測試覆蓋": [
+        "server/runner.py _run_render_phase 是 awaiting_review → render → done 主入口"
+      ],
+      "測試. value-add 全在這層 wrapper": [],
+      "* PR-3j": "進入時 store.update(state=RENDERING, error=None) 把 FAILED retry",
+      "* PR-4a": "stage_name = 'render-section-{section_id}' if section_id else 'render",
+      "* PR-4c": "own_log gate — schedule_section_render 進來時 current_job_id 還沒",
+      "* 例外吞": "_run_render 任一 raise → state FAILED + error='render 失敗: {msg}",
+      "* 成功": "refresh_artifacts → state DONE + error=None (清掉之前 retry) +",
+      "* TestSuccessPath 6": "state PENDING→DONE / output_dir = 'jobs/{job_id}/artifacts",
+      "* TestFailurePath 4": "RuntimeError caught 不 propagate + state=FAILED /",
+      "error='render 失敗": "{orig msg}' 前綴鎖 (debug grep + UI badge 依賴格式,",
+      "* TestStageName 3": "section_id=None → 'render' / section_id='q1' →",
+      "* TestLoggerDispatch 3": "整份路徑 caplog 含 'render 開始 (整份)' + 'render",
+      "* TestOwnLogGate 4": "contextvar 預設 None → attach 該被叫一次 + log_path =",
+      "iter 132 (2026-05-24, hourly routine) — runner.py _run_render iter 83 wrapper 補測試覆蓋 (video_dimensions_override + talking_head_override 兩 context manager 巢狀包裹)": [
+        "server/runner.py _run_render 從 iter 83 上線後沒對應直接測試. 核心"
+      ],
+      "這層 wrapper 的 value-add (aspect_ratio None → '16": "9' / resolution None →",
+      "三條件 OR (9": "16 / ultra_quick / short_video_layout 任一即觸發) +",
+      "* TestDefaultFallbacks 3": "aspect_ratio=None → VIDEO_WIDTH=1920 (16:9 1080p",
+      "預設, 鎖橫向不被偷改成 9": "16 預設) / resolution=None → height=1080 (鎖",
+      "* TestIsShortComputation 6": "9:16 / ultra_quick / short_video_layout 各自",
+      "* TestExplicitOptionsHonored 3": "9:16 + 1440p → (1440, 2560) 直向 1440p",
+      "* TestContextRestoreAfterReturn 3": "9:16 1080p 渲染後 VIDEO_WIDTH/HEIGHT",
+      "該回 16": "9 1080p 預設 (鎖 __exit__ 真叫, 改成手動 setattr 異常路徑會",
+      "* TestSectionIdPassthrough 3": "不傳 → None 透傳 (不被偷改空字串/\"all\"/別值) +",
+      "iter 131 (2026-05-24, hourly routine) — runner.py _run_ingest source_type dispatch wrapper 補測試覆蓋": [
+        "server/runner.py _run_ingest 是 ingest 階段最外層 dispatch (source_type",
+        "tests/test_runner_ingest_dispatch.py +15 tests:"
+      ],
+      "* TestPathValidation 4": "exam_pdf 指不存在路徑 → FileNotFoundError +",
+      "不該 raise — 鎖 `if source_type != URL": "` 條件不被改成無條件 check",
+      "* TestExamPdfDispatch 4": "mock=True 走 solve.mock_output + solve_pdf",
+      "* TestSlidesPdfDispatch 2": "ingest_slides 收 as_deck=True+single=False+",
+      "* TestRepoDispatch 1": "REPO → _run_ingest_repo 被叫一次 +",
+      "* TestLongFormDispatch 3": "DOCUMENT → _run_ingest_long_form +",
+      "* TestSchemaDispatchExhaustive 1": "5 種 source_type 各跑一遍 (5 種",
+      "iter 130 (2026-05-24, hourly routine) — runner.py _generate_ai_diagrams_for_outline (iter 56) + _generate_mermaid_for_outline (iter 57b) 兩 async helper 補測試覆蓋": [
+        "兩 helper 自 iter 56/57b 上線後沒對應直接測試. 核心"
+      ],
+      "\"figures\" 寫死 + `if ai_figs": "` 防呆 + `raw.get(\"figures\") or []` 補空 +",
+      "* TestImageHappyPath 6": "empty figures 追加 [fig1,fig2] + figures_dir",
+      "logger.info 含「AI 生圖完成": "3 張」+ 嚴格不含 mermaid 字串 (對比鎖)",
+      "* TestImageEmptyResult 1": "ai_figs=[] → raw[\"figures\"] 保留 existing",
+      "logger 該靜默不該噴「AI 生圖完成」(鎖 `if ai_figs": "` 防呆不被改成",
+      "* TestImageExceptionSwallowed 2": "RuntimeError raise → 不該 propagate",
+      "* TestMermaidHappyPath 2": "對稱驗 figures_dir = job_dir / \"figures",
+      "子目錄) / logger.info 含「AI mermaid 生圖完成": "2 張」 (鎖 mermaid",
+      "* TestMermaidEmptyAndException 2": "空 list skip write 對稱於 image /",
+      "* TestSymmetricBehavior 1": "image+mermaid 串連跑 raw[\"figures\"]=[img,mer]",
+      "iter 129 (2026-05-24, hourly routine) — runner.py _start_stage / _end_stage_ok / _end_stage_fail (iter 41 trio) 補測試覆蓋": [
+        "JobStore.add_stage / update_last_stage 在 test_jobs_store.py TestStages",
+        "tests/test_runner_stage_helpers.py +14 tests:"
+      ],
+      "* TestStartStage 5": "state 寫死 \"running\" (鎖 refactor 改 enum / 別字串",
+      "* TestEndStageOk 3": "state→\"done\" + ended_at ±1 秒 (鎖 wrapper value-add) /",
+      "* TestEndStageFail 4": "state→\"failed\" + ended_at + error 三件事缺一不可 /",
+      "* TestStageSequence 2": "start1→end_ok→start2→end_fail 後 stages[0] 仍",
+      "error 對 (鎖 update_last_stage 只動 stages[-1], 不誤動 stages[": "-1]) /",
+      "iter 128 (2026-05-24, hourly routine) — runner.py _prepare_intro_for_problems (iter 41) + _prepare_outro_for_problems (iter 66) 補測試覆蓋": [
+        "server/runner.py _prepare_intro_for_problems (iter 41) 從上線後沒對應",
+        "intro vs outro 訊息「前/後」字方向不同 (intro「將串接到 N 支主影片前」/",
+        "tests/test_runner_prepare_intro_outro.py +10 tests:"
+      ],
+      "* TestIntroNoOpPath 1": "intro 檔不存在 → (None, 0.0) + warning「intro 檔",
+      "* TestIntroHappyPath 3": "正常 → 回 (normalized_path, duration) + AudioSpec",
+      "* TestIntroFailureSwallowed 2": "normalize raise RuntimeError → (None, 0.0)",
+      "* TestOutroNoOpPath 1": "outro 檔不存在 → (None, 0.0) + warning「outro",
+      "* TestOutroHappyPath 2": "AudioSpec 跟 intro 完全一致 (96000/1/aac, 鎖兩",
+      "* TestOutroFailureSwallowed 1": "normalize raise → (None, 0.0) + logger.",
+      "iter 127 (2026-05-24, hourly routine) — runner.py _merge_sections_to_final 補測試覆蓋 (iter 45 上線後一直裸奔)": [
+        "server/runner.py _merge_sections_to_final 從 iter 45 上線後沒對應直接",
+        "tests/test_runner_merge_sections.py +10 tests:"
+      ],
+      "* TestHappyPath 4": "parts 順序鎖 [intro, ch1, ch2, outro] (顛倒 = intro",
+      "* TestSrtPaddingGate 3": "intro 存在 + duration>0 → srt_parts[0] ==",
+      "* TestEmptyMergedSrt 1": "merge_srts 回 '' → final.srt 不該寫進磁碟 (避免",
+      "* TestFailureSwallowed 2": "concat raise RuntimeError → 函式不 raise +",
+      "iter 126 (2026-05-24, hourly routine) — runner.py _apply_intro_postprocess 補測試覆蓋 (iter 41 上線後一直裸奔)": [
+        "server/runner.py _apply_intro_postprocess 從 iter 41 上線後沒對應直接",
+        "tests/test_runner_intro_postprocess.py +10 tests:"
+      ],
+      "* TestNoOpPath 1": "沒 deck.json 不該炸不該建檔 (ingest 半失敗情境)",
+      "* TestHappyPath 3": "parts 順序鎖 [intro, main] (顛倒 = intro 變結尾) /",
+      "* TestSrtSkipBranches 3": "SRT 不存在 concat OK 但 offset_srt counter=0",
+      "* TestFailureSwallowed 3": "concat raise RuntimeError → 函式不 raise +",
+      "iter 125 (2026-05-24, hourly routine) — runner.py _log_deck_duration_estimate 補測試覆蓋 (iter 48 上線後一直裸奔)": [
+        "server/runner.py _log_deck_duration_estimate 從 iter 48 上線後沒對應直接",
+        "tests/test_runner_duration_log.py +10 tests:"
+      ],
+      "* TestUnderBudget 1": "quick 短 narration 走 logger.info 不該誤紅 warning,",
+      "* TestOverBudget 1": "ultra_quick 2000 字 走 logger.warning + 含 ⚠ 圖示 +",
+      "* TestLengthModePassthrough 2": "同 1500 字 ultra_quick 該 warning vs lecture",
+      "* TestSchemaDispatch 2": "v1 problems schema 第一 step rewrite 第二 step",
+      "* TestNarrationValidatorIntegration 2": "per-slide 超 (ultra_quick 200 字,",
+      "* TestValidatorExceptionDoesNotPropagate 1": "monkeypatch",
+      "iter 124 (2026-05-24, hourly routine) — runner.py _rewrite_deck_intros_inplace 補測試覆蓋 (iter 42 上線後一直裸奔)": [
+        "server/runner.py _rewrite_deck_intros_inplace 從 iter 42 上線後沒對應直接",
+        "tests/test_runner_intro_rewrite.py +10 tests:"
+      ],
+      "* TestSourceTypeMapping 3": "exam_pdf → STUDENT_VARIANTS 命中 / document",
+      "* TestWriteFormat 2": "ensure_ascii=False 鎖 (raw 不含 \\\\u + 中文字仍是原字",
+      "* TestUnknownSchema 1": "deck 既無 problems 又無 sections, rewrite_deck_intros",
+      "* TestLogging 1": "caplog INFO level 含 source_type 字串 (debug / 用戶閱讀",
+      "iter 123 (2026-05-24, hourly routine) — themes.py GET /themes 契約鎖 (順序 + 唯一 + URL slug + 同源)": [
+        "server/routes/themes.py THEME_LIST 寫死 15 主題順序, frontend ProposalsList.tsx",
+        "tests/test_themes_route.py +6 tests (TestListThemesContract class):"
+      ],
+      "* full_id_order_locked": "EXPECTED_THEME_ID_ORDER 寫死 15 id 順序 (跟",
+      "* no_duplicate_ids": "set==len 防複製貼上 typo (theme dispatch 拿到第一個",
+      "* ids_are_url_safe_slugs": "regex ^[a-z0-9][a-z0-9-]*[a-z0-9]$ 防空白 /",
+      "* labels_are_non_empty_strings": "避免 None / 空字串 / 純空白讓 frontend",
+      "* list_matches_all_themes_preview_param": "list_themes endpoint 回的 ids",
+      "* theme_list_module_constant_matches_endpoint": "THEME_LIST const 跟",
+      "iter 122 (2026-05-24, hourly routine) — themes.py _PREVIEW_CACHE 命中 + 失敗不污染補測": [
+        "server/routes/themes.py 從 iter 72 上線後, _PREVIEW_CACHE module-level",
+        "tests/test_themes_route.py +8 tests:"
+      ],
+      "* TestCacheIsolation 4": "counter 鎖 render_frame 第二次該不被叫 (monkeypatch",
+      "* TestRenderFailureHandling 2": "pipeline.render_frame raise RuntimeError →",
+      "* TestRenderPreviewUnit 2": "unknown kind defensive ValueError (type hint",
+      "iter 121 (2026-05-24, hourly routine) — library.py _read_deck_title 邊角補測 + 揪 non-str title bug": [
+        "server/routes/library.py _read_deck_title 既有 iter 115 TestReadDeckTitle",
+        "tests/test_library_route.py +5 tests (TestReadDeckTitleEdgeCases class):"
+      ],
+      "跳過, 然後 .strip() 變空字串 (document 行為": "UI 顯示空白 deck_title 不該炸)",
+      "建議修法": "try/except 範圍擴大包到最後 return, 1 行縮排即可. 記到",
+      "iter 120 (2026-05-24, hourly routine) — figures.py route 三層防呆邊角補測試覆蓋": [
+        "server/routes/jobs.py figures section (list_figures + download_figure,"
+      ],
+      "degrade 三道防線": "try/except Exception swallow (invalid JSON / binary",
+      "* TestListFiguresMalformedRawContent 5": "invalid JSON 退空 / binary",
+      "* TestDownloadFigureEdgeCases 5": "jpeg 該帶 image/jpeg content-type",
+      "iter 119 (2026-05-24, hourly routine) — jobs.py 四個 CRUD endpoint 補測試覆蓋 (PR-3a 上線後一直裸奔)": [
+        "server/routes/jobs.py 內 POST /jobs / GET /jobs / GET /jobs/{id} /",
+        "tests/test_jobs_crud_route.py +23 tests:"
+      ],
+      "* TestCreateJobEndpoint 11": "document/exam_pdf/slides_pdf/url 全",
+      "* TestListJobsEndpoint 4": "empty list / 單 job 命中 / 3 job desc 排序",
+      "* TestGetJobEndpoint 2": "existing 200 + JobRecord 全欄位 (id/state/",
+      "* TestDeleteJobEndpoint 6": "existing 204 空 body / nonexistent 404 /",
+      "iter 118 (2026-05-24, hourly routine) — proposals.py POST /{id}/duplicate route 補測試覆蓋 (iter 89 上線後一直裸奔)": [
+        "server/routes/proposals.py duplicate_proposal endpoint 從 iter 89 加進來",
+        "tests/test_proposals_route.py +11 tests (TestDuplicate class):"
+      ],
+      "PENDING (核心 use case": "APPROVED proposal 想做另一支不同設定的影片;",
+      "內 3 entries": "原 + 兩 dup)",
+      "iter 117 (2026-05-24, hourly routine) — jobs.py 四個 HTTP route 補測試覆蓋 (PR-3a~PR-4a 上線後一直裸奔)": [
+        "server/routes/jobs.py 內 GET /draft / PUT /draft / GET /log / POST",
+        "tests/test_jobs_route.py +32 tests:"
+      ],
+      "* TestGetDraftEndpoint 3": "deck.json 在 → JSON 回傳 / 沒檔 → 404 (ingest",
+      "* TestUpdateDraftEndpoint 9": "nonexistent 404 / awaiting_review 落盤驗證 /",
+      "* TestJobLogEndpoint 7": "nonexistent 404 / log.jsonl 不存在 → 200 空 entries",
+      "* TestSectionRenderEndpoint 7": "nonexistent 404 / awaiting_review 409 (還沒",
+      "* TestArtifactDownload 6": "nonexistent 404 / `..` 子串 400 (寬鬆比放行安全,",
+      "iter 116 (2026-05-24, hourly routine) — youtube.py 三個 HTTP route 補測試覆蓋": [
+        "server/routes/youtube.py 三個 HTTP endpoint (GET /youtube_meta /",
+        "Mock 策略: monkeypatch server.routes.youtube._do_publish 成 noop async,",
+        "tests/test_youtube_route.py +21 tests:"
+      ],
+      "* TestYoutubeMetaEndpoint 5": "valid artifact 走 auto_youtube_meta 回 5 key",
+      "* TestRequireArtifactValidation 4": "nonexistent job 404 / `..` path",
+      "* TestPublishEndpoint 7": "第一次 publish 202 + UPLOADING state 落盤 +",
+      "* TestYoutubeStatusEndpoint 5": "從沒 publish 過回 pending 空白 (不 404,",
+      "documented": "前端在 publish 觸發瞬間就輪詢, 即使 artifact 暫時不在",
+      "iter 115 (2026-05-24, hourly routine) — library.py route 補測試覆蓋 (helper + fields + youtube)": [
+        "server/routes/library.py 既有 test_library_route.py 只覆蓋 iter 47",
+        "tests/test_library_route.py +21 tests:"
+      ],
+      "* TestReadDeckTitle 7": "no deck.json → job_id / invalid JSON → job_id",
+      "* TestLibraryItemFields 9": "artifact_url 格式 `/jobs/{id}/artifacts/{n}` /",
+      "* TestLibraryYoutubeField 5": "沒上傳 → None / DONE state 透傳 video_id+url+",
+      "iter 114 (2026-05-24, hourly routine) — voices.py HTTP route 補測試覆蓋": [
+        "server/routes/voices.py helper (_read_current_voice / _write_current_voice)",
+        "tests/test_voices_route.py +17 tests:"
+      ],
+      "* TestListVoices 5": "6 voices / current 反映 config / VoiceInfo shape",
+      "fallback 第一個 voice 不該 500 / backend=f5 時 current=f5": "teacher",
+      "* TestSetVoice 8": "切 edge voice 落盤驗 backend=edge + edge.voice / 切",
+      "f5": "teacher 落盤驗 backend=f5 / f5 切換不動 f5 子區塊 (preserve",
+      "* TestVoiceSample 4": "serves audio/mpeg byte-perfect / f5:teacher 含",
+      "冒號透過": "path converter 解析 (普通 str converter 會把 : 視為違法,",
+      "正是該 endpoint 用": "path 的原因) / 未知 voice 404 帶 voice_id /",
+      "iter 113 (2026-05-24, hourly routine) — editor.py route 補測試覆蓋 + 揪 JS-context XSS": [
+        "server/routes/editor.py 從 PR-3d 上線後沒對應測試. server-side HTML route,",
+        "tests/test_editor_route.py +31 tests:"
+      ],
+      "* TestHtmlEscape 12": "5 種 HTML entity (& < > \" ') 各驗 + & 先轉避免雙重",
+      "escape + 空字串 / None / 0 (current behavior": "falsy 一律回空) /",
+      "* TestRenderSlideEscape 7": "XSS payload in title / narration (含",
+      "* TestRenderSectionEscape 4": "section title XSS / section_id 含 \" /",
+      "* TestEditorIndex 3": "empty list 走「尚無 job」 + 含 job 列表渲染",
+      "* TestEditorPage 5": "不存在 job 404 / exam_pdf v1 schema 走 fallback 訊息 /",
+      "只在 localhost server 對自己人開), 但仍是真實風險. 建議修法": "json.dumps",
+      "iter 112 (2026-05-24, hourly routine) — uploads.py helper unit test (path injection 安全鎖)": [
+        "server/routes/uploads.py 內 _sanitize_filename + _unique_target_path 是",
+        "tests/test_upload.py +21 tests:"
+      ],
+      "* TestSanitizeFilenameHappyPath 4": "normal pdf / 中文 (BMP 高位區不在",
+      "* TestSanitizeFilenamePathInjection 6": "forward slash (../../etc/passwd",
+      "* TestSanitizeFilenameWindowsReserved 4": "CON.pdf → _CON.pdf / case",
+      "* TestSanitizeFilenameFallback 3": " / 純空白 / 只剩 dot 全 → 'upload",
+      "* TestUniqueTargetPath 4": "不存在直接回傳 / 已存在加 _YYYYMMDD_HHMMSS",
+      "iter 111 (2026-05-23, hourly routine) — /slide_images route 補測試覆蓋": [
+        "server/routes/slides.py 從 PR-3h (簡報縮圖 endpoint) 上線後沒對應",
+        "tests/test_slide_images_route.py +11 tests:"
+      ],
+      "* TestHappyPath 2": "serves_png (byte-perfect 還原 + content-type",
+      "* TestNotFound 3": "missing_stem_dir / missing_file_in_existing_stem /",
+      "* TestPathTraversalSecurity 4": "dotdot_in_filename (..%2F encoded) /",
+      "* TestEdgeCases 2": "empty_filename (trailing slash → 404/405/307 都",
+      "iter 110 (2026-05-22, hourly routine) — E2-6 + E1-4 frontend bridge": [
+        "iter 107 (icon-suggestions) + iter 109 (image-frames) 兩個新 endpoint 上線,",
+        "web/src/types.ts +4 interface:"
+      ],
+      "* IconSuggestion": "對應 backend payload 一個 IconMatch (key / icon /",
+      "* IconSuggestionsResponse": "{suggestions: {slide_id: IconSuggestion[]}}",
+      "* ImageFrameSummary": "{count / terminal_path / has_frames}",
+      "* ImageFramesSummaryResponse": "{summary: {slide_id: ImageFrameSummary}}",
+      "* getIconSuggestions(jobId, opts?": "{maxIcons, requireFileExists}) —",
+      "* getImageFramesSummary(jobId, opts?": "{requireFileExists}) — 同 pattern",
+      "iter 109 (2026-05-22, hourly routine) — E1-4 backend API endpoint": "GET /jobs/{id}/image-frames:",
+      "* Query param": "require_file_exists (預設 True, 嚴格模式給 renderer;",
+      "* 回應格式": "{\"suggestions\": {slide_id: [IconMatch dict, ...]}} —",
+      "— 外層 wrap 讓未來加 metadata (例": "scan_timestamp / total_count) 不",
+      "* TestImageFramesHappyPath 3": "三 frame slide 命中 terminal_path 正確 +",
+      "* TestImageFramesExamSchema 1": "exam_pdf problems schema → {}",
+      "* TestImageFramesErrors 2": "no deck.json 404 / nonexistent job 404",
+      "* TestImageFramesQueryParams 2": "require_file_exists=true 缺檔被過濾 +",
+      "iter 108 (2026-05-22, hourly routine) — E1-4 backend slice": "image_frames.summarize_for_deck:",
+      "* 回 `{slide_id": "list[IconMatch]}`, 沒命中也保留 key=[] (跟「沒掃到」",
+      "* require_file_exists 透傳 valid_frames": "嚴格模式 (renderer 用) vs",
+      "iter 107 (2026-05-22, hourly routine) — E2-6 backend API endpoint": "GET /jobs/{id}/icon-suggestions:",
+      "* Query params": "require_file_exists (預設 True, False 給 UI 提案預覽",
+      "* IconMatch dataclass 序列化": "icon_path (PosixPath / WindowsPath) →",
+      "外層 wrap 讓未來加 metadata (例": "scan_timestamp / total_count) 不",
+      "* TestIconSuggestionsHappyPath 2": "matching narration 命中正確 (key /",
+      "* TestIconSuggestionsExamSchema 1": "exam_pdf problems schema → {}",
+      "* TestIconSuggestionsErrors 4": "no deck.json 404 / nonexistent job",
+      "* TestIconSuggestionsQueryParams 2": "max_icons=1 caps 同 narration",
+      "iter 106 (2026-05-22, hourly routine) — E2-6 backend slice": "icon_picker.suggest_for_deck:",
+      "iter 105 (2026-05-22, hourly routine) — SlideRenderer _resolve_step_bg helper DRY": [
+        "iter 104 把 image_frames terminal_frame fallback 落地進 SlideRenderer 兩",
+        "抽 @staticmethod _resolve_step_bg(step, step_idx) → (bg_rel, bg_path | None).",
+        "lift `from core.image_frames import terminal_frame` 進 module-level import",
+        "過渡期 debug log: 當 image_frames 真正覆蓋 bg_image 時印一行"
+      ],
+      "\"[frame NNN] 🎞 image_frames 終端 frame 覆蓋 bg_image": "<path>\",",
+      "iter 104 (2026-05-22, hourly routine) — E1-2 image_frames 解析器 + SlideRenderer 終端 frame fallback": [
+        "動態視覺素材 RFC Phase 1 E1 落地最後一步前置. iter 101 開了",
+        "新模組 core/image_frames.py (純函式, 0 PIL / 0 ffmpeg 依賴):"
+      ],
+      "* valid_frames()": "過濾非 dict / 缺 path / ratio 越界 / 缺檔, 依",
+      "* select_frame(progress 0~1)": "對應「(prev_ratio, current_ratio]」",
+      "* terminal_frame()": "取 display_ratio 最大那筆; 給「一步一張 PNG」",
+      "* frame_count()": "review UI 顯示「這頁有 N frame」用",
+      "* require_file_exists toggle": "renderer True, review UI 預覽 False",
+      "* TestValidFrames 11": "None / 非 list / 空 / 過濾 / 排序 / 越界 ratio /",
+      "* TestSelectFrame 8": "None / 各區段對應 / clamp 越界 progress / 邊界",
+      "* TestTerminalFrame 4": "None / 取最高 ratio / 單 frame / 全 invalid",
+      "* TestFrameCount 3": "None / 過濾邏輯 / review 模式",
+      "iter 103 (2026-05-22, hourly routine) — E2-5 ext compose_icons 三大 renderer 全覆蓋": [
+        "iter 102 只接 SlideRenderer (_render_full + _render_split_left), STATUS 留",
+        "pipeline.py BlackboardRenderer.render — chalk 內容 + svg/image panel 畫完",
+        "core/render/pptx_style.py PptxStyleRenderer.render — 4 路 layout (cover /",
+        "tests/test_icon_overlay.py +8 tests:"
+      ],
+      "* TestBlackboardRendererIntegration 3": "renders_with_icon (top-right 紅 pixel",
+      "* TestPptxStyleRendererIntegration 5": "normal/cover/outro 3 路 layout 各驗",
+      "iter 102 (2026-05-22, hourly routine) — E2-5 icon_overlay PIL composite": [
+        "動態視覺素材 RFC Phase 1 E2 端到端打通最後一步: iter 99 算 IconMatch list,",
+        "跟 photo_overlay.py 同 pattern (純 Pillow / 任何例外靜默 swallow /",
+        "新增 core/icon_overlay.py — compose_icons(img, icons, canvas_w, canvas_h)",
+        "pipeline.py SlideRenderer._render_full / _render_split_left 兩 layout",
+        "暫不動 PptxStyleRenderer / BlackboardRenderer (一輪 ≤3 檔範圍紀律,",
+        "1135 → 1154 tests (+19): TestNoOpInputs 6 / TestSVGFallback 3 /"
+      ],
+      "iter 101 (2026-05-22, hourly routine) — E1-1 slide.image_frames schema 欄位": [
+        "動態視覺素材 RFC Phase 1 E1 (PNG frame 序列, 流程圖/架構圖漸進顯示) 起點,",
+        "core/deck.py normalize_deck: slide.image_frames 預設 None (舊 deck 相容,",
+        "core/deck.py deck_to_exam_schema_pptx: step 透傳 image_frames (pptx 主軌)",
+        "core/deck.py deck_to_exam_schema_slides: step 也透傳 (review UI 共用)",
+        "預期 dict 欄位: path (str, PNG 路徑) + display_ratio (float 0.0~1.0",
+        "tests/test_deck.py +6 tests: normalize 預設 None + 既有保留, pptx 透傳 +",
+        "1129 → 1135 tests (+6)"
+      ],
+      "iter 100 (2026-05-22, hourly routine) — E2-4 slide.icon_overlay schema 欄位": [
+        "動態視覺素材 RFC Phase 1 第三步, 接 iter 99 icon_picker. E2-3 算出 IconMatch",
+        "core/deck.py normalize_deck: slide.icon_overlay 預設 None (舊 deck 相容,",
+        "core/deck.py deck_to_exam_schema_pptx: step 透傳 icon_overlay (pptx 渲染主軌)",
+        "core/deck.py deck_to_exam_schema_slides: step 也透傳 (slides_pdf 跟 pptx 共用",
+        "純透傳, 不檢驗 dict 內部結構 — E2-5 renderer 接時用 .get() 容錯"
+      ],
+      "(預期欄位": "path / position / size_ratio / 選擇性 start_ms / duration_ms)",
+      "iter 99 (2026-05-22, hourly routine) — E2-3 icon_picker keyword grep 模組": [
+        "動態視覺素材 RFC Phase 1 第二步, 接 iter 98 manifest 框架",
+        "新增 core/icon_picker.py — load_manifest() + pick_icons(narration, ...)."
+      ],
+      "純 Python grep, 0 LLM call, 0 cost. 設計細節": [],
+      "* IconMatch dataclass": "key / icon_path / matched_keyword (給可解釋性) /",
+      "* graceful fallback": "SVG 檔不存在 (E2-2 未產) 該 entry 跳過, 不噴 error",
+      "* case-insensitive substring match": "pid\" 命中 manifest \"PID",
+      "假 svg 隔離測試, 不依賴真 assets/icon_library/ 內容. cover": "空 narration",
+      "iter 98 (2026-05-22, hourly routine) — E2-1 icon library manifest 框架": [
+        "動態視覺素材 RFC Phase 1 起點 (2026-05-22 用戶決議 E2 走候選 A keyword grep)",
+        "新增 assets/icon_library/manifest.json — 25 entry (10 generic + 5 wind +",
+        "新增 assets/icon_library/README.md — 欄位說明 + 加新 icon 流程",
+        "新增 tests/test_icon_library_manifest.py — 16 tests (schema / RFC 數量",
+        "SVG 檔尚未產 (E2-2 待 Gemini 一次性產, routine 下輪可推), 在 SVG 進來",
+        "1090 → 1106 tests (+16)"
+      ],
+      "iter 97 (2026-05-22, hourly routine 解 dirty tree blocker) — UI redesign 串接": [
+        "卡狀: 連續多輪 hourly routine 命中 SOP Step 1 STOP (dirty tree),",
+        "用戶授權處理. 改動分三類:"
+      ],
+      "3) .gitignore 補本機產物": "tts_samples/ / _scriptor_errors/ /",
+      "iter 96 (2026-05-22, hourly routine 首輪) — docs/skills.md 新增": [
+        "把 .claude/skills/ 設計理念 (跟 repo 走, 不在 ~/.claude/skills/)"
+      ],
+      "iter 94 (2026-05-17, commit 0ca58e5) — talking_head hotfix": [
+        "用戶實測 talking_head=off 影片仍有頭像",
+        "根因: pipeline_config.json dynamic_avatar.enabled=true 走 build_clip",
+        "修: build_clip 開頭 import _should_skip_by_runtime_override, 命中"
+      ],
+      "iter 93 (2026-05-17, commit a72b1b7) — TTS 公式 normalize": [
+        "用戶實測 GCP Wavenet 念糟: backtick 念「上句點」, uP(t) 念 \"up t\",",
+        "後處理 (tts_backend.normalize_text 全 backend 受惠):",
+        "前處理 (scriptor_*.txt 兩 prompt): 嚴禁 narration 用 backtick/星號",
+        "+18 tests/test_normalize_text_formula"
+      ],
+      "iter 92b (2026-05-17, commit 448b0b7) — GCP voice 命名 hotfix": [
+        "實測 zh-TW-Wavenet-A 已 404, 2026 GCP 改 cmn-* prefix",
+        "修 tts_backend / docs / tests 一致",
+        "新增 tests/list_voices.py 供將來查清單"
+      ],
+      "iter 92 (2026-05-17, commit d1da48f) — 內容品質三軸升級": [
+        "talking_head 三段選項 (always / long_form_only / off)",
+        "L2 narration_style 5 preset + L3 persona jliu v1",
+        "Google Cloud TTS provider (FallbackTTS 機制)",
+        "+41 tests"
+      ],
+      "iter 91 (2026-05-17, commit eac3ec2) — 中文 wrap 標點 + 孤字後處理": [
+        "短影片實測「Skill 的本質與差/異」孤字落單",
+        "_balance_wrap_lines 三輪修整 (開頭標點推下 / 收尾標點拉回 / 末行借字)",
+        "+8 tests",
+        "v3.0 (PR-1 ~ PR-3e): 平台基礎, 5 種 source, 3 種 renderer, REST API + React UI",
+        "v3.1 (PR-3f ~ PR-3m): 平台合一, YouTube 上傳 / 考卷編輯 / Library",
+        "v3.2 (PR-4a ~ PR-4c): pytest + CI / per-job logging / 單章重 render",
+        "v3.3 (PR-5a ~ 5c): Navy 主題 / F5 預切句 / 燒字幕",
+        "v4 暖身 (iter 1~22): Docker + ideate + 工程圖 AI scaffold",
+        "內容品質 roadmap A→D (iter 73~91): 主題系統 / 9:16 短影片 / 自訂色票 /",
+        "用戶實測反饋三輪 (iter 87~94): CI 全綠修復 / 短影片 layout / proposal",
+        "詞句 / 發音對照 (待用戶列念錯詞)",
+        "narration_style 5 preset 選定",
+        "persona/jliu v2 樣本",
+        "voice clone (ElevenLabs Instant) 決定",
+        "C2 F5 pronunciation (主軌已換 GCP, 看是否還維護 F5)"
+      ],
+      "SOP": "docs/ROUTINE_ADVANCE_PROMPT.md",
+      "_path": "courseRelated/eduStudio",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/courseRelated/eduStudio/STATUS.yaml"
+    },
+    {
+      "name": "UniCourse AI Online",
+      "name_zh": "AI線上考試與課堂管理",
+      "category": "edtech",
+      "progress": 95,
+      "status": "production",
+      "last_updated": "2026-04-13",
+      "next_milestone": "Analytics dashboard v2",
+      "technologies": [
+        "React 19",
+        "Supabase",
+        "GCP Cloud Run"
+      ],
+      "outputs": [
+        "platform",
+        "course"
+      ],
+      "description": "Comprehensive AI-driven online exam and classroom management platform",
+      "description_zh": "勤益智動系專用的全功能線上考試與班級經營系統。整合 Gemini AI 智慧出題、視窗切換防作弊、自動保存與恢復機制，教師可進行學生資料管理、成績追蹤、班級幹部指派等完整班級經營作業，學生則可查看個人資料與成績分析，已部署於 GCP Cloud Run。",
+      "key_metrics": "GCP deployed, anti-cheat detection",
+      "_path": "courseRelated/unicourseaionline1219",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/courseRelated/unicourseaionline1219/STATUS.yaml"
+    },
+    {
+      "name": "OPC UA MCP",
+      "name_zh": "OPC UA工業MCP",
+      "category": "mcp_tools",
+      "progress": 85,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Subscription-based monitoring",
+      "technologies": [
+        "Python",
+        "asyncua",
+        "MCP"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "MCP integration layer for real-time OPC UA industrial automation systems",
+      "description_zh": "為工業自動化系統設計的 MCP 伺服器，提供讀寫 OPC UA 節點的工具，使 AI 代理能即時監控、分析與控制工業設備運作資料。支援無縫整合 Claude Desktop，賦予 LLM 與現場設備互動的能力。",
+      "key_metrics": "2 core tools (read/write)",
+      "_path": "MCP/Dof-Customized-mcp",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/MCP/Dof-Customized-mcp/STATUS.yaml"
+    },
+    {
+      "name": "LabPagesCowork",
+      "name_zh": "實驗室入口網站與研究協作平台",
+      "category": "mcp_tools",
+      "progress": 75,
+      "status": "active",
+      "last_updated": "2026-04-20",
+      "next_milestone": "研究成果頁面自動化更新 + GitHub 活動整合完善",
+      "technologies": [
+        "HTML",
+        "JavaScript",
+        "Python",
+        "GitHub Actions"
+      ],
+      "outputs": [
+        "tool",
+        "presentation"
+      ],
+      "description": "Lab website with blog, research dashboard, GitHub activity tracking and collaborative contribution workflow",
+      "description_zh": "實驗室對外入口網站，整合研究儀表板、部落格文章發布、GitHub 活動追蹤頁面與研究全景地圖。採協作流程讓成員練習 GitHub PR 工作流，並透過自動化腳本統一更新各頁面內容。",
+      "key_metrics": "35 commits/month, daily blog automation, 90+ merged PRs",
+      "_path": "MCP/LabPagesCowork",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/MCP/LabPagesCowork/STATUS.yaml"
+    },
+    {
+      "name": "Modbus MCP",
+      "name_zh": "Modbus工業協議MCP",
+      "category": "mcp_tools",
+      "progress": 85,
+      "status": "production",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Advanced register mapping",
+      "technologies": [
+        "Python",
+        "Modbus TCP/UDP/Serial"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Standardized MCP interface for Modbus TCP/UDP/Serial industrial IoT systems",
+      "description_zh": "統一 Modbus 工業協議的 MCP 伺服器，支援 TCP、UDP、Serial 多種連接方式。提供暫存器讀寫、線圈控制、多暫存器批量讀取，以及基於 LLM 的數據分析工具，使 AI 能直接與工業 IoT 設備通訊，加速智慧巡檢與故障診斷應用。",
+      "key_metrics": "6 core tools, multi-connection types",
+      "_path": "MCP/modbus-mcp",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/MCP/modbus-mcp/STATUS.yaml"
+    },
+    {
+      "name": "SmartFill-Scholar",
+      "name_zh": "RAG智慧表單填寫",
+      "category": "personal_tools",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Phase 6.3 - Advanced entity graph",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "React",
+        "ChromaDB"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Hybrid AI form-filling system combining SQL database and RAG knowledge retrieval",
+      "description_zh": "智能學術表單填寫系統，整合 SQL 資料庫查詢與 RAG 向量檢索，自動將靜態資料（姓名、職稱等）與複雜內容（研究摘要等）分別填入表單。支援 Word 模板與 PDF 表單，具幻覺防護、色碼審查、版本控制等研究級功能，大幅減輕學者填表負擔。",
+      "key_metrics": "430+ tests, 5 output modes, multi-user RBAC",
+      "_path": "PersonalHelper/autoFill",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/autoFill/STATUS.yaml"
+    },
+    {
+      "name": "CitingVerify",
+      "name_zh": "AI 學術引用驗證系統",
+      "category": "rag_knowledge",
+      "progress": 78,
+      "status": "active",
+      "last_updated": "2026-04-11",
+      "next_milestone": "M6 - 壓力測試完善 + 前端應用整合 + 論文品質閘門",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Google Gemini API",
+        "Redis",
+        "aiohttp",
+        "ReportLab"
+      ],
+      "outputs": [
+        "tool",
+        "paper"
+      ],
+      "description": "AI-powered academic citation verification system with LLM parsing, multi-database cross-validation and circuit breaker resilience",
+      "description_zh": "上傳 PDF 論文後自動抽取、解析並驗證每筆參考文獻的真實性。整合 CrossRef、OpenAlex、Semantic Scholar、arXiv、DBLP 五大資料庫，具備電路熔斷器、配額感知排程、Redis 跨行程快取與完整延遲指標儀表板，大幅提升學術誠信稽核效率。",
+      "key_metrics": "5 databases, circuit breaker + Redis cache, p95 latency tracking",
+      "_path": "PersonalHelper/citingVerify",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/citingVerify/STATUS.yaml"
+    },
+    {
+      "name": "eduStudio",
+      "name_zh": "教學內容整合工作站",
+      "category": "edtech",
+      "progress": 25,
+      "status": "planning",
+      "last_updated": "2026-06-05",
+      "next_milestone": "Phase 1 client 契約對齊完成（透傳 + write-back 全鏈整合測試綠），待接 infoCard write-back 與 translateGemma 配音端到端",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "pydantic",
+        "Gemini"
+      ],
+      "outputs": [
+        "tool",
+        "course",
+        "video",
+        "presentation"
+      ],
+      "description": "Integration workstation orchestrating autoSolver / infoCard / translateGemma into one teaching-content pipeline.",
+      "description_zh": "整合 autoSolver、infoCard、translateGemma 的教學內容生產編排工作站（單一入口、canonical zh-TW）。",
+      "key_metrics": "三服務透傳就緒、exam_pdf review gate 不被繞過、canonical 語言碼全程 zh-TW",
+      "_path": "PersonalHelper/eduStudio",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/eduStudio/STATUS.yaml"
+    },
+    {
+      "name": "AI Personal Secretary",
+      "name_zh": "隨行 AI 秘書",
+      "category": "personal_tools",
+      "progress": 70,
+      "status": "active",
+      "last_updated": "2026-04-15",
+      "next_milestone": "安全性修正 + Gemini 3 模型升級",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Google Gemini API",
+        "Google Gmail API",
+        "Google Calendar API",
+        "Google Tasks API",
+        "Supabase",
+        "PWA / Service Worker"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "AI-powered email management assistant integrating Gmail, Calendar, Tasks with Gemini AI analysis",
+      "description_zh": "整合 Gmail、Calendar、Tasks 的 AI 智慧郵件管理助手，支援多帳號、個人化分析與主動通知",
+      "key_metrics": "支援多帳號管理、6 種郵件分類、AI 回覆草擬、行事曆事件建議、桌面通知",
+      "_path": "PersonalHelper/emailassistant",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/emailassistant/STATUS.yaml"
+    },
+    {
+      "name": "Dragon Quest I Remake",
+      "name_zh": "勇者鬥惡龍 一代復刻",
+      "category": "personal_tools",
+      "progress": 98,
+      "status": "active",
+      "last_updated": "2026-06-14",
+      "next_milestone": "平衡微調、訊息自動換行、更多城鎮與怪物動畫幀",
+      "technologies": [
+        "HTML5 Canvas",
+        "JavaScript",
+        "Pixel Art (offscreen cache)",
+        "WebAudio chiptune"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "A web remake of a classic 8-bit JRPG with original pixel art and chiptune audio.",
+      "description_zh": "網頁版經典 8-bit JRPG,全原創像素美術與 chiptune 音效;含地圖探索、回合制戰鬥、等級成長與劇情。",
+      "key_metrics": "全像素風渲染 + 場景循環 BGM + 16 種怪物 sprite;可遊玩流程:出城 → 練功 → 打龍王 → 救公主",
+      "_path": "PersonalHelper/games/dragon",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/games/dragon/STATUS.yaml"
+    },
+    {
+      "name": "AI Graphic Studio",
+      "name_zh": "AI 視覺工作站（圖卡生成平台）",
+      "category": "personal_tools",
+      "progress": 98,
+      "status": "active",
+      "last_updated": "2026-06-03\"  # #27b epic「方向B」啟動 (1)：版型選單縮圖化（LayoutThumbnail 共用元件）",
+      "last_session": "（2026-06-03 #27）劉老師線上實測回報兩個 bug，修掉：(1) PPTX 匯出崩潰（TypeError: reading 'position'）— pptExporter 的 text_and_image case 在有圖時誤用不存在的 m.master.body!（該版型無頂層 body），改用 master 既有的 contentSections.bodyText 左欄文字區；補 2 個回歸測試（含圖/無圖分支），先前 19 版型 smoke test 的 text_and_image 沒帶 imageUrl 故漏測此路徑。(2) 封面裝飾 SVG 主控台噴錯 — PresentationView 的 geometric/waves pattern 在 polygon points / rotate() 中心 / path d 用了 % 數值（SVG 不接受），改加 viewBox 0 0 1000 562 + 數值座標。tsc exit 0 / vitest 1395/80（1393→1395，+2）。另：劉老師提出版型/字級偏固定、三風格只差顏色、字太小頁面空洞 → 屬設計方向討論，已在 handover 記為待討論，未動手。",
+      "progress_note": "🎯 進行中 epic：簡報「先定版型 + 字級/密度」個人化生成（方向 B，劉老師 2026-06-03 線上實測後啟動）。DoD：(1) 版型選單縮圖化 ✅ /(2) 大綱階段逐頁指定預覽版型 /(3) 生成前『資訊密度/字級』控制 /(4) density→fontScale 自動換算（解字小頁空）/(5) 風格 preset 升級（不只配色）。詳見 ROADMAP「🎯 Current Epic」。",
+      "current_epic": "簡報「先定版型 + 字級/密度」個人化生成（方向 B）— 進行中，(1) 版型選單縮圖化已完成。已完成 epic：個人風格 Profile 沉澱 v1（2026-05-28）/ 可控版型系統 v1（2026-05-28）/ 簡報生成智慧化 v1（2026-05-25）。其他 backlog：#115 從歷史學風格 / #116 A3 重設計 / #117 進階圖片 / #118 分享持久化+帳號。",
+      "next_milestone": "🎯 epic 方向B 推進中。已完成 (1) 版型選單縮圖化（LayoutThumbnail）。下一步 (2)：把縮圖版 SlideLayoutPicker 接進大綱方案，讓使用者生成前可逐頁改版型；或先做 (3)/(4) 字級/密度前置控制（直接解劉老師『字太小頁面空洞』，改 presentationThemes fontScale + 加 density UI，沙盒可測）。建議順序 (4)→(3)→(2)→(5)（(4) 最快見效）。§7 健檢約 #29。目前 tsc + vitest（1399 tests / 81 files）全綠、build 綠。",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "Google Gemini API",
+        "Docker",
+        "GCP Cloud Run"
+      ],
+      "outputs": [
+        "tool",
+        "presentation"
+      ],
+      "description": "Full-featured AI visual content creation platform for infographics, posters, slides and comics generation",
+      "description_zh": "基於 Google Gemini API 的全方位 AI 視覺內容創作平台，支援文字 / 網址 / 文件轉化為圖卡、海報、AI 簡報與連續漫畫，含素材庫、學科資源與簡報編輯等模組，部署於 GCP Cloud Run。個人風格簡報生成支援四維設定（受眾類型、簡報目的、語氣、視覺版型偏好）+ 4 種情境 Preset 一鍵套用 + 可命名 / 可儲存 / 可切換的個人風格檔（Style Profile）。簡報採規則式版型引擎（19 種版型 / imagePolicy 控制 Imagen 呼叫數）與兩階段大綱生成。",
+      "key_metrics": "1227 unit tests / 69 test files（tsc + vitest 全綠）；19 種簡報版型 + Slide Master PPTX 母版系統；規則式版型選擇器（pickLayout / reconcileLayout / userLayout 硬覆蓋）；四維個人風格 + 4 情境 preset + 6 語氣 preset + Style Profile CRUD；persona 推薦主題（25 組合規則）；長文件智慧 chunking、圖表類型建議、講者備忘錄生成；PPTX 匯出引擎（pptxgenjs，全版型結構測試覆蓋）；GCP Cloud Run 部署。",
+      "_path": "PersonalHelper/infoCard",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/infoCard/STATUS.yaml"
+    },
+    {
+      "name": "myPicasa",
+      "name_zh": "我的 Picasa 媒體工具箱",
+      "category": "personal_tools",
+      "progress": 60,
+      "status": "active",
+      "last_updated": "2026-04-14",
+      "next_milestone": "Next feature roadmap (see CHANGELOG.md)",
+      "technologies": [
+        "Python",
+        "moviepy"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Personal media toolkit with video processing utilities",
+      "description_zh": "個人媒體工具箱，支援影片處理，使用 moviepy 實現剪輯與轉換功能",
+      "key_metrics": "Moviepy migration completed, exe packaging flow added",
+      "_path": "PersonalHelper/picasa",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/picasa/STATUS.yaml"
+    },
+    {
+      "name": "Research Dashboard",
+      "name_zh": "研究管理儀表板",
+      "category": "personal_tools",
+      "progress": 90,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "GitHub Pages 部署上線",
+      "technologies": [
+        "HTML",
+        "Chart.js",
+        "D3.js",
+        "Python",
+        "GitHub Pages"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Multi-view research project dashboard with auto-synchronization to GitHub Pages",
+      "description_zh": "整合互動式圖表與研究全景地圖的研究管理儀表板，自動掃描所有專案的 STATUS.yaml 產生儀表板資料。支援 Chart.js 及 D3.js 視覺化，部署於 GitHub Pages 供全球存取，每週自動同步更新，是研究者高效管理多元項目的工具。",
+      "key_metrics": "Dashboard + Map + JSON API, auto-deploy via script",
+      "_path": "PersonalHelper/research-dashboard",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/research-dashboard/STATUS.yaml"
+    },
+    {
+      "name": "ScanMail+",
+      "name_zh": "文件掃描郵件平台",
+      "category": "personal_tools",
+      "progress": 95,
+      "status": "production",
+      "last_updated": "2026-06-13",
+      "next_milestone": "Docker deployment + security hardening",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "OpenCV",
+        "Docker"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Document scanning and mailing platform",
+      "description_zh": "文件掃描與郵件平台",
+      "key_metrics": "81 API endpoints, 8 tool categories, 179 tests",
+      "_path": "PersonalHelper/scanmail_bot",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/scanmail_bot/STATUS.yaml"
+    },
+    {
+      "name": "TranslateGemma",
+      "name_zh": "本地優先多語翻譯工作台",
+      "category": "personal_tools",
+      "progress": 72,
+      "status": "active",
+      "last_updated": "2026-04-11",
+      "next_milestone": "Phase 4 - 語言學習評估模組完善 + MCP 工具整合",
+      "technologies": [
+        "Python",
+        "Gradio",
+        "FastAPI",
+        "Ollama",
+        "FastMCP",
+        "faster-whisper",
+        "edge-tts",
+        "PyMuPDF",
+        "yt-dlp"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Local-first multilingual translation workbench with text, OCR, PDF, speech, real-time voice, video translation and meeting summarization",
+      "description_zh": "本地優先多語翻譯工作台，整合文字翻譯、圖片 OCR、PDF 逐頁翻譯、語音翻譯、即時語音翻譯、影片配音與會議摘要八大功能，使用 Ollama 本地模型，支援術語表與風格指南自訂，並以 FastMCP 暴露翻譯服務供 LLM 工具鏈呼叫。",
+      "key_metrics": "8 translation modes, MCP-enabled, SQLite history",
+      "_path": "PersonalHelper/translateGemma",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/translateGemma/STATUS.yaml"
+    },
+    {
+      "name": "WindFarm Battle",
+      "name_zh": "風場大戰",
+      "category": "edtech",
+      "progress": 95,
+      "status": "active",
+      "last_updated": "2026-05-22",
+      "next_milestone": "Android Studio 實機測試（npx cap open android）+ 學生首輪試玩回饋 + 卡牌插畫製作（AI art prompts in CARD_PROMPTS.md）",
+      "technologies": [
+        "React 18",
+        "TypeScript 5",
+        "Vite",
+        "Zustand",
+        "TailwindCSS",
+        "Vitest",
+        "Capacitor 8"
+      ],
+      "outputs": [
+        "tool",
+        "paper",
+        "course"
+      ],
+      "description": "Educational wind farm operations card game (PvAI, 50 cards, 12 rounds, knowledge-effectiveness repair model)",
+      "description_zh": "風場運維教學卡牌遊戲（玩家 vs AI，50 張牌，12 回合，Route B 知識效益修復模型）",
+      "key_metrics": "209 tests passing / 50 cards / 3 AI difficulty levels / tsc+lint+build clean / Route B full UI + originalAvail permanent damage display / Sprint 4 CardTemplate+CardGallery / SimulatorPanel Web mode / 1000-game balance all-pass / AI M07/M10/M12 evaluator fixed / Android+iOS synced",
+      "_path": "PersonalHelper/windFarm-Battle",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/windFarm-Battle/STATUS.yaml"
+    },
+    {
+      "name": "Z-Image-Turbo Web UI",
+      "name_zh": "AI 圖片生成工作站",
+      "category": "personal_tools",
+      "progress": 70,
+      "status": "active",
+      "last_updated": "2026-04-18",
+      "next_milestone": "生產環境設定完善 + 依賴驗證腳本整合",
+      "technologies": [
+        "Python",
+        "Flask",
+        "PyTorch",
+        "Diffusers",
+        "Transformers"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Flask-based professional AI image generation web UI using Z-Image-Turbo model, optimized for 12GB VRAM",
+      "description_zh": "基於 Flask 的專業 AI 圖片生成 Web 應用，使用 Z-Image-Turbo 擴散模型，針對 12GB VRAM 優化。支援批量生成（最多 20 張）、50+ 風格模板、15+ 尺寸預設、Seed 控制、標籤系統與批量 PDF/PPT 匯出。",
+      "key_metrics": "v2.5.0, 50+ style templates, 5-8s/image generation",
+      "_path": "PersonalHelper/zImage",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/PersonalHelper/zImage/STATUS.yaml"
+    },
+    {
+      "name": "ECN O&M Tool",
+      "name_zh": "離岸風電運維成本計算器",
+      "category": "wind_energy",
+      "progress": 80,
+      "status": "active",
+      "last_updated": "2026-04-13",
+      "next_milestone": "Phase 4 - Monte Carlo validation",
+      "technologies": [
+        "Next.js",
+        "FastAPI",
+        "ECharts",
+        "SQLAlchemy"
+      ],
+      "outputs": [
+        "tool",
+        "paper"
+      ],
+      "description": "Comprehensive web application for offshore wind farm operational maintenance cost analysis",
+      "description_zh": "離岸風電營運維護成本計算器，複製強化 ECN Excel 工具功能，包含 6 大模組：氣象等待時間分析、成本計算、Monte Carlo 風險評估、LCOE 計算、VarFluct 生命週期預測、情景比較。已驗證準確度達 10+ 位小數，支援 130+ 風機的大規模風場分析。",
+      "key_metrics": "6 major modules, K13 demo 130 turbines",
+      "_path": "researchTopic/ECN",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/ECN/STATUS.yaml"
+    },
+    {
+      "name": "InduSpect AI",
+      "name_zh": "智慧工業巡檢系統",
+      "category": "industrial_ai",
+      "progress": 87,
+      "status": "active",
+      "last_updated": "2026-05-16",
+      "next_milestone": "實機端到端測試：上傳表單 → 拍照 → AI → 匯出 → 分享（基礎 CI 已建立）",
+      "technologies": [
+        "Flutter",
+        "Dart",
+        "Gemini AI",
+        "SQLite",
+        "GPS (geolocator + geocoding)"
+      ],
+      "outputs": [
+        "paper",
+        "app"
+      ],
+      "description": "Flutter mobile app for AI-powered industrial inspection with offline-first architecture, form auto-fill pipeline, and GPS-tagged history",
+      "description_zh": "利用多模態 AI 和 Flutter 行動應用，實現工業設備的智慧巡檢。核心功能為完整檢測 pipeline（表單上傳 → 引導拍照 → AI 分析 → 自動回填 → 摘要報告 → 離線分享）及 GPS 定位歷史紀錄。",
+      "key_metrics": "2 core features, 46 Flutter unit tests, backend pytest in CI (auto_fill 43 + sprint3 standards 5 + sprint2 photo-naming 3 + judgment_service 14), 0 open issues",
+      "_path": "researchTopic/induSpectApp/InduSpect",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/induSpectApp/InduSpect/STATUS.yaml"
+    },
+    {
+      "name": "WindGuard AI",
+      "name_zh": "風機診斷AI代理",
+      "category": "wind_energy",
+      "progress": 100,
+      "status": "completed",
+      "last_updated": "2026-04-10",
+      "next_milestone": "N/A",
+      "technologies": [
+        "Gemma 4",
+        "Gradio",
+        "Python"
+      ],
+      "outputs": [
+        "competition",
+        "paper"
+      ],
+      "description": "AI diagnostic agent for wind turbine fault detection using Kaggle Gemma4 competition",
+      "description_zh": "參與 Kaggle Gemma4Good 競賽開發的風機智能診斷系統，利用 Gemma 4 大型語言模型分析 36 台風機、3 座風電場的 202 個數據集，自動識別故障模式。結合工業領域知識與 AI 推理能力，支援風電場的預防性維護決策。",
+      "key_metrics": "202 datasets, 36 turbines, 3 wind farms",
+      "_path": "researchTopic/kaggleGemma4",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/kaggleGemma4/STATUS.yaml"
+    },
+    {
+      "name": "AI PLC Automation",
+      "name_zh": "AI驅動PLC自動化管理",
+      "category": "industrial_ai",
+      "progress": 85,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Dashboard analytics enhancement",
+      "technologies": [
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "Gemini"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "Enterprise Node.js platform for AI-driven PLC automation project lifecycle management and code generation",
+      "description_zh": "針對工業自動化的企業級 PLC 專案管理平台。整合 AI 進行自動化程式碼生成、硬體檢測、文件管理與工作流自動化，支援 ST/ST-Safe 代碼產出與系統狀態監控。",
+      "key_metrics": "v4.0, auto-hardware detection",
+      "_path": "researchTopic/PLC/AI_PLC_Automation",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/PLC/AI_PLC_Automation/STATUS.yaml"
+    },
+    {
+      "name": "Auto Arduino Coding",
+      "name_zh": "自然語言Arduino程式生成",
+      "category": "industrial_ai",
+      "progress": 85,
+      "status": "active",
+      "last_updated": "2026-04-10",
+      "next_milestone": "Multi-board support expansion",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Arduino CLI",
+        "Gemini"
+      ],
+      "outputs": [
+        "tool",
+        "course"
+      ],
+      "description": "Python-based AI system converting natural language to Arduino code with auto-compilation, self-healing and one-click deployment",
+      "description_zh": "利用 Gemini AI 將自然語言需求直接轉換為 Arduino 完整程式碼。內建自動硬體偵測、編譯驗證、錯誤自我修復、函式庫自動安裝與一鍵燒錄，適合教學與快速原型開發。",
+      "key_metrics": "Auto-compilation, self-healing errors",
+      "_path": "researchTopic/PLC/autoArduinoCoding",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/PLC/autoArduinoCoding/STATUS.yaml"
+    },
+    {
+      "name": "RAG Ultimate",
+      "name_zh": "企業級統一RAG研究平台",
+      "category": "rag_knowledge",
+      "progress": 90,
+      "status": "active",
+      "last_updated": "2026-05-03",
+      "next_milestone": "Stage 2B ResearchLab 雙欄重組 (Experiment Plan / Live Telemetry) + 補跑 r06/r07 達 ≥4 完整 run → 論文主表",
+      "technologies": [
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "lucide-react",
+        "Gemini",
+        "Qdrant",
+        "FastAPI",
+        "Sentence-Transformers"
+      ],
+      "outputs": [
+        "platform",
+        "paper"
+      ],
+      "description": "React-based enterprise RAG research platform integrating 17 retrieval modes with RAGAS evaluation, Qdrant vector DB, multi-document knowledge base, and Control-Room industrial UI",
+      "description_zh": "統一企業級 RAG 研究與應用平台，整合 17 種檢索模式、Qdrant 向量資料庫、FastAPI 後端、Control-Room 工控介面。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG benchmark 論文研究 + UI 重構。",
+      "key_metrics": "829 tests (41 suites), 17 RAG modes, 4 brand QA sets (405Q), Qdrant persistent, v8.0, tsc 0 errors, Control-Room Stage 1+2A 完成 (BenchmarkLab 三欄+全寬結果區), 6 Foundation 元件可重用",
+      "_path": "researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/.claude/worktrees/reverent-spence-db816b/STATUS.yaml"
+    },
+    {
+      "name": "RAG Ultimate",
+      "name_zh": "企業級統一RAG研究平台",
+      "category": "rag_knowledge",
+      "progress": 98,
+      "status": "active",
+      "last_updated": "2026-06-07",
+      "next_milestone": "Phase 2 Wind Farm RAG MVP 已認列（baseline hit_rate 0.917）。Phase 3 routine 支援項 L1~L4 全清（PR #147~#150），達 routine 端終點：handoff 文件（RAG_TECHNIQUE_BENCHMARK ↔ SPRINT_HANDOFF）一致、ablation 待查證引用表已備（docs/ablation_cite_todo.md）。Phase 3 主線（Part B harness bring-up / pilot 跑 LLM × RAGAS / 論文正文 + 引用查證）為 🔴 使用者主導 session，非 routine-safe，待使用者裁決開衝刺 session 或 routine 結案待命。觀測：retrieve latency 偏高且分布平坦（~2080ms/query），屬待 profile 之優化點。",
+      "technologies": [
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "lucide-react",
+        "Gemini",
+        "Qdrant",
+        "FastAPI",
+        "Sentence-Transformers",
+        "Docker / Cloud Run",
+        "Sentry / OpenTelemetry (stub)"
+      ],
+      "outputs": [
+        "platform",
+        "paper"
+      ],
+      "description": "React-based enterprise RAG research platform integrating 24 retrieval modes (22 techniques + 2 controls) with RAGAS evaluation, Qdrant vector DB, multi-document knowledge base, FastAPI backend with observability stub, and Control-Room industrial UI",
+      "description_zh": "統一企業級 RAG 研究與應用平台，整合 24 種檢索模式（22 技術 + 2 控制組）、Qdrant 向量資料庫、FastAPI 後端（含 ingest/embed/retrieve/collections/backup/metrics/health/wind preset 八大 endpoint、Sentry/OTel 觀測 stub、Cloud Run 部署設定）、Control-Room 工控介面。提供評測實驗室、知識庫管理、切片分析、統計檢驗與報表輸出。目前進行風電文件 RAG 技術 benchmark 論文研究。",
+      "key_metrics": "24 RAG modes (22 tech + 2 control), 4 brand QA sets (405Q), Qdrant persistent, v8.0, tsc 0 errors, jest 47 suites/904 tests 全綠(主程式, 2026-06-07 實跑; 含 legacy 92 suites/1770), pytest 213 passed, ruff 全綠, Phase 1 50 PR 結案 + Phase 2 Wind Farm MVP 認列(baseline hit_rate 0.917) + Phase 3 routine L1~L4 全清達終點(累計 59 routine PR, #150), F1a observability stub + F2 Cloud Run",
+      "_path": "researchTopic/RAG_Ultimate",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/RAG_Ultimate/STATUS.yaml"
+    },
+    {
+      "name": "WindAI Lab",
+      "name_zh": "風力發電AI研究平台",
+      "category": "wind_energy",
+      "progress": 92,
+      "status": "active",
+      "last_updated": "2026-04-21",
+      "next_milestone": "Phase 14c - 診斷報告輸出與資料連接器",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "React",
+        "PyTorch",
+        "ChromaDB"
+      ],
+      "outputs": [
+        "paper",
+        "platform",
+        "tool"
+      ],
+      "description": "Multi-agent collaborative research platform with virtual office interface for wind energy AI",
+      "description_zh": "風力發電 AI 研究協作系統，匯聚 12 位核心代理與 28 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）、剩餘壽命預測。整合虛擬辦公室 UI、SCADA 真實資料分析、RAG 知識庫、WindGuard AI LLM 推理與自動品質檢查機制，是系統化進行風能科研的協作平台。",
+      "key_metrics": "F1=1.0 fault diagnosis, R²=0.997 power curve, 12 core + 10 hirable agents, 28 skills",
+      "_path": "researchTopic/windAILab",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/windAILab/STATUS.yaml"
+    },
+    {
+      "name": "Digital Wind Turbine",
+      "name_zh": "數位孿生風機模擬器",
+      "category": "wind_energy",
+      "progress": 85,
+      "status": "active",
+      "last_updated": "2026-04-21",
+      "next_milestone": "Deployment hardening (JWT auth, Docker Compose)",
+      "technologies": [
+        "FastAPI",
+        "React",
+        "SQLite",
+        "Modbus TCP"
+      ],
+      "outputs": [
+        "tool",
+        "paper"
+      ],
+      "description": "FastAPI-based physics-driven digital twin simulating wind turbine dynamics with 74 SCADA tags, fault injection, fatigue/DEL monitoring, vibration alarm thresholds, and Modbus TCP interface",
+      "description_zh": "風力發電機物理驅動型數位孿生平台。內含完整的轉子-發電機模型、熱力系統、振動譜與警報門檻、電氣反應、疲勞載荷與 DEL 損傷指標、7 種故障場景，模擬 74 個 SCADA 信號與電網事件，支援 Modbus TCP 介面與即時儀表板監控。",
+      "key_metrics": "74 SCADA tags, 7 fault scenarios, DEL fatigue monitoring",
+      "_path": "researchTopic/windFarmMonitor/digiWindTurbine",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/digiWindTurbine/STATUS.yaml"
+    },
+    {
+      "name": "Yitai Wind Farm Ops Platform (z72 SCADA / etech)",
+      "name_zh": "益泰風場維運平台（z72 SCADA + etech CMS）",
+      "category": "wind_energy",
+      "progress": 77,
+      "status": "active",
+      "last_updated": "2026-05-30",
+      "next_milestone": "本地系統穩定運行中；剩 B-U9 nice-to-have + A-R7 等系統穩 30 天；待現場有測試窗口時跑 C 段 z72bridge 上線參數會診（C-Z1~C-Z9）",
+      "technologies": [
+        "Nuxt 3",
+        "Vue 3",
+        "Koa 2",
+        "MongoDB 4.4",
+        "WebSocket (ws@8)",
+        "Java / z72bridge (Bachmann M1 PLC)",
+        "Element Plus",
+        "SQLite (z72bridge historian)",
+        "bcryptjs (A-R3 後)"
+      ],
+      "outputs": [
+        "tool"
+      ],
+      "description": "10-person internal CMS for a 14-turbine wind farm; work-order + maintenance + live SCADA via z72bridge.",
+      "description_zh": "10 人內網用維運平台：工單／維護表單／14 台風機 z72bridge 即時 SCADA。",
+      "key_metrics": "14 台 PLC、5 種表單、SCADA 1 Hz 即時 + 13 個月 10-min rollup、5 個權限角色",
+      "stages": [],
+      "zero_baseline": "done             # git init / README / MIGRATION / archive 舊版",
+      "A_bugfix_ui": "in_progress        # 紅燒 8 條已收（A-R1~6, A-R8, B-U1, B-U5）；剩 B 段 UI 細節",
+      "B_z72bridge": "in_progress        # subscriber / ws-proxy / /scada 頁面 / mock — 本地驗收已通；待現場 C-Z1~9",
+      "C_ops_features": "not_started     # 運維成本 / 故障分析 / RAG 診斷",
+      "prs": [
+        "number: 1"
+      ],
+      "title": "docs(B-U8): mark trend chart dataZoom as completed",
+      "state": "open",
+      "date": "2026-05-30",
+      "summary": "weekly routine 2026-05-30 — B-U8 趨勢圖支援拖拉時間軸已由先前實作包含，更新狀態與進度為 77。",
+      "items_completed": [
+        "branch: \"claude/nice-davinci-Go0dY"
+      ],
+      "hotspots": [
+        "docs/refactor-2025/reports/pre-prod-action-items.md  # 工作清單，每條打勾 + 進度紀錄表在底部",
+        "vendor/z72bridge/                                   # 真 JAR + bridge.properties（同機 / read-only / 13 個月 10-min rollup）",
+        "scripts/mock-z72bridge.mjs                          # 本地 mock，14 台擬真資料 1 Hz",
+        "scripts/probe-bridge.mjs                            # WS 訊息流量診斷（有 --login flag）",
+        "scripts/probe-ws-handshake.mjs                      # WS upgrade handshake 診斷",
+        "scripts/probe-cross-origin.mjs                      # dev 跨 port cookie 鏈路驗證",
+        "scripts/migrate-passwords.mjs                       # A-R3 一次性密碼 hash 遷移（idempotent）",
+        "yitai-corp-cms-download1140811/server/scadaSubscriber.js",
+        "yitai-corp-cms-download1140811/server/scadaWsProxy.js   # 已加 session 守門 (A-R1)",
+        "yitai-corp-cms-download1140811/server/users.js          # bcrypt + sanitize (A-R3)",
+        "yitai-corp-cms-download1140811/composables/useScada.js  # dev fallback :3001",
+        "yitai-corp-cms-download1140811/pages/scada/",
+        "yitai-corp-cms-download1140811/pm2.json                 # 相對路徑 (A-R2)"
+      ],
+      "dev_quirks": [
+        "@nuxt-alt/proxy@2.4.9 沒掛 'upgrade' listener，ws:true 是 dead config。dev 模式 useScada.js 自己偵測 port===3002 直連 Koa :3001。",
+        "ws-proxy 轉發必須帶 { binary: isBinary }，否則 text frame 會變成 binary frame，瀏覽器收到 Blob 後 JSON.parse 全失敗。",
+        "WS upgrade 的 session 守門 (A-R1) 用 keygrip 直驗 koa-session signed cookie，沒走 koa middleware 階段。改 cookie 邏輯時兩邊都要對齊。",
+        "users 密碼一律 bcrypt(rounds=10) → passwordHash；plain password 從不入庫。GET /api/users* 用 sanitize() 剝掉 hash 但留 hasPassword:boolean。",
+        "Koa 用 nodemon 起；Nuxt 用 Vite HMR。改 server/* 自動重啟，改 composables/* / pages/* HMR 重載。改 nuxt.config.js 必須手動重啟 npm run dev。",
+        "worktree 內沒 node_modules；diagnostic 腳本用 createRequire fallback 從主 repo 借 lib。",
+        "新加 dep 例如 bcryptjs：(1) 改 worktree package.json (2) cp 到主 repo (3) 在主 repo `npm install bcryptjs`。"
+      ],
+      "prod_blockers": [
+        "C-Z1: 確認 PLC namespace 是 Z72PLC 還是 Z82PLC（PLC 工程師會診）",
+        "C-Z2: 確認 HydPress 路徑 + Alm 陣列大小（PLC 工程師會診）",
+        "C-Z3: vendor/z72bridge/turbines.properties 14 台真 IP 填入",
+        "C-Z4: D 槽 ≥ 50GB + 預建 D:\\\\z72\\\\history\\\\",
+        "C-Z5: NSSM 包 z72bridge service + JVM 限額 -Xmx512m",
+        "C-Z6: 1 hr soak test，14 PLC 全綠燈",
+        "C-Z7-Z8: P 槽月報寫入 + UTF-8 BOM + fallback 驗證",
+        "C-Z9: 8 個手動驗收項（tasks.md 8.x）",
+        "Pre-prod 跑一輪 npm install + npm run build + npm run pm2all（驗 pm2.json A-R2 改動）",
+        "PR #3 merge 進 main"
+      ],
+      "_path": "researchTopic/windFarmMonitor/z72_SCADA_etech",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/windFarmMonitor/z72_SCADA_etech/STATUS.yaml"
     },
     {
       "name": "第一個運維廠商 PoC + 第一筆合約",
@@ -853,8 +1504,8 @@
       "category": "wind_energy",
       "progress": 0,
       "status": "planned",
-      "last_updated": "2026-05-10",
-      "next_milestone": "**🎉 M4 客戶 demo flow 端到端貫通 — 一日 4 PR + 1 cherry-pick + 真實 UI 實測 5 種 path 全 pass**：今日節奏 A8 reporting backend (PR #23) → A9 reports frontend (PR #24) → 劉老師實測踩到 4 連環 bug（CORS spec violation + work_orders 表撞名 + dispatch guard + weather_window UX），全修到 root cause（不是表面 patch）— hotfix CORS+table (PR #25) / dispatch+assignee (PR #26) / weather UX cherry-pick (9c8f476) + 開新 issue WMOM-20260510-01 (Identity / dev mode / mock login / farm is_offshore) 進 M5 backlog。劉老師實測完整 lifecycle：建單 → 派工 → 開始 → 進度紀錄 → 完工 → 員工簽 → 組長簽（通過/駁回/重新走）→ CLOSED + /admin/reports 月報 PDF download，**端到端全通**。後端 502 → 504 passed (zero regression)，frontend tsc 0 + vite build 6.06s 733 modules。所有 PR branches 已 merged + 刪除（local + remote），main 100% production-ready M4 狀態。M4 progress：90% → 95%。最大教訓：今日 hotfix 風暴源於沒有 lifecycle E2E test — 強烈建議下次 session 第一件事做 A10。詳細 handoff 在 work-logs/2026-05/2026-05-10-session-wrapup-handoff.md。下次候選：A10 E2E test → WMOM-20260510-01 (mock login + is_offshore) → A6/A7 領料庫存 frontend → F1-F6 follow-up。",
+      "last_updated": "2026-06-08\"  # EOD：M5 大推進 5 PR 進 main（#100-103 + chore），M5 55→75%，0 open PR",
+      "next_milestone": "【2026-06-08 EOD — M5 大推進，5 PR 進 main，0 open PR】今日從『盤點/評估』推到 M5 主功能全到齊：(1) pull 79 commits 同步 + 清 21 stale PR→0 + 健康度盤點 production-ready + C 決策落 2 DEC（chore 21d7a9d）；(2) **#100** M5-2 ChromaVectorRetriever 語意檢索；(3) **#101** M5-5 Part B-2 現場完工（assignee 過濾 + 簽名/拍照 canvas）；(4) **#102** 完工佐證大小上限 + 退料 guard 重做（WMOM-20260519-01）；(5) **#103** M5-3/4 完整 Z72 手冊向量檔（531 chunks，進 RAG_Ultimate 跑 build_vector_file 產 export，windMindOM 程式零改動驗證升級契約）。狀態：M5 55→**75%**、issue done 79→**83**、全 backend **721 passed/1xfailed** + frontend tsc0/vitest **797**。**下一步候選**：M6 部署期（客戶手冊擴充 + 一年警報 csv 灌入，同 ingest pipeline 換 export_dir）/ backlog 低優先項（WMOM-20260504-11/12/13、physics 強化群 23-28）/ WMOM-20260503-05 客戶接觸收尾。詳細見 work-logs/2026-06/2026-06-08-*。｜歷史脈絡：｜【2026-06-08 planning/triage session】(1) pull 79 commits 落後→同步 cc7966f；(2) 清 21 筆 stale PR（17 超越 + 1 落選 #40 + 2 salvage #41/#58 + 補抓 #51）→ **0 open PR**；(3) 健康度盤點 workflow @ cc7966f：**backend 675 passed / 1 xfailed + frontend 790 vitest + 物理 15/16（r 風速↔功率 0.969 / 1P↔轉速 0.943）→ main production-ready**；(4) C 決策落檔：**DEC-20260608-01**（M5-2 上 ChromaDB：採 RAG_Ultimate 預算向量檔 vectors.npy(27,512) L2-norm + 內嵌 Z72_WT_embed_small query encoder，收 chromadb+sentence-transformers+torch+95MB 模型）+ **DEC-20260608-02**（Part B-2：assignee_id 過濾 + 完工簽名/拍照）→ 新 issue WMOM-20260608-01（ChromaVectorRetriever）/ -02（field 完工）；(5) 未追蹤檔：WindCAE md 移出 repo、poster+z72SCADA_New(1.7G) gitignore。**下一步**：WMOM-20260608-01 ChromaVectorRetriever 實作（依賴 + 向量載入 + schema adapter + encode query + fallback test）。｜前情(2026-06-07)：**WMOM-20260607-04 done — FarmSelector component render 測試（EPIC-M5 測試覆蓋擴大）**：autonomous worker session（2026-06-07 第四輪），preflight 全綠（backend 638 / frontend 751、飛輪健康：上輪 EventComparisonView PR #98 已 auto-merge 進 main，baseline 自 719 推進到 751）。stack-aware：open PR 全為飛輪上線前 stale draft（#30–#68 共 21 筆）、無進行中 WIP。決策樹 #1/#2/#3 皆無 → 落 #4 乾淨 autonomous 工作。接上輪 handoff『render 測試剩餘 untested 元件』清單下一支——components/FarmSelector.tsx（532 行，sidebar 風場切換器 + 新增風場 modal）。新增 components/__tests__/FarmSelector.test.tsx（39 tests，純測試零 production 變更，含 code-reviewer 採納補測）。Mock 策略：useTheme 用真實 ThemeProvider；global.fetch 以 vi.fn 路由三端點（GET /api/farms 列表·POST /api/farms/{id}/activate 切換·POST /api/farms 建立），用 init.method 區分同路徑 GET/POST，未預期 URL reject，rejectAll 驗容錯；window.location 整顆換成只有 reload:vi.fn() 的物件並 afterEach 還原 originalLocation（避免測試間洩漏）。覆蓋 mount fetch/trigger 殼層（GET 一次·aria-haspopup/expanded·active 名+額定 MW·無 active fallback 選擇風場/Select farm·en）/展開收合（初始無 listbox·點開 expanded=true·再點收·標頭風場專案+新增 zh/en·click-outside mousedown 關閉）/farm 清單（option 數·名/台數/MW/地點·active aria-selected+使用中·非 active 無標記·en Active/turbines·空清單尚未建立風場/No farms）/切換（點非 active→POST activate+reload 一次·點 active 自己 no-op·activate 非 ok 不 reload）/新增 modal（開 dialog+關 dropdown·4 preset z72 預設 pressed·切 preset·name 空 Create disabled→輸入啟用·離岸 checkbox·送出 POST body 驗 name+preset+is_offshore·建立成功 onCreated 重新 fetch GET≥2·✕/取消/overlay 三關閉路徑·en 標題）/容錯（reject 不崩潰 fallback·reject 後仍可展開空狀態）。眉角：同路徑 /api/farms GET vs POST 用 init.method 分流；window.location 整顆替換需 afterEach 還原；option 用 farm 名 regex+within 縮範圍避多元素命中。Verify：tsc 0 error + vitest 790 passed（751 baseline + 39 新，零 regression）+ vite build ✓；backend 未動 638 / 1 xfailed。issue_stats done 79→80 / total 93→94。下一步：render 測試剩餘 untested 元件（MaintenanceHub 439/FaultInjectionPanel 555/ui primitives）；非 render M5-2 ChromaDB（需劉老師拍板依賴+向量檔來源）/ M5-5 /field/ mobile Part B-2（需劉老師拍板現場工程師完工流程）/ stale PR triage（#30–#68 共 21 筆）。詳細 handoff 在 work-logs/2026-06/2026-06-07-farmselector-render-tests.md.",
       "technologies": [
         "FastAPI",
         "React",
@@ -885,17 +1536,76 @@
       "M5": [],
       "M6": [],
       "issue_stats": [],
-      "open": "21  # +1: WMOM-20260510-01 dev mode + mock login + farm is_offshore",
-      "in_progress": 0,
+      "open": "12   # +WMOM-20260519-01 退料 guard done",
+      "in_progress": "2   # WMOM-20260504-12（記憶體長跑驗收）+ WMOM-20260503-05（客戶接觸）",
       "blocked": 0,
-      "done": 31,
+      "done": "83  # +4: WMOM-20260608-01 ChromaDB + -02 Part B-2 + -03 完整手冊向量檔 + 20260519-01 退料 guard (2026-06-08)",
       "inherited_baseline": [],
       "source": "digiWindTurbine",
       "status_snapshot": "docs/legacy/digiwt_STATUS.yaml",
       "todo_snapshot": "docs/legacy/digiwt_TODO.md",
       "highlights": [],
       "_path": "researchTopic/windMindOM",
-      "_yaml_path": "/sessions/great-fervent-gauss/mnt/Project_CodingSimulation/researchTopic/windMindOM/STATUS.yaml"
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/windMindOM/STATUS.yaml"
+    },
+    {
+      "name": "Z72 SCADA System",
+      "name_zh": "Z72 風機 SCADA 系統",
+      "category": "industrial_ai",
+      "progress": 99,
+      "status": "active",
+      "last_updated": "2026-06-04",
+      "next_milestone": "Final System Acceptance and Production Dry-run",
+      "technologies": [
+        "Java",
+        "JavaScript",
+        "Python",
+        "FastAPI",
+        "SQLite",
+        "WebSocket",
+        "Bachmann M1 PLC",
+        "HTML5 Canvas",
+        "LDAP/AD"
+      ],
+      "outputs": [
+        "tool",
+        "platform"
+      ],
+      "description": "End-to-end SCADA stack for 14-turbine Bachmann M1 wind farm: HMI replacement, real-time bridge, time-series historian, web dashboard, and standalone history query system with FastAPI auth/alert backend and AD/LDAP integration.",
+      "description_zh": "14 台 Bachmann M1 風機的完整 SCADA 系統 — 取代原廠 Swing HMI、Java bridge 即時資料中繼、SQLite 三層 historian（raw 14d / 1min 7d / 10min 永久 / 1hour）、瀏覽器 dashboard 與獨立多機歷史查詢介面。已完成 Phase 3b 後端及 LDAP 企業認證整合。",
+      "key_metrics": "14 turbines, ~10 GB historian DB, 70 merged PRs, Design A refactor complete, Layout v2 live, LDAP/AD integrated",
+      "_path": "researchTopic/z72hmiNew",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/z72hmiNew/STATUS.yaml"
+    },
+    {
+      "name": "HandSpeak",
+      "name_zh": "手語雙向溝通系統",
+      "category": "industrial_ai",
+      "progress": 82,
+      "status": "active",
+      "last_updated": "2026-06-14",
+      "next_milestone": "以台灣手語(TSL)標準收集真實動態序列、擴充詞庫並評估即時辨識率",
+      "technologies": [
+        "Python",
+        "MediaPipe",
+        "OpenCV",
+        "scikit-learn",
+        "PyTorch",
+        "LSTM",
+        "Tkinter",
+        "pyttsx3",
+        "edge-tts"
+      ],
+      "outputs": [
+        "tool",
+        "paper",
+        "course"
+      ],
+      "description": "Bidirectional sign-language communication on MediaPipe: rule-based zero-training gestures, static & dynamic (LSTM) recognition with Chinese TTS, and a side-by-side conversation GUI.",
+      "description_zh": "以 MediaPipe 為基礎的手語雙向溝通系統：內建免訓練手勢、靜態與動態(LSTM)辨識並發中文語音，提供左右並排對話 GUI；亦可將語音/文字轉成手語顯示。",
+      "key_metrics": "內建手勢免訓練即可用；LSTM 動態序列合成測試 100% 準確率(GPU)；台灣中文 SAPI 即時發聲",
+      "_path": "researchTopic/手勢與影像/handspeak",
+      "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/手勢與影像/handspeak/STATUS.yaml"
     }
   ]
 }

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>windMindOM M4 完工：從離岸風場工單流程到 RAG 知識整合的下一哩路 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .milestone-row { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .milestone-badge { flex-shrink: 0; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-align: center; min-width: 60px; }
+        .badge-done { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .badge-active { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .badge-plan { background: rgba(156,163,175,0.1); color: #9ca3af; border: 1px solid rgba(156,163,175,0.25); }
+        .milestone-text { flex: 1; color: var(--text-light); font-size: 0.95rem; }
+        .milestone-date { font-size: 0.8rem; color: var(--text-gray); flex-shrink: 0; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .milestone-row { flex-wrap: wrap; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">windMindOM M4 完工：從離岸風場工單流程到 RAG 知識整合的下一哩路</h1>
+            <p>2026-05-25 &bull; 劉瑞弘教授團隊 &bull; Wind Energy / O&amp;M SaaS / RAG / Product Engineering</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">windMindOM</span>
+                <span class="tag tag-green">M4 完工</span>
+                <span class="tag tag-teal">離岸風能 O&amp;M</span>
+                <span class="tag tag-orange">RAG 知識系統</span>
+                <span class="tag tag-sage">FastAPI / React / SQLite</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                每一個研究平台都有一個關鍵的轉折點——從「能跑起來」到「真正可以交給人用」。
+                DOF Lab 的 <strong>windMindOM</strong>（風心智運維平台）在 2026 年 5 月 10 日迎來了這個轉折：
+                M4 里程碑端到端貫通，劉瑞弘教授親自實測完整工單生命週期，
+                從<em>建單 → 派工 → 開始 → 進度紀錄 → 完工 → 員工簽名 → 組長審核（通過/駁回）→ 關單</em>，
+                全流程順暢通過。
+            </p>
+
+            <p>
+                這不只是一個技術檢查點的達成，而是 windMindOM 作為一個<strong>離岸風場運維 SaaS 工具</strong>
+                走向第一個客戶 PoC 的重要里程碑。本文記錄 M4 的完工樣貌、這次衝刺中踩過的
+                四連環 bug，以及接下來 M5 知識系統整合的規劃思路。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">核心模組</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">31</div>
+                    <div class="label">已完成 Issues</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">95%</div>
+                    <div class="label">M4 完成度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">2026-Q4</div>
+                    <div class="label">目標客戶 PoC</div>
+                </div>
+            </div>
+
+            <h2>一、M4 的核心成就：工單生命週期端到端貫通</h2>
+
+            <p>
+                windMindOM 的 M4 里程碑聚焦在<strong>工作流程第二部分（Inventory + Reporting）</strong>，
+                延續 M3 建立的工單核心（Work Order + Approval），加入了報表生成後端、月報 PDF 下載，
+                以及一系列讓整個平台「真正能用」的細節修補。
+            </p>
+
+            <p>
+                M4 衝刺最具代表性的一天，是一場典型的「一日四 PR + 一個 cherry-pick + 一輪 bug 修復」馬拉松。
+                當天完成了 A8 報表後端（PR #23）和 A9 報表前端（PR #24），看似已接近收尾，
+                但緊接著劉老師的實際測試踩到四連環 bug：
+            </p>
+
+            <ul>
+                <li><strong>CORS spec violation</strong>：跨來源請求設定不符 RFC，在特定瀏覽器版本觸發</li>
+                <li><strong>work_orders 資料表名稱衝突</strong>：與既有表名撞名，導致 migration 失敗</li>
+                <li><strong>dispatch guard 邏輯漏洞</strong>：派工防護條件判斷有邊角案例未覆蓋</li>
+                <li><strong>weather_window UX 體驗問題</strong>：天氣視窗欄位在特定工單狀態下顯示邏輯不對</li>
+            </ul>
+
+            <p>
+                關鍵在於：<strong>每一個 bug 都修到了根本原因（root cause），沒有表面 patch。</strong>
+                CORS 和資料表衝突合併成 hotfix PR #25，dispatch 和 assignee 問題合併成 PR #26，
+                weather UX 則透過 cherry-pick 精準接入（commit 9c8f476）。
+                這種「一次發現、徹底根治」的修復哲學，正是研究平台走向商業產品所需要的工程紀律。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🏆 M4 最終里程碑驗證結果</h3>
+                <p>
+                    後端 API 零迴歸（502 → 504 全通過），前端 TypeScript 編譯零錯誤（<code class="code-inline">tsc 0</code>），
+                    Vite 建置時間 6.06 秒、733 個模組。所有 PR 分支已合併並刪除（local + remote），
+                    main 分支處於 100% production-ready M4 狀態。
+                    月報 PDF 下載功能正常，工單完整生命週期：<em>建立 → 派工 → 執行 → 簽名 → 審核 → 關單</em>全部貫通。
+                </p>
+            </div>
+
+            <h2>二、六個里程碑的產品藍圖</h2>
+
+            <p>
+                windMindOM 的整體設計從一開始就是為了商業落地，不是純學術平台。
+                六個里程碑的設計充分反映了這個目標：
+            </p>
+
+            <div style="margin: 1.5rem 0;">
+                <div class="milestone-row">
+                    <span class="milestone-badge badge-done">M1 ✓</span>
+                    <span class="milestone-text">基礎設施建立（WMOM 架構、Docker Compose、Modbus TCP、OPC UA Bachmann Z72 連線）</span>
+                    <span class="milestone-date">2026-05</span>
+                </div>
+                <div class="milestone-row">
+                    <span class="milestone-badge badge-done">M2 ✓</span>
+                    <span class="milestone-text">成本模組（從 ECN 移植：成本引擎 × 4 + adapter + schemas + API + 前端，<em>一天完成</em>）</span>
+                    <span class="milestone-date">2026-06</span>
+                </div>
+                <div class="milestone-row">
+                    <span class="milestone-badge badge-done">M3 ✓</span>
+                    <span class="milestone-text">工單系統 Part 1（Work Order + Approval：後端 5 PR + 前端 2 PR 全部完成）</span>
+                    <span class="milestone-date">2026-07</span>
+                </div>
+                <div class="milestone-row">
+                    <span class="milestone-badge badge-active">M4 →</span>
+                    <span class="milestone-text">工單系統 Part 2 + 報表（Inventory 前端 A6/A7 + E2E 測試 A10 + follow-up F1-F6 待完成）</span>
+                    <span class="milestone-date">2026-08</span>
+                </div>
+                <div class="milestone-row">
+                    <span class="milestone-badge badge-plan">M5</span>
+                    <span class="milestone-text">知識系統 + RAG 整合、現場行動裝置 UI（與 RAG_Ultimate 平台對接）</span>
+                    <span class="milestone-date">2026-09</span>
+                </div>
+                <div class="milestone-row">
+                    <span class="milestone-badge badge-plan">M6</span>
+                    <span class="milestone-text">第一個離岸風場運維廠商 PoC + 第一筆合約（目標 NT$2–4M）</span>
+                    <span class="milestone-date">2026-10</span>
+                </div>
+            </div>
+
+            <p>
+                值得注意的是 M2 的完成速度：成本模組的四個引擎、adapter、schemas、API 端點和前端頁面，
+                <strong>在一天內全部完成</strong>。這不是靠蠻幹，而是因為有來自 ECN 工具的紮實基礎可以移植，
+                以及 AI 輔助開發讓程式碼產生與整合的節奏大幅壓縮。
+                windMindOM 的核心資產之一，就是從 <em>digiWindTurbine</em> 繼承的
+                104 個 SCADA 標籤、11 個故障場景物理模型，以及完整的大氣穩定度耦合模型——
+                這些「紮實的底盤」讓每一個上層功能都能快速落地。
+            </p>
+
+            <h2>三、M5 的核心挑戰：讓現場人員能「問」平台</h2>
+
+            <p>
+                M4 完工後，windMindOM 擁有了完整的工單流程、成本計算、和報表輸出能力。
+                但離岸風場的運維工作還有一個關鍵需求，是現有平台還無法滿足的：
+                <strong>現場技術人員需要能快速查詢設備維修歷史、故障排除手冊、和法規合規要求。</strong>
+            </p>
+
+            <p>
+                這正是 M5「知識系統 + RAG 整合」的出發點。在 DOF Lab 的技術棧裡，
+                已經有一個成熟的企業級 RAG 平台——<strong>RAG_Ultimate</strong>——支援 17 種檢索模式、
+                Qdrant 向量資料庫、多文件知識庫管理，以及完整的 RAGAS 評測實驗室。
+                M5 的核心任務，就是在 windMindOM 的現場 UI 中接入 RAG_Ultimate 的知識查詢能力。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 為什麼離岸風場特別需要 RAG？</h3>
+                <p>
+                    離岸風場的維護文件量龐大：IEC 61400 系列技術標準、Bachmann Z72 PLC 操作手冊、
+                    各風機型號的維修程序書、歷史事件日誌、備料採購規格……
+                    傳統關鍵字搜尋在這種異質文件環境下效果很差。
+                    RAG（Retrieval-Augmented Generation）能夠跨文件理解語意，
+                    讓現場人員用自然語言提問：「主齒輪箱更換後的首次維護週期是多少？」
+                    並直接得到有來源依據的回答，而不是一頁頁翻 PDF。
+                </p>
+            </div>
+
+            <p>
+                DOF Lab 目前已有「Z72 風機運維專家系統」的 14 個情境案例（發布於
+                2026-05-19 的研究日誌），為 windMindOM M5 提供了知識庫的第一批種子文件。
+                接下來的整合路徑，將從最高頻的「故障排除查詢」場景出發，
+                逐步擴展到「預防性維護建議」和「備料採購決策支援」。
+            </p>
+
+            <h2>四、從研究平台到商業 SaaS 的工程心法</h2>
+
+            <p>
+                windMindOM 的開發歷程揭示了一個從研究平台走向商業產品的重要心法：
+                <strong>「現場實測 → 踩 bug → 根治 → 再測」的循環，是品質的唯一保證。</strong>
+            </p>
+
+            <p>
+                M4 衝刺中最大的教訓，在 STATUS.yaml 裡寫得很清楚：
+                「今日 hotfix 風暴源於沒有 lifecycle E2E test——強烈建議下次 session 第一件事做 A10。」
+                這個教訓很典型：在高速迭代的研究環境中，功能完成了就往前衝，
+                端到端的整合測試往往是最後才補的。但在一個真正要交給運維廠商使用的平台，
+                沒有 E2E test coverage 的上線，就像在海上作業沒繫安全繩。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ M4 尾款：A10 E2E 測試是 M5 前的優先項</h3>
+                <p>
+                    A6/A7 領料庫存前端、A10 E2E 測試、以及 F1–F6 的各項 follow-up，
+                    是 windMindOM 進入 M5 之前必須完成的工作。其中 A10 E2E 測試被劉老師明確列為
+                    「下次 session 第一件事」，因為一個沒有端到端測試覆蓋的工單系統，
+                    在客戶 demo 環境中隨時可能因為微小改動而崩潰——這是商業 PoC 絕對無法接受的。
+                </p>
+            </div>
+
+            <p>
+                windMindOM 繼承自 digiWindTurbine 的豐富物理模型基礎（Bastankhah-Porté-Agel 高斯尾流、
+                大氣穩定度 × 剪切 / TI / 尾流 / 偏向五重耦合、疲勞壽命 DEL 計算），
+                讓它在技術深度上超越了大多數同類工具。M5 加入 RAG 知識系統後，
+                這個平台將同時具備「物理感知」（數據驅動的設備監控）和「文件感知」（語意搜尋的知識查詢）兩個維度，
+                成為一個真正接近全棧的離岸風場運維工具。
+            </p>
+
+            <div class="action-box">
+                <h3>🎯 DOF Lab 接下來的行動</h3>
+                <ul>
+                    <li><strong>短期（M4 尾款）</strong>：完成 A10 E2E 測試，確保工單系統在 demo 環境的穩定性；完成 A6/A7 領料庫存前端</li>
+                    <li><strong>中期（M5 規劃）</strong>：定義 windMindOM ↔ RAG_Ultimate 的 API 介面規範；建立 Z72 風機知識庫第一版（14 個情境 → 完整手冊）</li>
+                    <li><strong>現場 UI 設計</strong>：開始 M5 行動裝置介面的 UX 研究，針對現場作業人員的使用情境（手套、強光、單手操作）設計互動流程</li>
+                    <li><strong>商業準備</strong>：準備第一個潛在客戶（離岸風場運維廠商）的 PoC 展示腳本，確認目標客戶的實際痛點清單</li>
+                </ul>
+            </div>
+
+            <p>
+                離岸風能的運維管理，長期以來是一個依賴經驗傳承和紙本手冊的產業。
+                windMindOM 的願景，是用 AI 加持的數位工具，讓台灣的離岸風場運維廠商能夠以更低的成本、
+                更高的效率管理設備健康和維修流程。M4 的完工，讓這個願景從「研究原型」
+                邁向了「可以讓人試用的產品」。而 M5 的知識系統整合，將是讓它從「好用的工具」
+                成長為「不可替代的平台」的關鍵一步。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <p><strong>參考來源與相關資源</strong></p>
+            <ul>
+                <li>windMindOM STATUS.yaml — DOF Lab 內部專案狀態文件（2026-05-10 更新）</li>
+                <li><a href="2026-05-13-windmindom-ui-design-iteration-version-management.html">2026-05-13 | windMindOM UI 設計迭代與版本管理</a></li>
+                <li><a href="2026-05-19-rag-z72-wind-turbine-om-expert-system-14-cases.html">2026-05-19 | RAG Z72 風機運維專家系統 14 個情境案例</a></li>
+                <li><a href="2026-05-16-rag-research-to-product-windmindom-m5-knowledge-integration.html">2026-05-16 | RAG 研究到產品：windMindOM M5 知識整合規劃</a></li>
+                <li>IEC 61400-12-1/2 風機功率曲線量測標準（anemometer/vane transfer functions）</li>
+                <li>Bastankhah &amp; Porté-Agel (2014), "A new analytical model for wind-turbine wakes" — <em>Renewable Energy</em></li>
+                <li>RAG_Ultimate 平台文件 — DOF Lab 內部，17 種檢索模式 + Qdrant 向量資料庫</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.9rem; border-top: 1px solid var(--border-color);">
+        <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授研究室</p>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

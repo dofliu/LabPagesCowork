@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG Ultimate Phase 3 Routine 抵達終點：24 種 RAG 模式 × Speculative / Contextual 上線 × r111 里程碑 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .mode-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .mode-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.65rem 1rem; text-align: left; border-bottom: 2px solid rgba(99,102,241,0.4); }
+        .mode-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-light); }
+        .mode-table tr:last-child td { border-bottom: none; }
+        .new { color: #4ade80; font-weight: 600; font-size: 0.78rem; background: rgba(74,222,128,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.4rem; }
+        .phase-timeline { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0; }
+        .phase-item { display: flex; align-items: flex-start; gap: 1rem; }
+        .phase-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
+        .phase-done { background: #4ade80; }
+        .phase-now { background: #818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.7); }
+        .phase-next { background: rgba(255,255,255,0.2); }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .mode-table { font-size: 0.8rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">RAG Ultimate Phase 3 Routine 抵達終點：24 種 RAG 模式 × Speculative / Contextual 上線 × r111 里程碑</h1>
+            <p>2026-06-08 &bull; 劉瑞弘教授團隊 &bull; RAG 與知識管理 / 技術研究</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG Ultimate</span>
+                <span class="tag tag-green">Phase 3 Routine</span>
+                <span class="tag tag-teal">Speculative RAG</span>
+                <span class="tag tag-orange">Contextual Embedding</span>
+                <span class="tag tag-sage">Ablation Study</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                有些里程碑讓人安靜地坐下來思考一下。上週（2026-06-02 至 2026-06-07），
+                DOF Lab 的 <strong>RAG Ultimate 研究平台</strong>在 Phase 3 的
+                Routine 主線上走到了一個明確的句點：<strong>r111 — Phase 3 routine 全四層（L1~L4）清空，
+                達到 routine 終點</strong>。
+                同時，平台的 RAG 技術模組也在本週完成了兩個新模式的接線，
+                讓可操作的 RAG 策略從 22 種擴展到 <strong>24 種（22 技術 + 2 控制組）</strong>。
+            </p>
+
+            <p>
+                從六月初論文主線衝刺結束後（詳見
+                <a href="2026-06-01-rag-ultimate-wind-rag-paper-ragas-evaluation-complete.html">上週日誌</a>），
+                研究室並沒有停下來。本週是一段「補課 + 完整交代」的週期：
+                把 Phase 3 以來累積的技術文件缺口一次補齊，讓所有文件的數字與本機實際狀態一致，
+                並完成兩個原本「已定義但尚未接線」的 RAG 技術模式。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">r111</div>
+                    <div class="label">Phase 3 routine 終點</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">24</div>
+                    <div class="label">可操作 RAG 模式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">L1~L4</div>
+                    <div class="label">四層 routine 全清</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">904</div>
+                    <div class="label">Jest 測試通過數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">150</div>
+                    <div class="label">累計 GitHub PR</div>
+                </div>
+            </div>
+
+            <h2>一、Phase 3 Routine 結構：四層清空意味著什麼</h2>
+
+            <p>
+                RAG Ultimate 從 Phase 3 起採用了一種「分層 routine」機制來管理研究工作的節奏：
+                每一輪 routine（r 編號）對應一批文件清點、一致性校對、或技術實作，
+                並分屬不同的優先層（L1 為最高優先、L4 為文件品質補強）。
+                每個 PR 合入後，對應的 routine 項目才算正式關閉。
+            </p>
+
+            <p>
+                本週達到的 <strong>r111</strong> 是這個機制自 Phase 3 啟動以來的累計第 111 個 routine，
+                而這個 routine 的完成代表 Phase 3 所定義的所有常規工作項目已全部清空：
+            </p>
+
+            <ul>
+                <li><strong>L1（核心文件）</strong>：README、ROADMAP、STATUS.yaml 全部同步至 2026-06-07 現況</li>
+                <li><strong>L2（開發指引）</strong>：DEVELOPMENT_GUIDE、AGENTS、TODO 數字校正完畢</li>
+                <li><strong>L3（研究文件）</strong>：SPRINT_HANDOFF ↔ RAG_TECHNIQUE_BENCHMARK 雙向交叉連結與一致性確認</li>
+                <li><strong>L4（引用品管）</strong>：ablation 待查證引用表（<span class="code-inline">ablation_cite_todo.md</span>）所有條目全部彙整完成</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h3>為什麼「文件一致性」是研究基礎設施的核心問題</h3>
+                <p>
+                    研究平台進展快、PR 頻率高，文件很容易與程式碼狀態脫節。
+                    這次校正發現，多份文件中仍殘留「17 種 RAG 模式」的舊描述（實際已達 24 種），
+                    以及測試數停在數個月前快照的舊數字。
+                    這類不一致在單人研究室中容易被接受（「知道就好」），
+                    但當文件需要作為論文引用基礎或對外展示時，
+                    <strong>精確的文件狀態等同於研究可信度的一部分</strong>。
+                    DOF Lab 的做法是透過 routine 機制強制定期對齊，而非依賴臨時記憶。
+                </p>
+            </div>
+
+            <h2>二、兩個新 RAG 模式：Speculative RAG 與 Contextual Embedding</h2>
+
+            <p>
+                本週另一個技術亮點是兩個 RAG 策略的正式接線（PR #147）：
+                <strong>Speculative RAG</strong> 與 <strong>Contextual Embedding</strong>。
+                這讓平台的 RAG 技術模組從 22 種擴展至 24 種，並更新了 README 架構圖與整合狀態表。
+            </p>
+
+            <table class="mode-table">
+                <thead>
+                    <tr>
+                        <th>新增模式</th>
+                        <th>核心策略</th>
+                        <th>適合場景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Speculative RAG</strong> <span class="new">NEW</span></td>
+                        <td>先由 LLM 生成草稿回答，再對草稿進行品質評估（信心分數），若不達標則觸發精煉循環，以更精確的檢索取代原始回答</td>
+                        <td>需要高可信度回答的場景，如合規審查、技術支援工單、工業診斷</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contextual Embedding</strong> <span class="new">NEW</span></td>
+                        <td>在建立向量索引前，先用 LLM 為每個文本片段補充上下文說明（Anthropic Contextual Retrieval 方法），讓向量表徵攜帶更豐富的局部語意</td>
+                        <td>長文件、段落語意孤立的技術手冊，如風機維修手冊、OEM 規格書</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                值得一提的是，原本規劃中的第三個新模式 <strong>Late Chunking</strong> 最終決定暫不實作。
+                Late Chunking 的真實版本需要 token 級（而非 segment 級）的 embedding，
+                屬於底層架構限制，在現有的 Provider Registry 架構下無法直接支援，
+                因此在文件中標記為「已定義、暫不支援」，等待 Phase 4 的後端架構更新。
+            </p>
+
+            <div class="highlight-box">
+                <h3>Contextual Embedding 在風電領域的潛力</h3>
+                <p>
+                    風機技術手冊有一個常見的檢索難題：「齒輪箱振動異常」這個問題，
+                    答案可能散落在第三章的「診斷流程」、第七章的「零件規格」、
+                    以及附錄的「歷史故障案例」三個地方。
+                    傳統切片法把這些片段分開儲存，檢索時往往只命中其中一處。
+                    <strong>Contextual Embedding 的做法</strong>是在建立索引前，
+                    讓 LLM 為每個片段補一句「這段內容描述了 Vestas V90 風機在高轉速工況下的齒輪箱診斷步驟」，
+                    大幅提升同一問題在不同位置片段的語意關聯性。
+                    這與 DOF Lab Wind Farm RAG MVP 的 baseline 數據（Hit rate 0.917）的下一步改善方向高度吻合。
+                </p>
+            </div>
+
+            <h2>三、Phase 3 完成後的路線三叉口</h2>
+
+            <p>
+                抵達 Phase 3 routine 終點後，研究室面臨一個明確的「三叉口」決策，
+                在最新更新的 <span class="code-inline">daily_report.md</span> 中有完整記錄：
+            </p>
+
+            <div class="phase-timeline">
+                <div class="phase-item">
+                    <div class="phase-dot phase-done"></div>
+                    <div>
+                        <strong>Phase 2 — 後端硬化</strong>（已完成）<br>
+                        <span style="font-size:0.9rem; color: var(--text-gray);">21 個 PR，CI/CD、logging、Qdrant 持久化、Cloud Run 部署全線就緒</span>
+                    </div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-dot phase-done"></div>
+                    <div>
+                        <strong>Phase 3 — 風電 RAG 論文 + Routine 清空</strong>（已完成）<br>
+                        <span style="font-size:0.9rem; color: var(--text-gray);">27 組檢索矩陣實驗、RAGAS 評測、全稿輸出、r111 routine 終點</span>
+                    </div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-dot phase-now"></div>
+                    <div>
+                        <strong>Phase 4 候選方向（使用者主導）</strong><br>
+                        <ul style="margin: 0.5rem 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                            <li><strong>A. 技術 Benchmark 深化</strong>：對 24 種 RAG 模式進行系統性 benchmark，比較工業文件 vs 一般文件的策略效果差異，延伸論文</li>
+                            <li><strong>B. 企業端功能完善</strong>：Hybrid Search、Reranker 整合、Multi-collection 查詢，向「可部署產品」推進</li>
+                            <li><strong>C. 新應用場景</strong>：把平台能力移植到其他 DOF Lab 專案（InduSpect 設備巡檢、Z72 SCADA 知識庫）</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>本週啟示：「技術廣度」與「文件精確度」都是可複製的競爭力</h3>
+                <p>
+                    RAG Ultimate 這週的工作，表面上是文件校正和兩個模式接線，
+                    但背後代表的是一種研究工作的成熟度：
+                    <strong>把「知道已做了什麼」轉化為「任何人都可以驗證已做了什麼」</strong>。
+                    24 種 RAG 模式的可操作性、904 個通過的測試、PR #150 的清單記錄，
+                    都是讓後續研究（論文、學生接手、跨專案移植）可以站在上面的地基。
+                    技術廣度帶來論文貢獻，而文件精確度讓這個貢獻可以被重複和驗證。
+                    這兩件事同等重要。
+                </p>
+            </div>
+
+            <h2>本週研究室行動項目</h2>
+
+            <div class="action-box">
+                <h3>&#x2705; 確認完成</h3>
+                <ul>
+                    <li>Phase 3 Routine r111 達終點，L1~L4 全清，PR #150 合入</li>
+                    <li>Speculative RAG + Contextual Embedding 正式接線，PR #147 合入</li>
+                    <li>所有文件數字同步至 2026-06-07 現況（模式數 24、測試數 904）</li>
+                    <li>SPRINT_HANDOFF ↔ RAG_TECHNIQUE_BENCHMARK 雙向交叉連結完成</li>
+                    <li>Wind Farm RAG MVP baseline 認列（Hit rate 0.917）</li>
+                </ul>
+            </div>
+
+            <div class="action-box">
+                <h3>&#x1F3AF; 下一步（待使用者確認方向）</h3>
+                <ul>
+                    <li>確認 Phase 4 主線：技術 Benchmark / 企業端功能 / 新應用場景？</li>
+                    <li>若選 A：設計 24 種模式在工業文件上的 benchmark 實驗方案</li>
+                    <li>若選 B：規劃 Hybrid Search + Reranker 的後端架構 ADR</li>
+                    <li>若選 C：評估 InduSpect 知識庫整合的前置需求</li>
+                    <li>Late Chunking 技術可行性調查（是否需要改換 Embedding 架構）</li>
+                </ul>
+            </div>
+
+            <div class="source-list">
+                <strong>本文參考來源</strong>
+                <ul>
+                    <li><a href="https://github.com/dofliu/RAG_Ultimate/pull/150" target="_blank">RAG_Ultimate PR #150 — Phase 3 L4 ablation 引用表彙整（routine 終點）</a></li>
+                    <li><a href="https://github.com/dofliu/RAG_Ultimate/pull/147" target="_blank">RAG_Ultimate PR #147 — Speculative RAG / Contextual Embedding 接線</a></li>
+                    <li><a href="https://github.com/dofliu/RAG_Ultimate/blob/main/README.md" target="_blank">RAG_Ultimate README — 24 種 RAG 模式清單</a></li>
+                    <li><a href="https://www.anthropic.com/news/contextual-retrieval" target="_blank">Anthropic — Contextual Retrieval 方法說明</a></li>
+                    <li><a href="https://arxiv.org/abs/2407.04435" target="_blank">Speculative RAG: Enhancing Retrieval Augmented Generation through Drafting (arXiv 2407.04435)</a></li>
+                    <li>RAG_Ultimate docs/RAG_TECHNIQUE_BENCHMARK.md — 24 種技術現況與 benchmark 進度追蹤</li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授研究室</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

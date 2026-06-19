@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Wind Farm RAG 論文衝刺完成：27 組檢索矩陣 × RAGAS 生成層評測 × 全稿收束 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .matrix-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .matrix-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.65rem 1rem; text-align: left; border-bottom: 2px solid rgba(99,102,241,0.4); }
+        .matrix-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-light); }
+        .matrix-table tr:last-child td { border-bottom: none; }
+        .best { color: #4ade80; font-weight: 600; }
+        .metric-row { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        .metric-card { flex: 1; min-width: 140px; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 1rem; text-align: center; }
+        .metric-card .metric-name { font-size: 0.8rem; color: var(--text-gray); margin-bottom: 0.4rem; }
+        .metric-card .metric-val { font-size: 1.5rem; font-weight: 700; color: #818cf8; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .metric-row { flex-direction: column; } .matrix-table { font-size: 0.8rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">Wind Farm RAG 論文衝刺完成：27 組檢索矩陣 × RAGAS 生成層評測 × 全稿收束</h1>
+            <p>2026-06-01 &bull; 劉瑞弘教授團隊 &bull; RAG 與知識管理 / 風力發電 AI / 論文研究</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG Benchmark</span>
+                <span class="tag tag-green">RAGAS Evaluation</span>
+                <span class="tag tag-teal">Wind Farm Domain</span>
+                <span class="tag tag-orange">Paper Sprint</span>
+                <span class="tag tag-sage">Friedman 統計檢驗</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                研究有時候是一場長跑，但偶爾也會有一週讓你看見終點線。本週（2026-05-26 至 2026-06-01），
+                DOF Lab 的 <strong>RAG Ultimate 研究平台</strong>迎來了 Phase 3 風電 RAG 論文主線的重大收束：
+                <strong>27 組檢索矩陣實驗全部完成，Friedman 統計顯著性確認，RAGAS 生成層評測四項指標齊備，
+                論文六大章節全文寫畢，期刊格式（LaTeX + DOCX）完整輸出</strong>。
+                這週累計了 42 個 git commit，是今年以來單週密度最高的一次衝刺。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">27</div>
+                    <div class="label">組檢索矩陣實驗</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">40</div>
+                    <div class="label">題 RAGAS 評測</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">4</div>
+                    <div class="label">種生成層指標</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">800Q</div>
+                    <div class="label">手冊 Proxy Benchmark</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">42</div>
+                    <div class="label">週 git commits</div>
+                </div>
+            </div>
+
+            <h2>一、27 組檢索矩陣：從策略到實驗設計</h2>
+
+            <p>
+                風電領域的技術文件有其特殊性：OEM 維修手冊動輒數百頁，
+                術語密集（功率曲線、風速剖面、狀態估測、預防性維護週期），
+                且同一問題往往需要橫跨多個章節才能完整回答。
+                這種文件特性讓「選擇正確的文本切割與檢索策略」對 RAG 系統的表現有決定性影響，
+                而這正是本研究想要系統性地量化的問題。
+            </p>
+
+            <p>
+                實驗設計採用 <strong>3 × 3 × 3 的正交矩陣</strong>：
+            </p>
+            <ul>
+                <li><strong>切割策略（Chunking Strategy）</strong>：Sentence、Paragraph、Recursive Character</li>
+                <li><strong>Chunk Size</strong>：256 / 512 / 1024 tokens</li>
+                <li><strong>Overlap</strong>：0 / 64 / 128 tokens（依比例調整）</li>
+            </ul>
+
+            <p>
+                每種組合以相同的 Embedding Model（<span class="code-inline">intfloat/multilingual-e5-large</span>）
+                建立 Qdrant 向量索引，並針對涵蓋四個機型技術手冊的 200 道問題集，
+                計算 <strong>Hit@5 與 MRR@5</strong> 兩項檢索層指標。
+                最終得到一個 27 × 2 的真實數據矩陣（<span class="code-inline">matrix.csv</span>），
+                作為論文 Results 章節的核心資料來源。
+            </p>
+
+            <div class="highlight-box">
+                <h3>為什麼需要 27 組實驗？</h3>
+                <p>
+                    在許多 RAG 研究中，「切割策略」往往是研究者憑直覺選定的超參數，
+                    而非透過系統性實驗確認的選擇。DOF Lab 的立場是：
+                    <strong>對於特定領域（尤其是術語密集的工業文件），
+                    不同切割策略的效果差異可能遠超過模型本身的差異</strong>。
+                    這 27 組實驗的目的，正是要在統計顯著性層面確認這個假設——
+                    而 Friedman 非參數檢驗結果（<em>p</em> &lt; 0.05）也確實支持了「策略差異顯著存在」的論點。
+                </p>
+            </div>
+
+            <h2>二、RAGAS 生成層評測：補上論文最大缺口</h2>
+
+            <p>
+                檢索層的矩陣實驗確認了「哪種切割策略找得到相關段落」，
+                但一個 RAG 系統最終的使用者體驗，取決於<strong>生成層的品質</strong>——
+                LLM 拿到正確的 context 之後，是否能夠回答得準確、流暢、且忠實於原文？
+                這是早期草稿版本的最大缺口，也是同行審閱者最容易提問的地方。
+            </p>
+
+            <p>
+                本週完成的 RAGAS 評測，以最佳檢索組合（Paragraph + 512 + 64）搭配 4 個機型，
+                從 200 道問題中均勻抽取 <strong>40 道題目</strong>，
+                讓 LLM（Gemini 1.5 Flash）在 Qdrant 向量索引上進行端對端 QA，
+                並以 RAGAS 框架計算四項指標：
+            </p>
+
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-name">Faithfulness</div>
+                    <div class="metric-val">0.81</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-name">Answer Relevancy</div>
+                    <div class="metric-val">0.87</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-name">Context Precision</div>
+                    <div class="metric-val">0.76</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-name">Context Recall</div>
+                    <div class="metric-val">0.79</div>
+                </div>
+            </div>
+
+            <p>
+                Faithfulness 0.81 代表 LLM 的回答中有 81% 的聲明可以直接從檢索段落中找到對應依據，
+                Answer Relevancy 0.87 則顯示回答對問題的針對性相當高。
+                Context Precision 與 Recall 在 0.76–0.79 之間，
+                反映出風電手冊術語密集、段落跨章節的特性對檢索精度確實有壓力，
+                也是下一步可以進一步提升的空間。
+            </p>
+
+            <div class="insight-box">
+                <h3>💡 RAGAS 評測的正確使用姿勢</h3>
+                <p>
+                    RAGAS 框架的一個常見誤用是把「高分」當成終極目標。
+                    在本研究中，RAGAS 分數的價值在於<strong>提供不同策略之間的相對對比基線</strong>，
+                    以及確認「最佳檢索組合在生成層是否同樣有效」。
+                    特別值得注意的是，RAGAS 的計算本身也依賴 LLM 評分，
+                    因此研究團隊嚴格區分了「冒煙測試值」（開發期的快速估算）
+                    與「真實 40 題數據」（論文引用的正式結果），
+                    並在最後一個 commit 中明確修正了先前誤入的冒煙測試彙總值，
+                    確保論文引用的數字完全來自真實實驗。
+                </p>
+            </div>
+
+            <h2>三、論文六大章節完成與研究交接文件</h2>
+
+            <p>
+                除了實驗資料，本週也完成了論文正文的六大章節撰寫：
+                Abstract、Introduction、Related Work、Methodology、Experimental Results 與 Discussion/Limitations。
+                Results 章節包含 6 張以 matplotlib 繪製的真實數據圖表，
+                涵蓋檢索矩陣熱力圖、最佳策略 MRR 分布、RAGAS 四指標雷達圖等視覺化呈現。
+            </p>
+
+            <p>
+                論文格式同時輸出為 <strong>LaTeX 期刊格式</strong>（針對 IEEE Access 投稿規範）
+                與 <strong>Word DOCX</strong>（供指導教授審閱與院內共同作者協作），
+                兩種格式均透過自動化腳本（<span class="code-inline">scripts/format_paper.py</span>）維護一致性，
+                避免手動同步兩份文件產生的版本漂移。
+            </p>
+
+            <p>
+                研究室另外完成了一份 <strong>WindRAG 研究交接文件</strong>，
+                清楚列出後續工作 A–E 五項：
+            </p>
+            <ul>
+                <li><strong>A — 手冊 Proxy Benchmark 完整驗證</strong>：4 機型 × 200Q = 800 題，
+                    確認最佳策略在未見機型上的泛化能力</li>
+                <li><strong>B — Ablation Study</strong>：移除 Re-ranking 與 Hybrid Search，
+                    量化各組件的貢獻度</li>
+                <li><strong>C — 期刊投稿前 Related Work 補充</strong>：加入 2025–2026 年新發表的 Wind RAG 相關論文</li>
+                <li><strong>D — RAGAS 擴充至全量 200Q</strong>：目前 40Q 為先行評測，
+                    投稿前需確認規模擴充後的指標穩定性</li>
+                <li><strong>E — 使用者研究（optional）</strong>：邀請實際從事風機運維的工程師進行 A/B 測試</li>
+            </ul>
+
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th>論文章節</th>
+                        <th>狀態</th>
+                        <th>核心內容</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Abstract</td>
+                        <td class="best">✅ 完成</td>
+                        <td>研究動機、方法摘要、主要發現</td>
+                    </tr>
+                    <tr>
+                        <td>Introduction</td>
+                        <td class="best">✅ 完成</td>
+                        <td>風電 O&amp;M 知識挑戰、RAG 技術背景、研究貢獻</td>
+                    </tr>
+                    <tr>
+                        <td>Related Work</td>
+                        <td class="best">✅ 完成（待補充 C）</td>
+                        <td>工業文件 RAG、風能 AI、RAGAS 評測框架</td>
+                    </tr>
+                    <tr>
+                        <td>Methodology</td>
+                        <td class="best">✅ 完成</td>
+                        <td>資料集、實驗設計、3×3×3 矩陣、評測指標定義</td>
+                    </tr>
+                    <tr>
+                        <td>Experimental Results</td>
+                        <td class="best">✅ 完成</td>
+                        <td>27 組矩陣、Friedman 統計、RAGAS 四指標、6 張圖表</td>
+                    </tr>
+                    <tr>
+                        <td>Discussion / Limitations</td>
+                        <td class="best">✅ 完成</td>
+                        <td>最佳組合分析、泛化限制、未來工作</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>研究室行動項目與本週啟示</h2>
+
+            <div class="action-box">
+                <h3>✅ 下一步：投稿前的五項準備</h3>
+                <p>
+                    論文全稿完成後，正式投稿前仍有幾個關鍵動作需要執行：
+                </p>
+                <ul>
+                    <li>完成交接文件中的 <strong>A（800Q Proxy Benchmark）</strong>，
+                        確認最佳策略跨機型泛化，避免結論過度依賴特定機型手冊特性</li>
+                    <li>決定目標期刊（IEEE Access / Energies / Applied Energy），
+                        並根據投稿規範調整格式（字數上限、References 格式、圖表解析度）</li>
+                    <li>完成 Related Work <strong>C 項補充</strong>，確保引用時效性符合期刊要求</li>
+                    <li>邀請共同作者（院內風能領域教師）進行一輪 Peer Review，
+                        重點確認 Methodology 的描述對非 RAG 背景讀者是否足夠清晰</li>
+                    <li>確認所有圖表的字型大小、顏色對比符合期刊印刷版本要求</li>
+                </ul>
+            </div>
+
+            <p>
+                回顧本週的衝刺歷程，有一個面向特別值得記錄：
+                <strong>實驗誠信（research integrity）在 AI 研究中的重要性，遠比表面看起來更微妙</strong>。
+                在最後一個 commit（<span class="code-inline">bdf3e43</span>）中，
+                研究團隊發現先前整理摘要時誤入了開發期的冒煙測試值（非正式的快速估算數字），
+                並在論文引用前及時修正，確保所有數字都來自嚴格執行的 40 題正式評測。
+            </p>
+
+            <p>
+                這個細節看似微小，但它觸及了 AI 研究可重現性的核心問題：
+                <strong>冒煙測試值的存在是必要的（用來快速確認管線是否暢通），
+                但它絕對不能被當作論文的引用數字</strong>。
+                在高速衝刺的論文寫作期，區分「快速估算」與「正式結果」的紀律，
+                往往是研究品質最脆弱的環節之一。
+                RAG Ultimate 的解法是透過明確的 commit message 標記（<span class="code-inline">fix: 修正先前誤入的冒煙測試值</span>），
+                讓版本控制本身成為研究誠信的稽核軌跡。
+            </p>
+
+            <div class="highlight-box">
+                <h3>Git 版本控制作為研究誠信的基礎設施</h3>
+                <p>
+                    本週的研究歷程再次印證了一個觀點：
+                    <strong>對研究型程式碼庫而言，git commit 不只是技術紀錄，更是研究決策的歷史脈絡</strong>。
+                    42 個 commit 裡，最有價值的可能不是加了哪個功能，
+                    而是那些明確標記「修正」、「誠實標記未完成」的 commit——
+                    它們讓整個研究過程在事後可以被完整還原，
+                    而不是只留下一個看不出來路的「最終版本」。
+                    這種實踐對研究室的學生成員尤其重要，
+                    因為養成「commit 即紀錄」的習慣，就是在建立研究工作的基本誠信基礎。
+                </p>
+            </div>
+
+            <p>
+                對於有意進入 RAG 研究領域的工程師或研究生，
+                本週的工作流程提供了一個具體的參考樣板：
+                先確立完整的實驗矩陣設計（不要邊跑邊改）、
+                分層建立評測管線（先檢索層再生成層）、
+                用統計檢驗支撐定量結論（而非只挑選最好看的結果）、
+                最後保持版本控制的嚴格紀律。
+                這四個步驟組合起來，就是一份能夠通過同行審閱的研究論文的基本工程底座。
+            </p>
+
+            <p>
+                <strong>本週其他進展：</strong>
+                Z72 SCADA 系統（progress 98%）完成了振動健康橋接模組的單元測試套件，
+                並在 Phase 3b ADR 中正式採納 FastAPI 作為後端框架；
+                AI Graphic Studio（progress 97%）持續迭代介面；
+                Face Recognition Attendance 系統達到 100% 完成，正式轉入 production 階段。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li>RAG Ultimate STATUS.yaml — <code>researchTopic/RAG_Ultimate/STATUS.yaml</code>（last_updated: 2026-05-20）</li>
+                <li>Git commit <code>aa5ccb3</code>: feat: RAGAS 生成層評估（40 題 4 指標，補論文最大缺口）</li>
+                <li>Git commit <code>bdf3e43</code>: fix: RAGAS 彙總改用真實 40 題數據（修正先前誤入的冒煙測試值）</li>
+                <li>Git commit <code>f895281</code>: docs: WindRAG 研究交接文件（過程說明 + 後續工作 A-E）</li>
+                <li>Git commit <code>d7c7a2d</code>: feat: Wind Farm 檢索 benchmark 統計分析（Friedman 顯著）</li>
+                <li>Git commit <code>46e0335</code>: feat: Wind Farm 檢索矩陣彙總（27 組 → matrix.csv + 最佳組合）</li>
+                <li>Es, S., James, J., Espinosa-Anke, L., &amp; Schockaert, S. (2023). <em>RAGAS: Automated Evaluation of Retrieval Augmented Generation</em>. arXiv:2309.15217. <a href="https://arxiv.org/abs/2309.15217" target="_blank" rel="noopener">https://arxiv.org/abs/2309.15217</a></li>
+                <li>Lewis, P., et al. (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>. NeurIPS 2020. <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">https://arxiv.org/abs/2005.11401</a></li>
+                <li>Qdrant 向量資料庫官方文件 — <a href="https://qdrant.tech/documentation/" target="_blank" rel="noopener">https://qdrant.tech/documentation/</a></li>
+                <li>IEC 61400-12-1:2017, <em>Wind energy generation systems — Power performance measurements</em></li>
+                <li>DOF Lab 研究儀表板 — <a href="../dashboard.html">https://doflab.cc/dashboard.html</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid var(--border-color);">
+        <p>© 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘研究室</p>
+    </footer>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const links = document.querySelector('.nav-links');
+        if (toggle && links) toggle.addEventListener('click', () => links.classList.toggle('open'));
+    </script>
+</body>
+</html>

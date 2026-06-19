@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>工程完工，研究開始：RAG Ultimate v8.0 正式跨入風電 RAG Benchmark 論文階段 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .tag-red { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .timeline { margin: 1.5rem 0; }
+        .timeline-item { display: flex; gap: 1rem; margin-bottom: 1.25rem; }
+        .timeline-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--primary-color); margin-top: 0.35rem; flex-shrink: 0; }
+        .timeline-dot.done { background: #4ade80; }
+        .timeline-dot.current { background: #fb923c; box-shadow: 0 0 0 4px rgba(251,146,60,0.25); }
+        .timeline-dot.future { background: rgba(255,255,255,0.2); }
+        .timeline-body { flex: 1; }
+        .timeline-label { font-weight: 700; color: var(--text-white); font-size: 0.95rem; }
+        .timeline-desc { font-size: 0.88rem; color: var(--text-light); margin-top: 0.2rem; }
+        .badge-pass { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); border-radius: 3px; }
+        .badge-pending { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.4); border-radius: 3px; }
+        .badge-future { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(255,255,255,0.06); color: #94a3b8; border: 1px solid rgba(255,255,255,0.15); border-radius: 3px; }
+        .ci-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .ci-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .ci-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .ci-table tr:hover td { background: rgba(255,255,255,0.02); }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">工程完工，研究開始：RAG Ultimate v8.0 正式跨入風電 RAG Benchmark 論文階段</h1>
+            <p>2026-05-21 &bull; 劉瑞弘教授團隊 &bull; RAG / Wind Energy / Benchmark / Research Infrastructure</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">Phase 3</span>
+                <span class="tag tag-orange">Wind Farm RAG</span>
+                <span class="tag tag-green">Benchmark</span>
+                <span class="tag tag-sage">Research Pipeline</span>
+                <span class="tag tag-red">Paper</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                建造一棟研究大樓，最難的一關往往不是地基或鋼架，而是那個微妙的<strong>移交時刻</strong>：工程部門將鑰匙遞給研究部門，宣告「結構已竣工，現在輪到你們了。」
+            </p>
+            <p>
+                2026 年 5 月 21 日，RAG Ultimate 平台正式站在這個移交時刻之上。歷經四個多月、超過 120 個 Pull Request、22 項 routine backlog 全部勾完，平台從一個拼拼湊湊的研究腳本集合，演化成一個具備完整 FastAPI 後端、17 種 RAG 檢索模式、Prometheus 指標、Cloud Run 部署管線與 Sentry/OpenTelemetry 可觀測性 stub 的企業級研究環境。工程里程碑 <strong>Phase 2 全面完工</strong>。下一站：<strong>Phase 3 — 風電 RAG Benchmark 論文</strong>。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">122</div><div class="label">累積 PR 數</div></div>
+                <div class="stat-item"><div class="num">22/22</div><div class="label">Routine Backlog 完成</div></div>
+                <div class="stat-item"><div class="num">17</div><div class="label">RAG 檢索模式</div></div>
+                <div class="stat-item"><div class="num">829</div><div class="label">自動化測試案例</div></div>
+                <div class="stat-item"><div class="num">v8.0</div><div class="label">平台版本</div></div>
+            </div>
+
+            <h2>一、從 10 個散落腳本到一個統一平台：v1.0 → v8.0 的整合歷程</h2>
+
+            <p>
+                RAG Ultimate 的前身是研究室分散在各個資料夾裡的原型實驗：一個切片實驗室、一個評測腳本、一個微調介面、幾個 RAG 策略的 Jupyter Notebook。它們各自有效，卻無法協同。每次要做比較實驗，研究生都需要在不同環境間搬移資料，手動整理結果。
+            </p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-body">
+                        <div class="timeline-label">v1.0 – v4.0 &nbsp;<span class="badge-pass">完成</span></div>
+                        <div class="timeline-desc">UI 基底整合（ragarchitect1219）→ RAG_Chunk 切片實驗室 → 統一研究實驗室 → Paper Mode、學術評測強化</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-body">
+                        <div class="timeline-label">v5.0 – v6.0 &nbsp;<span class="badge-pass">完成</span></div>
+                        <div class="timeline-desc">AutoResearch 引擎 + Provider Registry 多模型架構；Fine-Tuning Lab + Domain Templates 前端大一統</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-body">
+                        <div class="timeline-label">v7.0 – v7.5 &nbsp;<span class="badge-pass">完成</span></div>
+                        <div class="timeline-desc">Phase 2 後端引擎（FastAPI 雙支柱架構）→ Qdrant 向量持久化 + 備份遷移；22 項 routine backlog 全部完成</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot current"></div>
+                    <div class="timeline-body">
+                        <div class="timeline-label">v8.0 &nbsp;<span class="badge-pending">進行中</span></div>
+                        <div class="timeline-desc"><strong>Phase 3：風電 RAG Benchmark 論文</strong> — 現在位置。Tier-1 12 種 RAG 策略主比較初跑完成，待修正後重跑完整 5-run 實驗</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot future"></div>
+                    <div class="timeline-body">
+                        <div class="timeline-label">v9.0 &nbsp;<span class="badge-future">規劃中</span></div>
+                        <div class="timeline-desc">Phase 4：企業端功能完善（Hybrid/Rerank/Multi-collection）、RBAC、Rate Limiting</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>二、Phase 2 遺留的基礎建設：為什麼論文研究需要工程底座？</h2>
+
+            <p>
+                外界看 RAG 研究，往往聚焦在演算法和數據集。但要讓研究<em>可重複、可擴展、可發表</em>，底層基礎建設至關重要。Phase 2 在過去幾週密集交付的七大元件，正是為 Phase 3 論文研究奠定可信的實驗環境：
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">🔌 七大後端 API Endpoint</div>
+                    <div class="col-body">
+                        <span class="code-inline">/ingest</span>、<span class="code-inline">/embed</span>、<span class="code-inline">/retrieve</span>、<span class="code-inline">/collections</span>、<span class="code-inline">/backup</span>、<span class="code-inline">/metrics</span>、<span class="code-inline">/health</span>——涵蓋文件攝取到向量存取的完整生命週期，讓每次 RAG 實驗都通過統一介面執行，結果具有可比性。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">📊 Prometheus 指標 + 觀測 Stub</div>
+                    <div class="col-body">
+                        PR #109 交付 Prometheus 格式指標端點；PR #115 植入 Sentry + OpenTelemetry stub。實驗運行時的 QPS、延遲分布與錯誤率，將有完整的追蹤記錄——這對論文的「實驗條件重現」至關重要。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">☁️ Cloud Run 部署管線</div>
+                    <div class="col-body">
+                        多環境 Dockerfile + Cloud Build 設定（PR #114）讓 benchmark 可以選擇從本地開發環境或 GCP staging 環境執行。對千份風電文件的大規模 benchmark，雲端執行路徑可顯著縮短實驗週期。
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🧪 829 個自動化測試</div>
+                    <div class="col-body">
+                        41 個測試 suite、829 個案例，涵蓋 tsc 0 錯誤、ruff 全綠。每次修改 RAG 策略邏輯時，回歸測試套件都能保護既有的實驗結果不因工程變更而悄悄失效。
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>💡 研究工程學的核心洞見</h3>
+                <p>
+                    在工業界，工程基礎建設（CI/CD、監控、測試）是為了讓產品穩定運行。在學術研究中，同樣的基礎建設扮演著不同但同等重要的角色：<strong>確保實驗結果的可信度與可重現性</strong>。一個沒有回歸測試保護的 RAG 研究系統，每次修改策略都可能無意間改變其他模式的行為，使跨模式比較結果失去意義。Phase 2 的工程投入，本質上是在為 Phase 3 論文的「實驗設計完整性」投資。
+                </p>
+            </div>
+
+            <h2>三、Phase 3 的實際任務：風電 RAG Benchmark 的設計與挑戰</h2>
+
+            <p>
+                Phase 3 的核心目標是回答一個對風能產業有實際意義的研究問題：<strong>在風電技術文件的特定語境下，哪種 RAG 檢索策略能提供最準確、最具可解釋性的答案？</strong>
+            </p>
+
+            <p>
+                目前的 Benchmark 設計分為兩個 Tier：
+            </p>
+
+            <table class="ci-table">
+                <thead>
+                    <tr><th>Tier</th><th>說明</th><th>目前狀態</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tier-1</strong></td>
+                        <td>12 種核心 RAG 策略主比較（Naive / Sentence Window / HyDE / RAPTOR / Cross-Encoder / Hybrid BM25 等），每種策略跑 5 runs 取平均，以 RAGAS 四項指標評測</td>
+                        <td><span class="badge-pending">修正中</span>：初跑完成，Rerank / Cross-Encoder / Hybrid / HyDE 有 104 個 errors，待修正後重跑</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tier-2</strong></td>
+                        <td>5-run aggregate 匯總；部分 mode 因本地網路斷線被標為「不可信」，待補跑 r06、r07</td>
+                        <td><span class="badge-pending">補跑中</span>：9/12 mode 需補跑確認</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                風電 RAG 的特殊挑戰在於文件語境的高度專業性。風機操作手冊、故障診斷指引、IEC 61400 標準文件，充滿大量技術縮寫、物理量符號與跨文件的隱性依存關係。通用 RAG 策略在這種語境下往往表現不穩定——這正是這個 Benchmark 研究的學術貢獻所在。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🌬️ 風電 RAG Benchmark 的研究設計重點</h3>
+                <ul>
+                    <li><strong>文件語料庫</strong>：風機操作手冊、SCADA 異常報告、IEC 61400 標準節錄</li>
+                    <li><strong>評測指標（RAGAS）</strong>：Faithfulness（忠實度）、Answer Relevancy（答案相關性）、Context Precision（上下文精度）、Context Recall（上下文召回率）</li>
+                    <li><strong>QA 評測集</strong>：405 道問題，涵蓋故障診斷、維護程序、技術規格查詢三大類型</li>
+                    <li><strong>嵌入模型對比</strong>：Gemini text-embedding-004（1536 維）vs. sentence-transformers 本地模型</li>
+                    <li><strong>向量庫</strong>：Qdrant persistent（支援離線重用實驗向量，避免重複計算）</li>
+                </ul>
+            </div>
+
+            <h2>四、ROADMAP 對齊：PR #122 為何重要</h2>
+
+            <p>
+                今日合入的 PR #121（README 整合狀態表）與待 merge 的 PR #122（ROADMAP 對齊），看似只是文件更新，實則代表一個重要的<strong>認知同步動作</strong>。
+            </p>
+            <p>
+                研究系統在快速迭代過程中，文件往往落後於實作。開發者的腦中雖然清楚「Phase 2 已完成、Phase 3 是下一步」，但若 ROADMAP.md 仍然寫著過時的狀態，對新加入的研究生或合作者而言，系統的現狀與方向就會模糊不清。PR #122 透過更新 ROADMAP 中 backlog 21/22 的完成狀態，以及清理已完成 routine 的佔位日誌，讓整個平台的文件狀態與程式碼狀態達成一致。
+            </p>
+
+            <div class="warn-box">
+                <h3>⚠️ 當 Routine 遇到人工決策瓶頸：7 連 Skip 的啟示</h3>
+                <p>
+                    PR #122 目前已通過 CI（零測試失敗），但等待人工 merge 超過一天，導致自動化 routine 連續 7 輪記錄為「skipped」。這個現象本身就是一個值得反思的工程管理課題：<strong>自動化工具能接力工程執行，但無法替代人工的決策點</strong>。PR review 與 merge 是研究者對程式碼變更的認可，是知識工作中不可被自動化省略的環節。Routine 的「skip streak」不是系統失敗，而是對人工介入的如實等待與記錄。
+                </p>
+            </div>
+
+            <h2>五、研究室行動項目</h2>
+
+            <div class="action-box">
+                <h3>✅ DOF Lab 近期行動</h3>
+                <ul>
+                    <li><strong>立即</strong>：merge PR #122（ROADMAP 對齊），解鎖 cycle #4 第 4 task，恢復 routine 自動化推進</li>
+                    <li><strong>本週</strong>：修正 Tier-1 benchmark 中 Rerank / HyDE / Hybrid 的 104 個 errors，重跑完整 5-run 實驗集</li>
+                    <li><strong>本週</strong>：補跑 Tier-2 r06、r07，確認 9/12 mode 的結果可信度</li>
+                    <li><strong>授權決策</strong>：決定是否授權 routine 安裝 <span class="code-inline">sentry-sdk[fastapi]</span> + <span class="code-inline">opentelemetry-*</span>（F1b），完成 backlog 22/22 最後一哩路</li>
+                    <li><strong>中期</strong>：評估將千份文件 benchmark 遷移至 GCP Cloud Run staging 環境，利用已完成的 Cloud Build 管線加速實驗迭代</li>
+                </ul>
+            </div>
+
+            <p>
+                從散落的研究腳本，到可觀測、可部署、可論文化的統一平台——這段旅程歷時四個月，留下了 122 個 PR 的記錄。現在，工具已就緒，鑰匙已移交。<strong>研究，正式開始。</strong>
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate" target="_blank">RAG_Ultimate GitHub Repository</a></li>
+                <li><a href="https://docs.ragas.io/" target="_blank">RAGAS — Evaluation Framework for RAG Pipelines</a></li>
+                <li><a href="https://qdrant.tech/documentation/" target="_blank">Qdrant Vector Database Documentation</a></li>
+                <li><a href="https://cloud.google.com/run/docs" target="_blank">Google Cloud Run Documentation</a></li>
+                <li><a href="https://opentelemetry.io/docs/" target="_blank">OpenTelemetry Documentation</a></li>
+                <li>RAG_Ultimate ROADMAP.md（本地文件，2026-04-16 版）</li>
+                <li>RAG_Ultimate docs/daily_report.md（2026-05-20 版，routine r91-r119 週報）</li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="../doflab-script.js"></script>
+</body>
+</html>

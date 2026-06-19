@@ -3,153 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="NCUT IAE Lab - Research Blog">
-  <title>研究日誌 | DOF Lab</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="DOF Lab 研究日誌 — 風能 AI、RAG 架構、MCP 工具鏈、SCADA 與工業 AI 的每日研究進展與技術心得。">
+  <title>研究日誌 ｜ DOF Lab</title>
+  <link rel="stylesheet" href="assets/editorial.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
   <style>
-    .page-header {
-      padding: 8rem 0 4rem;
-      background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-      text-align: center;
-    }
-    .page-header h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--text-white);
-    }
-    .page-header p { color: var(--text-gray); }
-    .blog-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 2rem;
-      margin-top: 2rem;
-      align-items: start;
-    }
-    .article-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.6rem;
-      margin-bottom: 1.4rem;
-    }
-    .article-meta {
-      color: var(--text-gray);
-      display: flex;
-      gap: 1rem;
-      font-size: 0.95rem;
-      margin-bottom: 0.8rem;
-      flex-wrap: wrap;
-    }
-    .meta-date { color: var(--accent-color); font-weight: 600; }
-    .meta-category {
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
-      padding: 0.1rem 0.7rem;
-    }
-    .article-title { margin: 0 0 0.8rem; font-size: 1.5rem; line-height: 1.4; }
-    .article-title a { color: var(--text-white); text-decoration: none; }
-    .article-title a:hover { color: var(--primary-color); }
-    .article-excerpt { color: var(--text-light); line-height: 1.7; margin: 0 0 1rem; }
-    .read-more {
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .sidebar-widget {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.2rem;
-      margin-bottom: 1.2rem;
-    }
-    .widget-title {
-      color: var(--text-white);
-      font-size: 1.1rem;
-      margin: 0 0 0.8rem;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 0.6rem;
-    }
-    .stats-list, .topic-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .stats-list li, .topic-list li {
-      color: var(--text-gray);
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.4rem 0;
-    }
-    .topic-list .count {
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
-      min-width: 1.9rem;
-      text-align: center;
-      font-size: 0.85rem;
-      padding: 0.1rem 0.5rem;
-    }
-    .empty-state {
-      color: #fecaca;
-      border: 1px solid rgba(248, 113, 113, 0.4);
-      border-radius: 10px;
-      padding: 1rem;
-      background: rgba(127, 29, 29, 0.25);
-    }
-    @media (max-width: 900px) {
-      .blog-grid { grid-template-columns: 1fr; }
-      .page-header h1 { font-size: 2.4rem; }
-    }
+    .blog-layout { display: grid; grid-template-columns: 1fr 300px; gap: clamp(2rem,5vw,4rem); align-items: start; }
+    .blog-side { position: sticky; top: 92px; display: grid; gap: 1.4rem; }
+    .side-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.4rem; }
+    .side-card h4 { font-size: .76rem; letter-spacing: .2em; text-transform: uppercase; color: var(--rust); font-family: var(--sans); margin-bottom: 1rem; }
+    .side-card ul { display: grid; gap: .55rem; }
+    .side-card li { display: flex; justify-content: space-between; gap: 1rem; font-size: .9rem; color: var(--ink-soft); }
+    .side-card li strong { font-family: var(--serif); }
+    .side-card .count { background: var(--paper-2); border-radius: 100px; min-width: 1.8rem; text-align: center; font-size: .8rem; padding: .05rem .5rem; }
+    .blog-search { display: flex; align-items: center; gap: .8rem; border: 1.5px solid var(--line-strong); border-radius: 100px; padding: .7rem 1.3rem; margin-bottom: 1.6rem; background: var(--card); }
+    .blog-search input { border: 0; outline: 0; background: transparent; font-family: var(--sans); font-size: 1rem; width: 100%; color: var(--ink); }
+    .blog-search i { color: var(--muted); }
+    .post-row__cat { font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--rust); background: rgba(180,69,31,.08); padding: .2rem .6rem; border-radius: 6px; white-space: nowrap; }
+    .empty-state { color: var(--rust-deep); border: 1px solid var(--line-strong); border-radius: 12px; padding: 1.4rem; background: var(--paper-2); }
+    @media (max-width: 900px) { .blog-layout { grid-template-columns: 1fr; } .blog-side { position: static; } }
   </style>
 </head>
-<body>
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
-      <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-                              <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="blog.html">研究日誌</a></li>
-                <li><a href="publications.html">著作發表</a></li>
-                <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="about.html">關於</a></li>
-                <li><a href="contact.html">聯絡</a></li>
-                <li><a href="dashboard.html">儀表板</a></li>
-                <li><a href="privacy.html">隱私權</a></li>
-            </ul>
+<body id="top">
+
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
+      <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="projects.html">專案成果</a></li>
+        <li><a href="publications.html">研究發表</a></li>
+        <li><a href="blog.html" class="active">研究日誌</a></li>
+        <li><a href="about.html">關於</a></li>
+        <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
     </div>
   </nav>
 
-  <header class="page-header">
-    <div class="container">
+  <header class="page-head">
+    <div class="wrap">
+      <p class="kicker">Research Journal · 研究日誌</p>
       <h1>研究日誌</h1>
-      <p>自動整理 posts/post 文章，顯示連結與分類統計。</p>
+      <p class="lede">記錄每日研究進展與技術心得，涵蓋風能 AI、RAG 架構、MCP 工具鏈、SCADA 與工業 AI。共 <strong id="post-count">…</strong> 篇。</p>
     </div>
   </header>
 
-  <main class="container">
-    <div class="blog-grid">
-      <section id="post-list"></section>
-      <aside>
-        <section class="sidebar-widget">
-          <h2 class="widget-title">文章統計</h2>
-          <ul class="stats-list" id="global-stats"></ul>
-        </section>
-        <section class="sidebar-widget">
-          <h2 class="widget-title">分類統計</h2>
-          <ul class="topic-list" id="topic-list"></ul>
-        </section>
-      </aside>
+  <main class="section--tight">
+    <div class="wrap">
+      <div class="blog-search">
+        <i class="fas fa-magnifying-glass"></i>
+        <input id="search" type="search" placeholder="搜尋文章標題或關鍵字…" aria-label="搜尋文章">
+      </div>
+      <div class="blog-layout">
+        <section id="post-list"><p style="color:var(--muted)">載入文章中…</p></section>
+        <aside class="blog-side">
+          <div class="side-card"><h4>文章統計</h4><ul id="global-stats"></ul></div>
+          <div class="side-card"><h4>分類統計</h4><ul id="topic-list"></ul></div>
+        </aside>
+      </div>
     </div>
   </main>
 
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p>
+        </div>
+        <div>
+          <h5>導覽</h5>
+          <a href="index.html">首頁</a><a href="projects.html">專案成果</a>
+          <a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a>
+        </div>
+        <div>
+          <h5>聯絡</h5>
+          <a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a>
+          <a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a>
+          <a href="contact.html">誠樸館 G309 · 台中太平</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
+        <div class="footer__social">
+          <a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/editorial.js"></script>
   <script>
     const KNOWN_POST_FILES = [
-      '發文流程指南.md',
+      '2026-06-15-windmindom-m5-chromadb-vector-retrieval-z72-knowledge-integration.html',
+      '2026-06-08-rag-ultimate-phase3-routine-complete-24-modes.html',
+      '2026-06-01-rag-ultimate-wind-rag-paper-ragas-evaluation-complete.html',
+      '2026-05-28-z72-scada-phase3b-adr-fastapi-historian-rollup-fix.html',
+      '2026-05-27-z72-scada-vibration-health-bridge-unit-tests-admin-security.html',
+      '2026-05-26-autosolvervideo-closeout-backlog-safety-lock-1600-tests.html',
+      '2026-05-25-windmindom-m4-completion-m5-rag-knowledge-roadmap.html',
+      '2026-05-24-autosolvervideo-iter119-crud-route-safety-lock-testing.html',
+      '2026-05-23-rag-ultimate-ruff-docstring-chinese-codebase-quality.html',
+      '2026-05-22-rag-ultimate-routine-cycle5-checkpoint-phase1-terminal-conditions.html',
+      '2026-05-21-rag-ultimate-phase3-wind-rag-benchmark-roadmap-transition.html',
+      '2026-05-20-rag-ultimate-sentry-otel-observability-cloud-run-deployment.html',
       '2026-05-19-rag-z72-wind-turbine-om-expert-system-14-cases.html',
       '2026-05-19-rag-ultimate-ts-api-alignment-prometheus-metrics-ci-checkpoint.html',
       '2026-05-18-rag-ultimate-schema-validation-retrieve-request-metadata-filter.html',
@@ -158,6 +118,7 @@
       '2026-05-15-rag-ultimate-latex-export-automated-paper-table.html',
       '2026-05-14-rag-ultimate-typescript-type-discipline-research-codebase.html',
       '2026-05-13-windmindom-ui-design-iteration-version-management.html',
+      '2026-05-12-windmindom-m5-rag-knowledge-engine-offshore-wind-om.html',
       '2026-05-11-windmindom-m4-e2e-demo-flow-hotfix-lessons.html',
       '2026-05-10-windmindom-m4-backend-inventory-atomic-dispatch-cost-ledger.html',
       '2026-05-09-windmindom-work-order-frontend-wizard-state-machine.html',
@@ -189,15 +150,9 @@
       '2026-04-11-induspect-multimodal-ai-flutter-industrial-inspection.html',
       '2026-04-10-ecn-offshore-wind-cost-monte-carlo.html',
       '2026-04-10-agentic-ai-mcp-enterprise-wind-energy.html',
-      '2026-03-31-research-stock.md',
-      '2026-03-17-論文投稿準備與工作追蹤系統建立.md',
-      '2026-03-12-gemini-embedding-2.md',
       '2026-03-12-gemini-embedding-2.html',
-      '2026-03-10-induspect-spatial-awareness.md',
       '2026-03-10-induspect-spatial-awareness.html',
-      '2026-03-09-sakura-soul-sync.md',
       '2026-03-09-sakura-soul-sync.html',
-      '2026-03-09-ai-news-mcp-agentic.md',
       '2026-03-09-ai-news-mcp-agentic.html',
       '2026-03-08-mcp-ecosystem-explosion-linux-foundation.html',
       '2026-03-07-wind-turbine-fault-detection-causal-spatiotemporal.html',
@@ -211,7 +166,6 @@
       '2026-02-28-scite-mcp-scientific-literature.html',
       '2026-02-27-mcp-explosive-growth.html',
       '2026-02-27-help-graphrag-efficiency.html',
-      '2026-02-26.html',
       '2026-02-26-hybridrag-for-industrial-maintenance.html',
       '2026-02-25-continual-learning-ai-2026.html',
       '2026-02-25-claw-comparison.html',
@@ -229,7 +183,6 @@
       '2026-02-18-deepmind-aletheia.html',
       '2026-02-17-neuromorphic-computers.html',
       '2026-02-17-bharatgen-multilingual-ai.html',
-      '2026-02-16-openclaw-skills.md',
       '2026-02-16-ai-agent-skills.html',
       '2026-02-15-ai-self-talk.html',
       '2026-02-14-watchdog-fix.html',
@@ -242,131 +195,87 @@
     const postListEl = document.getElementById('post-list');
     const globalStatsEl = document.getElementById('global-stats');
     const topicListEl = document.getElementById('topic-list');
+    const searchEl = document.getElementById('search');
+    const countEl = document.getElementById('post-count');
+    let allPosts = [];
 
-    const formatDate = (dateText) => {
-      if (!dateText) return '未知日期';
-      const d = new Date(dateText);
-      if (Number.isNaN(d.getTime())) return dateText;
-      return d.toISOString().slice(0, 10);
+    const fmtDate = (d) => {
+      if (!d) return '—';
+      const m = String(d).match(/(\d{4})-(\d{2})-(\d{2})/);
+      return m ? `${m[1]} · ${m[2]} · ${m[3]}` : d;
     };
+    const dateFromFile = (f) => (f.match(/^(\d{4}-\d{2}-\d{2})/) || [])[1] || '';
 
-    const normalizeCategory = (raw = '') => {
-      const value = raw.trim();
-      if (!value) return '未分類';
-      return value.split('/')[0].trim() || '未分類';
-    };
-
-    const parseMarkdownPost = (text, url, filename) => {
-      const title = (text.match(/^#\s+(.+)$/m) || [])[1] || filename;
-      const date = (text.match(/\*\*日期\*\*:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})/) || [])[1] || '';
-      const excerpt = text
-        .replace(/^#.+$/m, '')
-        .replace(/\*\*日期\*\*:.+$/m, '')
-        .replace(/[#>*`\-]/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .slice(0, 120);
-      return {
-        title,
-        date,
-        category: '研究筆記',
-        excerpt: excerpt ? `${excerpt}…` : '點擊查看完整內容。',
-        url
-      };
+    // 由檔名推導分類標籤
+    const categorize = (f) => {
+      const s = f.toLowerCase();
+      if (/rag|graphrag|hybridrag|retrieval|openscholar|scite/.test(s)) return 'RAG';
+      if (/windmindom|z72|scada|wind|turbine|offshore|windai|yaw|curtailment/.test(s)) return '風能 AI';
+      if (/mcp|webmcp/.test(s)) return 'MCP';
+      if (/induspect|inspection|industrial|fault|diagnosis|ocr/.test(s)) return '工業 AI';
+      if (/agent|claude|gemini|llm|gpt|foundation|neuromorphic|samsung|sarvam|bharatgen|deepmind|nvidia/.test(s)) return 'AI 前沿';
+      return '研究筆記';
     };
 
     const parseHtmlPost = (text, url, filename) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, 'text/html');
+      const doc = new DOMParser().parseFromString(text, 'text/html');
       const title =
         doc.querySelector('h1.article-title')?.textContent?.trim() ||
         doc.querySelector('h1')?.textContent?.trim() ||
-        doc.querySelector('title')?.textContent?.replace(/\s*\|.*$/, '').trim() ||
+        doc.querySelector('title')?.textContent?.replace(/\s*[|｜].*$/, '').trim() ||
         filename;
-
-      const headerText = doc.querySelector('.article-header p')?.textContent || '';
-      const date = (headerText.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/) || [])[0] || '';
-      const segments = headerText.split('•').map(s => s.trim()).filter(Boolean);
-      const category = normalizeCategory(segments[2] || segments[1] || '未分類');
-
-      const firstParagraph =
-        doc.querySelector('.article-content p')?.textContent?.trim() ||
-        doc.querySelector('.article-content')?.textContent?.replace(/\s+/g, ' ').trim() ||
-        '';
-
-      return {
-        title,
-        date,
-        category,
-        excerpt: firstParagraph.slice(0, 140) + (firstParagraph.length > 140 ? '…' : ''),
-        url
-      };
+      return { title, date: dateFromFile(filename), category: categorize(filename), url };
     };
 
     const fetchPost = async (filename) => {
-      const baseDirs = ['posts', 'post', '/posts', '/post'];
-      for (const base of baseDirs) {
-        const url = `${base}/${filename}`;
+      for (const base of ['posts', 'post', '/posts', '/post']) {
         try {
-          const response = await fetch(url);
-          if (!response.ok) continue;
-          const text = await response.text();
-          return filename.endsWith('.md')
-            ? parseMarkdownPost(text, url, filename)
-            : parseHtmlPost(text, url, filename);
-        } catch (_) {
-          // ignore and try next base
-        }
+          const r = await fetch(`${base}/${filename}`);
+          if (!r.ok) continue;
+          return parseHtmlPost(await r.text(), `${base}/${filename}`, filename);
+        } catch (_) {}
       }
-      return null;
+      // 後備：用檔名生成可讀標題
+      return { title: filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.html$/, '').replace(/-/g, ' '), date: dateFromFile(filename), category: categorize(filename), url: `posts/${filename}` };
     };
 
     const renderPosts = (posts) => {
       if (!posts.length) {
-        postListEl.innerHTML = '<div class="empty-state">目前無法讀取文章，請確認網站可存取 <code>/posts</code> 或 <code>/post</code> 目錄。</div>';
+        postListEl.innerHTML = '<div class="empty-state">找不到符合的文章。</div>';
         return;
       }
-
-      postListEl.innerHTML = posts.map((post) => `
-        <article class="article-card">
-          <div class="article-meta">
-            <span class="meta-date"><i class="far fa-calendar-alt"></i> ${formatDate(post.date)}</span>
-            <span class="meta-category"><i class="fas fa-tag"></i> ${post.category}</span>
+      postListEl.innerHTML = posts.map((p) => `
+        <a class="post-row" href="${p.url}">
+          <div class="post-row__date">${fmtDate(p.date)}</div>
+          <div><div class="post-row__t">${p.title}</div></div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <span class="post-row__cat">${p.category}</span>
+            <span class="post-row__arrow"><i class="fas fa-arrow-right"></i></span>
           </div>
-          <h2 class="article-title"><a href="${post.url}">${post.title}</a></h2>
-          <p class="article-excerpt">${post.excerpt || '點擊閱讀全文。'}</p>
-          <a class="read-more" href="${post.url}">閱讀全文 <i class="fas fa-arrow-right"></i></a>
-        </article>
-      `).join('');
+        </a>`).join('');
     };
 
     const renderStats = (posts) => {
       const total = posts.length;
-      const newest = posts[0]?.date ? formatDate(posts[0].date) : '未知';
-      const oldest = posts[posts.length - 1]?.date ? formatDate(posts[posts.length - 1].date) : '未知';
-
+      countEl.textContent = total;
       globalStatsEl.innerHTML = `
         <li><span>文章總數</span><strong>${total}</strong></li>
-        <li><span>最新文章日期</span><strong>${newest}</strong></li>
-        <li><span>最早文章日期</span><strong>${oldest}</strong></li>
-      `;
-
-      const categoryCount = posts.reduce((acc, post) => {
-        const key = post.category || '未分類';
-        acc[key] = (acc[key] || 0) + 1;
-        return acc;
-      }, {});
-
-      const sorted = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
-      topicListEl.innerHTML = sorted.map(([cat, count]) => `
-        <li><span>${cat}</span><span class="count">${count}</span></li>
-      `).join('');
+        <li><span>最新文章</span><strong>${dateFromFile(posts[0]?.url.split('/').pop() || '') || '—'}</strong></li>
+        <li><span>最早文章</span><strong>${dateFromFile(posts[posts.length-1]?.url.split('/').pop() || '') || '—'}</strong></li>`;
+      const counts = posts.reduce((a, p) => { a[p.category] = (a[p.category]||0)+1; return a; }, {});
+      topicListEl.innerHTML = Object.entries(counts).sort((a,b)=>b[1]-a[1])
+        .map(([c,n]) => `<li><span>${c}</span><span class="count">${n}</span></li>`).join('');
     };
 
+    searchEl?.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      renderPosts(!q ? allPosts : allPosts.filter(p => (p.title + p.category).toLowerCase().includes(q)));
+    });
+
     (async () => {
-      const posts = (await Promise.all(KNOWN_POST_FILES.map(fetchPost))).filter(Boolean);
-      renderPosts(posts);
-      renderStats(posts);
+      allPosts = (await Promise.all(KNOWN_POST_FILES.map(fetchPost))).filter(Boolean);
+      renderPosts(allPosts);
+      renderStats(allPosts);
     })();
   </script>
 </body>

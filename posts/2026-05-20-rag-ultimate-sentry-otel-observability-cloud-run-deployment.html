@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>從研究工具到可觀測生產服務：Sentry + OpenTelemetry 為 RAG 平台注入錯誤追蹤與分散式追蹤能力 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .tag-red { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .warn-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .warn-box h3 { color: #fb923c; margin: 0 0 0.75rem; }
+        .code-block { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.88rem; color: #cdd3de; overflow-x: auto; line-height: 1.7; white-space: pre; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .col-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; }
+        .col-card .col-title { font-weight: 700; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .col-card .col-body { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+        .pipeline-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0; }
+        .pipe-step { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.35); border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.88rem; color: #a5b4fc; white-space: nowrap; }
+        .pipe-arrow { color: var(--text-gray); font-size: 1.1rem; }
+        .ci-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+        .ci-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid rgba(99,102,241,0.4); }
+        .ci-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); vertical-align: top; }
+        .ci-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge-pass { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); border-radius: 3px; }
+        .badge-pending { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.4); border-radius: 3px; }
+        .badge-new { display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.35rem; background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); border-radius: 3px; margin-left: 0.3rem; }
+        @media (max-width: 640px) {
+            .stat-banner { flex-direction: column; align-items: center; }
+            .two-col { grid-template-columns: 1fr; }
+            .pipeline-row { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">從研究工具到可觀測生產服務：Sentry + OpenTelemetry 為 RAG 平台注入錯誤追蹤與分散式追蹤能力</h1>
+            <p>2026-05-20 &bull; 劉瑞弘教授團隊 &bull; RAG / Observability / Sentry / OpenTelemetry / Cloud Run</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">RAG_Ultimate</span>
+                <span class="tag tag-teal">OpenTelemetry</span>
+                <span class="tag tag-red">Sentry</span>
+                <span class="tag tag-orange">Cloud Run</span>
+                <span class="tag tag-green">Observability</span>
+                <span class="tag tag-sage">Production Engineering</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                一個研究系統能「跑起來」與能「被信任地運行」之間，存在著一段關鍵的距離。這段距離的名字，叫做<strong>可觀測性（Observability）</strong>。
+            </p>
+            <p>
+                過去幾週，RAG_Ultimate 平台密集地完成了型別系統對齊（PR #110）、Prometheus 指標端點（PR #109）、全域 async toast 機制（PR #112）、千份文件吞吐量基準測試骨架（PR #113），以及多環境 Dockerfile 與 Cloud Build 部署管線（PR #114）。這一連串工程動作，有一個共同的指向：讓這個起初作為風電 RAG 論文研究工具的系統，具備真正意義上的生產等級可觀測性。今日，PR #115 正式將 <strong>Sentry 錯誤追蹤</strong>與 <strong>OpenTelemetry 分散式追蹤</strong>的骨架（stub）植入後端，是這趟可觀測性工程旅途中的關鍵里程碑。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item"><div class="num">115</div><div class="label">累積 PR 數</div></div>
+                <div class="stat-item"><div class="num">829</div><div class="label">Jest 測試案例（41 suites）</div></div>
+                <div class="stat-item"><div class="num">0</div><div class="label">TypeScript 編譯錯誤</div></div>
+                <div class="stat-item"><div class="num">17</div><div class="label">RAG 檢索模式</div></div>
+            </div>
+
+            <h2>一、可觀測性三支柱與研究系統的特殊挑戰</h2>
+
+            <p>
+                現代生產系統的可觀測性建立在三個支柱之上：<strong>Metrics（指標）</strong>、<strong>Logs（日誌）</strong>、<strong>Traces（追蹤）</strong>。三者各有所長，分別回答不同層次的問題。
+            </p>
+
+            <div class="highlight-box">
+                <h3>📊 可觀測性三支柱：各自回答什麼問題？</h3>
+                <table class="ci-table">
+                    <thead>
+                        <tr><th>支柱</th><th>回答的問題</th><th>RAG_Ultimate 的實作</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Metrics</strong></td>
+                            <td>系統整體健康狀態如何？QPS 是多少？延遲分布如何？</td>
+                            <td><span class="badge-pass">已完成</span> PR #109 — <span class="code-inline">GET /api/v1/metrics</span>（Prometheus 格式）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Logs</strong></td>
+                            <td>這個請求發生了什麼事？哪一行程式拋出了例外？</td>
+                            <td><span class="badge-pass">已完成</span> 結構化 logging（FastAPI middleware）+ Sentry F1a stub</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Traces</strong></td>
+                            <td>這個請求跨越了哪些服務？哪個環節是效能瓶頸？</td>
+                            <td><span class="badge-pending">待 merge</span> PR #115 — OpenTelemetry stub（F1a），F1b 完整實作待授權</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                研究型系統在可觀測性方面面臨一個特殊挑戰：它往往在功能層快速迭代，但基礎設施層的投資卻容易被推遲——「等論文截稿後再說」。然而，當系統開始承載真實的風電文件 RAG benchmark 資料（405 題 QA 集、Qdrant persistent 向量庫），或即將整合 windMindOM 的知識模組（M5 計畫），任何未被觀測到的例外與效能退化都可能悄悄扭曲研究結論。
+            </p>
+
+            <h2>二、Sentry：讓每一個例外都留下案底</h2>
+
+            <p>
+                Sentry 是業界最廣泛使用的即時錯誤追蹤平台。它的核心機制很直觀：在應用程式的 exception handler 層注入一個 SDK，每當未被捕捉的例外（或明確呼叫 <span class="code-inline">sentry_sdk.capture_exception()</span>）發生時，Sentry 自動收集：
+            </p>
+            <ul>
+                <li>完整的 stack trace（含每一層的原始碼片段）</li>
+                <li>觸發例外的 HTTP 請求資訊（URL、headers、request body）</li>
+                <li>環境標籤（staging vs. production、版本號、Git commit SHA）</li>
+                <li>用戶 context（在 RAG 平台中可記錄是哪個 benchmark 集觸發的查詢）</li>
+                <li>breadcrumbs（例外發生前的事件序列，類似飛機的黑盒子紀錄）</li>
+            </ul>
+
+            <div class="insight-box">
+                <h3>💡 為什麼研究系統特別需要 Sentry？</h3>
+                <p>研究型 RAG 系統的邊界條件往往藏在特定的輸入組合中——例如某份特殊格式的風電維修報告觸發了 embedding 模型的長度截斷，或某個 Qdrant filter 的邊界值產生了意料外的空結果。這些問題在正常的 benchmark 測試中可能不會出現，卻在真實使用者查詢時突然浮現。Sentry 讓每一個這樣的事件自動留下可追查的紀錄，而不是消失在 Docker container log 的無盡滾動中。</p>
+            </div>
+
+            <p>
+                PR #115（F1a stub）採用的是「骨架先行」策略：在 <span class="code-inline">main.py</span> 的 FastAPI lifespan 中加入 <span class="code-inline">sentry_sdk.init()</span> 呼叫的占位符，以環境變數 <span class="code-inline">SENTRY_DSN</span> 控制是否啟用，並在 <span class="code-inline">requirements.txt</span> 中標注 <span class="code-inline">sentry-sdk[fastapi]</span> 為待安裝依賴。這樣的設計讓程式碼在未安裝 SDK 時能正常跑通 CI，同時為 F1b 完整實作（預估約 70 行）預留清晰的插入點。
+            </p>
+
+            <h2>三、OpenTelemetry：分散式追蹤的開放標準</h2>
+
+            <p>
+                如果說 Sentry 是「事後查案」的工具，OpenTelemetry（簡稱 OTel）則是「即時跟蹤」的架構。OTel 是 CNCF（雲端原生運算基金會）主導的可觀測性開放標準，整合了過去分散的 OpenTracing 與 OpenCensus 兩大規範，目標是讓<strong>一套 instrumentation 程式碼能輸出到任意後端</strong>（Jaeger、Zipkin、Grafana Tempo、Google Cloud Trace……）。
+            </p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">🔬 Span：追蹤的基本單位</div>
+                    <div class="col-body">每個 Span 代表一個操作的時間段落，帶有名稱、開始/結束時間戳、以及任意的 key-value attributes。多個 Span 組成一條 Trace，描述一個請求從進入系統到返回結果的完整路徑。</div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">🔗 Context Propagation：跨服務追蹤</div>
+                    <div class="col-body">當 RAG_Ultimate 的 FastAPI 後端呼叫 Qdrant 向量檢索時，OTel 的 context propagation 機制確保同一條 trace ID 能貫穿整個呼叫鏈，讓「embedding → retrieval → reranking → LLM」的延遲分布一目了然。</div>
+                </div>
+            </div>
+
+            <p>
+                對 RAG 研究系統而言，OTel 的價值不只是找效能瓶頸。當我們同時評估 17 種檢索模式（dense、sparse、hybrid、HyDE、RAPTOR……）時，能夠精確比較每種模式在 retrieval 階段的延遲分布，是論文中 latency-recall trade-off 分析的關鍵資料來源。這比單純記錄 end-to-end 延遲更具研究意義。
+            </p>
+
+            <h2>四、多環境部署管線：PR #114 的架構決策</h2>
+
+            <p>
+                可觀測性工具的價值，必須建立在有可靠部署管線的前提下——你無法在一個每次部署都要手動操作的系統上，有效運行自動化的錯誤追蹤。PR #114（昨日 merged）正是解決這個前提問題。
+            </p>
+
+            <div class="highlight-box">
+                <h3>🚀 多環境 Dockerfile + Cloud Build 部署架構</h3>
+                <div class="pipeline-row">
+                    <div class="pipe-step">feature branch</div>
+                    <div class="pipe-arrow">→</div>
+                    <div class="pipe-step">PR merge to main</div>
+                    <div class="pipe-arrow">→</div>
+                    <div class="pipe-step">Cloud Build trigger</div>
+                    <div class="pipe-arrow">→</div>
+                    <div class="pipe-step">Build multi-stage Docker image</div>
+                    <div class="pipe-arrow">→</div>
+                    <div class="pipe-step">Push to Artifact Registry</div>
+                    <div class="pipe-arrow">→</div>
+                    <div class="pipe-step">Deploy to Cloud Run (staging)</div>
+                    <div class="pipe-arrow">→</div>
+                    <div class="pipe-step">Manual approval → production</div>
+                </div>
+                <p style="margin-top:1rem; font-size:0.9rem;">多階段 Dockerfile 分離 builder（含開發依賴）與 runtime（精簡映像），staging 環境自動部署、production 需手動核准，以 Cloud Build substitution variables 管理環境差異。</p>
+            </div>
+
+            <p>
+                這個部署架構有三個值得關注的設計選擇。第一，使用<strong>多階段 Dockerfile</strong>（multi-stage build）將安裝測試套件的 builder stage 與實際部署的 runtime stage 分離，讓 production 映像大幅縮小，同時確保 CI 測試環境與本機開發環境的一致性。第二，採用 <strong>Cloud Build substitution variables</strong>（而非多個 Dockerfile）管理 staging/production 差異，遵循「單一可信來源」原則，避免環境設定漂移。第三，staging 自動部署、production 手動核准的雙軌機制，在自動化速度與人工把關之間取得了適合研究系統的平衡點。
+            </p>
+
+            <h2>五、自動化 Routine 系統的品質保證哲學</h2>
+
+            <p>
+                RAG_Ultimate 近期的高頻更新（今日已累積至 r55 輪次），背後依賴一套名為 <strong>Routine</strong> 的自動化品質維護機制。這個機制的核心規則很簡單：<em>每次只做一件事，做完就開 PR，有未 merge 的自建 PR 就停下來等待</em>。
+            </p>
+
+            <p>
+                PR #115 目前 CI 全綠（ruff + pytest + tsc 三重通過）、mergeable 狀態確認，正在等待人工 merge。這個「等待」本身也是 Routine 設計哲學的體現：系統確保不會在舊工作未確認前就疊加新的修改，防止技術債在自動化節奏中悄悄累積。
+            </p>
+
+            <div class="action-box">
+                <h3>✅ DOF Lab 研究行動項目</h3>
+                <ul>
+                    <li><strong>立即</strong>：於 GitHub UI merge PR #115（F1a Sentry/OTel stub）以解除 Routine skip 循環，目前 CI 全綠、mergeable=CLEAN</li>
+                    <li><strong>下一輪</strong>：評估是否授權 Routine 安裝 <span class="code-inline">sentry-sdk[fastapi]</span> + <span class="code-inline">opentelemetry-*</span>，執行 F1b 完整實作（預估 ~70 行）</li>
+                    <li><strong>M5 銜接</strong>：OTel instrumentation 完成後，可作為 windMindOM M5 Knowledge/RAG 模組整合時的效能基準，追蹤跨服務檢索延遲</li>
+                    <li><strong>論文</strong>：Sentry error rate 資料可作為 RAG benchmark 論文附錄的系統可靠性佐證</li>
+                </ul>
+            </div>
+
+            <h2>結語：可觀測性是研究誠信的基礎建設</h2>
+
+            <p>
+                在研究領域，「可重現性（Reproducibility）」是最基本的學術誠信要求。但在系統研究中，可重現性不只是「相同輸入得到相同輸出」，還包括<strong>能夠在系統出現非預期行為時，準確追溯發生了什麼</strong>。
+            </p>
+            <p>
+                Sentry 讓每個例外都留下可查詢的紀錄；OpenTelemetry 讓每個請求的路徑都變得透明；Prometheus metrics 讓系統整體健康狀態隨時可量化；多環境部署管線確保每次變更都有可靠的落地機制。這四個工具共同構成的，不只是一個更穩定的研究平台，更是一套讓未來論文結論更可信的基礎設施。
+            </p>
+            <p>
+                研究工具和生產服務的界線，正在 RAG_Ultimate 上一點一點地消融。
+            </p>
+
+        </div>
+
+        <div class="source-list">
+            <strong>參考來源</strong>
+            <ul>
+                <li><a href="https://docs.sentry.io/platforms/python/integrations/fastapi/" target="_blank">Sentry FastAPI Integration — Sentry Documentation</a></li>
+                <li><a href="https://opentelemetry.io/docs/languages/python/getting-started/" target="_blank">OpenTelemetry Python Getting Started — opentelemetry.io</a></li>
+                <li><a href="https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html" target="_blank">opentelemetry-instrumentation-fastapi — ReadTheDocs</a></li>
+                <li><a href="https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values" target="_blank">Cloud Build Substitution Variables — Google Cloud Documentation</a></li>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate/pull/115" target="_blank">RAG_Ultimate PR #115: F1a Sentry/OTel stub — GitHub</a></li>
+                <li><a href="https://github.com/dofliu/RAG_Ultimate/pull/114" target="_blank">RAG_Ultimate PR #114: Multi-env Dockerfile + Cloud Build — GitHub</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

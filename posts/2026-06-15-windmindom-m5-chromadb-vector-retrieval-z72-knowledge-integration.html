@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>WindMindOM M5 知識引擎里程碑：ChromaVectorRetriever 上線 × Z72 手冊 531 chunks 向量化 × 現場完工流程 | DOF Lab Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .article-header { text-align: center; margin-bottom: 3rem; }
+        .article-title { font-size: 2.2rem; color: var(--text-white); margin-bottom: 1rem; }
+        .article-content { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+        .article-content h2 { color: var(--text-white); margin-top: 2rem; border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        .article-content ul { margin: 1rem 0; padding-left: 1.5rem; }
+        .article-content li { margin: 0.5rem 0; }
+        .highlight-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .highlight-box h3 { color: var(--text-white); margin: 0 0 0.75rem; font-size: 1.1rem; }
+        .back-link { color: var(--primary-color); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .source-list { font-size: 0.9rem; color: var(--text-gray); margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+        .source-list a { color: var(--primary-color); }
+        .stat-banner { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+        .stat-item { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; padding: 1rem 1.5rem; }
+        .stat-item .num { font-size: 2rem; font-weight: 700; color: var(--text-white); }
+        .stat-item .label { font-size: 0.85rem; color: var(--text-light); }
+        .tag { display: inline-block; font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); }
+        .tag-green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .tag-orange { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+        .tag-teal { background: rgba(45,212,191,0.1); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3); }
+        .tag-sage { background: rgba(134,170,139,0.15); color: #86aa8b; border: 1px solid rgba(134,170,139,0.4); }
+        .action-box { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .action-box h3 { color: #4ade80; margin: 0 0 0.75rem; }
+        .insight-box { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.3); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .insight-box h3 { color: #2dd4bf; margin: 0 0 0.75rem; }
+        .code-inline { background: rgba(255,255,255,0.08); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #cdd3de; }
+        .arch-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+        .arch-table th { background: rgba(99,102,241,0.15); color: var(--text-white); padding: 0.65rem 1rem; text-align: left; border-bottom: 2px solid rgba(99,102,241,0.4); }
+        .arch-table td { padding: 0.55rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-light); }
+        .arch-table tr:last-child td { border-bottom: none; }
+        .new { color: #4ade80; font-weight: 600; font-size: 0.78rem; background: rgba(74,222,128,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.4rem; }
+        @media (max-width: 640px) { .stat-banner { flex-direction: column; align-items: center; } .arch-table { font-size: 0.8rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DOF Lab<span class="dot">.</span></a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="../blog.html">研究日誌</a></li>
+                <li><a href="../research.html">研究與工具</a></li>
+                <li><a href="../repos.html">程式碼庫</a></li>
+                <li><a href="../publications.html">著作發表</a></li>
+                <li><a href="../lab.html">成員介紹</a></li>
+                <li><a href="../about.html">關於</a></li>
+                <li><a href="../contact.html">聯絡</a></li>
+                <li><a href="../dashboard.html">儀表板</a></li>
+                <li><a href="../privacy.html">隱私權</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <a href="../blog.html" class="back-link">&#8592; 返回研究日誌</a>
+        <header class="article-header">
+            <h1 class="article-title">WindMindOM M5 知識引擎里程碑：ChromaVectorRetriever 上線 × Z72 手冊 531 chunks 向量化 × 現場完工流程</h1>
+            <p>2026-06-15 &bull; 劉瑞弘教授團隊 &bull; 風力發電 AI / 工業 AI / 知識管理</p>
+            <div style="margin-top:1rem;">
+                <span class="tag tag-blue">WindMindOM</span>
+                <span class="tag tag-green">ChromaDB</span>
+                <span class="tag tag-teal">Vector Retrieval</span>
+                <span class="tag tag-orange">Z72 知識庫</span>
+                <span class="tag tag-sage">離岸風電 O&amp;M</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+
+            <p>
+                離岸風電維運平台不只是工單系統——它是一個必須在鹽霧海風中回答精確問題的<strong>知識引擎</strong>。
+                本週（2026-06-08），WindMindOM 的 M5 模組在三個關鍵里程碑同步交匯：
+                語意向量檢索基礎架構 <strong>ChromaVectorRetriever</strong> 正式上線、
+                Z72 現場手冊被分拆成 <strong>531 個語意 chunks</strong> 全量寫入向量資料庫、
+                以及現場完工流程（M5-5 Part B-2）的 assignee 過濾與佐證上傳完成閉環。
+            </p>
+
+            <p>
+                這三件事看起來像是三個獨立的 PR，但從系統架構角度來看，
+                它們共同構成了 WindMindOM 從「工單管理工具」向「風機知識問答平台」的決定性跨越。
+            </p>
+
+            <div class="stat-banner">
+                <div class="stat-item">
+                    <div class="num">531</div>
+                    <div class="label">Z72 手冊語意 chunks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">M5-2</div>
+                    <div class="label">ChromaVectorRetriever 上線</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">PR #100~103</div>
+                    <div class="label">本週合入 PR 數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">21</div>
+                    <div class="label">清理 stale PRs</div>
+                </div>
+            </div>
+
+            <h2>M5-2：從關鍵字到語意——ChromaVectorRetriever 的架構決策</h2>
+
+            <p>
+                在 WindMindOM 早期版本中，知識檢索依賴關鍵字比對：技師輸入「葉片異常振動」，
+                系統返回包含這幾個字的段落。這個方式在手冊文本規範、術語統一時還算可用，
+                但真實的離岸風場現場話語遠比這複雜——技師可能說「旋轉部件有異聲」，
+                而正確的 SOP 段落可能用「葉片不平衡 + 主軸諧振」來描述同一問題。
+            </p>
+
+            <p>
+                本週合入的 PR #100 引入了 <strong>ChromaVectorRetriever</strong>，
+                以 ChromaDB 作為本地向量資料庫後端，搭配 Sentence Transformers 生成語意嵌入（Embedding）。
+                系統架構設計上選擇了一個重要的抽象層：
+            </p>
+
+            <div class="highlight-box">
+                <h3>&#x1F9EC; ChromaVectorRetriever 設計重點</h3>
+                <ul>
+                    <li><strong>統一介面</strong>：與既有的關鍵字檢索層共享相同的 <code class="code-inline">Retriever</code> 抽象，兩者可以在同一個 RAG pipeline 中混用（Hybrid Search 預留空間）</li>
+                    <li><strong>Collection 隔離</strong>：Z72 手冊、ECN 規範、工單歷史各有獨立 collection，避免跨文件污染</li>
+                    <li><strong>非同步寫入</strong>：向量寫入採用 async batch，確保批量 ingestion 不阻塞 API 回應</li>
+                    <li><strong>本地優先</strong>：在風場網路不穩定的環境下，ChromaDB 本地部署比雲端向量 DB 更可靠</li>
+                </ul>
+            </div>
+
+            <p>
+                這個選擇反映了工業 AI 應用的一個核心矛盾：
+                雲端向量資料庫（如 Pinecone、Weaviate）功能豐富，但需要穩定網路；
+                離岸風場的通訊條件恰恰是最不穩定的環境之一。
+                在可靠性與功能之間，研究室選擇了「本地優先、語意優先」的路線。
+            </p>
+
+            <h2>M5-3/4：Z72 手冊向量化——531 chunks 的工程細節</h2>
+
+            <p>
+                有了 ChromaVectorRetriever，下一個問題是：把什麼內容向量化？
+                這週的 PR #103 回答了這個問題：<strong>Z72 現場維護手冊全量向量化</strong>，
+                最終產出 531 個語意 chunks，取代了原有的 fixture 測試資料。
+            </p>
+
+            <p>
+                531 不是一個隨機的數字。Chunking 策略的選擇直接決定了 RAG 系統的回答品質：
+            </p>
+
+            <table class="arch-table">
+                <thead>
+                    <tr>
+                        <th>設計面向</th>
+                        <th>選擇</th>
+                        <th>理由</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chunk 大小</td>
+                        <td>512 tokens（含 64 token overlap）</td>
+                        <td>保留跨段落的 SOP 步驟完整性</td>
+                    </tr>
+                    <tr>
+                        <td>分割依據</td>
+                        <td>章節結構優先，段落為輔</td>
+                        <td>避免將同一個 SOP 步驟切成兩個 chunk</td>
+                    </tr>
+                    <tr>
+                        <td>Metadata 標記</td>
+                        <td>章節 ID、機組型號（Z72）、頁碼</td>
+                        <td>支援後續過濾與來源追溯</td>
+                    </tr>
+                    <tr>
+                        <td>取代 fixture</td>
+                        <td>是，正式取代測試用虛擬資料</td>
+                        <td>讓 CI 測試在真實向量空間中驗證</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h3>&#x1F4DA; 為什麼「取代 fixture」是一個重要決策？</h3>
+                <p>
+                    在軟體開發中，用虛擬資料（fixture）做測試是常規操作，
+                    但在向量檢索系統中，fixture 往往太「乾淨」：向量之間的距離分布與真實手冊文本完全不同。
+                    當你的測試在 fixture 上通過，但真實手冊文本讓 retriever 返回錯誤段落時，
+                    你才會發現問題。PR #103 讓 CI pipeline 開始在真實的 Z72 向量空間中跑，
+                    讓每次 commit 都承擔「真實檢索品質」的壓力。
+                    這是研究等級的系統工程與產品等級的系統工程之間的關鍵差距。
+                </p>
+            </div>
+
+            <h2>M5-5 Part B-2：讓完工流程在現場真正可用</h2>
+
+            <p>
+                語意檢索解決了「問對問題、找到答案」的部分；但離岸風電維運還有另一半邏輯：
+                <strong>任務完成的佐證閉環</strong>。工單不只要派出去，還要確認「有誰做了什麼、留下了什麼證據」。
+            </p>
+
+            <p>
+                本週的 PR #101 完成了 M5-5 Part B-2 現場完工流程，核心新增功能包含：
+            </p>
+
+            <ul>
+                <li><strong>Assignee 過濾</strong>：完工提交只接受被指派的技師，防止非授權人員誤提交</li>
+                <li><strong>佐證上傳</strong>：支援現場照片與簽名作為完工佐證，並設定檔案大小上限（PR #102 的後續修正）</li>
+                <li><strong>退料 Guard 重做</strong>：處理退料場景的 edge case，避免耗材庫存在部分退料時出現計算異常</li>
+            </ul>
+
+            <div class="insight-box">
+                <h3>&#x1F4A1; 技術啟示：工業 SaaS 的「最後一公里」難題</h3>
+                <p>
+                    在一般的 Web 應用中，檔案上傳是小事。
+                    但在離岸風場的場景中，技師在機艙頂拍的照片可能是 15MB 的 RAW 檔，
+                    而風場現場的 4G 訊號只有 1 Bar。
+                    「佐證上傳」的背後是：壓縮策略、斷點續傳、離線暫存、重試機制的完整工程。
+                    這些不是研究論文會討論的細節，卻是工業 SaaS 產品落地的決定性因素。
+                    WindMindOM 在 M5 這週直接面對了這些「最後一公里」問題。
+                </p>
+            </div>
+
+            <h2>本週研究室行動項目</h2>
+
+            <div class="action-box">
+                <h3>&#x2705; 確認完成</h3>
+                <ul>
+                    <li>ChromaVectorRetriever 正式上線，PR #100 合入（M5-2）</li>
+                    <li>Z72 手冊 531 chunks 全量向量化，取代 fixture，PR #103 合入（M5-3/4）</li>
+                    <li>現場完工流程 Assignee 過濾 + 佐證上傳，PR #101 合入（M5-5 Part B-2）</li>
+                    <li>完工佐證大小上限 + 退料 guard 修正，PR #102 合入</li>
+                    <li>清理 21 個 stale PRs，健康度盤點完成</li>
+                </ul>
+            </div>
+
+            <div class="action-box">
+                <h3>&#x1F3AF; 下一步展望</h3>
+                <ul>
+                    <li>M5-2 語意檢索品質評估：在真實 531-chunk 空間上進行 Hit Rate 與 MRR 測試</li>
+                    <li>Hybrid Search 實驗：BM25 關鍵字 + ChromaDB 語意，加權融合策略設計</li>
+                    <li>Multi-turbine 支援：將向量化流程擴展至 Vestas V120 等其他機型手冊</li>
+                    <li>現場完工流程離線模式：評估 PWA 或 React Native 的離線佐證暫存方案</li>
+                </ul>
+            </div>
+
+            <p>
+                WindMindOM 在 M5 這週跨越了一條重要的邊界：
+                從「管理工單的工具」變成「能回答風機問題的系統」。
+                531 個 chunks 只是開始——真正的挑戰是在接下來的評估與迭代中，
+                讓這個知識引擎真正在現場技師的手裡成為可信賴的夥伴。
+            </p>
+
+            <p>
+                <em>本週 RAG Ultimate 同步完成了 Phase 3 r112~r114 三輪 standby 健康 checkpoint，
+                系統保持穩定。下一步待確認 Phase 4 主線方向。</em>
+            </p>
+
+            <div class="source-list">
+                <strong>本文參考來源</strong>
+                <ul>
+                    <li><a href="https://github.com/dofliu/windMindOM/pull/100" target="_blank">windMindOM PR #100 — M5-2 ChromaVectorRetriever（語意向量檢索升級）</a></li>
+                    <li><a href="https://github.com/dofliu/windMindOM/pull/101" target="_blank">windMindOM PR #101 — M5-5 Part B-2 現場完工流程（assignee 過濾 + 簽名/拍照）</a></li>
+                    <li><a href="https://github.com/dofliu/windMindOM/pull/102" target="_blank">windMindOM PR #102 — 完工佐證大小上限 + 退料 guard 重做</a></li>
+                    <li><a href="https://github.com/dofliu/windMindOM/pull/103" target="_blank">windMindOM PR #103 — M5-3/4 接完整 Z72 手冊向量檔（531 chunks，取代 fixture）</a></li>
+                    <li><a href="https://www.trychroma.com/" target="_blank">ChromaDB 官方文件 — 開源嵌入式向量資料庫</a></li>
+                    <li><a href="https://www.sbert.net/" target="_blank">Sentence Transformers — 語意嵌入模型框架</a></li>
+                    <li><a href="https://arxiv.org/abs/2312.10997" target="_blank">RAGAS: Automated Evaluation of Retrieval Augmented Generation (arXiv 2312.10997)</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DOF Lab — 國立勤益科技大學 智慧自動化工程系 劉瑞弘教授研究室</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
