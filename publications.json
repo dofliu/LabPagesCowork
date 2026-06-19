@@ -1,0 +1,54 @@
+{
+  "_source": "https://sites.google.com/view/jui-hung-liu/ — 期刊論文 Journal Articles",
+  "_updated": "2026-06-19",
+  "journal": [
+    {"year":"2026","title":"Predictive Framework for Detecting Main Bearing Faults in Direct-Drive Horizontal-Axis Wind Turbines Using SCADA","authors":"<strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr., Glenn B. Paclijan","venue":"Advances in Mechanical Engineering","detail":"Accepted June 2026","index":"SCIE","metric":"IF 2.1 · Q3","doi":""},
+    {"year":"2026","title":"Early Fault Warning Framework for Offshore Wind Turbine Pitch Systems Using Relief Feature Selection and SSA-Optimized SABiLSTM","authors":"Yu-Jen Chen, Nong-Xiu Sun, <strong>Jui-Hung Liu*</strong>","venue":"Int. Journal of Precision Engineering and Manufacturing-Green Technology","detail":"Accepted May 2026","index":"SCIE","metric":"IF 5.6 · Q1","doi":""},
+    {"year":"2026","title":"Design Improvement and Strength Analysis of a Pin Lock Structure for Wind Turbine Hub","authors":"Rong-Mao Lee, Jien-Chen Chen, Nelson T. Corbita Jr., <strong>Jui-Hung Liu*</strong>","venue":"Journal of the Chinese Society of Mechanical Engineers (JCSME)","detail":"Vol. 47, No. 2, pp. 103–112","index":"SCIE","metric":"Q4","doi":""},
+    {"year":"2026","title":"Application of the Power Law Process in the Reliability Analysis of a Wind Farm: A Case Study Approach","authors":"<strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr., Glenn B. Paclijan","venue":"Journal of the Chinese Society of Mechanical Engineers (JCSME)","detail":"Vol. 47, No. 2","index":"SCIE","metric":"Q4","doi":""},
+    {"year":"2025","title":"Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines: A Multi-Physics Coupling Theoretical Framework","authors":"Rong-Mao Lee, Jien-Chen Chen, <strong>Jui-Hung Liu*</strong>","venue":"Engineering Failure Analysis","detail":"Vol. 181, p. 109945","index":"SCIE","metric":"IF 5.7 · Q1","doi":"https://doi.org/10.1016/j.engfailanal.2025.109945"},
+    {"year":"2023","title":"Design and Implementation of an Augmented Reality-based Interactive and Real-time Wind Turbine Maintenance Auxiliary Platform System","authors":"<strong>Jui-Hung Liu*</strong>, Chen-Yi Tsai, Jia-Zhou Li, Chun-Chieh Wang","venue":"Sensors and Materials","detail":"Vol. 35, No. 11, pp. 3969–3984","index":"SCIE","metric":"IF 1.0 · Q4","doi":"https://sensors.myu-group.co.jp/article.php?ss=4668"},
+    {"year":"2023","title":"Analysis and Comparison of Turbulence Models on Wind Turbine Performance using SCADA Data and Machine Learning Technique","authors":"<strong>Jui-Hung Liu*</strong>, Jien-Chen Chen, Nelson T. Corbita Jr.","venue":"Cogent Engineering","detail":"Vol. 10, No. 1","index":"SCIE","metric":"IF 2.5 · Q2","doi":"https://doi.org/10.1080/23311916.2023.2167345"},
+    {"year":"2023","title":"A Wind Turbine Tower Climbing Robot Prototype Operating at Various Speeds and Payload Capacity: Development and Validation","authors":"Kathleen Padrigalan, <strong>Jui-Hung Liu*</strong>","venue":"Applied Sciences","detail":"Vol. 13, No. 3, p. 1381","index":"SCIE","metric":"IF 2.5 · Q2","doi":"https://doi.org/10.3390/app13031381"},
+    {"year":"2022","title":"Wind Turbine Anomaly Detection Using Mahalanobis Distance and SCADA Alarm Data","authors":"<strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr., Rong-Mao Lee, Chun-Chieh Wang","venue":"Applied Sciences","detail":"Vol. 12, p. 8661","index":"SCIE","metric":"IF 2.5 · Q2","doi":"https://doi.org/10.3390/app12178661"},
+    {"year":"2022","title":"The Kinematic Analysis of a Wind Turbine Climbing Robot Mechanism","authors":"<strong>Jui-Hung Liu*</strong>, Kathleen Padrigalan","venue":"Applied Sciences","detail":"Vol. 12, No. 3, p. 1210","index":"SCIE","metric":"IF 2.5 · Q2","doi":"https://doi.org/10.3390/app12031210"},
+    {"year":"2022","title":"Development of Auxiliary SCADA System for Wind Farm Operation Based on Open Platform Communication","authors":"Jui-Hung Liu, Kathleen Padrigalan, Rong-Mao Lee*","venue":"Journal of the Chinese Society of Mechanical Engineers","detail":"Vol. 43, No. 1, pp. 21–27","index":"SCIE","metric":"Q4","doi":"http://journal.csme.org.tw/vol_file.aspx?lang=en&fid=20220308102841"},
+    {"year":"2021","title":"Design and Development of a Climbing Robot for Wind Turbine Maintenance","authors":"<strong>Jui-Hung Liu*</strong>, Kathleen Padrigalan","venue":"Applied Sciences","detail":"Vol. 11, No. 5, p. 2328","index":"SCIE","metric":"IF 2.68 · Q2","doi":"https://doi.org/10.3390/app11052328"},
+    {"year":"2021","title":"Performance Analysis of Different Predictive Models for Condition Monitoring of Direct Drive Wind Turbine Generator","authors":"<strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr.","venue":"Measurement and Control","detail":"Vol. 54, No. 3–4, pp. 374–384","index":"SCIE","metric":"IF 1.70 · Q3","doi":"https://doi.org/10.1177/00202940211003930"},
+    {"year":"2020","title":"Design and Development of Condition Monitoring System for Wind Turbines Based on Generator Output Voltages","authors":"Rong-Mao Lee, Shih-Hsuan Hu, Cheng-Chi Wang, Tsung-Chia Chen, <strong>Jui-Hung Liu</strong>","venue":"Sensors and Materials","detail":"Vol. 32, No. 3, pp. 895–907","index":"SCI","metric":"IF 0.76 · Q4","doi":"https://doi.org/10.18494/SAM.2020.2675"},
+    {"year":"2020","title":"Upgrade of The Wind Turbine Pitch Driving System for High-Turbulent Wind Operation","authors":"<strong>Jui-Hung Liu*</strong>, Jien-Chen Chen, Chin-Cheng Huang, Wen-Jeng Lai","venue":"Journal of the Chinese Society of Mechanical Engineers","detail":"Vol. 41, No. 2, pp. 211–220","index":"SCI","metric":"Q4","doi":""},
+    {"year":"2018","title":"Evaluation of the Power Output Performance Improvement of a 2 MW Wind Turbine","authors":"<strong>Jui-Hung Liu*</strong>, Jien-Chen Chen, Wen-Jeng Lai, Wei-Nian Su","venue":"MATEC Web of Conferences","detail":"Vol. 201, p. 01005","index":"EI","metric":"","doi":""},
+    {"year":"2018","title":"Upgrade of a Yaw System and its Operation Strategy to a 2 MW Wind Turbine","authors":"<strong>Jui-Hung Liu*</strong>, Jien-Chen Chen","venue":"MATEC Web of Conferences","detail":"Vol. 201, p. 01006","index":"EI","metric":"","doi":""},
+    {"year":"2015","title":"Development of Co-simulation and Analysis by Combination of Aerodynamics, Mechanism Dynamics and Control System Dynamics for Large Wind Turbines","authors":"Mao-Hsiung Chiang, Ching-Sung Wang, Tsung-Chih Tung, et al., <strong>Jui-Hung Liu</strong>, Jien-Chen Chen","venue":"AASRI Int. Conf. on Industrial Electronics and Applications (IEA 2015)","detail":"2015","index":"","metric":"","doi":""},
+    {"year":"2014","title":"Feedback Linearization Control for a Wind Turbine Driven by a Variable-Speed Pump-Controlled Hydraulic Servo System","authors":"Mao-Hsiung Chiang, Ching-Sung Wang, <strong>Jui-Hung Liu</strong>","venue":"11th IEEE Int. Conf. on Control & Automation (ICCA)","detail":"pp. 815–820, Taichung","index":"EI","metric":"","doi":""},
+    {"year":"2013","title":"Construction of Wind Turbine Bearing Vibration Monitoring and Performance Assessment System","authors":"Feng-Tai Wu, Chun-Chieh Wang, <strong>Jui-Hung Liu</strong>, Chia-Ming Chang, Ya-Ping Lee","venue":"Journal of Signal and Information Processing","detail":"Vol. 4, pp. 430–438","index":"","metric":"","doi":""},
+    {"year":"2007","title":"A Fiber Splicing-Plane-Inspection Technique Using Lens–Fiber Interference for the Cascaded Fiber Fabrication","authors":"Y.T. Tseng, T.Y. Hung, <strong>J.H. Liu*</strong>","venue":"Journal of Lightwave Technology","detail":"Vol. 25, No. 3, pp. 803–810","index":"SCI","metric":"IF 2.86","doi":""},
+    {"year":"2007","title":"Optical Fiber Polishing Automation with On-line Force Sensing","authors":"Y.T. Tseng, <strong>J.H. Liu*</strong>, T.Y. Hung, F.P. Huang","venue":"Int. Journal of Machine Tools and Manufacture","detail":"Vol. 47, No. 6, pp. 892–899","index":"SCI","metric":"IF 2.74","doi":""},
+    {"year":"2006","title":"Automation of Active Quadrangular Pyramid-shaped Fiber Endface Polishing Method","authors":"Y.T. Tseng, <strong>J.H. Liu*</strong>, T.Y. Hung, F.P. Huang","venue":"IEEE Transactions on Advanced Packaging","detail":"Vol. 29, No. 3, pp. 599–606","index":"SCI","metric":"IF 1.12","doi":""},
+    {"year":"2003","title":"High-speed and Precise Positioning of an XY Table","authors":"Y.T. Tseng, <strong>J.H. Liu*</strong>","venue":"Control Engineering Practice","detail":"Vol. 11, No. 4, pp. 357–365","index":"SCI","metric":"IF 1.91","doi":""}
+  ],
+  "conference": [
+    {"year":"2025","title":"Application of Large Language Models in Wind Turbine Alarm Analysis","authors":"Jui-Hung Liu, Chun-Chieh Wang","venue":"ICATI 2025, Hakodate, Japan"},
+    {"year":"2025","title":"大語言模型應用於自動化 PLC-ST 程式碼生成","authors":"","venue":"第 42 屆 CSME 全國機械工程學術研討會，新竹"},
+    {"year":"2025","title":"結合 MCP 技術的工廠自動化應用","authors":"","venue":"第 42 屆 CSME 全國機械工程學術研討會，新竹"},
+    {"year":"2025","title":"基於大語言模型 MCP 的風力發電機監控系統","authors":"","venue":"第 42 屆 CSME 全國機械工程學術研討會，新竹"},
+    {"year":"2024","title":"A Comprehensive Study on Bearing Failure and Replacement in Wind Turbines","authors":"","venue":"PRESM 2024, Busan, Korea"},
+    {"year":"2024","title":"Failure Analysis in Existing SCADA Data using NARX Time-Series","authors":"","venue":"PRESM 2024, Busan, Korea"},
+    {"year":"2023","title":"SCADA Data for Predictive Modelling of Power Output of Wind Turbines","authors":"","venue":"ISNST 2023, Tainan"},
+    {"year":"2023","title":"Fault Detection for Gearbox Systems in Wind Turbines Using SCADA Data","authors":"","venue":"ISNST 2023, Tainan"},
+    {"year":"2022","title":"Monitoring of Performance Index of Wind Turbines using Neural Network Model","authors":"","venue":"ISME 2022","award":"Best Paper"},
+    {"year":"2021","title":"Condition Monitoring of Wind Turbines using Predictive Models from SCADA Data","authors":"","venue":"WindEurope Technology Workshop 2021"},
+    {"year":"2018","title":"Extreme Load Analysis of a 5MW Offshore Wind Turbine under Tropical Cyclone Wind Conditions","authors":"","venue":"WindEurope 2018, Hamburg"}
+  ],
+  "patent": [
+    {"year":"US","title":"High Power-Density Power Generating Module","venue":"US Patent 8013479"},
+    {"year":"TW","title":"串聯式熔接光纖之熔接面檢測裝置及其方法","venue":"證號 I271562"},
+    {"year":"TW","title":"高功率發電模組","venue":"證號 I368381"}
+  ],
+  "award": [
+    {"year":"2022","title":"第十七屆數位訊號處理創思設計競賽 — 佳作","venue":"無人化智慧遠端監控（溫泉地熱）"},
+    {"year":"2021","title":"全國技職盃創新創意專題 — 佳作","venue":"仿生攀爬維修機器人"},
+    {"year":"2020","title":"我是創客創意設計競賽 — 第二名","venue":"智能感應電風扇"},
+    {"year":"2019","title":"高雄國際發明展 KIDE — 銀牌","venue":"工業 4.0 通用管理平台"}
+  ]
+}

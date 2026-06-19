@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="assets/editorial.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
+  <style>
+    .pub-line__metric{ font-size:.72rem; color:var(--gold); font-weight:600; white-space:nowrap; }
+    .updated-note{ font-size:.82rem; color:var(--muted); margin-top:1rem; }
+  </style>
 </head>
 <body id="top">
 
@@ -30,167 +34,99 @@
     <div class="wrap">
       <p class="kicker">Publications · 學術著作</p>
       <h1>研究發表</h1>
-      <p class="lede">完整收錄期刊論文、國際研討會、發明專利與競賽獲獎。研究主軸聚焦風力發電運維、SCADA 數據分析、機器學習診斷與光纖自動化。</p>
+      <p class="lede">完整收錄期刊論文、國際研討會、發明專利與競賽獲獎。研究主軸聚焦風力發電運維、SCADA 數據分析、機器學習診斷與 RAG 工業應用。</p>
+      <p class="updated-note" id="updatedNote"></p>
     </div>
   </header>
 
   <section class="section--tight">
     <div class="wrap">
-      <div class="pub-strip" data-reveal>
-        <div class="pub-stat"><b>18</b><span>SCIE/SCI 期刊論文</span></div>
-        <div class="pub-stat"><b>11</b><span>國際研討會論文</span></div>
-        <div class="pub-stat"><b>3</b><span>發明專利</span></div>
-        <div class="pub-stat"><b>4</b><span>競賽獲獎</span></div>
-      </div>
+      <div class="pub-strip" data-reveal id="pubStrip"></div>
 
       <div class="tabs" id="pub-tabs">
         <button class="tab active" data-filter="all">全部</button>
         <button class="tab" data-filter="journal">期刊論文</button>
-        <button class="tab" data-filter="conf">研討會</button>
+        <button class="tab" data-filter="conference">研討會</button>
         <button class="tab" data-filter="patent">專利</button>
         <button class="tab" data-filter="award">獲獎</button>
       </div>
 
-      <!-- ============ 期刊論文 ============ -->
-      <div class="pub-group" data-group="journal">
-        <p class="kicker" style="margin:2.5rem 0 1rem"><i class="fas fa-book-open"></i>　期刊論文 Journal Papers</p>
-
-        <a class="pub-line" href="https://doi.org/10.1016/j.engfailanal.2025.109945" target="_blank">
-          <div class="pub-line__yr">2025</div><div>
-          <div class="pub-line__t">Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines: A Multi-Physics Coupling Theoretical Framework<span class="scie">SCIE</span></div>
-          <div class="pub-line__m">Rong Mao Lee, Jien-Chen Chen, <strong>Jui-Hung Liu*</strong> · <span class="jn">Engineering Failure Analysis</span> 181, 109945</div></div>
-        </a>
-        <div class="pub-line"><div class="pub-line__yr">2025</div><div>
-          <div class="pub-line__t">Application of the Power Law Process in the Reliability Analysis of a Wind Farm: A Case Study Approach<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr., Glenn B. Paclijan · <span class="jn">JCSME</span> (Accepted)</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2025</div><div>
-          <div class="pub-line__t">Design Improvement and Strength Analysis of a Pin Lock Structure for Wind Turbine Hub<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong> (Corresponding) · <span class="jn">JCSME</span> (Accepted)</div></div></div>
-        <a class="pub-line" href="https://sensors.myu-group.co.jp/sm_pdf/SM3511/SM35_3969.pdf" target="_blank"><div class="pub-line__yr">2023</div><div>
-          <div class="pub-line__t">Design and Implementation of an Augmented Reality-based Interactive and Real-time Wind Turbine Maintenance Auxiliary Platform System<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Chen-Yi Tsai, Jia-Zhou Li, Chun-Chieh Wang · <span class="jn">Sensors and Materials</span> 35(11), 3969–3984</div></div></a>
-        <a class="pub-line" href="https://doi.org/10.1080/23311916.2023.2253640" target="_blank"><div class="pub-line__yr">2023</div><div>
-          <div class="pub-line__t">Analysis and Comparison of Turbulence Models on Wind Turbine Performance using SCADA Data and Machine Learning Technique<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Jien-Chen Chen, Nelson T. Corbita Jr. · <span class="jn">Cogent Engineering</span> 10(1)</div></div></a>
-        <a class="pub-line" href="https://doi.org/10.3390/app13031381" target="_blank"><div class="pub-line__yr">2023</div><div>
-          <div class="pub-line__t">A Wind Turbine Tower Climbing Robot Prototype Operating at Various Speeds and Payload Capacity: Development and Validation<span class="scie">SCIE</span></div>
-          <div class="pub-line__m">Kathleen Padrigalan, <strong>Jui-Hung Liu*</strong> · <span class="jn">Applied Sciences</span> 13(3):1381</div></div></a>
-        <a class="pub-line" href="https://doi.org/10.3390/app12178661" target="_blank"><div class="pub-line__yr">2022</div><div>
-          <div class="pub-line__t">Wind Turbine Anomaly Detection Using Mahalanobis Distance and SCADA Alarm Data<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr., Rong-Mao Lee, Chun-Chieh Wang · <span class="jn">Applied Sciences</span> 12, 8661</div></div></a>
-        <a class="pub-line" href="https://doi.org/10.3390/app12031210" target="_blank"><div class="pub-line__yr">2022</div><div>
-          <div class="pub-line__t">The Kinematic Analysis of a Wind Turbine Climbing Robot Mechanism<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Kathleen Padrigalan · <span class="jn">Applied Sciences</span> 12(3), 1210</div></div></a>
-        <div class="pub-line"><div class="pub-line__yr">2022</div><div>
-          <div class="pub-line__t">Development of Auxiliary SCADA System for Wind Farm Operation Based on Open Platform Communication<span class="scie">SCIE</span></div>
-          <div class="pub-line__m">Jui-Hung Liu, Kathleen Padrigalan, Rong-Mao Lee · <span class="jn">JCSME</span> 43(1):21–27</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2021</div><div>
-          <div class="pub-line__t">Design and Development of a Climbing Robot for Wind Turbine Maintenance<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Kathleen Padrigalan · <span class="jn">Applied Sciences</span> 11(5), 2328</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2021</div><div>
-          <div class="pub-line__t">Performance Analysis of Different Predictive Models for Condition Monitoring of Direct Drive Wind Turbine Generator<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, Nelson T. Corbita Jr. · <span class="jn">Measurement and Control</span> 54(3–4):374–384</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2020</div><div>
-          <div class="pub-line__t">Design and Development of Condition Monitoring System for Wind Turbines Based on Generator Output Voltages<span class="scie">SCIE</span></div>
-          <div class="pub-line__m">Rong-Mao Lee, … <strong>Jui-Hung Liu</strong> · <span class="jn">Sensors and Materials</span> 32(3):895–907</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2020</div><div>
-          <div class="pub-line__t">Upgrade of The Wind Turbine Pitch Driving System for High-Turbulent Wind Operation<span class="scie">SCIE</span></div>
-          <div class="pub-line__m"><strong>Jui-Hung Liu*</strong>, et al. · <span class="jn">JCSME</span> 41(2):211–220</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2013</div><div>
-          <div class="pub-line__t">Construction of Wind Turbine Bearing Vibration Monitoring and Performance Assessment System<span class="scie">SCI</span></div>
-          <div class="pub-line__m">Feng-Tai Wu, Chun-Chieh Wang, <strong>Jui-Hung Liu</strong> · <span class="jn">Journal of Signal and Information Processing</span> 4:430–438</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2007</div><div>
-          <div class="pub-line__t">A Fiber Splicing-Plane-Inspection Technique Using Lens–Fiber Interference for the Cascaded Fiber Fabrication<span class="scie">SCI</span></div>
-          <div class="pub-line__m">YT Tseng, TY Hung, <strong>JH Liu*</strong> · <span class="jn">Journal of Lightwave Technology</span> 25(3):803–810</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2007</div><div>
-          <div class="pub-line__t">Optical fiber polishing automation with on-line force sensing<span class="scie">SCI</span></div>
-          <div class="pub-line__m">YT Tseng, TY Hung, <strong>JH Liu*</strong> · <span class="jn">International Journal of Machine Tools and Manufacture</span> 47(6):892–899</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2006</div><div>
-          <div class="pub-line__t">Automation of active quadrangular pyramid-shaped fiber endface polishing method<span class="scie">SCI</span></div>
-          <div class="pub-line__m">YT Tseng, <strong>JH Liu*</strong> · <span class="jn">IEEE Transactions on Advanced Packaging</span> 29(3):599–606</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2003</div><div>
-          <div class="pub-line__t">High-speed and precise positioning of an XY table<span class="scie">SCI</span></div>
-          <div class="pub-line__m">YT Tseng, <strong>JH Liu*</strong> · <span class="jn">Control Engineering Practice</span> 11(4):357–365</div></div></div>
-      </div>
-
-      <!-- ============ 研討會論文 ============ -->
-      <div class="pub-group" data-group="conf">
-        <p class="kicker" style="margin:2.5rem 0 1rem"><i class="fas fa-users"></i>　研討會論文 Conference Papers</p>
-        <div class="pub-line"><div class="pub-line__yr">2025</div><div><div class="pub-line__t">Application of Large Language Models in Wind Turbine Alarm Analysis</div><div class="pub-line__m">Jui-Hung Liu, Chun-Chieh Wang · <span class="jn">ICATI 2025, Hakodate, Japan</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2025</div><div><div class="pub-line__t">大語言模型應用於自動化 PLC-ST 程式碼生成</div><div class="pub-line__m"><span class="jn">第 42 屆 CSME 全國機械工程學術研討會，新竹</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2025</div><div><div class="pub-line__t">結合 MCP 技術的工廠自動化應用</div><div class="pub-line__m"><span class="jn">第 42 屆 CSME 全國機械工程學術研討會，新竹</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2025</div><div><div class="pub-line__t">基於大語言模型 MCP 的風力發電機監控系統</div><div class="pub-line__m"><span class="jn">第 42 屆 CSME 全國機械工程學術研討會，新竹</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2024</div><div><div class="pub-line__t">A Comprehensive Study on Bearing Failure and Replacement in Wind Turbines</div><div class="pub-line__m"><span class="jn">PRESM 2024, Busan, Korea</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2024</div><div><div class="pub-line__t">Failure Analysis in Existing SCADA Data using NARX Time-Series</div><div class="pub-line__m"><span class="jn">PRESM 2024, Busan, Korea</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2023</div><div><div class="pub-line__t">SCADA Data for Predictive Modelling of Power Output of Wind Turbines</div><div class="pub-line__m"><span class="jn">ISNST 2023, Tainan</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2023</div><div><div class="pub-line__t">Fault Detection for Gearbox Systems in Wind Turbines Using SCADA Data</div><div class="pub-line__m"><span class="jn">ISNST 2023, Tainan</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2022</div><div><div class="pub-line__t">Monitoring of Performance Index of Wind Turbines using Neural Network Model　<span class="scie" style="background:var(--rust)">Best Paper</span></div><div class="pub-line__m"><span class="jn">ISME 2022</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2021</div><div><div class="pub-line__t">Condition Monitoring of Wind Turbines using Predictive Models from SCADA Data</div><div class="pub-line__m"><span class="jn">WindEurope Technology Workshop 2021</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2018</div><div><div class="pub-line__t">Extreme Load Analysis of a 5MW Offshore Wind Turbine under Tropical Cyclone Wind Conditions</div><div class="pub-line__m"><span class="jn">WindEurope 2018, Hamburg</span></div></div></div>
-      </div>
-
-      <!-- ============ 專利 ============ -->
-      <div class="pub-group" data-group="patent">
-        <p class="kicker" style="margin:2.5rem 0 1rem"><i class="fas fa-certificate"></i>　專利 Patents</p>
-        <div class="pub-line"><div class="pub-line__yr">US</div><div><div class="pub-line__t">High Power-Density Power Generating Module</div><div class="pub-line__m"><span class="jn">US Patent 8013479</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">TW</div><div><div class="pub-line__t">串聯式熔接光纖之熔接面檢測裝置及其方法</div><div class="pub-line__m"><span class="jn">證號 I271562</span></div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">TW</div><div><div class="pub-line__t">高功率發電模組</div><div class="pub-line__m"><span class="jn">證號 I368381</span></div></div></div>
-      </div>
-
-      <!-- ============ 獲獎 ============ -->
-      <div class="pub-group" data-group="award">
-        <p class="kicker" style="margin:2.5rem 0 1rem"><i class="fas fa-trophy"></i>　競賽獲獎 Awards</p>
-        <div class="pub-line"><div class="pub-line__yr">2022</div><div><div class="pub-line__t">第十七屆數位訊號處理創思設計競賽 — 佳作</div><div class="pub-line__m">無人化智慧遠端監控（溫泉地熱）</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2021</div><div><div class="pub-line__t">全國技職盃創新創意專題 — 佳作</div><div class="pub-line__m">仿生攀爬維修機器人</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2020</div><div><div class="pub-line__t">我是創客創意設計競賽 — 第二名</div><div class="pub-line__m">智能感應電風扇</div></div></div>
-        <div class="pub-line"><div class="pub-line__yr">2019</div><div><div class="pub-line__t">高雄國際發明展 KIDE — 銀牌</div><div class="pub-line__m">工業 4.0 通用管理平台</div></div></div>
-      </div>
-
+      <div id="pubContainer"><p style="color:var(--muted)">載入著作資料中…</p></div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="wrap">
       <div class="footer__grid">
-        <div class="footer__brand">
-          <span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
-          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p>
-        </div>
-        <div>
-          <h5>導覽</h5>
-          <a href="index.html">首頁</a><a href="projects.html">專案成果</a>
-          <a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a>
-        </div>
-        <div>
-          <h5>聯絡</h5>
-          <a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a>
-          <a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a>
-          <a href="contact.html">誠樸館 G309 · 台中太平</a>
-        </div>
+        <div class="footer__brand"><span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p></div>
+        <div><h5>導覽</h5><a href="index.html">首頁</a><a href="projects.html">專案成果</a><a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a></div>
+        <div><h5>聯絡</h5><a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a><a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a><a href="contact.html">誠樸館 G309 · 台中太平</a></div>
       </div>
-      <div class="footer__bottom">
-        <span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
-        <div class="footer__social">
-          <a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-          <a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a>
-        </div>
-      </div>
+      <div class="footer__bottom"><span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
+        <div class="footer__social"><a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a></div></div>
     </div>
   </footer>
 
   <script src="assets/editorial.js"></script>
   <script>
-    (function () {
-      var tabs = document.getElementById('pub-tabs');
-      var groups = document.querySelectorAll('.pub-group');
-      tabs.addEventListener('click', function (e) {
-        var btn = e.target.closest('.tab'); if (!btn) return;
-        tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const GROUPS = [
+      { key:'journal',    label:'期刊論文 Journal Papers', icon:'fa-book-open' },
+      { key:'conference', label:'研討會論文 Conference Papers', icon:'fa-users' },
+      { key:'patent',     label:'專利 Patents', icon:'fa-certificate' },
+      { key:'award',      label:'競賽獲獎 Awards', icon:'fa-trophy' }
+    ];
+    function esc(s){ return (s==null?'':String(s)); }
+    function lineHTML(p){
+      const href = p.doi ? ` href="${p.doi}" target="_blank"` : '';
+      const tag = href ? 'a' : 'div';
+      const idx = p.index ? `<span class="scie">${p.index}</span>` : '';
+      const awardTag = p.award ? `<span class="scie" style="background:var(--rust)">${p.award}</span>` : '';
+      const metric = p.metric ? `<div class="pub-line__metric">${p.metric}</div>` : '';
+      const authors = p.authors ? `${p.authors} · ` : '';
+      return `<${tag} class="pub-line"${href}>
+        <div class="pub-line__yr">${esc(p.year)}</div>
+        <div>
+          <div class="pub-line__t">${esc(p.title)}${idx}${awardTag}</div>
+          <div class="pub-line__m">${authors}<span class="jn">${esc(p.venue)}</span> ${p.detail?('· '+esc(p.detail)):''}</div>
+          ${metric}
+        </div>
+      </${tag}>`;
+    }
+    fetch('publications.json').then(r=>r.json()).then(data=>{
+      // 更新日期
+      if(data._updated) document.getElementById('updatedNote').innerHTML =
+        `<i class="fas fa-rotate"></i> 資料更新：${data._updated}（來源：個人著作網站）`;
+      // 統計
+      const counts = GROUPS.map(g => (data[g.key]||[]).length);
+      const labels = ['期刊／SCIE 論文','國際研討會論文','發明專利','競賽獲獎'];
+      document.getElementById('pubStrip').innerHTML = GROUPS.map((g,i)=>
+        `<div class="pub-stat"><b>${counts[i]}</b><span>${labels[i]}</span></div>`).join('');
+      // 各組
+      document.getElementById('pubContainer').innerHTML = GROUPS.map(g=>{
+        const items = data[g.key]||[];
+        if(!items.length) return '';
+        return `<div class="pub-group" data-group="${g.key}">
+          <p class="kicker" style="margin:2.5rem 0 1rem"><i class="fas ${g.icon}"></i>　${g.label}</p>
+          ${items.map(lineHTML).join('')}
+        </div>`;
+      }).join('');
+      // 篩選
+      const tabs = document.getElementById('pub-tabs');
+      tabs.addEventListener('click', e=>{
+        const btn = e.target.closest('.tab'); if(!btn) return;
+        tabs.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         btn.classList.add('active');
-        var f = btn.getAttribute('data-filter');
-        groups.forEach(g => { g.style.display = (f === 'all' || g.getAttribute('data-group') === f) ? '' : 'none'; });
+        const f = btn.getAttribute('data-filter');
+        document.querySelectorAll('.pub-group').forEach(gr=>{
+          gr.style.display = (f==='all'||gr.getAttribute('data-group')===f)?'':'none';
+        });
       });
-    })();
+    }).catch(err=>{
+      document.getElementById('pubContainer').innerHTML =
+        '<p style="color:var(--muted)">著作資料載入失敗，請於 doflab.cc 線上瀏覽。</p>';
+      console.error(err);
+    });
   </script>
 </body>
 </html>
