@@ -475,6 +475,29 @@
     </style>
 </head>
 <body>
+    <!-- DOF Lab 品牌導覽列 (自帶樣式，避免與儀表板深色主題衝突) -->
+    <style>
+      .dofnav{position:sticky;top:0;z-index:9999;display:flex;align-items:center;justify-content:space-between;
+        gap:1rem;padding:.7rem clamp(1rem,4vw,2.5rem);background:rgba(20,18,16,.86);backdrop-filter:blur(12px);
+        border-bottom:1px solid rgba(255,255,255,.1);font-family:'Inter','Noto Sans TC',system-ui,sans-serif}
+      .dofnav a{color:#d9cfc0;text-decoration:none;font-size:.9rem;transition:color .2s}
+      .dofnav a:hover{color:#fff}
+      .dofnav__brand{font-family:'Fraunces','Noto Serif TC',serif;font-weight:900;font-size:1.2rem;color:#fff}
+      .dofnav__brand b{color:#b4451f}
+      .dofnav__links{display:flex;gap:1.3rem;align-items:center;flex-wrap:wrap}
+      .dofnav__cta{background:#b4451f;color:#fff!important;padding:.4rem 1rem;border-radius:100px;font-weight:600}
+      @media(max-width:680px){.dofnav__links a:not(.dofnav__cta){display:none}}
+    </style>
+    <nav class="dofnav">
+      <a class="dofnav__brand" href="index.html">DOF Lab<b>.</b></a>
+      <div class="dofnav__links">
+        <a href="index.html">首頁</a>
+        <a href="projects.html">專案成果</a>
+        <a href="publications.html">研究發表</a>
+        <a href="blog.html">研究日誌</a>
+        <a class="dofnav__cta" href="index.html">← 回新版網站</a>
+      </div>
+    </nav>
     <!-- Detail Panel -->
     <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
     <div class="detail-panel" id="detailPanel">
@@ -522,7 +545,7 @@
         <div class="stats-bar">
             <div class="stat-card">
                 <h3>總專案數</h3>
-                <div class="number">60+</div>
+                <div class="number">36</div>
             </div>
             <div class="stat-card">
                 <h3>活躍專案</h3>
@@ -530,7 +553,7 @@
             </div>
             <div class="stat-card">
                 <h3>已上線</h3>
-                <div class="number">8</div>
+                <div class="number">6</div>
             </div>
             <div class="stat-card">
                 <h3>潛在論文</h3>
