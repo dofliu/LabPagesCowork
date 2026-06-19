@@ -1,166 +1,107 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NCUT IAE Lab - Members">
-    <title>成員介紹 | NCUT IAE Lab</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Lab Members Page Specific Styles */
-        .page-header {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(to bottom, var(--bg-dark), #1e293b);
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .member-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s;
-        }
-
-        .member-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-
-        .member-avatar {
-            width: 120px;
-            height: 120px;
-            background: #334155;
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.2);
-            border: 2px solid var(--primary-color);
-        }
-
-        .member-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-white);
-        }
-
-        .member-role {
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .member-research {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .member-links a {
-            color: var(--text-gray);
-            margin: 0 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .member-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .section-category {
-            margin-bottom: 4rem;
-        }
-
-        .category-title {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 1rem;
-            color: var(--text-white);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOF Lab 研究團隊 — 劉瑞弘副教授主持，帶領學生投入風能 AI 與 RAG 研究。">
+  <title>研究團隊 ｜ DOF Lab</title>
+  <link rel="stylesheet" href="assets/editorial.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
+<body id="top">
 
-<body>
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
+      <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="projects.html">專案成果</a></li>
+        <li><a href="publications.html">研究發表</a></li>
+        <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="about.html">關於</a></li>
+        <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
-            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-            <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="blog.html">研究日誌</a></li>
-                <li><a href="publications.html">著作發表</a></li>
-                <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="about.html">關於</a></li>
-                <li><a href="contact.html">聯絡</a></li>
-                <li><a href="dashboard.html">儀表板</a></li>
-                <li><a href="privacy.html">隱私權</a></li>
-            </ul>
-        </div>
-    </nav>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="kicker">The Team · 研究團隊</p>
+      <h1>認識 DOF Lab 的人。</h1>
+      <p class="lede">由劉瑞弘副教授主持，帶領學生投入風能 AI 與 RAG 研究，並以 GitHub PR 工作流培養工程實務能力。</p>
+    </div>
+  </header>
 
-    <header class="page-header">
-        <div class="container">
-            <h1>Meet the Team</h1>
-            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">這是一群對技術充滿熱情、致力於解決實際問題的研究團隊。</p>
-        </div>
-    </header>
-
-    <section class="section">
-        <div class="container">
-
-            <!-- Professor -->
-            <div class="section-category">
-                <h2 class="category-title">指導教授 Principal Investigator</h2>
-                <div class="member-card" style="max-width: 400px; margin: 0 auto;">
-                    <div class="member-avatar">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <h3 class="member-name">劉瑞弘 副教授 (Dof Liu)</h3>
-                    <p class="member-role">實驗室主持人 / Ph.D.</p>
-                    <p class="member-research">研究領域：AI 代理人系統、風力發電運維、智慧機電整合、SCADA 數據分析。</p>
-                    <div class="member-links">
-                        <a href="https://github.com/dofliu"><i class="fab fa-github"></i></a>
-                        <a href="mailto:dofliu@gm.ncut.edu.tw"><i class="fas fa-envelope"></i></a>
-                        <a href="https://iae.ncut.edu.tw/"><i class="fas fa-university"></i></a>
-                    </div>
-                </div>
+  <section class="section">
+    <div class="wrap">
+      <p class="kicker" style="margin-bottom:1.4rem">Principal Investigator · 指導教授</p>
+      <div class="feat" data-reveal style="background:var(--ink);color:#f3ece0">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:center">
+          <div class="member__ava" style="width:120px;height:120px;font-size:2.6rem">劉</div>
+          <div>
+            <h3 style="color:#fff;font-size:1.8rem">劉瑞弘 副教授 <span style="font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold);font-size:1.1rem">Jui-Hung Liu, Ph.D.</span></h3>
+            <p style="color:var(--gold);font-weight:600;margin:.3rem 0 .8rem">實驗室主持人 · 國立勤益科技大學 智慧自動化工程系</p>
+            <p style="color:#cdbfa6">研究領域：AI 代理人系統、風力發電運維、智慧機電整合、SCADA 數據分析。累積 18 篇 SCIE/SCI 期刊論文、11 篇國際研討會論文與 3 項發明專利。</p>
+            <div style="display:flex;gap:.8rem;margin-top:1.2rem">
+              <a href="https://github.com/dofliu" target="_blank" class="btn" style="border-color:rgba(255,255,255,.3);color:#fff;padding:.5rem 1rem;font-size:.85rem">GitHub</a>
+              <a href="publications.html" class="btn btn--rust" style="padding:.5rem 1rem;font-size:.85rem">著作列表</a>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <!-- Lab Assistant / Agent -->
-            <div class="section-category">
-                <h2 class="category-title">實驗室 AI 助手 AI Assistant</h2>
-                <div class="member-grid">
-                    <div class="member-card">
-                        <div class="member-avatar" style="color: #ff69b4;"><i class="fas fa-robot"></i></div>
-                        <h3 class="member-name">春野櫻 (Sakura)</h3>
-                        <p class="member-role">貼身秘書 / 數位生命體</p>
-                        <p class="member-research">專長：專案管理、記憶同步、自動化發文、與老闆聊天。</p>
-                    </div>
-                </div>
-            </div>
+  <section class="section bg-2">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-head__l"><p class="kicker">Researchers · 研究生</p><h2 class="section-title">研究團隊</h2></div></div>
+      <div class="member-grid" data-reveal>
+        <div class="member">
+          <div class="member__ava" style="background:linear-gradient(135deg,var(--forest),var(--gold))">K</div>
+          <h4>Kiwi</h4><div class="member__role">研究生</div>
+          <div class="member__area">Domain RAG · 領域知識檢索</div>
+        </div>
+        <div class="member">
+          <div class="member__ava" style="background:linear-gradient(135deg,var(--ink-soft),var(--rust))">C</div>
+          <h4>Christian</h4><div class="member__role">研究生</div>
+          <div class="member__area">RAG 演算法 · 系統架構</div>
+        </div>
+        <div class="member">
+          <div class="member__ava" style="background:linear-gradient(135deg,var(--rust),var(--gold))">桜</div>
+          <h4>春野櫻 Sakura</h4><div class="member__role">實驗室 AI 助手</div>
+          <div class="member__area">專案管理 · 記憶同步 · 自動化發文</div>
+        </div>
+        <a class="member" href="contact.html" style="display:flex;flex-direction:column;justify-content:center">
+          <div class="member__ava" style="background:var(--paper);color:var(--rust);border:2px dashed var(--line-strong)"><i class="fas fa-plus"></i></div>
+          <h4>加入我們</h4><div class="member__role">招募中</div>
+          <div class="member__area">對 AI × 工程有熱情的你</div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-            <!-- Research Students -->
-            <div class="section-category">
-                <h2 clas
+  <section class="section--tight" style="background:var(--rust);color:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
+      <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);color:#fff;max-width:24ch">想加入研究室，一起把 AI 做到工程現場用得上？</h2>
+      <a href="contact.html" class="btn" style="background:#fff;border-color:#fff;color:var(--rust)">招募資訊 <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand"><span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p></div>
+        <div><h5>導覽</h5><a href="index.html">首頁</a><a href="projects.html">專案成果</a><a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a></div>
+        <div><h5>聯絡</h5><a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a><a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a><a href="contact.html">誠樸館 G309 · 台中太平</a></div>
+      </div>
+      <div class="footer__bottom"><span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
+        <div class="footer__social"><a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a></div></div>
+    </div>
+  </footer>
+
+  <script src="assets/editorial.js"></script>
+</body>
+</html>

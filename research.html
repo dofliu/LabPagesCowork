@@ -1,357 +1,100 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>研究方向 - DOF Lab</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="doflab-style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOF Lab 研究方向 — 風電運維、生成式 AI／RAG、智慧監控與機電整合。">
+  <title>研究方向 ｜ DOF Lab</title>
+  <link rel="stylesheet" href="assets/editorial.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="container">
-                <div class="nav-container">
-                    <a href="index.html" class="logo">DOF Lab</a>
-                    <ul class="nav-links">
-                        <li><a href="index.html">首頁</a></li>
-                        <li><a href="research.html" class="active">研究方向</a></li>
-                        <li><a href="publications.html">研究成果</a></li>
-                        <li><a href="projects.html">專案計畫</a></li>
-                        <li><a href="about.html">關於我們</a></li>
-                        <li><a href="contact.html">聯絡與合作</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body id="top">
 
-    <section class="page-header">
-        <div class="container">
-            <h1>研究方向</h1>
-            <p>專注於智慧AI自動化、風力發電運維與監控系統等領域研究，結合產學合作與國際學術交流。</p>
-        </div>
-    </section>
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
+      <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="projects.html">專案成果</a></li>
+        <li><a href="publications.html">研究發表</a></li>
+        <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="about.html">關於</a></li>
+        <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <main class="main-content">
-        <div class="container">
+  <header class="page-head">
+    <div class="wrap">
+      <p class="kicker">Research · 研究方向</p>
+      <h1>從風機到語言模型，<br>研究貫穿運維與 AI。</h1>
+      <p class="lede">專注於智慧 AI 自動化、風力發電運維與監控系統，結合產學合作與國際學術交流，把研究做成可上線的真實系統。</p>
+    </div>
+  </header>
 
-            <!-- 智慧自動化與人工智慧應用 -->
-            <div class="research-area animate-on-scroll">
-                <div class="research-header">
-                    <i class="fas fa-robot"></i>
-                    <div>
-                        <h2>智慧自動化與人工智慧應用</h2>
-                        <p>AI-Powered Automation Systems</p>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div class="research-description">
-                        本研究聚焦於智慧自動化工程與人工智慧的整合應用，涵蓋大型語言模型(LLM)驅動的AI，
-                        透過整合式監控系統與智慧型控制演算法，實現跨領域的工程與製造自動化解決方案。
-                    </div>
+  <section class="section">
+    <div class="wrap">
+      <div class="feat-grid">
+        <article class="feat feat--half" data-reveal>
+          <div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i></div>
+          <div class="feat__tags"><span class="tag">01 · 風能</span></div>
+          <h3>風力發電運維系統</h3>
+          <p class="feat__desc">SCADA 數據分析、異常偵測、可靠性工程與疲勞分析。涵蓋主軸承失效模式分析、功率曲線建模、剩餘壽命預測，並導入機器學習與時間序列基礎模型。</p>
+          <div class="feat__foot"><a href="publications.html" class="read-more">相關發表 <i class="fas fa-arrow-right"></i></a></div>
+        </article>
+        <article class="feat feat--half" data-reveal data-reveal-delay="80">
+          <div class="feat__cover feat__cover--rust"><i class="fas fa-robot ico"></i></div>
+          <div class="feat__tags"><span class="tag">02 · AI</span></div>
+          <h3>生成式 AI 應用</h3>
+          <p class="feat__desc">LLM 自動 PLC／ST 程式碼生成、RAG 工業知識問答、MCP 多平台 AI 代理人。建構企業級統一 RAG 平台與風電 RAG Benchmark，把語言模型落地到工業現場。</p>
+          <div class="feat__foot"><a href="projects.html" class="read-more">相關專案 <i class="fas fa-arrow-right"></i></a></div>
+        </article>
+        <article class="feat feat--half" data-reveal>
+          <div class="feat__cover feat__cover--gold"><i class="fas fa-eye ico"></i></div>
+          <div class="feat__tags"><span class="tag">03 · 監控</span></div>
+          <h3>智慧監控平台</h3>
+          <p class="feat__desc">整合 AR 擴增實境輔助維修、IoT 感測整合與即時設備監控。從 Bachmann M1 風機 SCADA 系統到 historian 資料中繼，實現設備狀態可視與維修有據。</p>
+          <div class="feat__foot"><a href="projects.html" class="read-more">相關專案 <i class="fas fa-arrow-right"></i></a></div>
+        </article>
+        <article class="feat feat--half" data-reveal data-reveal-delay="80">
+          <div class="feat__cover"><i class="fas fa-gears ico"></i></div>
+          <div class="feat__tags"><span class="tag">04 · 機電</span></div>
+          <h3>智慧機電整合</h3>
+          <p class="feat__desc">攀爬機器人、PLC 控制系統與自動化設備開發，串接 Modbus TCP／OPC UA 工業通訊協議。已發表多篇風機塔攀爬機器人運動學與原型驗證研究。</p>
+          <div class="feat__foot"><a href="publications.html" class="read-more">相關發表 <i class="fas fa-arrow-right"></i></a></div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-                    <div class="research-details">
-                        <div class="detail-card">
-                            <h4>核心技術</h4>
-                            <ul>
-                                <li>大型語言模型應用開發</li>
-                                <li>自動化控制演算法</li>
-                                <li>智慧型診斷與預測系統</li>
-                                <li>跨平台人機介面設計</li>
-                                <li>多模態AI技術</li>
-                            </ul>
-                        </div>
-                        <div class="detail-card">
-                            <h4>研究成果</h4>
-                            <ul>
-                                <li>MCP協定整合應用開發</li>
-                                <li>LINE對話機器人系統開發</li>
-                                <li>設備維護與即時監控資訊</li>
-                                <li>智慧化生產排程整合器</li>
-                                <li>預測性維護與監控系統開發</li>
-                            </ul>
-                        </div>
-                    </div>
+  <section class="section bg-2">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
+      <div>
+        <p class="kicker" style="margin-bottom:.8rem">Outputs · 研究成果</p>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,4vw,2.6rem);max-width:20ch">研究成果以可驗證的論文、系統與部署呈現。</h2>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <a href="projects.html" class="btn btn--solid">36 個專案 <i class="fas fa-arrow-right"></i></a>
+        <a href="publications.html" class="btn btn--ghost">學術發表</a>
+      </div>
+    </div>
+  </section>
 
-                    <div class="applications">
-                        <h3>應用領域</h3>
-                        <div class="app-grid">
-                            <div class="app-card">
-                                <i class="fas fa-industry"></i>
-                                <h4>智慧製造</h4>
-                                <p>自動化產線與整合系統</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-cogs"></i>
-                                <h4>設備管理</h4>
-                                <p>即時監控與故障預測</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-code"></i>
-                                <h4>程式自動生成</h4>
-                                <p>AI輔助程式碼撰寫與產生</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-comments"></i>
-                                <h4>智慧對話</h4>
-                                <p>自然語言互動系統</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand"><span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p></div>
+        <div><h5>導覽</h5><a href="index.html">首頁</a><a href="projects.html">專案成果</a><a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a></div>
+        <div><h5>聯絡</h5><a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a><a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a><a href="contact.html">誠樸館 G309 · 台中太平</a></div>
+      </div>
+      <div class="footer__bottom"><span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
+        <div class="footer__social"><a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a></div></div>
+    </div>
+  </footer>
 
-            <!-- 風電運維與智慧監控 -->
-            <div class="research-area animate-on-scroll">
-                <div class="research-header">
-                    <i class="fas fa-wind"></i>
-                    <div>
-                        <h2>風電運維與智慧監控</h2>
-                        <p>Wind Power O&M and Smart Monitoring</p>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div class="research-description">
-                        專注於風力發電機組的監控系統與故障診斷技術，結合IoT感測器技術與機器學習演算法建構風場預測系統。
-                        透過大數據分析與深度學習模型，建立智慧化故障診斷與預測平台，提升風力發電機組的可靠度與運維效率。
-                    </div>
-
-                    <div class="research-details">
-                        <div class="detail-card">
-                            <h4>研究項目</h4>
-                            <ul>
-                                <li>振動訊號分析與故障偵測</li>
-                                <li>異常偵測與預防性維護模型</li>
-                                <li>機器學習故障預測分析</li>
-                                <li>風場發電量預測模型</li>
-                                <li>極端氣候條件下的載荷分析</li>
-                            </ul>
-                        </div>
-                        <div class="detail-card">
-                            <h4>智慧化技術</h4>
-                            <ul>
-                                <li>預測性維護與健康監控</li>
-                                <li>即時協定與效能監測</li>
-                                <li>故障模式與影響分析</li>
-                                <li>資料探勘與異常檢測系統</li>
-                                <li>故障樹分析與改善</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="applications">
-                        <h3>研究應用</h3>
-                        <div class="app-grid">
-                            <div class="app-card">
-                                <i class="fas fa-chart-line"></i>
-                                <h4>可靠度分析模型</h4>
-                                <p>Power Law Process應用</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-tools"></i>
-                                <h4>結構改善</h4>
-                                <p>Pin Lock結構設計改善</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-eye"></i>
-                                <h4>AR故障維護平台</h4>
-                                <p>擴增實境輔助維護系統</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-database"></i>
-                                <h4>大數據分析平台</h4>
-                                <p>SCADA資料趨勢分析</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 智慧監控與維護系統 -->
-            <div class="research-area animate-on-scroll">
-                <div class="research-header">
-                    <i class="fas fa-eye"></i>
-                    <div>
-                        <h2>智慧監控與維護系統</h2>
-                        <p>Intelligent Monitoring and Maintenance</p>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div class="research-description">
-                        開發先進的智慧監控平台，整合多種感測器與即時數據雲端運算，實現全方位即時監控與效能分析。
-                        結合AR/VR技術提供沉浸式維護體驗，並透過邊緣運算與監控系統發展遠端維護管理，降低故障風險與維護成本。
-                    </div>
-
-                    <div class="research-details">
-                        <div class="detail-card">
-                            <h4>監控平台</h4>
-                            <ul>
-                                <li>多媒體數據資料處理</li>
-                                <li>異常偵測與即時通知</li>
-                                <li>雲端資料存儲與視覺化呈現</li>
-                                <li>故障預警自動化通知</li>
-                                <li>歷史趨勢追蹤與分析</li>
-                            </ul>
-                        </div>
-                        <div class="detail-card">
-                            <h4>AR/VR技術</h4>
-                            <ul>
-                                <li>3D設備模型視覺化呈現</li>
-                                <li>即時監控資訊全方位顯示</li>
-                                <li>跨域遠端維護與協作</li>
-                                <li>雲端互動式系統</li>
-                                <li>故障排除訓練模擬</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="applications">
-                        <h3>系統開發</h3>
-                        <div class="app-grid">
-                            <div class="app-card">
-                                <i class="fas fa-mobile-alt"></i>
-                                <h4>行動APP</h4>
-                                <p>遠端故障報修管理</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-cloud"></i>
-                                <h4>雲端平台</h4>
-                                <p>資料儲存與即時運算</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-network-wired"></i>
-                                <h4>IoT開發</h4>
-                                <p>感測器資料串聯與傳輸</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-brain"></i>
-                                <h4>智慧診斷</h4>
-                                <p>大數據分析與預測</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 自動化監控軟體生成 -->
-            <div class="research-area animate-on-scroll">
-                <div class="research-header">
-                    <i class="fas fa-code"></i>
-                    <div>
-                        <h2>自動化監控軟體生成</h2>
-                        <p>Automated Monitoring Software Generation</p>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div class="research-description">
-                        運用AI技術進行自動化軟體生成與開發，從設計到製造端實現全方位的監控系統自動化，
-                        透過模組化架構與智慧程式碼產生技術，提供跨平台的控制與監控系統，
-                        大幅降低開發時間與軟體生成成本。
-                    </div>
-
-                    <div class="research-details">
-                        <div class="detail-card">
-                            <h4>程式語言與技術</h4>
-                            <ul>
-                                <li>自然語言轉譯程式碼演算法</li>
-                                <li>模組化架構設計</li>
-                                <li>自動化測試與驗證方法</li>
-                                <li>程式碼庫管理與版本控制</li>
-                                <li>AI輔助開發工具</li>
-                            </ul>
-                        </div>
-                        <div class="detail-card">
-                            <h4>應用平台</h4>
-                            <ul>
-                                <li>工業級控制器程式</li>
-                                <li>人機介面自動化設計</li>
-                                <li>即時監控程式碼產生與部署</li>
-                                <li>多層次架構整合開發</li>
-                                <li>自動化測試驗證方法</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="applications">
-                        <h3>應用平台</h3>
-                        <div class="app-grid">
-                            <div class="app-card">
-                                <i class="fas fa-microchip"></i>
-                                <h4>PLC程式</h4>
-                                <p>AI輔助自動化生成控制器程式</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-desktop"></i>
-                                <h4>HMI介面</h4>
-                                <p>跨平台人機介面自動化生成</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-server"></i>
-                                <h4>SCADA系統</h4>
-                                <p>監控系統自動化建置與部署</p>
-                            </div>
-                            <div class="app-card">
-                                <i class="fas fa-globe"></i>
-                                <h4>Web應用</h4>
-                                <p>遠端監控平台前後端開發</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 研究合作 -->
-            <div class="collaboration animate-on-scroll">
-                <h2>研究合作與交流</h2>
-                <p>歡迎各界學術研究夥伴合作，共同推動各項技術研發與推廣，
-                   如有任何學術合作需求，歡迎與我們聯繫洽談，期待您的來信。</p>
-                <div>
-                    <a href="contact.html" class="btn">
-                        <i class="fas fa-envelope"></i>
-                        聯絡我們
-                    </a>
-                    <a href="projects.html" class="btn">
-                        <i class="fas fa-project-diagram"></i>
-                        查看專案
-                    </a>
-                    <a href="publications.html" class="btn">
-                        <i class="fas fa-file-alt"></i>
-                        研究成果
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>快速連結</h3>
-                    <a href="research.html">研究方向</a>
-                    <a href="publications.html">研究成果</a>
-                    <a href="projects.html">專案計畫</a>
-                    <a href="about.html">關於我們</a>
-                </div>
-                <div class="footer-section">
-                    <h3>聯絡資訊</h3>
-                    <a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a>
-                    <p>國立勤益科技大學 智慧自動化工程系 誠樸館 G309</p>
-                    <p>研究領域：風電運維、自動化技術與智慧監控</p>
-                </div>
-                <div class="footer-section">
-                    <h3>社群與連結</h3>
-                    <a href="https://sites.google.com/view/jui-hung-liu" target="_blank">Google Sites 研究室</a>
-                    <a href="https://github.com/dofliu" target="_blank">GitHub 專頁</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 DOF Lab - 智慧自動化實驗室 All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-    <script src="doflab-script.js"></script>
+  <script src="assets/editorial.js"></script>
 </body>
 </html>

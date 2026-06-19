@@ -1,195 +1,83 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>程式碼庫 | NCUT IAE Lab</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .repo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .repo-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .repo-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-
-        .repo-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .repo-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-white);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .repo-visibility {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .vis-public {
-            border: 1px solid #10b981;
-            color: #10b981;
-        }
-
-        .vis-private {
-            border: 1px solid #f59e0b;
-            color: #f59e0b;
-        }
-
-        .repo-desc {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-            line-height: 1.5;
-        }
-
-        .repo-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1rem;
-        }
-
-        .lang-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOF Lab 開源程式碼庫 — 研究工具與系統原型公開於 GitHub。">
+  <title>程式碼庫 ｜ DOF Lab</title>
+  <link rel="stylesheet" href="assets/editorial.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
+<body id="top">
 
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">DOF Lab<span class="dot">.</span></a>
-            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-                                    <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="blog.html">研究日誌</a></li>
-                <li><a href="publications.html">著作發表</a></li>
-                <li><a href="lab.html">成員介紹</a></li>
-                <li><a href="about.html">關於</a></li>
-                <li><a href="contact.html">聯絡</a></li>
-                <li><a href="dashboard.html">儀表板</a></li>
-                <li><a href="privacy.html">隱私權</a></li>
-            </ul>
-        </div>
-    </nav>
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
+      <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="projects.html">專案成果</a></li>
+        <li><a href="publications.html">研究發表</a></li>
+        <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="about.html">關於</a></li>
+        <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <header class="page-header">
-        <div class="container">
-            <h1>Repositories</h1>
-            <p style="color: var(--text-gray);">實驗室開源專案與內部開發工具庫 (GitHub)</p>
-        </div>
-    </header>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="kicker">Open Source · 程式碼庫</p>
+      <h1>研究工具，<br>公開於 GitHub。</h1>
+      <p class="lede">實驗室的研究工具與系統原型多數在 GitHub 公開，歡迎查看、學習與協作。完整列表請見 <a href="https://github.com/dofliu" target="_blank" style="color:var(--rust);font-weight:600">github.com/dofliu ↗</a></p>
+    </div>
+  </header>
 
-    <section class="section">
-        <div class="container">
-            <div class="repo-grid">
+  <section class="section">
+    <div class="wrap">
+      <div class="feat-grid">
+        <a class="feat feat--third" href="https://github.com/dofliu/InduSpect" target="_blank" data-reveal>
+          <div class="feat__cover feat__cover--rust"><i class="fas fa-magnifying-glass-chart ico"></i></div>
+          <div class="feat__tags"><span class="tag">工業 AI</span><span class="tag tag--ink">Gemini</span><span class="tag tag--ink">Flutter</span></div>
+          <h3>InduSpect</h3>
+          <p class="feat__desc">AI 驅動的智慧巡檢系統原型，使用 Gemini API 分析工業設備影像，自動提取定檢清單與量測異常尺寸。</p>
+          <div class="feat__foot"><span class="read-more">查看原始碼 <i class="fab fa-github"></i></span></div>
+        </a>
+        <a class="feat feat--third" href="https://github.com/dofliu/LabPagesCowork" target="_blank" data-reveal data-reveal-delay="80">
+          <div class="feat__cover feat__cover--forest"><i class="fas fa-globe ico"></i></div>
+          <div class="feat__tags"><span class="tag">MCP 工具鏈</span><span class="tag tag--ink">GitHub Pages</span></div>
+          <h3>LabPagesCowork</h3>
+          <p class="feat__desc">本實驗室入口網站與研究協作平台，整合部落格、研究儀表板與 GitHub 活動追蹤，採協作 PR 工作流。</p>
+          <div class="feat__foot"><span class="read-more">查看原始碼 <i class="fab fa-github"></i></span></div>
+        </a>
+        <a class="feat feat--third" href="https://github.com/dofliu" target="_blank" data-reveal data-reveal-delay="160">
+          <div class="feat__cover feat__cover--gold"><i class="fas fa-robot ico"></i></div>
+          <div class="feat__tags"><span class="tag">RAG 知識</span><span class="tag tag--ink">LLM</span><span class="tag tag--ink">MCP</span></div>
+          <h3>本機 AI 助理</h3>
+          <p class="feat__desc">可在本機運行的 AI 助理應用，支援 LLM API 串接（OpenAI、Ollama）、RAG 檢索增強、記憶壓縮與 MCP Server 整合。</p>
+          <div class="feat__foot"><span class="read-more">前往 GitHub <i class="fab fa-github"></i></span></div>
+        </a>
+      </div>
+      <div style="margin-top:2.5rem;text-align:center">
+        <a href="https://github.com/dofliu" target="_blank" class="btn btn--solid">瀏覽全部 GitHub 專案 <i class="fab fa-github"></i></a>
+      </div>
+    </div>
+  </section>
 
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <div class="repo-name">
-                            <i class="fas fa-code-branch"></i>
-                            LabPagesCowork
-                        </div>
-                        <span class="repo-visibility vis-public">
-                            Public
-                        </span>
-                    </div>
-                    <p class="repo-desc">暫無描述 </p>
-                    <div class="repo-meta">
-                        <span>
-                            <span class="lang-dot" style="background-color: #e34c26"></span>
-                            HTML
-                        </span>
-                        <span>Updated: 2026/2/13</span>
-                    </div>
-                    <a href="https://github.com/dofliu/LabPagesCowork" target="_blank"
-                        style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i
-                            class="fab fa-github"></i> View Code</a>
-                </div>
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <div class="repo-name">
-                            <i class="fas fa-code-branch"></i>
-                            InduSpect
-                        </div>
-                        <span class="repo-visibility vis-public">
-                            Public
-                        </span>
-                    </div>
-                    <p class="repo-desc">一個 AI 驅動的智慧巡檢系統原型，使用 Gemini API 分析工業設備的圖像。</p>
-                    <div class="repo-meta">
-                        <span>
-                            <span class="lang-dot" style="background-color: #cccccc"></span>
-                            Dart
-                        </span>
-                        <span>Updated: 2026/2/9</span>
-                    </div>
-                    <a href="https://github.com/dofliu/InduSpect" target="_blank"
-                        style="margin-top:1rem; color:var(--primary-color); text-decoration:none; font-size:0.9rem;"><i
-                            class="fab fa-github"></i> View Code</a>
-                </div>
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <div class="repo-name">
-                            <i class="fas fa-lock"></i>
-                            local-ai-assistant
-                        </div>
-                        <span class="repo-visibility vis-private">
-                            Internal
-                        </span>
-                    </div>
-                    <p class="repo-desc">一個可在本機運行的 AI 助理應用，支持 LLM API 串接（OpenAI、Ollama）、RAG 檢索增強生成、記憶壓縮與長期記憶、MCP Server
-                        集成、Agent Skill 導入，並能存取本機檔案系統 · 使用 Manus 構建</p>
-                    <div class="repo-meta">
-                        <span>
-                            <span class="lang-dot" style="background-color: #3178c6"></span>
-                            TypeScript
-                        </span>
-                        <span>Updated: 2026/2/4</span>
-                    </div>
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand"><span class="brand" style="color:#fff">DOF Lab<span class="dot">.</span></span>
+          <p>國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室。</p></div>
+        <div><h5>導覽</h5><a href="index.html">首頁</a><a href="projects.html">專案成果</a><a href="publications.html">研究發表</a><a href="blog.html">研究日誌</a><a href="about.html">關於</a></div>
+        <div><h5>聯絡</h5><a href="mailto:dofliu@gm.ncut.edu.tw">dofliu@gm.ncut.edu.tw</a><a href="https://github.com/dofliu" target="_blank">github.com/dofliu ↗</a><a href="contact.html">誠樸館 G309 · 台中太平</a></div>
+      </div>
+      <div class="footer__bottom"><span>© <span data-year>2026</span> DOF Lab · 劉瑞弘 副教授</span>
+        <div class="footer__social"><a href="https://github.com/dofliu" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="mailto:dofliu@gm.ncut.edu.tw" aria-label="Email"><i class="fas fa-envelope"></i></a></div></div>
+    </div>
+  </footer>
 
-                </div>
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <div class="repo-name">
-                            <i class="fas fa-code-branch"></i>
-                            rag-skill
-                        </d
+  <script src="assets/editorial.js"></script>
+</body>
+</html>
