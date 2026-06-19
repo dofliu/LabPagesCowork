@@ -45,8 +45,7 @@
           <p class="kicker">Research Lab · 研究室導覽</p>
           <h1 class="display">讓技術<br><span class="ital">真正</span>落地。</h1>
           <p class="hero__name">劉瑞弘 副教授 ｜ Jui-Hung Liu, Ph.D.<br>國立勤益科技大學 智慧自動化工程系</p>
-          <p class="lede hero__lede">DOF Lab 專注於<strong>風力發電運維</strong>、<strong>生成式 AI／RAG 工業應用</strong>與<strong>智慧自動化</strong>。
-            從 SCADA 故障診斷到 LLM 自動程式碼生成，我們把前沿研究做成可上線的真實系統。</p>
+          <p class="lede hero__lede">DOF Lab 以<strong>檢索增強生成（RAG）於風電運維的應用</strong>為研究主軸，結合 SCADA 數據、風機運維知識與大型語言模型——從統一 RAG 研究平台到 <strong>Wind-RAG Benchmark 論文</strong>，把前沿 AI 做成可上線的真實系統。</p>
           <div class="hero__actions">
             <a href="projects.html" class="btn btn--solid">瀏覽專案成果 <i class="fas fa-arrow-right"></i></a>
             <a href="publications.html" class="btn btn--ghost">學術發表</a>
@@ -54,13 +53,13 @@
         </div>
 
         <aside class="hero__feature" data-reveal data-reveal-delay="120">
-          <p class="kicker">看板明星 · Flagship</p>
-          <h3>InduSpect AI</h3>
-          <p>智慧工業巡檢系統 — 紙本定檢表秒變數位清單，AI 參照物自動量測異常尺寸，拍照即生成合規報表。BEST AI Awards 2026 參賽作品。</p>
+          <p class="kicker">研究主軸 · Flagship Research</p>
+          <h3>風電 RAG 專家系統</h3>
+          <p>把風機運維知識接上檢索增強生成 — 從整合 24 種檢索模式的統一 RAG 研究平台，到 Harakosan Z72 風機運維專家系統 14 案例，再到 Wind-RAG Benchmark 論文（RAGAS 評測完成）。</p>
           <div class="mini-stats">
-            <div><b>3</b><span>核心 AI 能力</span></div>
-            <div><b>100%</b><span>報表合規對齊</span></div>
-            <div><b>0→1</b><span>數位巡檢轉型</span></div>
+            <div><b>24</b><span>RAG 檢索模式</span></div>
+            <div><b>14</b><span>風機運維案例</span></div>
+            <div><b>405</b><span>評測題庫 Q</span></div>
           </div>
         </aside>
       </div>
@@ -70,9 +69,9 @@
   <!-- ===================== MARQUEE ===================== -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
-      <span>Wind O&amp;M</span><span>SCADA Analytics</span><span>Generative AI</span><span>RAG</span>
-      <span>LLM Agents</span><span>MCP Tools</span><span>PLC ST CodeGen</span><span>Anomaly Detection</span>
-      <span>Digital Twin</span><span>Reliability Engineering</span>
+      <span>Wind-RAG</span><span>Retrieval-Augmented Generation</span><span>RAGAS Eval</span><span>Vector Retrieval</span>
+      <span>Wind O&amp;M</span><span>SCADA Analytics</span><span>LLM Agents</span><span>Knowledge Graph</span>
+      <span>MCP Tools</span><span>Anomaly Detection</span>
     </div>
   </div>
 
@@ -159,19 +158,19 @@
 
       <div class="feat-grid">
         <article class="feat feat--lg" data-reveal>
-          <div class="feat__cover feat__cover--rust"><i class="fas fa-industry ico"></i><span class="badge">進行中 · 99%</span></div>
-          <div class="feat__tags"><span class="tag">工業 AI</span><span class="tag tag--ink">Bachmann M1</span><span class="tag tag--ink">FastAPI</span><span class="tag tag--ink">SQLite</span></div>
-          <h3>Z72 風機 SCADA 系統</h3>
-          <p class="feat__desc">14 台 Bachmann M1 風機的完整 SCADA 系統，取代原廠 Swing HMI、以 Java bridge 即時中繼資料，建構三層 historian 資料庫（~10 GB）。已整合 LDAP/AD，累計 70 個合併 PR。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>14</b> 台機組 · ~10GB historian</span><a href="projects.html" class="read-more">了解更多 <i class="fas fa-arrow-right"></i></a></div>
+          <div class="feat__cover feat__cover--rust"><i class="fas fa-diagram-project ico"></i><span class="badge">研究主軸 · 進行中</span></div>
+          <div class="feat__tags"><span class="tag">風電 RAG</span><span class="tag tag--ink">Qdrant</span><span class="tag tag--ink">RAGAS</span><span class="tag tag--ink">FastAPI</span></div>
+          <h3>企業級統一 RAG 研究平台 × Wind-RAG Benchmark</h3>
+          <p class="feat__desc">整合 24 種檢索模式（22 技術 + 2 控制組）、Qdrant 向量資料庫與評測實驗室，建構 4 組品牌 QA（405 題）。已完成 Harakosan Z72 風機運維專家系統 14 案例展示，並以 RAGAS 完成 Wind-RAG Benchmark 論文評測，正式跨入風電 RAG 論文階段。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>24</b> RAG 模式 · 405 評測題 · 論文進行中</span><a href="publications.html" class="read-more">研究發表 <i class="fas fa-arrow-right"></i></a></div>
         </article>
 
         <article class="feat feat--sm" data-reveal data-reveal-delay="80">
-          <div class="feat__cover"><i class="fas fa-diagram-project ico"></i><span class="badge">進行中 · 98%</span></div>
-          <div class="feat__tags"><span class="tag">RAG 知識</span><span class="tag tag--ink">Qdrant</span><span class="tag tag--ink">FastAPI</span></div>
-          <h3>企業級統一 RAG 研究平台</h3>
-          <p class="feat__desc">整合 24 種檢索模式（22 技術 + 2 控制組）、Qdrant 向量資料庫與評測實驗室，正式跨入風電 RAG Benchmark 論文階段。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>24</b> 種 RAG 模式</span></div>
+          <div class="feat__cover"><i class="fas fa-industry ico"></i><span class="badge">進行中 · 99%</span></div>
+          <div class="feat__tags"><span class="tag">工業 AI</span><span class="tag tag--ink">SCADA</span><span class="tag tag--ink">Bachmann M1</span></div>
+          <h3>Z72 風機 SCADA 系統</h3>
+          <p class="feat__desc">14 台 Bachmann M1 風機的完整 SCADA 系統與三層 historian 資料庫（~10 GB），為風電 RAG 提供真實運維數據基礎。</p>
+          <div class="feat__foot"><span class="feat__prog"><b>14</b> 台機組 · ~10GB historian</span></div>
         </article>
 
         <article class="feat feat--third" data-reveal>
@@ -183,11 +182,11 @@
         </article>
 
         <article class="feat feat--third" data-reveal data-reveal-delay="80">
-          <div class="feat__cover feat__cover--gold"><i class="fas fa-graduation-cap ico"></i><span class="badge">營運中 · 100%</span></div>
-          <div class="feat__tags"><span class="tag">教育科技</span><span class="tag tag--ink">InsightFace</span></div>
-          <h3>人臉辨識點名系統</h3>
-          <p class="feat__desc">基於 InsightFace 的智能點名系統，自動從 PDF 大頭貼提取人臉，支援多張教室照片辨識與五級信心度評分。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>318</b> 測試通過</span></div>
+          <div class="feat__cover feat__cover--gold"><i class="fas fa-network-wired ico"></i><span class="badge">進行中</span></div>
+          <div class="feat__tags"><span class="tag">RAG 知識</span><span class="tag tag--ink">ChromaDB</span></div>
+          <h3>windMindOM 離岸風電運維</h3>
+          <p class="feat__desc">離岸風場運維 SaaS，以 ChromaDB 向量檢索整合 Z72 風機知識，把 RAG 知識引擎接入運維工單與決策流程。</p>
+          <div class="feat__foot"><span class="feat__prog">M5 · RAG 知識整合</span></div>
         </article>
 
         <article class="feat feat--third" data-reveal data-reveal-delay="160">
