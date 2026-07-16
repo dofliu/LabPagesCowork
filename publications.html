@@ -96,7 +96,7 @@
     fetch('publications.json').then(r=>r.json()).then(data=>{
       // 更新日期
       if(data._updated) document.getElementById('updatedNote').innerHTML =
-        `<i class="fas fa-rotate"></i> 資料更新：${data._updated}（來源：個人著作網站）`;
+        `<i class="fas fa-rotate"></i> 資料更新：${data._updated}（來源：<a href="${data._source}" target="_blank" rel="noopener">個人著作網站 ↗</a>）`;
       // 統計
       const counts = GROUPS.map(g => (data[g.key]||[]).length);
       const labels = ['期刊／SCIE 論文','國際研討會論文','發明專利','競賽獲獎'];

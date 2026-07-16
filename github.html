@@ -111,21 +111,24 @@
   const LANG_COLORS = {Python:'#3572A5',JavaScript:'#f1e05a',TypeScript:'#3178c6',HTML:'#e34c26',CSS:'#563d7c',Dart:'#00B4AB',C:'#555555','C++':'#f34b7d',Java:'#b07219',Shell:'#89e051',Jupyter:'#DA5B0B',Vue:'#41b883'};
   let allRepos = [];
   async function fetchJSON(url){ const res = await fetch(url); if(!res.ok) throw new Error(res.status); return res.json(); }
+  function renderProfile(user){
+    document.getElementById('profileCard').innerHTML = `
+      <img src="${user.avatar_url}" alt="${user.login}">
+      <div class="info">
+        <h2>${user.name || user.login}</h2>
+        <p>${user.bio || ''}</p>
+        <p><i class="fas fa-map-marker-alt"></i> ${user.location || 'Taiwan'} | <a href="${user.html_url}" target="_blank" style="color:var(--rust)">${user.login}</a></p>
+      </div>
+      <div class="stats">
+        <div class="stat-item"><div class="num">${user.public_repos}</div><div class="lbl">Repos</div></div>
+        <div class="stat-item"><div class="num">${user.followers}</div><div class="lbl">Followers</div></div>
+        <div class="stat-item"><div class="num">${user.following}</div><div class="lbl">Following</div></div>
+      </div>`;
+  }
   async function loadProfile(){
     try{
       const user = await fetchJSON(`${API}/users/${USERNAME}`);
-      document.getElementById('profileCard').innerHTML = `
-        <img src="${user.avatar_url}" alt="${user.login}">
-        <div class="info">
-          <h2>${user.name || user.login}</h2>
-          <p>${user.bio || ''}</p>
-          <p><i class="fas fa-map-marker-alt"></i> ${user.location || 'Taiwan'} | <a href="${user.html_url}" target="_blank" style="color:var(--rust)">${user.login}</a></p>
-        </div>
-        <div class="stats">
-          <div class="stat-item"><div class="num">${user.public_repos}</div><div class="lbl">Repos</div></div>
-          <div class="stat-item"><div class="num">${user.followers}</div><div class="lbl">Followers</div></div>
-          <div class="stat-item"><div class="num">${user.following}</div><div class="lbl">Following</div></div>
-        </div>`;
+      renderProfile(user);
     }catch(e){ document.getElementById('profileCard').innerHTML = '<p style="color:var(--rust-deep)">無法載入個人資料（API 流量限制時請稍後再試）</p>'; }
   }
   async function loadRepos(){
@@ -162,9 +165,7 @@
     document.getElementById('langBar').innerHTML = sorted.slice(0,8).map(([l,c]) => `<div style="width:${(c/total*100).toFixed(1)}%;background:${LANG_COLORS[l]||'#ccc'}"></div>`).join('');
     document.getElementById('langLegend').innerHTML = sorted.slice(0,8).map(([l,c]) => `<span><span class="lang-dot" style="background:${LANG_COLORS[l]||'#ccc'}"></span>${l} (${c})</span>`).join('');
   }
-  async function loadActivity(){
-    try{
-      const events = await fetchJSON(`${API}/users/${USERNAME}/events/public?per_page=30`);
+  function renderActivity(events){
       const el = document.getElementById('activityList');
       const items = events.filter(e => ['PushEvent','CreateEvent','PullRequestEvent','IssuesEvent'].includes(e.type)).slice(0,15);
       el.innerHTML = items.map(e => {
@@ -176,13 +177,28 @@
         else if(e.type==='IssuesEvent'){ msg=`${e.payload.action} issue in <strong>${e.repo.name.split('/')[1]}</strong>`; }
         return `<div class="activity-item"><div class="date">${date}</div><div class="msg">${msg}</div></div>`;
       }).join('') || '<p style="color:var(--muted)">暫無近期活動</p>';
+  }
+  async function loadActivity(){
+    try{
+      renderActivity(await fetchJSON(`${API}/users/${USERNAME}/events/public?per_page=30`));
     }catch(e){ document.getElementById('activityList').innerHTML = '<p style="color:var(--rust-deep)">無法載入活動</p>'; }
   }
   document.getElementById('repoSearch').addEventListener('input', function(){
     const q = this.value.toLowerCase();
     renderRepos(allRepos.filter(r => r.name.toLowerCase().includes(q) || (r.description||'').toLowerCase().includes(q) || (r.language||'').toLowerCase().includes(q)));
   });
-  Promise.all([loadProfile(), loadRepos(), loadActivity()]);
+  async function loadCachedData(){
+    try{
+      const cached = await fetchJSON('github-data.json');
+      if(cached.profile) renderProfile(cached.profile);
+      if(Array.isArray(cached.repos)) { allRepos = cached.repos; renderRepos(allRepos); computeLanguages(allRepos); }
+      if(Array.isArray(cached.events)) renderActivity(cached.events);
+    }catch(e){ /* Cache is created by the scheduled workflow after its first run. */ }
+  }
+  (async function initialise(){
+    await loadCachedData();
+    Promise.all([loadProfile(), loadRepos(), loadActivity()]);
+  })();
   </script>
 </body>
 </html>
