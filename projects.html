@@ -48,6 +48,11 @@
       <div class="feat-grid" id="proj-grid" data-animate-block>
         <p style="color:var(--muted)">載入專案中…</p>
       </div>
+
+      <p class="kicker" style="margin:3rem 0 1.4rem"><i class="fab fa-github"></i>　GitHub 最近更新</p>
+      <div class="feat-grid" id="github-project-grid" data-animate-block>
+        <p style="color:var(--muted)">載入 GitHub 最近專案中…</p>
+      </div>
     </div>
   </section>
 
@@ -93,6 +98,7 @@
         cards.forEach(c => { c.style.display = (f === 'all' || c.getAttribute('data-cat') === f) ? '' : 'none'; });
       });
     });
+    DOFProjects.renderRecentGithub('#github-project-grid');
   </script>
 </body>
 </html>

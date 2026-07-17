@@ -8,8 +8,8 @@
 
 ## 🔄 個人研究資料更新
 
-* **GitHub 專案與活動**：`github.html` 會在訪客瀏覽時直接讀取 GitHub Public API；`.github/workflows/refresh-github-cache.yml` 也會每天建立 `github-data.json` 快取，讓 API 暫時受限時仍有最近一次的內容可顯示。可在 Actions 頁面手動執行 **Refresh GitHub profile cache**。
-* **研究發表**：以 `publications.json` 作為網站的單一資料來源，並在 `_source` 保留教授個人著作網站連結。新增或修正著作時，依既有欄位更新此檔案並改寫 `_updated` 日期；`publications.html` 會自動重新計算各類別數量與顯示內容。
+* **GitHub 專案與活動**：`.github/workflows/refresh-github-cache.yml` 每天更新 `github-data.json`，並把 `dofliu` 最近更新的公開 repository 寫入 `data.json` 的 `github_recent_projects`；`projects.html` 會在「GitHub 最近更新」區塊顯示這些專案，`github.html` 則以快取作為 API 受限時的備援。可在 Actions 頁面手動執行 **Refresh DOF Lab site data**。
+* **研究發表**：`scripts/sync_publications.py` 會從 Google Sites 的期刊論文頁讀取最上方已刊登的 `2022~2026` 最新期刊資料，合併到 `publications.json` 的 `journal` 陣列；`Under Review`、`Submitted`、`Draft` 類稿件不會自動放進正式發表列表。`publications.html` 會自動重新計算各類別數量與顯示內容。
 2. **開發功能**: 在指定目錄下建立你的自我介紹分頁
 3. **提交 PR (Pull Request)**: 送出後由老大 Review
 4. **合併 (Merge)**: 通過後併入主分支

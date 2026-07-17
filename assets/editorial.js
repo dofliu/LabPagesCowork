@@ -91,19 +91,25 @@ window.DOFProjects = (function () {
     const c = CAT[p.category] || CAT._other;
     const tags = (p.technologies || []).slice(0, 3).map(t => `<span class="tag tag--ink">${esc(t)}</span>`).join('');
     const prog = p.progress || 0;
+    const isGithub = p.source === 'github';
+    const foot = isGithub
+      ? `<span class="feat__prog"><i class="fab fa-github"></i> ${esc(p.key_metrics || 'GitHub public repository')}</span>`
+      : `<span class="feat__prog"><b>${prog}%</b> ${p.key_metrics ? '· ' + esc(p.key_metrics) : ''}</span>`;
+    const open = p.url ? `<a class="feat feat--third" href="${esc(p.url)}" target="_blank" rel="noopener" data-cat="${p.category || '_other'}" data-reveal>` : `<article class="feat feat--third" data-cat="${p.category || '_other'}" data-reveal>`;
+    const close = p.url ? '</a>' : '</article>';
     return `
-    <article class="feat feat--third" data-cat="${p.category || '_other'}" data-reveal>
+    ${open}
       <div class="feat__cover ${c.cover}">
         <i class="fas ${c.ico} ico"></i>
-        <span class="badge">${STATUS[p.status] || p.status || ''}</span>
+        <span class="badge">${isGithub ? 'GitHub 更新' : (STATUS[p.status] || p.status || '')}</span>
       </div>
       <div class="feat__tags"><span class="tag">${c.zh}</span>${tags}</div>
       <h3>${esc(p.name_zh || p.name)}</h3>
       <p class="feat__desc">${esc(p.description_zh || p.description || '')}</p>
       <div class="feat__foot">
-        <span class="feat__prog"><b>${prog}%</b> ${p.key_metrics ? '· ' + esc(p.key_metrics) : ''}</span>
+        ${foot}
       </div>
-    </article>`;
+    ${close}`;
   }
 
   function render(target, opts) {
@@ -123,5 +129,23 @@ window.DOFProjects = (function () {
       console.error(err);
     });
   }
-  return { render, CAT, STATUS };
+
+  function renderRecentGithub(target, opts) {
+    opts = opts || {};
+    return fetch('data.json').then(r => r.json()).then(data => {
+      let ps = (data.github_recent_projects || []).slice();
+      ps.sort((a, b) => String(b.github_pushed_at || '').localeCompare(String(a.github_pushed_at || '')));
+      const el = document.querySelector(target);
+      el.innerHTML = ps.map(card).join('') || '<p style="color:var(--muted)">尚無 GitHub 最近專案資料。</p>';
+      if (opts.onDone) opts.onDone(ps);
+      el.querySelectorAll('[data-reveal]').forEach(x => x.classList.add('in'));
+      return ps;
+    }).catch(err => {
+      const el = document.querySelector(target);
+      if (el) el.innerHTML = '<p style="color:var(--muted)">GitHub 最近專案資料載入失敗。</p>';
+      console.error(err);
+    });
+  }
+
+  return { render, renderRecentGithub, CAT, STATUS };
 })();

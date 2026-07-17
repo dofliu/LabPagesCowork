@@ -1607,5 +1607,175 @@
       "_path": "researchTopic/手勢與影像/handspeak",
       "_yaml_path": "/sessions/gifted-pensive-volta/mnt/Project_CodingSimulation/researchTopic/手勢與影像/handspeak/STATUS.yaml"
     }
+  ],
+  "github_projects_source": "https://github.com/dofliu",
+  "github_projects_updated": "2026-07-17",
+  "github_recent_projects": [
+    {
+      "name": "nihonLearn",
+      "name_zh": "nihonLearn",
+      "category": "personal_tools",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-17T16:03:33Z",
+      "last_updated": "2026-07-17",
+      "url": "https://github.com/dofliu/nihonLearn",
+      "description": "GitHub public repository",
+      "description_zh": "GitHub public repository",
+      "technologies": [
+        "TypeScript"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-17"
+    },
+    {
+      "name": "windfarmTaiwan",
+      "name_zh": "windfarmTaiwan",
+      "category": "wind_energy",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-17T16:00:21Z",
+      "last_updated": "2026-07-17",
+      "url": "https://github.com/dofliu/windfarmTaiwan",
+      "description": "status of Taiwan's wind farm in realtime from Taipower's api data.",
+      "description_zh": "status of Taiwan's wind farm in realtime from Taipower's api data.",
+      "technologies": [
+        "HTML"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-17"
+    },
+    {
+      "name": "taiwanPowerWatch",
+      "name_zh": "taiwanPowerWatch",
+      "category": "personal_tools",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-17T15:49:44Z",
+      "last_updated": "2026-07-17",
+      "url": "https://github.com/dofliu/taiwanPowerWatch",
+      "description": "GitHub public repository",
+      "description_zh": "GitHub public repository",
+      "technologies": [
+        "Python"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-17"
+    },
+    {
+      "name": "CloudDataProduction",
+      "name_zh": "CloudDataProduction",
+      "category": "personal_tools",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-17T13:00:02Z",
+      "last_updated": "2026-07-17",
+      "url": "https://github.com/dofliu/CloudDataProduction",
+      "description": "GitHub public repository",
+      "description_zh": "GitHub public repository",
+      "technologies": [
+        "Python"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-17"
+    },
+    {
+      "name": "csi-synth",
+      "name_zh": "csi-synth",
+      "category": "personal_tools",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-16T20:58:52Z",
+      "last_updated": "2026-07-16",
+      "url": "https://github.com/dofliu/csi-synth",
+      "description": "GitHub public repository",
+      "description_zh": "GitHub public repository",
+      "technologies": [
+        "Python"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-16"
+    },
+    {
+      "name": "LabPagesCowork",
+      "name_zh": "LabPagesCowork",
+      "category": "personal_tools",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-16T17:01:38Z",
+      "last_updated": "2026-07-16",
+      "url": "https://github.com/dofliu/LabPagesCowork",
+      "description": "GitHub public repository",
+      "description_zh": "GitHub public repository",
+      "technologies": [
+        "HTML"
+      ],
+      "stars": 1,
+      "forks": 1,
+      "key_metrics": "GitHub updated 2026-07-16"
+    },
+    {
+      "name": "scanmail-bot",
+      "name_zh": "scanmail-bot",
+      "category": "personal_tools",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-15T10:47:24Z",
+      "last_updated": "2026-07-15",
+      "url": "https://github.com/dofliu/scanmail-bot",
+      "description": "ScanMail Bot — 智慧掃描郵寄 LINE Bot（Claude Vision AI + FastAPI + SMTP）",
+      "description_zh": "ScanMail Bot — 智慧掃描郵寄 LINE Bot（Claude Vision AI + FastAPI + SMTP）",
+      "technologies": [
+        "Python"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-15"
+    },
+    {
+      "name": "eduStudio",
+      "name_zh": "eduStudio",
+      "category": "rag_knowledge",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-14T19:19:19Z",
+      "last_updated": "2026-07-14",
+      "url": "https://github.com/dofliu/eduStudio",
+      "description": "教學內容工作站 · Self-hostable AI server that turns exams / slides / docs / repos into narrated teaching videos, slide decks, infographics & localized content — organized per course, with a human review gate. NotebookLM for teachers who publish on YouTube.",
+      "description_zh": "教學內容工作站 · Self-hostable AI server that turns exams / slides / docs / repos into narrated teaching videos, slide decks, infographics & localized content — organized per course, with a human review gate. NotebookLM for teachers who publish on YouTube.",
+      "technologies": [
+        "Python",
+        "ai",
+        "edtech"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-14"
+    },
+    {
+      "name": "windFarm-Go",
+      "name_zh": "windFarm-Go",
+      "category": "wind_energy",
+      "status": "active",
+      "source": "github",
+      "github_pushed_at": "2026-07-14T19:16:52Z",
+      "last_updated": "2026-07-14",
+      "url": "https://github.com/dofliu/windFarm-Go",
+      "description": "離岸風場・運維傳說 — Offshore O&M Legend: an educational, Uncharted-Waters-style game for offshore wind operations & maintenance (React + TS + Vite).",
+      "description_zh": "離岸風場・運維傳說 — Offshore O&M Legend: an educational, Uncharted-Waters-style game for offshore wind operations & maintenance (React + TS + Vite).",
+      "technologies": [
+        "TypeScript",
+        "edtech",
+        "education"
+      ],
+      "stars": 0,
+      "forks": 0,
+      "key_metrics": "GitHub updated 2026-07-14"
+    }
   ]
 }

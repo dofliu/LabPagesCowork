@@ -1,4 +1,4 @@
-name: Refresh GitHub profile cache
+name: Refresh DOF Lab site data
 
 on:
   workflow_dispatch:
@@ -16,16 +16,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Refresh publications from Google Sites
+        run: python scripts/sync_publications.py
       - name: Refresh public GitHub data
         run: python scripts/sync_github_data.py
-      - name: Commit refreshed cache
+      - name: Commit refreshed site data
         run: |
-          if git diff --quiet -- github-data.json; then
-            echo 'No GitHub changes to publish.'
+          git add publications.json data.json github-data.json
+          if git diff --cached --quiet; then
+            echo 'No site data changes to publish.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add github-data.json
-          git commit -m 'chore: refresh GitHub profile cache'
+          git commit -m 'chore: refresh DOF Lab site data'
           git push
