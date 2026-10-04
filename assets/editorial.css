@@ -354,3 +354,23 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.1; lett
   font-family: var(--serif); font-weight: 900; float: left; font-size: 3.6rem;
   line-height: .8; padding: .1rem .6rem .1rem 0; color: var(--rust);
 }
+
+/* ---------- Click-to-play research and profile films ---------- */
+.showreel .sec-head { margin-bottom: 1.8rem; }
+.showreel__intro { max-width: 38ch; color: var(--ink-soft); font-size: 1rem; }
+.showreel__figure { margin: 0; }
+.showreel__video {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+  background: #071820; border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: var(--shadow); object-fit: contain;
+}
+.showreel__caption {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1.5rem;
+  margin-top: .85rem; color: var(--ink-soft); font-size: .86rem;
+}
+.showreel__caption a { color: var(--rust-deep); text-decoration: underline; text-underline-offset: .2em; }
+.showreel__video:focus-visible, .showreel__caption a:focus-visible { outline: 3px solid var(--rust); outline-offset: 4px; }
+@media (max-width: 600px) {
+  .showreel .section-title { font-size: 1.85rem; }
+  .showreel__video { border-radius: 10px; }
+}

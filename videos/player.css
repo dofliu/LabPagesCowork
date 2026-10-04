@@ -1,0 +1,9 @@
+/* Standalone, responsive players for embedding on existing sites. */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: #faf6ef; color: #1d1813; font-family: system-ui, sans-serif; line-height: 1.5; }
+main, figure { margin: 0; width: 100%; }
+video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #071820; object-fit: contain; }
+figcaption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .4rem 1rem; padding: .65rem .8rem; font-size: .85rem; }
+a { color: #8f3415; text-underline-offset: .2em; }
+a:focus-visible, video:focus-visible { outline: 3px solid #b4451f; outline-offset: -3px; }
