@@ -38,13 +38,13 @@
   <section class="section--tight">
     <div class="wrap">
       <div class="tabs" id="cat-tabs">
-        <button class="tab active" data-filter="all">全部</button>
-        <button class="tab" data-filter="wind_energy">風力發電 AI</button>
-        <button class="tab" data-filter="industrial_ai">工業 AI 巡檢</button>
-        <button class="tab" data-filter="rag_knowledge">RAG 知識</button>
-        <button class="tab" data-filter="edtech">教育科技</button>
-        <button class="tab" data-filter="mcp_tools">MCP 工具鏈</button>
-        <button class="tab" data-filter="personal_tools">生產力工具</button>
+        <button disabled class="tab active" data-filter="all">全部</button>
+        <button disabled class="tab" data-filter="wind_energy">風力發電 AI</button>
+        <button disabled class="tab" data-filter="industrial_ai">工業 AI 巡檢</button>
+        <button disabled class="tab" data-filter="rag_knowledge">RAG 知識</button>
+        <button disabled class="tab" data-filter="edtech">教育科技</button>
+        <button disabled class="tab" data-filter="mcp_tools">MCP 工具鏈</button>
+        <button disabled class="tab" data-filter="personal_tools">生產力工具</button>
       </div>
       <div class="feat-grid" id="proj-grid" data-animate-block>
         <p style="color:var(--muted)">載入專案中…</p>
@@ -86,6 +86,7 @@
     DOFProjects.render('#proj-grid').then(function (ps) {
       document.getElementById('projectCount').textContent = ps ? ` 目前收錄 ${ps.length} 個不重複專案，核對日期：2026-10-10。` : '';
       var tabs = document.getElementById('cat-tabs');
+      if (ps) tabs.querySelectorAll('.tab').forEach(button=>button.disabled=false);
       var cards = document.querySelectorAll('#proj-grid .feat');
       tabs.addEventListener('click', function (e) {
         var btn = e.target.closest('.tab'); if (!btn) return;

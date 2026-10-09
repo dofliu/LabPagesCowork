@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="劉瑞弘副教授學術著作 — 期刊論文、研討會、專利與競賽獲獎完整紀錄。">
+  <meta name="description" content="劉瑞弘副教授學術著作 — 期刊論文、研討會、專利與代表性競賽獲獎紀錄。">
   <title>研究發表 ｜ DOF Lab</title>
   <link rel="stylesheet" href="assets/editorial.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
   <style>
     .pub-line__metric{ font-size:.72rem; color:var(--gold); font-weight:600; white-space:nowrap; }
+    .pub-line > div{min-width:0}.pub-line__t,.pub-line__m{overflow-wrap:anywhere}
+    .tab:disabled{cursor:wait;opacity:.6}
     .updated-note{ font-size:.82rem; color:var(--muted); margin-top:1rem; }
   </style>
 </head>
@@ -45,13 +47,13 @@
       <div class="pub-strip" data-reveal id="pubStrip"></div>
 
       <div class="tabs" id="pub-tabs">
-        <button class="tab active" data-filter="all">全部</button>
-        <button class="tab" data-filter="journal">期刊論文</button>
-        <button class="tab" data-filter="conference">研討會</button>
-        <button class="tab" data-filter="preprint">預印本</button>
-        <button class="tab" data-filter="accepted">已接受／待刊</button>
-        <button class="tab" data-filter="patent">專利</button>
-        <button class="tab" data-filter="award">獲獎</button>
+        <button disabled class="tab active" data-filter="all">全部</button>
+        <button disabled class="tab" data-filter="journal">期刊論文</button>
+        <button disabled class="tab" data-filter="conference">研討會</button>
+        <button disabled class="tab" data-filter="preprint">預印本</button>
+        <button disabled class="tab" data-filter="accepted">已接受／待刊</button>
+        <button disabled class="tab" data-filter="patent">專利</button>
+        <button disabled class="tab" data-filter="award">獲獎</button>
       </div>
 
       <div id="pubContainer"><p style="color:var(--muted)">載入著作資料中…</p></div>
@@ -116,6 +118,7 @@
           ${items.map(lineHTML).join('')}
         </div>`;
       }).join('');
+      document.querySelectorAll('#pub-tabs .tab').forEach(button=>button.disabled=false);
       // 篩選
       const tabs = document.getElementById('pub-tabs');
       tabs.addEventListener('click', e=>{

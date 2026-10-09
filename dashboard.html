@@ -766,7 +766,7 @@
                 <tr onclick="openDetail(projectsData[${idx}])" title="點擊查看詳情">
                     <td><strong>${project._enriched && project._enriched.name_zh ? project._enriched.name_zh + '<br><small style=\"color:#7f8c8d\">' + project.name + '</small>' : project.name}</strong></td>
                     <td>${project.category}</td>
-                    <td>${project.source ? `<a href="${escapeText(project.source)}" target="_blank" rel="noopener">公開來源 ↗</a>` : '既有紀錄'}</td>
+                    <td>${project.source ? `<a href="${escapeText(project.source)}" onclick="event.stopPropagation()" target="_blank" rel="noopener">公開來源 ↗</a>` : '既有紀錄'}</td>
                     <td>
                         <span class="status ${project.status === '已上線' ? 'active' : project.status === '已完成' ? 'completed' : project.status === '開發中' ? 'developing' : 'planning'}">
                             ${project.status}

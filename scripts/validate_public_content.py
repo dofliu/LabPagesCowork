@@ -28,6 +28,7 @@ def validate():
         assert set(project) <= PROJECT_FIELDS, (project['name'], set(project) - PROJECT_FIELDS)
         assert 'progress' not in project and 'key_metrics' not in project
         assert project['name'] and project['description_zh']
+        assert re.fullmatch(r'\d{4}-\d{2}-\d{2}', project.get('last_updated', '')), project['name']
         for key in ('source_url', 'repository_url'):
             if project.get(key):
                 assert project[key].startswith('https://'), (project['name'], key)
