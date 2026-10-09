@@ -505,7 +505,7 @@
         <h2 id="detailName"></h2>
         <div class="detail-category" id="detailCategory"></div>
         <div class="detail-section">
-            <h4>完成進度</h4>
+            <h4>公開紀錄</h4>
             <div class="detail-progress-bar"><div class="detail-progress-fill" id="detailProgressBar"></div></div>
             <p id="detailProgressText"></p>
         </div>
@@ -522,7 +522,7 @@
             <div class="detail-tags" id="detailTech"></div>
         </div>
         <div class="detail-section">
-            <h4>潛在產出</h4>
+            <h4>成果類型</h4>
             <div class="detail-outputs" id="detailOutputs"></div>
         </div>
         <div class="detail-section" id="detailMilestoneSection" style="display:none">
@@ -545,19 +545,19 @@
         <div class="stats-bar">
             <div class="stat-card">
                 <h3>總專案數</h3>
-                <div class="number">36</div>
+                <div class="number">—</div>
             </div>
             <div class="stat-card">
-                <h3>活躍專案</h3>
-                <div class="number">25</div>
+                <h3>附公開來源</h3>
+                <div class="number">—</div>
             </div>
             <div class="stat-card">
-                <h3>已上線</h3>
-                <div class="number">6</div>
+                <h3>研究分類</h3>
+                <div class="number">—</div>
             </div>
             <div class="stat-card">
-                <h3>潛在論文</h3>
-                <div class="number">6</div>
+                <h3>公開 Repo 連結</h3>
+                <div class="number">—</div>
             </div>
         </div>
 
@@ -573,7 +573,7 @@
 
             <!-- Project Completion Distribution -->
             <div class="chart-container">
-                <h3>專案完成度分布</h3>
+                <h3>專案狀態分布</h3>
                 <div class="chart-wrapper">
                     <canvas id="completionChart"></canvas>
                 </div>
@@ -622,10 +622,10 @@
                         <tr>
                             <th onclick="sortTable(0)">專案名稱</th>
                             <th onclick="sortTable(1)">主軸</th>
-                            <th onclick="sortTable(2)">完成度</th>
+                            <th onclick="sortTable(2)">來源</th>
                             <th onclick="sortTable(3)">狀態</th>
                             <th>關鍵技術</th>
-                            <th>潛在產出</th>
+                            <th>成果類型</th>
                             <th>最後更新</th>
                         </tr>
                     </thead>
@@ -638,116 +638,19 @@
 
         <!-- Footer -->
         <footer>
-            Generated: 2026-04-10 | 資料來源: D:\Dropbox\Project_CodingSimulation
-        </footer>
+            資料核對：2026-10-10 | 與專案成果頁共用公開資料目錄</footer>
     </div>
 
     <script>
         // Data
-        const projectsData = [
-            // Wind Energy AI
-            { name: "windAILab", category: "風力發電", completion: 92, status: "開發中", tech: "Python, FastAPI, React, PyTorch", output: "論文, 平台", updated: "2026-04-04" },
-            { name: "ECN O&M Tool", category: "風力發電", completion: 80, status: "開發中", tech: "Next.js, FastAPI, ECharts", output: "工具, 論文", updated: "2025-10-26" },
-            { name: "WindFarmMonitoring", category: "風力發電", completion: 60, status: "開發中", tech: "FastAPI, React, PostgreSQL, TimescaleDB", output: "平台", updated: "2024-10-26" },
-            { name: "digiWindTurbine", category: "風力發電", completion: 80, status: "開發中", tech: "FastAPI, React, SQLite, Modbus", output: "模擬器, 論文", updated: "—" },
-            { name: "WindGuard AI", category: "風力發電", completion: 100, status: "已完成", tech: "Gemma 4, Gradio, SCADA", output: "競賽, 論文", updated: "2026-04-06" },
-            { name: "Taiwan Turbulence Study", category: "風力發電", completion: 100, status: "已完成", tech: "Python, Pandas, Matplotlib", output: "論文", updated: "2025-01-22" },
-            { name: "Turbulence Analysis", category: "風力發電", completion: 100, status: "已上線", tech: "Python, NumPy", output: "工具", updated: "2025-01-26" },
-            { name: "VestasOPCconnect", category: "風力發電", completion: 90, status: "開發中", tech: "Python, OPC UA", output: "整合工具", updated: "—" },
-            { name: "H127_Diagnosis", category: "風力發電", completion: 75, status: "開發中", tech: "Python ML", output: "診斷工具", updated: "—" },
-            { name: "modbusWind", category: "風力發電", completion: 60, status: "開發中", tech: "Python, Modbus", output: "協議庫", updated: "—" },
-            { name: "z72_SCADA_etech", category: "風力發電", completion: 50, status: "開發中", tech: "SCADA, OpenSpec", output: "資料收集", updated: "—" },
-            { name: "z72TurbulenceAnalyze", category: "風力發電", completion: 70, status: "開發中", tech: "React, Python", output: "分析工具", updated: "—" },
-
-            // Industrial AI
-            { name: "InduSpect AI", category: "工業 AI", completion: 75, status: "開發中", tech: "Flutter, Gemini AI", output: "論文, App", updated: "2026-03-13" },
-            { name: "AI_PLC_Automation", category: "工業 AI", completion: 85, status: "開發中", tech: "Node.js, Express, PostgreSQL, Gemini", output: "管理系統", updated: "—" },
-            { name: "autoArduinoCoding", category: "工業 AI", completion: 85, status: "開發中", tech: "Python, FastAPI, Arduino CLI, Gemini", output: "工具, 教材", updated: "—" },
-            { name: "ModbusLLM_GUI", category: "工業 AI", completion: 70, status: "開發中", tech: "Python, Modbus, LLM", output: "GUI工具", updated: "—" },
-            { name: "STcode converter", category: "工業 AI", completion: 60, status: "開發中", tech: "Python, PLC ST", output: "轉換工具", updated: "—" },
-
-            // RAG & Knowledge
-            { name: "RAG Ultimate", category: "RAG", completion: 85, status: "開發中", tech: "React 19, TypeScript, Gemini, ChromaDB", output: "平台, 論文", updated: "2026-04-07" },
-            { name: "LLM Wiki", category: "RAG", completion: 80, status: "開發中", tech: "Python, Claude API, Obsidian", output: "知識庫工具", updated: "2026-04-07" },
-            { name: "embedTunedforWT", category: "RAG", completion: 100, status: "已完成", tech: "sentence-transformers, BGE", output: "研究資料", updated: "—" },
-            { name: "UltimaRAG-EnergyO-M", category: "RAG", completion: 70, status: "開發中", tech: "Python, FastAPI, RAG", output: "領域系統", updated: "2025-11-16" },
-
-            // EdTech
-            { name: "UniCourse AI Online", category: "教育科技", completion: 95, status: "已上線", tech: "React 19, Supabase, GCP", output: "教學平台", updated: "2026-04-07" },
-            { name: "AI Course Adventure", category: "教育科技", completion: 75, status: "開發中", tech: "React 19, Gemini, Supabase", output: "教學平台", updated: "2025-10-22" },
-            { name: "AI Exam Generator", category: "教育科技", completion: 80, status: "開發中", tech: "React 19, Gemini, Supabase", output: "考試工具", updated: "2025-10-07" },
-            { name: "Face Recognition Attendance", category: "教育科技", completion: 90, status: "已上線", tech: "Python, InsightFace, Streamlit", output: "點名系統", updated: "2026-03-06" },
-            { name: "Course Scheduling", category: "教育科技", completion: 95, status: "已上線", tech: "Python, Tkinter, pandas", output: "排課系統", updated: "2026-03-21" },
-            { name: "StaticsEngine", category: "教育科技", completion: 20, status: "規劃中", tech: "TypeScript, React, SVG", output: "教學工具", updated: "2026-03-29" },
-            { name: "AI Admission Evaluator", category: "教育科技", completion: 95, status: "已上線", tech: "React, TypeScript, Gemini", output: "評估工具", updated: "2025-10-21" },
-            { name: "PPT Auto Generator", category: "教育科技", completion: 30, status: "規劃中", tech: "Python, python-pptx, Gemini", output: "簡報工具", updated: "2026-04-03" },
-            { name: "Student Grading", category: "教育科技", completion: 30, status: "規劃中", tech: "Python, Streamlit, Gemini", output: "評分系統", updated: "2026-01-15" },
-            { name: "Student Comment", category: "教育科技", completion: 15, status: "規劃中", tech: "Python, Flask, RAG", output: "評語系統", updated: "2025-04-05" },
-            { name: "AI Resume Generator", category: "教育科技", completion: 70, status: "已完成", tech: "Python, Flask, Gemini", output: "履歷工具", updated: "2025-06-18" },
-
-            // MCP
-            { name: "OPC UA MCP", category: "MCP", completion: 85, status: "已上線", tech: "Python, asyncua, MCP", output: "工業工具", updated: "2025-01-10" },
-            { name: "Chrome DevTools MCP", category: "MCP", completion: 90, status: "已上線", tech: "Node.js, TypeScript, Puppeteer", output: "自動化工具", updated: "—" },
-            { name: "MediaToolkit MCP", category: "MCP", completion: 85, status: "已上線", tech: "Python, Pillow, pypdf", output: "文件工具", updated: "—" },
-            { name: "MCP Binary Writer", category: "MCP", completion: 90, status: "已上線", tech: "Node.js, MCP", output: "檔案工具", updated: "—" },
-            { name: "MCP Printer", category: "MCP", completion: 85, status: "開發中", tech: "Node.js, TypeScript, CUPS", output: "列印工具", updated: "—" },
-            { name: "Modbus MCP", category: "MCP", completion: 85, status: "已上線", tech: "Python, Modbus", output: "工業工具", updated: "—" },
-            { name: "CitingVerify MCP", category: "MCP", completion: 80, status: "開發中", tech: "Python, FastAPI, React", output: "學術工具", updated: "—" },
-            { name: "PPT MCP Server", category: "MCP", completion: 75, status: "開發中", tech: "Python, python-pptx, MCP", output: "簡報工具", updated: "—" },
-
-            // Personal
-            { name: "SmartFill-Scholar", category: "個人", completion: 80, status: "開發中", tech: "Python, FastAPI, React, ChromaDB", output: "知識API", updated: "—" },
-            { name: "ScanMail+", category: "個人", completion: 90, status: "已上線", tech: "Python, FastAPI, OpenCV, Docker", output: "文件平台", updated: "—" },
-            { name: "AI Graphic Studio", category: "個人", completion: 75, status: "已上線", tech: "React 19, Gemini, GCP", output: "設計工具", updated: "—" },
-            { name: "English Tutor", category: "個人", completion: 60, status: "開發中", tech: "React, Speech API", output: "學習工具", updated: "—" },
-            { name: "expense-auto", category: "個人", completion: 50, status: "開發中", tech: "Python, Agents", output: "記帳工具", updated: "—" },
-            { name: "Wind Energy Simulator", category: "個人", completion: 80, status: "開發中", tech: "React, TypeScript, Canvas", output: "教學模擬器", updated: "—" },
-            { name: "CitingVerify", category: "個人", completion: 80, status: "開發中", tech: "React, FastAPI, PostgreSQL", output: "學術驗證", updated: "—" }
-        ];
-
-        const timelineData = [
-            { date: "2025-01", event: "Taiwan Turbulence Study 完成", status: "completed" },
-            { date: "2025-06", event: "AI Resume Generator MVP", status: "completed" },
-            { date: "2025-10", event: "ECN O&M Tool core modules", status: "completed" },
-            { date: "2026-01", event: "windAILab Phase 10 啟動", status: "completed" },
-            { date: "2026-03", event: "Face Recognition v3.0", status: "completed" },
-            { date: "2026-03", event: "InduSpect Flutter 版本", status: "completed" },
-            { date: "2026-04", event: "RAG Ultimate v5.0", status: "completed" },
-            { date: "2026-04", event: "WindGuard AI (Kaggle)", status: "completed" },
-            { date: "2026-04", event: "windAILab 92% complete", status: "completed" },
-            { date: "2026 Q2", event: "論文投稿衝刺", status: "planning" },
-            { date: "2026 Q3", event: "實驗驗證期", status: "planning" },
-            { date: "2026 Q4", event: "成果推廣期", status: "planning" }
-        ];
-
-        const focusDistribution = {
-            labels: ['風力發電 AI', '工業 AI 與巡檢', 'RAG 與知識管理', '教育科技', 'MCP 工具鏈', '個人生產力工具'],
-            data: [12, 5, 4, 11, 8, 10],
-            colors: ['#2ecc71', '#e67e22', '#9b59b6', '#3498db', '#e74c3c', '#1abc9c']
-        };
-
-        const topProjects = [
-            { name: "WindGuard AI", completion: 100 },
-            { name: "Taiwan Turbulence Study", completion: 100 },
-            { name: "embedTunedforWT", completion: 100 },
-            { name: "UniCourse AI Online", completion: 95 },
-            { name: "Course Scheduling", completion: 95 },
-            { name: "AI Admission Evaluator", completion: 95 },
-            { name: "windAILab", completion: 92 },
-            { name: "Face Recognition Attendance", completion: 90 },
-            { name: "ScanMail+", completion: 90 },
-            { name: "VestasOPCconnect", completion: 90 },
-            { name: "Chrome DevTools MCP", completion: 90 },
-            { name: "MCP Binary Writer", completion: 90 },
-            { name: "AI_PLC_Automation", completion: 85 },
-            { name: "autoArduinoCoding", completion: 85 },
-            { name: "RAG Ultimate", completion: 85 }
-        ];
-
-        const techStack = {
-            labels: ['Python', 'React/TypeScript', 'Google Gemini API', 'FastAPI', 'Docker/GCP', '工業協議', 'Database', 'ML/AI Libraries'],
-            data: [30, 20, 15, 12, 8, 10, 12, 15]
-        };
+        let projectsData = [];
+        let timelineData = [];
+        const categoryNames = { wind_energy:'風力發電', industrial_ai:'工業 AI', rag_knowledge:'RAG', edtech:'教育科技', mcp_tools:'MCP', personal_tools:'個人工具' };
+        const statusNames = { active:'開發中', research:'研究進行中', prototype:'研究原型', development:'開發中', pilot:'教學試用', catalogued:'專案紀錄', planning:'規劃中', completed:'已完成', published:'相關論文已發表', preprint:'預印本', production:'公開服務' };
+        const focusDistribution = { labels:Object.values(categoryNames), data:[], colors:['#2ecc71','#e67e22','#9b59b6','#3498db','#e74c3c','#1abc9c'] };
+        let topProjects = [];
+        let techStack = { labels:[], data:[] };
+        function escapeText(value) { return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
         // Initialize Charts
         function initCharts() {
@@ -783,14 +686,9 @@
                 data: {
                     labels: topProjects.map(p => p.name),
                     datasets: [{
-                        label: '完成度 (%)',
-                        data: topProjects.map(p => p.completion),
-                        backgroundColor: topProjects.map(p => {
-                            if (p.completion === 100) return '#2ecc71';
-                            if (p.completion >= 90) return '#27ae60';
-                            if (p.completion >= 80) return '#3498db';
-                            return '#f39c12';
-                        }),
+                        label: '專案數',
+                        data: topProjects.map(p => p.count),
+                        backgroundColor: '#3498db',
                         borderRadius: 5,
                         borderSkipped: false
                     }]
@@ -806,7 +704,7 @@
                         x: {
                             ticks: { color: '#ecf0f1' },
                             grid: { color: '#404040' },
-                            max: 100
+                            beginAtZero: true
                         },
                         y: {
                             ticks: { color: '#ecf0f1', font: { size: 10 } },
@@ -868,14 +766,7 @@
                 <tr onclick="openDetail(projectsData[${idx}])" title="點擊查看詳情">
                     <td><strong>${project._enriched && project._enriched.name_zh ? project._enriched.name_zh + '<br><small style=\"color:#7f8c8d\">' + project.name + '</small>' : project.name}</strong></td>
                     <td>${project.category}</td>
-                    <td>
-                        <div class="percentage">
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" style="width: ${project.completion}%"></div>
-                            </div>
-                            <span>${project.completion}%</span>
-                        </div>
-                    </td>
+                    <td>${project.source ? `<a href="${escapeText(project.source)}" target="_blank" rel="noopener">公開來源 ↗</a>` : '既有紀錄'}</td>
                     <td>
                         <span class="status ${project.status === '已上線' ? 'active' : project.status === '已完成' ? 'completed' : project.status === '開發中' ? 'developing' : 'planning'}">
                             ${project.status}
@@ -929,10 +820,6 @@
                 const aValue = a.cells[columnIndex].textContent.trim();
                 const bValue = b.cells[columnIndex].textContent.trim();
 
-                // Try numeric sort for completion column
-                if (columnIndex === 2) {
-                    return parseFloat(bValue) - parseFloat(aValue);
-                }
 
                 return aValue.localeCompare(bValue, 'zh-TW');
             });
@@ -941,34 +828,22 @@
             rows.forEach(row => tbody.appendChild(row));
         }
 
-        // Merge data.json into hardcoded data (adds last_updated, description, metrics, milestone)
-        let enrichedData = {};
         async function loadDynamicData() {
-            try {
-                const res = await fetch('data.json');
-                if (!res.ok) return;
-                const data = await res.json();
-                (data.projects || []).forEach(p => {
-                    // Match by name (case-insensitive, partial match)
-                    const key = (p.name || '').toLowerCase().replace(/[\s_-]/g, '');
-                    enrichedData[key] = p;
-                });
-                // Update projectsData with real last_updated
-                projectsData.forEach(p => {
-                    const key = p.name.toLowerCase().replace(/[\s_-]/g, '');
-                    const match = enrichedData[key] || Object.values(enrichedData).find(e =>
-                        e.name.toLowerCase().replace(/[\s_-]/g, '') === key ||
-                        (e.name_zh || '').includes(p.name) ||
-                        p.name.toLowerCase().includes(e.name.toLowerCase().replace(/[\s_-]/g, ''))
-                    );
-                    if (match) {
-                        if (match.last_updated && match.last_updated !== '') p.updated = match.last_updated;
-                        p._enriched = match;
-                    }
-                });
-                // Re-render table with updated data
-                initProjectsTable();
-            } catch(e) { /* data.json not available, use hardcoded */ }
+            const res = await fetch('data.json?v=20261010');
+            if (!res.ok) throw new Error('Project data unavailable');
+            const data = await res.json();
+            projectsData = data.projects.map(p => ({ name:p.name, category:categoryNames[p.category] || '其他', status:statusNames[p.status] || p.status, tech:(p.technologies || []).join(', '), output:(p.outputs || []).join(', ') || '研究與工具', updated:p.last_updated || data.generated, source:p.source_url || p.repository_url, _enriched:p }));
+            focusDistribution.data = Object.keys(categoryNames).map(c => data.projects.filter(p => p.category === c).length);
+            const counts = {};
+            projectsData.forEach(p => counts[p.status] = (counts[p.status] || 0) + 1);
+            topProjects = Object.entries(counts).map(([name,count]) => ({name,count}));
+            const techCounts = {};
+            data.projects.forEach(p => (p.technologies || []).forEach(t => techCounts[t] = (techCounts[t] || 0) + 1));
+            const techEntries = Object.entries(techCounts).sort((a,b) => b[1]-a[1]).slice(0,8);
+            techStack = { labels:techEntries.map(x=>x[0]), data:techEntries.map(x=>x[1]) };
+            timelineData = data.projects.filter(p=>p.source_url || p.repository_url).slice(0,7).map(p=>({ date:p.last_updated || data.generated, event:escapeText(p.name_zh || p.name) + ' · ' + escapeText(statusNames[p.status] || p.status), status:'completed' }));
+            const values = [projectsData.length, projectsData.filter(p=>p.source).length, new Set(data.projects.map(p=>p.category)).size, data.projects.filter(p=>p.repository_url).length];
+            document.querySelectorAll('.stats-bar .number').forEach((el,i)=>el.textContent=values[i]);
         }
 
         // Detail Panel
@@ -980,11 +855,8 @@
             document.getElementById('detailName').textContent = (e.name_zh ? e.name_zh + ' (' + project.name + ')' : project.name);
             document.getElementById('detailCategory').textContent = project.category + ' | ' + project.status;
 
-            const pct = project.completion;
-            const color = pct >= 90 ? '#2ecc71' : pct >= 70 ? '#3498db' : pct >= 50 ? '#f1c40f' : '#e74c3c';
-            document.getElementById('detailProgressBar').style.width = pct + '%';
-            document.getElementById('detailProgressBar').style.background = color;
-            document.getElementById('detailProgressText').textContent = pct + '% 完成';
+            document.querySelector('.detail-progress-bar').style.display = 'none';
+            document.getElementById('detailProgressText').textContent = e.source_note || '專案狀態以所列公開來源為準。';
 
             // Description
             const desc = e.description_zh || e.description || project.tech;
@@ -1002,16 +874,6 @@
             const outputArr = project.output.split(',').map(t => t.trim()).filter(Boolean);
             document.getElementById('detailOutputs').innerHTML = outputArr.map(t => '<span class="detail-output">' + t + '</span>').join('');
 
-            // Milestone
-            const ms = document.getElementById('detailMilestoneSection');
-            if (e.next_milestone) { ms.style.display = ''; document.getElementById('detailMilestone').textContent = e.next_milestone; }
-            else { ms.style.display = 'none'; }
-
-            // Metrics
-            const mt = document.getElementById('detailMetricsSection');
-            if (e.key_metrics) { mt.style.display = ''; document.getElementById('detailMetrics').textContent = e.key_metrics; }
-            else { mt.style.display = 'none'; }
-
             panel.classList.add('open');
             overlay.classList.add('open');
         }
@@ -1026,12 +888,15 @@
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', async () => {
-            initCharts();
-            initTimeline();
-            initProjectsTable();
-            setupSearchFilter();
-            await loadDynamicData();
+            try {
+                await loadDynamicData();
+                initCharts(); initTimeline(); initProjectsTable(); setupSearchFilter();
+            } catch (error) {
+                document.getElementById('projectsBody').innerHTML = '<tr><td colspan="7">資料暫時無法載入，請重新整理或查看專案成果頁。</td></tr>';
+                console.error(error);
+            }
         });
     </script>
 </body>
 </html>
+
