@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="DOF Lab 研究專案全集 — 風能 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈共 36 個專案。">
+  <meta name="description" content="DOF Lab 研究專案全集 — 風能 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈。">
   <title>專案成果 ｜ DOF Lab</title>
   <link rel="stylesheet" href="assets/editorial.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -17,6 +17,7 @@
       <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
       <ul class="nav__links">
         <li><a href="index.html">首頁</a></li>
+        <li><a href="research.html">研究計畫</a></li>
         <li><a href="projects.html" class="active">專案成果</a></li>
         <li><a href="publications.html">研究發表</a></li>
         <li><a href="blog.html">研究日誌</a></li>
@@ -29,8 +30,8 @@
   <header class="page-head">
     <div class="wrap">
       <p class="kicker">Projects · 專案成果</p>
-      <h1>36 個研究專案<br>從實驗到上線。</h1>
-      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與生產力工具鏈。每個專案都以可驗證的測試、指標與真實部署為目標。資料即時來自各專案 <code>STATUS.yaml</code>。</p>
+      <h1>研究與開發專案<br>從問題到原型。</h1>
+      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與生產力工具鏈。以公開 repository、研究發表與既有專案紀錄整理；研究原型、開發狀態與正式出版分開呈現。<span id="projectCount"></span></p>
     </div>
   </header>
 
@@ -80,9 +81,10 @@
     </div>
   </footer>
 
-  <script src="assets/editorial.js"></script>
+  <script src="assets/editorial.js?v=20261010"></script>
   <script>
-    DOFProjects.render('#proj-grid').then(function () {
+    DOFProjects.render('#proj-grid').then(function (ps) {
+      document.getElementById('projectCount').textContent = ps ? ` 目前收錄 ${ps.length} 個不重複專案，核對日期：2026-10-10。` : '';
       var tabs = document.getElementById('cat-tabs');
       var cards = document.querySelectorAll('#proj-grid .feat');
       tabs.addEventListener('click', function (e) {
@@ -96,3 +98,4 @@
   </script>
 </body>
 </html>
+

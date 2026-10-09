@@ -82,15 +82,16 @@ window.DOFProjects = (function () {
   };
   const STATUS = {
     production: '營運中', active: '進行中', planning: '規劃中',
-    planned: '規劃中', pending: '待啟動', completed: '已完成'
+    planned: '規劃中', pending: '待啟動', completed: '已完成', development:'開發中', pilot:'教學試用', catalogued: '專案紀錄', research: '研究進行中', prototype: '研究原型', preprint: '預印本', published: '相關論文已發表'
   };
 
-  function esc(s) { return (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+  function esc(s) { return String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
   function card(p) {
     const c = CAT[p.category] || CAT._other;
     const tags = (p.technologies || []).slice(0, 3).map(t => `<span class="tag tag--ink">${esc(t)}</span>`).join('');
-    const prog = p.progress || 0;
+    const source = p.source_url || p.repository_url;
+    const note = p.source_note || (p.last_updated ? `紀錄日期：${p.last_updated}` : '');
     return `
     <article class="feat feat--third" data-cat="${p.category || '_other'}" data-reveal>
       <div class="feat__cover ${c.cover}">
@@ -101,16 +102,17 @@ window.DOFProjects = (function () {
       <h3>${esc(p.name_zh || p.name)}</h3>
       <p class="feat__desc">${esc(p.description_zh || p.description || '')}</p>
       <div class="feat__foot">
-        <span class="feat__prog"><b>${prog}%</b> ${p.key_metrics ? '· ' + esc(p.key_metrics) : ''}</span>
+        <span class="feat__prog">${esc(note)}</span>
+        ${source ? `<a href="${esc(source)}" class="read-more" target="_blank" rel="noopener">公開來源 ↗</a>` : ''}
       </div>
     </article>`;
   }
 
   function render(target, opts) {
     opts = opts || {};
-    return fetch('data.json').then(r => r.json()).then(data => {
+    return fetch('data.json?v=20261010').then(r => r.json()).then(data => {
       let ps = (data.projects || []).slice();
-      ps.sort((a, b) => (b.progress || 0) - (a.progress || 0));
+      ps.sort((a, b) => Number(Boolean(b.source_url || b.repository_url)) - Number(Boolean(a.source_url || a.repository_url)));
       const el = document.querySelector(target);
       el.innerHTML = ps.map(card).join('');
       if (opts.onDone) opts.onDone(ps);
@@ -125,3 +127,4 @@ window.DOFProjects = (function () {
   }
   return { render, CAT, STATUS };
 })();
+

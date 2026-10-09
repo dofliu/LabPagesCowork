@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="劉瑞弘副教授學術著作 — 期刊論文、國際研討會、發明專利與競賽獲獎完整紀錄。">
+  <meta name="description" content="劉瑞弘副教授學術著作 — 期刊論文、研討會、專利與競賽獲獎完整紀錄。">
   <title>研究發表 ｜ DOF Lab</title>
   <link rel="stylesheet" href="assets/editorial.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -21,6 +21,7 @@
       <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
       <ul class="nav__links">
         <li><a href="index.html">首頁</a></li>
+        <li><a href="research.html">研究計畫</a></li>
         <li><a href="projects.html">專案成果</a></li>
         <li><a href="publications.html" class="active">研究發表</a></li>
         <li><a href="blog.html">研究日誌</a></li>
@@ -34,7 +35,7 @@
     <div class="wrap">
       <p class="kicker">Publications · 學術著作</p>
       <h1>研究發表</h1>
-      <p class="lede">完整收錄期刊論文、國際研討會、發明專利與競賽獲獎。研究主軸聚焦風力發電運維、SCADA 數據分析、機器學習診斷與 RAG 工業應用。</p>
+      <p class="lede">依個人著作網站與可核對的出版社資料整理期刊、會議論文、專利及代表性獲獎；預印本另列，不計入正式期刊數。研究主軸聚焦風力發電運維、SCADA 數據分析、機器學習診斷與 RAG 工業應用。</p>
       <p class="updated-note" id="updatedNote"></p>
     </div>
   </header>
@@ -47,6 +48,8 @@
         <button class="tab active" data-filter="all">全部</button>
         <button class="tab" data-filter="journal">期刊論文</button>
         <button class="tab" data-filter="conference">研討會</button>
+        <button class="tab" data-filter="preprint">預印本</button>
+        <button class="tab" data-filter="accepted">已接受／待刊</button>
         <button class="tab" data-filter="patent">專利</button>
         <button class="tab" data-filter="award">獲獎</button>
       </div>
@@ -68,40 +71,42 @@
     </div>
   </footer>
 
-  <script src="assets/editorial.js"></script>
+  <script src="assets/editorial.js?v=20261010"></script>
   <script>
     const GROUPS = [
       { key:'journal',    label:'期刊論文 Journal Papers', icon:'fa-book-open' },
       { key:'conference', label:'研討會論文 Conference Papers', icon:'fa-users' },
+      { key:'preprint', label:'預印本 Preprints（非正式期刊出版）', icon:'fa-file-lines' },
+      { key:'accepted', label:'已接受／待刊 Accepted', icon:'fa-clock' },
       { key:'patent',     label:'專利 Patents', icon:'fa-certificate' },
-      { key:'award',      label:'競賽獲獎 Awards', icon:'fa-trophy' }
+      { key:'award',      label:'代表性競賽紀錄 Selected Awards', icon:'fa-trophy' }
     ];
-    function esc(s){ return (s==null?'':String(s)); }
+    function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     function lineHTML(p){
-      const href = p.doi ? ` href="${p.doi}" target="_blank"` : '';
-      const tag = href ? 'a' : 'div';
-      const idx = p.index ? `<span class="scie">${p.index}</span>` : '';
-      const awardTag = p.award ? `<span class="scie" style="background:var(--rust)">${p.award}</span>` : '';
-      const metric = p.metric ? `<div class="pub-line__metric">${p.metric}</div>` : '';
-      const authors = p.authors ? `${p.authors} · ` : '';
-      return `<${tag} class="pub-line"${href}>
+      const url = p.doi || p.source_url;
+      const idx = p.index ? `<span class="scie">${esc(p.index)}</span>` : '';
+      const authors = !p.citation && p.authors ? `${esc(p.authors.replace(/<[^>]*>/g, ''))} · ` : '';
+      const note = p.status_label || (p.status === 'preprint' ? '預印本' : p.status === 'accepted' ? '已接受／待刊' : '');
+      return `<article class="pub-line">
         <div class="pub-line__yr">${esc(p.year)}</div>
         <div>
-          <div class="pub-line__t">${esc(p.title)}${idx}${awardTag}</div>
-          <div class="pub-line__m">${authors}<span class="jn">${esc(p.venue)}</span> ${p.detail?('· '+esc(p.detail)):''}</div>
-          ${metric}
+          <div class="pub-line__t">${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(p.citation || p.title)} ↗</a>` : esc(p.citation || p.title)}${idx}</div>
+          ${!p.citation ? `<div class="pub-line__m">${authors}<span class="jn">${esc(p.venue)}</span> ${p.detail ? '· '+esc(p.detail) : ''}</div>` : ''}
+          ${note ? `<p class="updated-note">${esc(note)}</p>` : ''}
+          ${p.source_url && p.source_url !== url ? `<p class="updated-note"><a href="${esc(p.source_url)}" target="_blank" rel="noopener">來源紀錄 ↗</a></p>` : ''}
         </div>
-      </${tag}>`;
+      </article>`;
     }
-    fetch('publications.json').then(r=>r.json()).then(data=>{
+    fetch('publications.json?v=20261010').then(r=>r.json()).then(data=>{
       // 更新日期
       if(data._updated) document.getElementById('updatedNote').innerHTML =
-        `<i class="fas fa-rotate"></i> 資料更新：${data._updated}（來源：<a href="${data._source}" target="_blank" rel="noopener">個人著作網站 ↗</a>）`;
+        `<i class="fas fa-rotate"></i> 資料更新：${esc(data._updated)}；${esc(data._note || '')}（來源：<a href="${esc(data._source)}" target="_blank" rel="noopener">個人著作網站 ↗</a>）`;
       // 統計
       const counts = GROUPS.map(g => (data[g.key]||[]).length);
-      const labels = ['期刊／SCIE 論文','國際研討會論文','發明專利','競賽獲獎'];
+      const labels = ['期刊著作紀錄','研討會論文','預印本','已接受／待刊','專利','代表性獲獎'];
       document.getElementById('pubStrip').innerHTML = GROUPS.map((g,i)=>
-        `<div class="pub-stat"><b>${counts[i]}</b><span>${labels[i]}</span></div>`).join('');
+        `<div class="pub-stat"><b>${counts[i]}</b><span>${labels[i]}</span></div>`).filter((_,i)=>counts[i]>0).join('');
+      GROUPS.forEach((g,i)=>{ if(!counts[i]) document.querySelector(`[data-filter="${g.key}"]`).hidden = true; });
       // 各組
       document.getElementById('pubContainer').innerHTML = GROUPS.map(g=>{
         const items = data[g.key]||[];
@@ -130,3 +135,4 @@
   </script>
 </body>
 </html>
+

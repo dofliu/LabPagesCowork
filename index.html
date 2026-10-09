@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DOF Lab — 國立勤益科技大學智慧自動化工程系劉瑞弘副教授實驗室。專注風力發電運維、生成式 AI／RAG 工業應用與智慧自動化研究。">
   <meta property="og:title" content="DOF Lab — 智慧自動化工程實驗室">
-  <meta property="og:description" content="風力發電運維 · 生成式 AI · 智慧自動化｜36 研究專案 · 102 篇研究日誌 · 30+ 學術發表">
+  <meta property="og:description" content="風力發電運維 · 生成式 AI · 智慧自動化｜研究專案、學術發表與歷年計畫">
   <meta property="og:type" content="website">
   <title>DOF Lab — 智慧自動化工程實驗室 ｜ NCUT IAE</title>
   <link rel="stylesheet" href="assets/editorial.css?v=showreels-20261004">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
+<style>.updated-note{font-size:.86rem;color:var(--muted);line-height:1.65;margin-top:1rem}.pub-line__t,.pub-line__m{overflow-wrap:anywhere}</style>
 </head>
 <body id="top">
 
@@ -20,7 +21,7 @@
       <a href="index.html" class="brand">DOF Lab<span class="dot">.</span><small>NCUT · 智慧自動化</small></a>
       <button class="nav__toggle" aria-label="選單"><i class="fas fa-bars"></i></button>
       <ul class="nav__links">
-        <li><a href="#research">研究領域</a></li>
+        <li><a href="research.html">研究計畫</a></li>
         <li><a href="#stats">專案統計</a></li>
         <li><a href="projects.html">專案成果</a></li>
         <li><a href="publications.html">研究發表</a></li>
@@ -45,7 +46,7 @@
           <p class="kicker">Research Lab · 研究室導覽</p>
           <h1 class="display">讓技術<br><span class="ital">真正</span>落地。</h1>
           <p class="hero__name">劉瑞弘 副教授 ｜ Jui-Hung Liu, Ph.D.<br>國立勤益科技大學 智慧自動化工程系</p>
-          <p class="lede hero__lede">DOF Lab 以<strong>檢索增強生成（RAG）於風電運維的應用</strong>為研究主軸，結合 SCADA 數據、風機運維知識與大型語言模型——從統一 RAG 研究平台到 <strong>Wind-RAG Benchmark 論文</strong>，把前沿 AI 做成可上線的真實系統。</p>
+          <p class="lede hero__lede">DOF Lab 以<strong>風電運維與智慧自動化</strong>為研究主軸，結合 SCADA 數據、風機知識與大型語言模型，探索故障診斷、檢索增強生成（RAG）與運維決策。近期跨來源檢索研究已發表於 <strong>Scientific Reports（2026）</strong>。</p>
           <div class="hero__actions">
             <a href="projects.html" class="btn btn--solid">瀏覽專案成果 <i class="fas fa-arrow-right"></i></a>
             <a href="publications.html" class="btn btn--ghost">學術發表</a>
@@ -54,13 +55,9 @@
 
         <aside class="hero__feature" data-reveal data-reveal-delay="120">
           <p class="kicker">研究主軸 · Flagship Research</p>
-          <h3>風電 RAG 專家系統</h3>
-          <p>把風機運維知識接上檢索增強生成 — 從整合 24 種檢索模式的統一 RAG 研究平台，到 Harakosan Z72 風機運維專家系統 14 案例，再到 Wind-RAG Benchmark 論文（RAGAS 評測完成）。</p>
-          <div class="mini-stats">
-            <div><b>24</b><span>RAG 檢索模式</span></div>
-            <div><b>14</b><span>風機運維案例</span></div>
-            <div><b>405</b><span>評測題庫 Q</span></div>
-          </div>
+          <h3>從研究證據到運維應用</h3>
+          <p>串接風機資料分析、工業 RAG 與運維工作流程。正式期刊、預印本及開發中的系統分開呈現，讓研究進度與來源清楚可查。</p>
+          <div class="hero__actions"><a href="https://doi.org/10.1038/s41598-026-59616-2" target="_blank" rel="noopener" class="read-more">2026 RAG 研究論文 ↗</a></div>
         </aside>
       </div>
     </div>
@@ -109,62 +106,8 @@
         <p class="lede" style="font-size:1rem">橫跨風能、工業 AI、RAG 知識管理、教育科技與工具鏈，研究室以「做出可用系統」為衡量標準。</p>
       </div>
 
-      <div class="stats__grid" data-animate-block data-reveal>
-        <div class="stat">
-          <div class="stat__no"><span data-count="36">0</span></div>
-          <div class="stat__label">累計研究專案</div>
-          <div class="stat__bar"><i data-bar="100"></i></div>
-        </div>
-        <div class="stat">
-          <div class="stat__no"><span data-count="6">0</span></div>
-          <div class="stat__label">已上線營運服務</div>
-          <div class="stat__bar"><i data-bar="50"></i></div>
-        </div>
-        <div class="stat">
-          <div class="stat__no"><span data-count="102">0</span></div>
-          <div class="stat__label">篇研究日誌</div>
-          <div class="stat__bar"><i data-bar="92"></i></div>
-        </div>
-        <div class="stat">
-          <div class="stat__no"><span data-count="30">0</span><span class="u">+</span></div>
-          <div class="stat__label">期刊與研討會論文</div>
-          <div class="stat__bar"><i data-bar="80"></i></div>
-        </div>
-      </div>
-
-      <!-- 分類分布 -->
-      <div class="cat-list" data-animate-block data-reveal>
-        <div class="cat-row">
-          <div class="cat-row__name">教育科技<span>EdTech</span></div>
-          <div class="cat-track"><i data-bar="100" style="background:var(--gold)"></i></div>
-          <div class="cat-row__val">9</div>
-        </div>
-        <div class="cat-row">
-          <div class="cat-row__name">生產力工具<span>Personal Tools</span></div>
-          <div class="cat-track"><i data-bar="100" style="background:var(--ink-soft)"></i></div>
-          <div class="cat-row__val">9</div>
-        </div>
-        <div class="cat-row">
-          <div class="cat-row__name">風力發電 AI<span>Wind Energy</span></div>
-          <div class="cat-track"><i data-bar="67" style="background:var(--forest)"></i></div>
-          <div class="cat-row__val">6</div>
-        </div>
-        <div class="cat-row">
-          <div class="cat-row__name">工業 AI 巡檢<span>Industrial AI</span></div>
-          <div class="cat-track"><i data-bar="56" style="background:var(--rust)"></i></div>
-          <div class="cat-row__val">5</div>
-        </div>
-        <div class="cat-row">
-          <div class="cat-row__name">RAG 知識管理<span>RAG Knowledge</span></div>
-          <div class="cat-track"><i data-bar="33" style="background:var(--rust-deep)"></i></div>
-          <div class="cat-row__val">3</div>
-        </div>
-        <div class="cat-row">
-          <div class="cat-row__name">MCP 工具鏈<span>MCP Tools</span></div>
-          <div class="cat-track"><i data-bar="33" style="background:var(--gold)"></i></div>
-          <div class="cat-row__val">3</div>
-        </div>
-      </div>
+<div class="stats__grid" data-reveal><div class="stat"><div class="stat__no">34</div><div class="stat__label">不重複專案紀錄</div></div><div class="stat"><div class="stat__no">42</div><div class="stat__label">歷年計畫紀錄</div></div><div class="stat"><div class="stat__no">42</div><div class="stat__label">期刊著作紀錄</div></div><div class="stat"><div class="stat__no">74</div><div class="stat__label">研討會論文紀錄</div></div></div>
+<p class="updated-note">資料核對：2026-10-10；專案不含重複備份，期刊統計不含預印本。<a href="research.html#funding">計畫來源與狀態 ↗</a></p><div class="cat-list" data-reveal><div class="cat-row"><div class="cat-row__name">教育科技</div><div class="cat-track"><i style="width:100%;background:var(--forest)"></i></div><div class="cat-row__val">9</div></div><div class="cat-row"><div class="cat-row__name">生產力工具</div><div class="cat-track"><i style="width:100%;background:var(--forest)"></i></div><div class="cat-row__val">9</div></div><div class="cat-row"><div class="cat-row__name">風力發電 AI</div><div class="cat-track"><i style="width:67%;background:var(--forest)"></i></div><div class="cat-row__val">6</div></div><div class="cat-row"><div class="cat-row__name">工業 AI 巡檢</div><div class="cat-track"><i style="width:56%;background:var(--forest)"></i></div><div class="cat-row__val">5</div></div><div class="cat-row"><div class="cat-row__name">RAG 知識管理</div><div class="cat-track"><i style="width:22%;background:var(--forest)"></i></div><div class="cat-row__val">2</div></div><div class="cat-row"><div class="cat-row__name">MCP 工具鏈</div><div class="cat-track"><i style="width:33%;background:var(--forest)"></i></div><div class="cat-row__val">3</div></div></div>
     </div>
   </section>
 
@@ -176,50 +119,10 @@
           <p class="kicker">02 — Selected Work</p>
           <h2 class="section-title">精選研究成果</h2>
         </div>
-        <a href="projects.html" class="btn btn--ghost">全部 36 個專案 <i class="fas fa-arrow-right"></i></a>
+        <a href="projects.html" class="btn btn--ghost">全部 34 個專案 <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="feat-grid">
-        <article class="feat feat--lg" data-reveal>
-          <div class="feat__cover feat__cover--rust"><i class="fas fa-diagram-project ico"></i><span class="badge">研究主軸 · 進行中</span></div>
-          <div class="feat__tags"><span class="tag">風電 RAG</span><span class="tag tag--ink">Qdrant</span><span class="tag tag--ink">RAGAS</span><span class="tag tag--ink">FastAPI</span></div>
-          <h3>企業級統一 RAG 研究平台 × Wind-RAG Benchmark</h3>
-          <p class="feat__desc">整合 24 種檢索模式（22 技術 + 2 控制組）、Qdrant 向量資料庫與評測實驗室，建構 4 組品牌 QA（405 題）。已完成 Harakosan Z72 風機運維專家系統 14 案例展示，並以 RAGAS 完成 Wind-RAG Benchmark 論文評測，正式跨入風電 RAG 論文階段。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>24</b> RAG 模式 · 405 評測題 · 論文進行中</span><a href="publications.html" class="read-more">研究發表 <i class="fas fa-arrow-right"></i></a></div>
-        </article>
-
-        <article class="feat feat--sm" data-reveal data-reveal-delay="80">
-          <div class="feat__cover"><i class="fas fa-industry ico"></i><span class="badge">進行中 · 99%</span></div>
-          <div class="feat__tags"><span class="tag">工業 AI</span><span class="tag tag--ink">SCADA</span><span class="tag tag--ink">Bachmann M1</span></div>
-          <h3>Z72 風機 SCADA 系統</h3>
-          <p class="feat__desc">14 台 Bachmann M1 風機的完整 SCADA 系統與三層 historian 資料庫（~10 GB），為風電 RAG 提供真實運維數據基礎。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>14</b> 台機組 · ~10GB historian</span></div>
-        </article>
-
-        <article class="feat feat--third" data-reveal>
-          <div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">已完成 · 100%</span></div>
-          <div class="feat__tags"><span class="tag">風力發電</span><span class="tag tag--ink">Gemma 4</span></div>
-          <h3>WindGuard AI 風機診斷代理</h3>
-          <p class="feat__desc">Kaggle Gemma4Good 競賽作品，以 Gemma 4 分析 36 台風機、3 座風場的 202 個數據集，自動診斷異常。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>36</b> 台風機 · 3 風場</span></div>
-        </article>
-
-        <article class="feat feat--third" data-reveal data-reveal-delay="80">
-          <div class="feat__cover feat__cover--gold"><i class="fas fa-network-wired ico"></i><span class="badge">進行中</span></div>
-          <div class="feat__tags"><span class="tag">RAG 知識</span><span class="tag tag--ink">ChromaDB</span></div>
-          <h3>windMindOM 離岸風電運維</h3>
-          <p class="feat__desc">離岸風場運維 SaaS，以 ChromaDB 向量檢索整合 Z72 風機知識，把 RAG 知識引擎接入運維工單與決策流程。</p>
-          <div class="feat__foot"><span class="feat__prog">M5 · RAG 知識整合</span></div>
-        </article>
-
-        <article class="feat feat--third" data-reveal data-reveal-delay="160">
-          <div class="feat__cover"><i class="fas fa-flask ico"></i><span class="badge">進行中 · 92%</span></div>
-          <div class="feat__tags"><span class="tag">風力發電</span><span class="tag tag--ink">Multi-Agent</span></div>
-          <h3>風力發電 AI 研究平台</h3>
-          <p class="feat__desc">匯聚 12 位核心代理與 28 個技能模組，支援故障診斷（F1=1.0）、功率曲線建模（R²=0.997）與剩餘壽命預測。</p>
-          <div class="feat__foot"><span class="feat__prog"><b>F1=1.0</b> · R²=0.997</span></div>
-        </article>
-      </div>
+      <div class="feat-grid"><article class="feat feat--lg" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-diagram-project ico"></i><span class="badge">相關論文已發表 · 平台研究中</span></div><div class="feat__tags"><span class="tag">RAG 知識管理</span></div><h3>企業級統一RAG研究平台</h3><p class="feat__desc">整合檢索增強生成策略、知識庫與評測流程的研究平台，支援風電運維問答研究。相關跨來源檢索研究已發表於 Scientific Reports（2026），其他平台研究與實驗分別追蹤。</p><div class="feat__foot"><a href="https://www.nature.com/articles/s41598-026-59616-2" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--sm" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">開發中</span></div><div class="feat__tags"><span class="tag">風力發電 AI</span></div><h3>風心智運維平台</h3><p class="feat__desc">整合風場監控、工單與庫存派工、成本計算、報表及警報手冊檢索，支援運維管理與現場操作的研究開發平台。</p><div class="feat__foot"><a href="https://github.com/dofliu/windMindOM/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--third" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">研究進行中</span></div><div class="feat__tags"><span class="tag">風力發電 AI</span></div><h3>風力發電 AI 研究協作平台</h3><p class="feat__desc">以可組合技能與多代理工作流程串接 SCADA 資料整理、狀態監測、功率建模與研究報告。公開程式碼供研究與教學使用。</p><div class="feat__foot"><a href="https://github.com/dofliu/windAI-Lab/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--third" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-industry ico"></i><span class="badge">研究原型</span></div><div class="feat__tags"><span class="tag">工業 AI 巡檢</span></div><h3>工業智慧巡檢原型</h3><p class="feat__desc">開發結合行動裝置、影像讀值、離線規則與結構化報告的巡檢流程，並探索風機葉片檢測；目前為待現場驗證的研究原型。</p><div class="feat__foot"><a href="https://github.com/dofliu/InduSpect/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--third" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">教學試用</span></div><div class="feat__tags"><span class="tag">教育科技</span></div><h3>離岸風電運維教學模擬</h3><p class="feat__desc">以合成 SCADA／CMS 情境與關卡式任務呈現風場操作、維修決策及工程指標，提供教學試用與流程演練。</p><div class="feat__foot"><a href="https://github.com/dofliu/windFarmOMII/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article></div>
     </div>
   </section>
 
@@ -229,7 +132,7 @@
       <div class="sec-head">
         <div class="sec-head__l">
           <p class="kicker">03 — Research Focus</p>
-          <h2 class="section-title">四大研究領域</h2>
+          <h2 class="section-title">四大研究領域</h2><a href="research.html#funding" class="read-more">研究計畫與產學合作 ↗</a>
         </div>
       </div>
       <div class="feat-grid">
@@ -268,43 +171,7 @@
         <a href="publications.html" class="btn btn--rust">完整著作列表 <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="pub-strip" data-reveal>
-        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>24</b><span style="color:#a99e8e">期刊／SCIE 論文</span></div>
-        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>11</b><span style="color:#a99e8e">國際研討會論文</span></div>
-        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>3</b><span style="color:#a99e8e">發明專利</span></div>
-        <div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>4</b><span style="color:#a99e8e">競賽獲獎</span></div>
-      </div>
-
-      <div data-reveal>
-        <div class="pub-line" style="border-color:rgba(255,255,255,.12)">
-          <div class="pub-line__yr">2026</div>
-          <div>
-            <div class="pub-line__t" style="color:#f3ece0">Early Fault Warning Framework for Offshore Wind Turbine Pitch Systems Using Relief Feature Selection and SSA-Optimized SABiLSTM<span class="scie">SCIE · Q1</span></div>
-            <div class="pub-line__m">Y. J. Chen, N. X. Sun, <strong style="color:#d9cfc0">Jui-Hung Liu*</strong> · <span class="jn" style="color:var(--gold)">Int. J. of Precision Engineering and Manufacturing-Green Technology</span> · IF 5.6</div>
-          </div>
-        </div>
-        <a class="pub-line" href="https://doi.org/10.1016/j.engfailanal.2025.109945" target="_blank" style="border-color:rgba(255,255,255,.12)">
-          <div class="pub-line__yr">2025</div>
-          <div>
-            <div class="pub-line__t" style="color:#f3ece0">Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines<span class="scie">SCIE</span></div>
-            <div class="pub-line__m">R. M. Lee, J. C. Chen, <strong style="color:#d9cfc0">Jui-Hung Liu*</strong> · <span class="jn" style="color:var(--gold)">Engineering Failure Analysis</span> 181, 109945</div>
-          </div>
-        </a>
-        <a class="pub-line" href="https://doi.org/10.1080/23311916.2023.2253640" target="_blank" style="border-color:rgba(255,255,255,.12)">
-          <div class="pub-line__yr">2023</div>
-          <div>
-            <div class="pub-line__t" style="color:#f3ece0">Analysis and Comparison of Turbulence Models on Wind Turbine Performance using SCADA Data and Machine Learning<span class="scie">SCIE</span></div>
-            <div class="pub-line__m"><strong style="color:#d9cfc0">Jui-Hung Liu*</strong>, J. C. Chen, N. T. Corbita Jr. · <span class="jn" style="color:var(--gold)">Cogent Engineering</span> 10(1)</div>
-          </div>
-        </a>
-        <a class="pub-line" href="https://doi.org/10.3390/app12178661" target="_blank" style="border-color:rgba(255,255,255,.12)">
-          <div class="pub-line__yr">2022</div>
-          <div>
-            <div class="pub-line__t" style="color:#f3ece0">Wind Turbine Anomaly Detection Using Mahalanobis Distance and SCADA Alarm Data<span class="scie">SCIE</span></div>
-            <div class="pub-line__m"><strong style="color:#d9cfc0">Jui-Hung Liu*</strong>, N. T. Corbita Jr., R. M. Lee · <span class="jn" style="color:var(--gold)">Applied Sciences</span> 12, 8661</div>
-          </div>
-        </a>
-      </div>
+<div class="pub-strip" data-reveal><div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>42</b><span style="color:#a99e8e">期刊著作紀錄</span></div><div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>74</b><span style="color:#a99e8e">研討會論文紀錄</span></div><div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>3</b><span style="color:#a99e8e">已授權專利</span></div><div class="pub-stat" style="background:transparent;border-color:rgba(255,255,255,.15)"><b>1</b><span style="color:#a99e8e">預印本（另列）</span></div></div><div data-reveal><a class="pub-line" href="https://doi.org/10.29979/JCSME.202608_47(4).0002" target="_blank" rel="noopener" style="border-color:rgba(255,255,255,.12)"><div class="pub-line__yr">2026</div><div><div class="pub-line__t" style="color:#f3ece0">A Directional Consistency Analysis Framework for Performance Assessment of CMMs<span class="scie">正式出版</span></div><div class="pub-line__m">Jr-Rung Chen, Jui-Hung Liu, Sheng-Hsiang Hung, Ming-Xian Lin · <span class="jn" style="color:var(--gold)">Journal of the Chinese Society of Mechanical Engineers</span> · Vol. 47, No. 4, pp. 319–328 · 2026-08</div></div></a><a class="pub-line" href="https://doi.org/10.1038/s41598-026-59616-2" target="_blank" rel="noopener" style="border-color:rgba(255,255,255,.12)"><div class="pub-line__yr">2026</div><div><div class="pub-line__t" style="color:#f3ece0">Asymmetric cross-source retrieval transfer reveals the role of corpus semantic richness in industrial RAG systems for wind-turbine maintenance<span class="scie">正式出版</span></div><div class="pub-line__m">Jui-Hung Liu, Peng-Jen Chen, Jr-Rung Chen · <span class="jn" style="color:var(--gold)">Scientific Reports</span> · Vol. 16, Article 28939 · 23 June 2026</div></div></a><a class="pub-line" href="https://doi.org/10.1177/16878132261464392" target="_blank" rel="noopener" style="border-color:rgba(255,255,255,.12)"><div class="pub-line__yr">2026</div><div><div class="pub-line__t" style="color:#f3ece0">Predictive framework for detecting main bearing faults in direct-drive horizontal-axis wind turbines using supervisory control and data acquisition<span class="scie">正式出版</span></div><div class="pub-line__m">Jui-Hung Liu, Nelson T. Corbita Jr., Glenn B. Paclijan · <span class="jn" style="color:var(--gold)">Advances in Mechanical Engineering</span> · Vol. 18, No. 7, pp. 1–16 · 2026-07-02</div></div></a><a class="pub-line" href="https://doi.org/10.1007/s40684-026-00902-9" target="_blank" rel="noopener" style="border-color:rgba(255,255,255,.12)"><div class="pub-line__yr">2026</div><div><div class="pub-line__t" style="color:#f3ece0">Early Fault Warning Framework for Offshore Wind Turbine Pitch Systems Using Relief Feature Selection and SSA-Optimized SABiLSTM<span class="scie">正式出版</span></div><div class="pub-line__m">Yu-Jen Chen, Nong-Xiu Sun, Jui-Hung Liu · <span class="jn" style="color:var(--gold)">International Journal of Precision Engineering and Manufacturing-Green Technology</span> · Vol. 13, No. 5, pp. 2399–2419 · 2026-07-01</div></div></a></div>
     </div>
   </section>
 
@@ -434,6 +301,7 @@
     </div>
   </footer>
 
-  <script src="assets/editorial.js"></script>
+  <script src="assets/editorial.js?v=20261010"></script>
 </body>
 </html>
+
