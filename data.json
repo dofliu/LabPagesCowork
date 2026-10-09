@@ -82,19 +82,12 @@
       "name_zh": "教學內容工作站（影片／簡報／圖卡／在地化整合平台）",
       "category": "edtech",
       "technologies": [
-        "Python 3.10+",
-        "FastAPI / uvicorn",
-        "Pydantic v2",
-        "React 18 + TypeScript + Vite + Tailwind CSS",
-        "Flask (legacy v1 review UI, 已 redirect, 過渡期保留)",
-        "Gemini 2.5 Flash (Vision + Text + Image)",
-        "PyMuPDF",
-        "BeautifulSoup4 (URL adapter)",
-        "Edge TTS / F5-TTS / Google Cloud TTS (cmn-TW Wavenet)",
-        "Pillow / FFmpeg (含 hardsub subtitles filter)",
-        "Google YouTube Data API v3 + OAuth 2.0",
-        "pytest + GitHub Actions CI",
-        "structured logging (JSONL per-job)"
+        "Python",
+        "FastAPI",
+        "React",
+        "TypeScript",
+        "Gemini",
+        "FFmpeg"
       ],
       "last_updated": "2026-06-07",
       "description_zh": "整合教學影片、簡報、圖卡與在地化的內容製作工作站，探索生成式 AI 的教學素材工作流程。",
@@ -222,7 +215,7 @@
       "technologies": [
         "HTML5 Canvas",
         "JavaScript",
-        "Pixel Art (offscreen cache)",
+        "Pixel Art",
         "WebAudio chiptune"
       ],
       "last_updated": "2026-06-14",
@@ -243,7 +236,7 @@
         "Docker",
         "GCP Cloud Run"
       ],
-      "last_updated": "2026-06-03\"  # #27b epic「方向B」啟動 (1)：版型選單縮圖化（LayoutThumbnail 共用元件）",
+      "last_updated": "2026-06-03",
       "description_zh": "以生成式 AI 輔助圖卡、海報、簡報與視覺素材製作的工作站。",
       "status": "catalogued",
       "source_note": "既有專案紀錄；功能與狀態以後續公開資料為準。"
@@ -370,7 +363,7 @@
         "Dart",
         "Gemini AI",
         "SQLite",
-        "GPS (geolocator + geocoding)"
+        "GPS"
       ],
       "last_updated": "2026-10-10",
       "description_zh": "開發結合行動裝置、影像讀值、離線規則與結構化報告的巡檢流程，並探索風機葉片檢測；目前為待現場驗證的研究原型。",
@@ -428,16 +421,11 @@
       "name_zh": "企業級統一RAG研究平台",
       "category": "rag_knowledge",
       "technologies": [
-        "React 19",
+        "React",
         "TypeScript",
-        "Tailwind CSS",
-        "lucide-react",
-        "Gemini",
         "Qdrant",
         "FastAPI",
-        "Sentence-Transformers",
-        "Docker / Cloud Run",
-        "Sentry / OpenTelemetry (stub)"
+        "Sentence-Transformers"
       ],
       "last_updated": "2026-10-10",
       "description_zh": "整合檢索增強生成策略、知識庫與評測流程的研究平台，支援風電運維問答研究。相關跨來源檢索研究已發表於 Scientific Reports（2026），其他平台研究與實驗分別追蹤。",
@@ -485,15 +473,13 @@
       "name_zh": "益泰風場維運平台（z72 SCADA + etech CMS）",
       "category": "wind_energy",
       "technologies": [
-        "Nuxt 3",
-        "Vue 3",
-        "Koa 2",
-        "MongoDB 4.4",
-        "WebSocket (ws@8)",
-        "Java / z72bridge (Bachmann M1 PLC)",
-        "Element Plus",
-        "SQLite (z72bridge historian)",
-        "bcryptjs (A-R3 後)"
+        "Nuxt",
+        "Vue",
+        "Koa",
+        "MongoDB",
+        "WebSocket",
+        "Java",
+        "SQLite"
       ],
       "last_updated": "2026-05-30",
       "description_zh": "風場運維系統整合專案，探索 SCADA 資料、設備監控與運維流程。",
