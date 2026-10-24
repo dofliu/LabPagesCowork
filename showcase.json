@@ -1,0 +1,24 @@
+{
+  "updated": "2026-10-25",
+  "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
+  "items": [
+    {
+      "id": "windai-lab",
+      "title": "風力發電 AI 研究協作平台",
+      "tagline": "多代理協作，從 SCADA 到研究報告",
+      "category": "wind_energy",
+      "date": "2026-10-25",
+      "video": "assets/showcase/windai-lab.mp4",
+      "cover": "assets/showcase/windai-lab.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/windAI-Lab",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "React",
+        "LLM Agents"
+      ],
+      "duration": 30.1
+    }
+  ]
+}

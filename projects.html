@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DOF Lab 研究專案全集 — 風能 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈。">
   <title>專案成果 ｜ DOF Lab</title>
-  <link rel="stylesheet" href="assets/editorial.css">
+  <link rel="stylesheet" href="assets/editorial.css?v=20261025">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
@@ -21,6 +21,7 @@
         <li><a href="projects.html" class="active">專案成果</a></li>
         <li><a href="publications.html">研究發表</a></li>
         <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="news.html">最新公告</a></li>
         <li><a href="about.html">關於</a></li>
         <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
       </ul>
@@ -30,27 +31,30 @@
   <header class="page-head">
     <div class="wrap">
       <p class="kicker">Projects · 專案成果</p>
-      <h1>研究與開發專案<br>從問題到原型。</h1>
-      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與生產力工具鏈。以公開 repository、研究發表與既有專案紀錄整理；研究原型、開發狀態與正式出版分開呈現。<span id="projectCount"></span></p>
+      <h1>研究與開發專案<br>30 秒看懂一個專案。</h1>
+      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈。每個專案附一支 30 秒動畫導覽，點開卡片即可播放。<span id="projectCount"></span></p>
     </div>
   </header>
 
   <section class="section--tight">
     <div class="wrap">
-      <div class="tabs" id="cat-tabs">
-        <button disabled class="tab active" data-filter="all">全部</button>
-        <button disabled class="tab" data-filter="wind_energy">風力發電 AI</button>
-        <button disabled class="tab" data-filter="industrial_ai">工業 AI 巡檢</button>
-        <button disabled class="tab" data-filter="rag_knowledge">RAG 知識</button>
-        <button disabled class="tab" data-filter="edtech">教育科技</button>
-        <button disabled class="tab" data-filter="mcp_tools">MCP 工具鏈</button>
-        <button disabled class="tab" data-filter="personal_tools">生產力工具</button>
-      </div>
-      <div class="feat-grid" id="proj-grid" data-animate-block>
-        <p style="color:var(--muted)">載入專案中…</p>
+      <div class="tabs" id="cat-tabs" aria-label="依領域篩選"></div>
+      <div class="sc-grid" id="proj-grid" aria-live="polite">
+        <p class="sc-empty">載入專案中…</p>
       </div>
     </div>
   </section>
+
+  <dialog class="sc-modal" id="sc-modal" aria-label="專案動畫">
+    <button type="button" class="sc-modal__close" aria-label="關閉"><svg viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    <div class="sc-modal__box">
+      <video controls playsinline preload="none"></video>
+      <div class="sc-modal__meta">
+        <div><h2></h2><p></p><div class="sc-modal__tech"></div></div>
+        <a class="read-more sc-modal__src" target="_blank" rel="noopener" hidden></a>
+      </div>
+    </div>
+  </dialog>
 
   <footer class="footer">
     <div class="wrap">
@@ -81,20 +85,10 @@
     </div>
   </footer>
 
-  <script src="assets/editorial.js?v=20261010"></script>
+  <script src="assets/editorial.js?v=20261025"></script>
   <script>
-    DOFProjects.render('#proj-grid').then(function (ps) {
-      document.getElementById('projectCount').textContent = ps ? ` 目前收錄 ${ps.length} 個不重複專案，核對日期：2026-10-10。` : '';
-      var tabs = document.getElementById('cat-tabs');
-      if (ps) tabs.querySelectorAll('.tab').forEach(button=>button.disabled=false);
-      var cards = document.querySelectorAll('#proj-grid .feat');
-      tabs.addEventListener('click', function (e) {
-        var btn = e.target.closest('.tab'); if (!btn) return;
-        tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        btn.classList.add('active');
-        var f = btn.getAttribute('data-filter');
-        cards.forEach(c => { c.style.display = (f === 'all' || c.getAttribute('data-cat') === f) ? '' : 'none'; });
-      });
+    DOFShowcase.render('#proj-grid', '#cat-tabs').then(function (ps) {
+      if (ps && ps.length) document.getElementById('projectCount').textContent = ` 目前收錄 ${ps.length} 支專案動畫。`;
     });
   </script>
 </body>

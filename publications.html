@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="劉瑞弘副教授學術著作 — 期刊論文、研討會、專利與代表性競賽獲獎紀錄。">
   <title>研究發表 ｜ DOF Lab</title>
-  <link rel="stylesheet" href="assets/editorial.css">
+  <link rel="stylesheet" href="assets/editorial.css?v=20261025">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
   <style>
@@ -27,6 +27,7 @@
         <li><a href="projects.html">專案成果</a></li>
         <li><a href="publications.html" class="active">研究發表</a></li>
         <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="news.html">最新公告</a></li>
         <li><a href="about.html">關於</a></li>
         <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
       </ul>
@@ -73,7 +74,7 @@
     </div>
   </footer>
 
-  <script src="assets/editorial.js?v=20261010"></script>
+  <script src="assets/editorial.js?v=20261025"></script>
   <script>
     const GROUPS = [
       { key:'journal',    label:'期刊論文 Journal Papers', icon:'fa-book-open' },
@@ -99,7 +100,7 @@
         </div>
       </article>`;
     }
-    fetch('publications.json?v=20261010').then(r=>r.json()).then(data=>{
+    fetch('publications.json?v=20261025').then(r=>r.json()).then(data=>{
       // 更新日期
       if(data._updated) document.getElementById('updatedNote').innerHTML =
         `<i class="fas fa-rotate"></i> 資料更新：${esc(data._updated)}；${esc(data._note || '')}（來源：<a href="${esc(data._source)}" target="_blank" rel="noopener">個人著作網站 ↗</a>）`;

@@ -26,6 +26,7 @@
         <li><a href="projects.html">專案成果</a></li>
         <li><a href="publications.html">研究發表</a></li>
         <li><a href="blog.html">研究日誌</a></li>
+        <li><a href="news.html">最新公告</a></li>
         <li><a href="about.html">關於</a></li>
         <li><a href="contact.html" class="btn btn--rust nav__cta">聯絡 <i class="fas fa-arrow-right"></i></a></li>
       </ul>
@@ -86,6 +87,20 @@
     </div>
   </section>
 
+  <!-- ===================== ANNOUNCEMENTS ===================== -->
+  <section class="section--tight" id="news" aria-labelledby="news-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-head__l">
+          <p class="kicker">News · 最新公告</p>
+          <h2 class="section-title" id="news-title">最新公告</h2>
+        </div>
+        <a href="news.html" class="btn btn--ghost">全部公告 <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="news-list" id="home-news"></div>
+    </div>
+  </section>
+
   <!-- ===================== MARQUEE ===================== -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
@@ -119,7 +134,7 @@
           <p class="kicker">02 — Selected Work</p>
           <h2 class="section-title">精選研究成果</h2>
         </div>
-        <a href="projects.html" class="btn btn--ghost">全部 34 個專案 <i class="fas fa-arrow-right"></i></a>
+        <a href="projects.html" class="btn btn--ghost">所有專案動畫 <i class="fas fa-arrow-right"></i></a>
       </div>
 
       <div class="feat-grid"><article class="feat feat--lg" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-diagram-project ico"></i><span class="badge">相關論文已發表 · 平台研究中</span></div><div class="feat__tags"><span class="tag">RAG 知識管理</span></div><h3>企業級統一RAG研究平台</h3><p class="feat__desc">整合檢索增強生成策略、知識庫與評測流程的研究平台，支援風電運維問答研究。相關跨來源檢索研究已發表於 Scientific Reports（2026），其他平台研究與實驗分別追蹤。</p><div class="feat__foot"><a href="https://www.nature.com/articles/s41598-026-59616-2" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--sm" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">開發中</span></div><div class="feat__tags"><span class="tag">風力發電 AI</span></div><h3>風心智運維平台</h3><p class="feat__desc">整合風場監控、工單與庫存派工、成本計算、報表及警報手冊檢索，支援運維管理與現場操作的研究開發平台。</p><div class="feat__foot"><a href="https://github.com/dofliu/windMindOM/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--third" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">研究進行中</span></div><div class="feat__tags"><span class="tag">風力發電 AI</span></div><h3>風力發電 AI 研究協作平台</h3><p class="feat__desc">以可組合技能與多代理工作流程串接 SCADA 資料整理、狀態監測、功率建模與研究報告。公開程式碼供研究與教學使用。</p><div class="feat__foot"><a href="https://github.com/dofliu/windAI-Lab/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--third" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-industry ico"></i><span class="badge">研究原型</span></div><div class="feat__tags"><span class="tag">工業 AI 巡檢</span></div><h3>工業智慧巡檢原型</h3><p class="feat__desc">開發結合行動裝置、影像讀值、離線規則與結構化報告的巡檢流程，並探索風機葉片檢測；目前為待現場驗證的研究原型。</p><div class="feat__foot"><a href="https://github.com/dofliu/InduSpect/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article><article class="feat feat--third" data-reveal><div class="feat__cover feat__cover--forest"><i class="fas fa-wind ico"></i><span class="badge">教學試用</span></div><div class="feat__tags"><span class="tag">教育科技</span></div><h3>離岸風電運維教學模擬</h3><p class="feat__desc">以合成 SCADA／CMS 情境與關卡式任務呈現風場操作、維修決策及工程指標，提供教學試用與流程演練。</p><div class="feat__foot"><a href="https://github.com/dofliu/windFarmOMII/blob/main/README.md" target="_blank" rel="noopener" class="read-more">公開來源 ↗</a></div></article></div>
@@ -301,7 +316,8 @@
     </div>
   </footer>
 
-  <script src="assets/editorial.js?v=20261010"></script>
+  <script src="assets/editorial.js?v=20261025"></script>
+  <script>DOFNews.render('#home-news', { limit: 4, hideEmpty: document.getElementById('news') });</script>
 </body>
 </html>
 

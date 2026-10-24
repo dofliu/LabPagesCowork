@@ -48,7 +48,25 @@ def validate():
     funding = read('research-projects.json')
     assert funding['records'] and all(p.get('status') and p.get('source_url') for p in funding['records'])
 
-    for filename in ('index.html', 'projects.html', 'publications.html', 'research.html', 'dashboard.html', 'map.html'):
+    showcase = read('showcase.json')
+    ids = [p['id'] for p in showcase['items']]
+    assert len(ids) == len(set(ids)), 'showcase.json: duplicate id'
+    for item in showcase['items']:
+        assert item['title'] and item['tagline'], item['id']
+        assert len(item['tagline']) <= 20, (item['id'], 'tagline > 20 chars')
+        assert re.fullmatch(r'\d{4}-\d{2}-\d{2}', item['date']), item['id']
+        for key in ('video', 'cover'):
+            assert (ROOT / item[key]).exists(), (item['id'], item[key])
+        assert not item.get('source_url') or item['source_url'].startswith('https://'), item['id']
+
+    news = read('announcements.json')
+    nids = [n['id'] for n in news['items']]
+    assert len(nids) == len(set(nids)), 'announcements.json: duplicate id'
+    for n in news['items']:
+        assert n['title'] and re.fullmatch(r'\d{4}-\d{2}-\d{2}', n['date']), n['id']
+        assert not n.get('link') or n['link'].startswith('https://'), n['id']
+
+    for filename in ('index.html', 'projects.html', 'news.html', 'publications.html', 'research.html', 'dashboard.html', 'map.html'):
         text = (ROOT / filename).read_text(encoding='utf-8')
         parser = HTMLParser()
         parser.feed(text)
@@ -56,7 +74,7 @@ def validate():
         assert not FORBIDDEN.search(text), filename
         assert not re.search(r'F1\s*=\s*1\.0|R²\s*=\s*0\.997|24期刊', text), filename
 
-    print(f"PASS: {projects['total']} public project records; " + ', '.join(f'{len(pubs[g])} {g}' for g in GROUPS) + f"; {len(funding['records'])} funding records")
+    print(f"PASS: {projects['total']} public project records; " + ', '.join(f'{len(pubs[g])} {g}' for g in GROUPS) + f"; {len(funding['records'])} funding records; {len(showcase['items'])} showcase videos; {len(news['items'])} announcements")
 
 
 if __name__ == '__main__':
