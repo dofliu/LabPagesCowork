@@ -77,7 +77,7 @@ def validate():
         assert not FORBIDDEN.search(text), filename
         assert not re.search(r'F1\s*=\s*1\.0|R²\s*=\s*0\.997|24期刊', text), filename
 
-    print(f"PASS: {projects['total']} public project records; " + ', '.join(f'{len(pubs[g])} {g}' for g in GROUPS) + f"; {len(funding['records'])} funding records; {len(showcase['items'])} showcase videos; {len(news['items'])} announcements")
+    print(f"PASS: {projects['total']} public project records; " + ', '.join(f'{len(pubs[g])} {g}' for g in GROUPS) + f"; {len(funding['records'])} funding records; {sum(1 for g in GROUPS for p in pubs[g] if p.get('video_id'))} paper videos; {len(showcase['items'])} showcase videos; {len(news['items'])} announcements")
 
 
 if __name__ == '__main__':
