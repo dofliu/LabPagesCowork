@@ -106,6 +106,8 @@ def project_add(a) -> None:
         "source_url": check_url(a.source_url),
         "tech": a.tech or [],
         "repo": a.repo or "",
+        **({"repo_hash": __import__("hashlib").sha256(a.private_repo.strip().lower().encode()).hexdigest()[:16]}
+           if a.private_repo else {}),
         "duration": video_duration(ROOT / "assets" / "showcase" / f"{a.id}.mp4"),
     }
     if a.featured:
@@ -248,7 +250,8 @@ def main() -> int:
     p.add_argument("--category", choices=CATEGORIES, default="other")
     p.add_argument("--source-type", choices=SOURCE_TYPES, default="repo")
     p.add_argument("--source-url"); p.add_argument("--date")
-    p.add_argument("--repo", help="owner/repo（私人 repo 不放 source-url 時，靠這欄判斷已做過）")
+    p.add_argument("--repo", help="公開 repo 的 owner/repo")
+    p.add_argument("--private-repo", help="私人 repo 的 owner/repo：只存雜湊（repo_hash），名稱不寫進公開網站")
     p.add_argument("--tech", action="append"); p.add_argument("--featured", action="store_true")
     p.set_defaults(fn=project_add)
     p = pr.add_parser("remove"); p.add_argument("--id", required=True); p.set_defaults(fn=project_remove)

@@ -164,18 +164,27 @@ python3 tools/showcase/site_update.py pub video --group journal --match "標題�
 
 ## A6. 每日自動模式（排程用：從最近有活動的 repo 挑一個還沒做的）
 
+排程 session **沒有** list_repos／add_repo 工具，GitHub 帳號層級 API 也被擋。所以：
+- **公開** repo 名冊存在 `tools/showcase/repos.json`；匿名 `git clone` 就能讀。
+- **私人** repo 名單**不存進網站 repo**（網站 repo 是公開的），寫在排程任務的指示裡，執行時用 `--private` 傳入；
+  這些私人 repo 已在建立排程任務時以唯讀附加給任務。
+
 ```bash
-# 1) 用 list_repos 工具（limit 200）取得 repo 清單，把回傳 JSON 原樣寫到 <scratchpad>/repos.json
-python3 tools/showcase/auto_pick.py <scratchpad>/repos.json --list 5     # 檢視候選
-python3 tools/showcase/auto_pick.py <scratchpad>/repos.json              # {"next": "dofliu/xxx", "visibility": ...}
+python3 tools/showcase/auto_pick.py --refresh --private "<逗號分隔的私人 repo>"          # 約 10 秒 → {"next": ...}
+python3 tools/showcase/auto_pick.py --refresh --private "<...>" --list 5                  # 檢視候選
 ```
-- 排除：showcase.json 已有的（比對 `repo` 欄與 `source_url`）、fork、`tools/showcase/auto_skip.json`。依 pushed_at 由新到舊。
-- 取 `next` → add_repo（public 用 read；private 用 push）→ clone → 照 A1–A5 製作（私人 repo 套用上面的私人規則）。
-- **內容不足**（README 幾乎空白、只有範本、無法說清楚做什麼）→
-  `python3 tools/showcase/auto_pick.py --skip dofliu/xxx --reason "<原因>"`，再挑下一個；一次執行最多試 3 個。
-- 一次只做 **1 支**。`id` 用 repo 名轉小寫（非英數換成 -）。用 `batch_render.sh projects <W> <mood> <id>` 背景渲染。
-- 完成後照 D 驗證、commit（`showcase: add <id> 30s video (auto)`）、push main；最後回覆交代做了哪個 repo、剩幾個候選、有沒有跳過哪些。
+- 排除：showcase.json 已有的（公開比對 `repo`／`source_url`，私人比對 `repo_hash`）、fork、`tools/showcase/auto_skip.json`。依活動時間由新到舊。
+- 取得原始碼：`git clone --depth 1 https://github.com/<owner>/<repo> <暫存區>/src/<repo>`。
+- 跳過（內容不足、或私人 repo clone 失敗＝建立任務後才新增）：`auto_pick.py --private "<...>" --skip <repo> --reason "<原因>"`
+  （私人 repo 只會記雜湊）。一次最多試 3 個。
+- 寫入網站：公開 repo 用 `--repo owner/repo --source-url https://github.com/...`；
+  私人 repo 用 `--private-repo owner/repo`（只存雜湊），**不給** `--repo`、`--source-url`。
+  **任何公開檔案（commit 訊息、showcase.json、場景 HTML、影片）都不得出現私人 repo 的名稱**；commit 訊息用卡片 id。
+  私人 repo 的 `id` 與卡片標題要依功能另取（例：`wind-blade-design-lab`），不要直接用 repo 名。
+- 一次只做 **1 支**；`batch_render.sh projects <W> <mood> <id>` 背景渲染；完成後照 D 驗證、commit（`showcase: add <id> 30s video (auto)`）、push main。
 - `next` 為 null（全部做完）→ 不做任何變更，回覆建議停用排程。
+- 互動 session（有 list_repos 工具）更新公開名冊：list_repos 輸出存檔後 `auto_pick.py --merge <檔案>`（私人 repo 會自動略過）。
+  新建立的**私人** repo 要重建排程任務（附加＋寫進指示）才會被納入。
 
 ## C. 公告
 

@@ -1,0 +1,294 @@
+{
+  "repos": [
+    {
+      "full_name": "dofliu/windfarmTaiwan",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T16:30:58Z"
+    },
+    {
+      "full_name": "dofliu/controlBoardTwin",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T15:01:15Z"
+    },
+    {
+      "full_name": "dofliu/taiwanPowerWatch",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T16:52:49Z"
+    },
+    {
+      "full_name": "dofliu/windMindOM",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T12:24:54Z"
+    },
+    {
+      "full_name": "dofliu/renewable-energy-animations",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T12:23:55Z"
+    },
+    {
+      "full_name": "dofliu/LabPagesCowork",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T16:39:01Z"
+    },
+    {
+      "full_name": "dofliu/AnyDocument",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-25T00:49:25Z"
+    },
+    {
+      "full_name": "dofliu/PLC_ST_Auto",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-24T21:00:48Z"
+    },
+    {
+      "full_name": "dofliu/windAI-Lab",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-21T05:35:05Z"
+    },
+    {
+      "full_name": "dofliu/ai-stock-prediction",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-24T06:52:03Z"
+    },
+    {
+      "full_name": "dofliu/bladeDesignNumericalTools",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-24T02:03:56Z"
+    },
+    {
+      "full_name": "dofliu/cleanyourtv",
+      "visibility": "public",
+      "fork": true,
+      "pushed_at": "2026-10-23T08:01:15Z"
+    },
+    {
+      "full_name": "dofliu/dofLab-courses",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-23T01:45:34Z"
+    },
+    {
+      "full_name": "dofliu/ragTutor",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-22T21:42:22Z"
+    },
+    {
+      "full_name": "dofliu/activityTracker",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-13T13:43:38Z"
+    },
+    {
+      "full_name": "dofliu/KaraTube",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-08T20:44:13Z"
+    },
+    {
+      "full_name": "dofliu/windFarm-Go",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-07T21:09:39Z"
+    },
+    {
+      "full_name": "dofliu/DofHomepages",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-07T00:59:18Z"
+    },
+    {
+      "full_name": "dofliu/windFarmOMII",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-06T14:17:06Z"
+    },
+    {
+      "full_name": "dofliu/robotMan",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-10-01T04:54:37Z"
+    },
+    {
+      "full_name": "dofliu/InduSpect",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-09-29T13:46:06Z"
+    },
+    {
+      "full_name": "dofliu/eduStudio",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-09-13T06:37:13Z"
+    },
+    {
+      "full_name": "dofliu/iPassAI",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-09-13T05:45:07Z"
+    },
+    {
+      "full_name": "dofliu/wind-agent-30",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-09-04T16:20:52Z"
+    },
+    {
+      "full_name": "dofliu/Sensei",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-09-04T05:59:42Z"
+    },
+    {
+      "full_name": "dofliu/scanmail-bot",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-09-01T14:39:00Z"
+    },
+    {
+      "full_name": "dofliu/nihonLearn",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-08-30T17:29:24Z"
+    },
+    {
+      "full_name": "dofliu/CSI_Sense",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-07-25T05:57:29Z"
+    },
+    {
+      "full_name": "dofliu/WindFarm-Battle",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-07-14T04:05:33Z"
+    },
+    {
+      "full_name": "dofliu/light-saber",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-07-03T00:03:11Z"
+    },
+    {
+      "full_name": "dofliu/courseGrade",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-06-23T06:41:40Z"
+    },
+    {
+      "full_name": "dofliu/zImageUI",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-06-20T17:18:22Z"
+    },
+    {
+      "full_name": "dofliu/ArcadeHub",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-06-17T05:00:20Z"
+    },
+    {
+      "full_name": "dofliu/aiEmailAssistant",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-04-15T07:25:09Z"
+    },
+    {
+      "full_name": "dofliu/RAG_TurboQuart",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-06-08T02:01:55Z"
+    },
+    {
+      "full_name": "dofliu/digiWindFarm",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-05-03T01:36:46Z"
+    },
+    {
+      "full_name": "dofliu/easy-dataset",
+      "visibility": "public",
+      "fork": true,
+      "pushed_at": "2026-04-24T00:43:55Z"
+    },
+    {
+      "full_name": "dofliu/myPicasa",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-04-11T14:04:49Z"
+    },
+    {
+      "full_name": "dofliu/PendulumPIDSimu",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-04-11T05:20:09Z"
+    },
+    {
+      "full_name": "dofliu/transGemma",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-04-11T03:24:13Z"
+    },
+    {
+      "full_name": "dofliu/RAG_Chunk",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-04-02T10:21:22Z"
+    },
+    {
+      "full_name": "dofliu/myGitQuickView",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-03-08T06:33:56Z"
+    },
+    {
+      "full_name": "dofliu/expense-auto",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2026-02-28T17:03:41Z"
+    },
+    {
+      "full_name": "dofliu/Text-Driven-Arduino-Generator",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2025-12-03T05:52:49Z"
+    },
+    {
+      "full_name": "dofliu/modbusMcpAuto",
+      "visibility": "public",
+      "fork": false,
+      "pushed_at": "2025-10-20T12:18:43Z"
+    },
+    {
+      "full_name": "dofliu/opcua-mcp",
+      "visibility": "public",
+      "fork": true,
+      "pushed_at": "2025-08-17T16:54:15Z"
+    },
+    {
+      "full_name": "dofliu/openopc2",
+      "visibility": "public",
+      "fork": true,
+      "pushed_at": "2025-05-27T15:13:55Z"
+    },
+    {
+      "full_name": "dofliu/modbus-mcp",
+      "visibility": "public",
+      "fork": true,
+      "pushed_at": "2025-05-15T00:11:07Z"
+    }
+  ],
+  "updated": "2026-10-26",
+  "refreshed": "2026-10-25T16:57:12Z"
+}
