@@ -14,6 +14,8 @@
 
 研究發表（publications.json）
   python tools/showcase/site_update.py pub add --group journal --json '{"year":"2026","title":"...", ...}'
+  python tools/showcase/site_update.py pub add --group journal --json '{...}' --video-id <id>   # 同時掛動畫
+  python tools/showcase/site_update.py pub video --group journal --match "標題關鍵字" --id <id>   # 既有論文補動畫
   python tools/showcase/site_update.py pub list --group journal [--limit 5]
 
 公告訊息（announcements.json）
@@ -151,6 +153,11 @@ def pub_add(a) -> None:
     if g in ("preprint", "accepted"):
         status = g
     rec["status"] = status
+    if a.video_id:
+        for ext in ("mp4", "jpg"):
+            if not (ROOT / "assets" / "papers" / f"{a.video_id}.{ext}").exists():
+                sys.exit(f"找不到 assets/papers/{a.video_id}.{ext}，請先出片（make_web.py --dir papers）")
+        rec["video_id"] = a.video_id
     rec.setdefault("verification", "publisher_verified" if rec.get("doi") else "personal_site_record")
     data = load("publications.json")
     items = data[g]
@@ -171,6 +178,25 @@ def update_home_stats(pubs: dict) -> None:
         t = re.sub(r'(<div class="stat__no">)\d+(</div><div class="stat__label">' + label + ")",
                    lambda m: f"{m.group(1)}{len(pubs[g])}{m.group(2)}", t)
     idx.write_text(t, encoding="utf-8")
+
+
+def pub_video(a) -> None:
+    """替既有論文掛上（或用 --remove 拿掉）動畫。"""
+    data = load("publications.json")
+    hits = [p for p in data[a.group] if a.match.lower() in (p.get("title") or "").lower()]
+    if len(hits) != 1:
+        sys.exit(f"--match 需剛好對到 1 筆，現在對到 {len(hits)} 筆：" + "; ".join(p["title"][:50] for p in hits[:5]))
+    p = hits[0]
+    if a.remove:
+        p.pop("video_id", None)
+    else:
+        for ext in ("mp4", "jpg"):
+            if not (ROOT / "assets" / "papers" / f"{a.id}.{ext}").exists():
+                sys.exit(f"找不到 assets/papers/{a.id}.{ext}")
+        p["video_id"] = a.id
+    data["_updated"] = TODAY
+    save("publications.json", data)
+    print(("－ 移除" if a.remove else "▶ 掛上") + f"動畫：{p['title'][:60]}")
 
 
 def pub_list(a) -> None:
@@ -228,7 +254,11 @@ def main() -> int:
 
     pu = sub.add_parser("pub").add_subparsers(dest="op", required=True)
     p = pu.add_parser("add"); p.add_argument("--group", choices=PUB_GROUPS, required=True)
-    p.add_argument("--json", required=True); p.set_defaults(fn=pub_add)
+    p.add_argument("--json", required=True); p.add_argument("--video-id", help="assets/papers/<id>.mp4 已出片時同步掛上")
+    p.set_defaults(fn=pub_add)
+    p = pu.add_parser("video"); p.add_argument("--group", choices=PUB_GROUPS, default="journal")
+    p.add_argument("--match", required=True, help="標題關鍵字（需唯一）"); p.add_argument("--id")
+    p.add_argument("--remove", action="store_true"); p.set_defaults(fn=pub_video)
     p = pu.add_parser("list"); p.add_argument("--group", choices=PUB_GROUPS, default="journal")
     p.add_argument("--limit", type=int, default=10); p.set_defaults(fn=pub_list)
 

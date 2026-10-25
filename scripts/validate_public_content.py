@@ -41,6 +41,9 @@ def validate():
         for publication in items:
             assert publication['title'] and publication.get('source_url')
             assert not re.search(r'under review|submitted|draft', publication.get('status', ''), re.I)
+            if publication.get('video_id'):
+                for ext in ('mp4', 'jpg'):
+                    assert (ROOT / 'assets' / 'papers' / f"{publication['video_id']}.{ext}").exists(), (publication['video_id'], ext)
             if group == 'journal':
                 assert publication['status'] == 'published'
             elif group in ('preprint', 'accepted'):

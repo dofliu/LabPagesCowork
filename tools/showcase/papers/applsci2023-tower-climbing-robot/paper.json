@@ -1,0 +1,64 @@
+{
+  "id": "applsci2023-tower-climbing-robot",
+  "kicker": "APPLIED SCIENCES · 2023",
+  "title_zh": [
+    "風機塔架",
+    "攀爬機器人原型"
+  ],
+  "title_en": "A Wind Turbine Tower Climbing Robot Prototype Operating at Various Speeds and Payload Capacity: Development and Validation",
+  "hook": "讓機器人代替人力爬上風機塔架",
+  "problem": {
+    "heading": "塔架作業高風險",
+    "items": [
+      [
+        "🧗",
+        "人員攀爬高空作業"
+      ],
+      [
+        "🏗️",
+        "塔架高大且為曲面"
+      ],
+      [
+        "🤖",
+        "需要可靠的附著與移動"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "機構設計與驗證",
+    "steps": [
+      "四輪驅動",
+      "Bowden 纜線纏繞",
+      "Arduino 控制",
+      "距離感測",
+      "運動與動力分析"
+    ]
+  },
+  "results": {
+    "heading": "有無負載都能爬升",
+    "items": [
+      {
+        "value": "多種速度",
+        "label": "室內塔架模型實測"
+      },
+      {
+        "value": "載重測試",
+        "label": "有／無負載皆有效"
+      },
+      {
+        "value": "纏繞機構",
+        "label": "穩定附著塔架"
+      }
+    ]
+  },
+  "cta": {
+    "venue": "Applied Sciences · Vol. 13 No. 3 · 2023",
+    "authors": "Kathleen Padrigalan, Jui-Hung Liu",
+    "doi": "10.3390/app13031381",
+    "chips": [
+      "🤖 機器人",
+      "🗼 塔架",
+      "⚙️ 機構設計"
+    ]
+  }
+}

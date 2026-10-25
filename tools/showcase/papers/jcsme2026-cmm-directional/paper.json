@@ -1,0 +1,66 @@
+{
+  "id": "jcsme2026-cmm-directional",
+  "kicker": "JCSME · 2026",
+  "title_zh": [
+    "三次元量測儀",
+    "方向一致性評估框架"
+  ],
+  "title_en": "A Directional Consistency Analysis Framework for Performance Assessment of CMMs",
+  "hook": "找出 CMM 在哪個量測方向出了問題",
+  "problem": {
+    "heading": "校正報告看不出方向誤差",
+    "items": [
+      [
+        "📄",
+        "校正證書只給整體結果"
+      ],
+      [
+        "📊",
+        "Gage R&R 是彙總指標"
+      ],
+      [
+        "🧭",
+        "特定方向的偏差被平均掉"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "七個方向逐一比對",
+    "steps": [
+      "五台 CMM",
+      "規塊與標準球",
+      "七方向各量三次",
+      "同儕比對",
+      "方向指標"
+    ],
+    "note": "400 mm 規塊＋30 mm 標準球，留一法同儕比對"
+  },
+  "results": {
+    "heading": "精準定位異常方向",
+    "items": [
+      {
+        "value": "12.23 µm",
+        "label": "受監控 CMM 方向誤差範圍"
+      },
+      {
+        "value": "42.9%",
+        "label": "讀值超出篩選界限"
+      },
+      {
+        "value": "3 個方向",
+        "label": "觸發警示：Y、ZX±45°"
+      }
+    ],
+    "note": "篩選帶在 ±2.0～±3.5 µm 間變動，維護優先順序不變"
+  },
+  "cta": {
+    "venue": "Journal of the Chinese Society of Mechanical Engineers · Vol. 47 No. 4",
+    "authors": "Jr-Rung Chen, Jui-Hung Liu, Sheng-Hsiang Hung, Ming-Xian Lin",
+    "doi": "10.29979/JCSME.202608_47(4).0002",
+    "chips": [
+      "📐 量測品質",
+      "🧭 方向診斷",
+      "🔧 維護優先"
+    ]
+  }
+}

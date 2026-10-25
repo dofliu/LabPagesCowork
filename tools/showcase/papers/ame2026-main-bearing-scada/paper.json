@@ -1,0 +1,65 @@
+{
+  "id": "ame2026-main-bearing-scada",
+  "kicker": "ADV. MECH. ENG. · 2026",
+  "title_zh": [
+    "直驅風機主軸承",
+    "故障預測框架"
+  ],
+  "title_en": "Predictive framework for detecting main bearing faults in direct-drive horizontal-axis wind turbines using SCADA",
+  "hook": "不靠昂貴振動監測，用 SCADA 及早發現軸承故障",
+  "problem": {
+    "heading": "主軸承故障代價高",
+    "items": [
+      [
+        "⚙️",
+        "主軸承與發電機軸承一體"
+      ],
+      [
+        "⏱️",
+        "故障造成長時間停機"
+      ],
+      [
+        "💸",
+        "振動監測系統成本高"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "以溫度建立正常模型",
+    "steps": [
+      "資料清洗",
+      "相關性選特徵",
+      "四種迴歸模型",
+      "±2σ 偏差監測",
+      "月度健康分數"
+    ],
+    "note": "Pearson 相關挑出 6 個預測發電機軸承溫度的變數"
+  },
+  "results": {
+    "heading": "持續偏離＝早期警訊",
+    "items": [
+      {
+        "value": "健康機組",
+        "label": "始終在預測區間內"
+      },
+      {
+        "value": "故障機組",
+        "label": "持續偏離 ±2 標準差"
+      },
+      {
+        "value": "月度分數",
+        "label": "故障紀錄未報前就能標示"
+      }
+    ]
+  },
+  "cta": {
+    "venue": "Advances in Mechanical Engineering · 2026",
+    "authors": "Jui-Hung Liu, Nelson T. Corbita Jr., Glenn B. Paclijan",
+    "doi": "10.1177/16878132261464392",
+    "chips": [
+      "⚙️ 主軸承",
+      "📊 SCADA",
+      "🛠️ 預知保養"
+    ]
+  }
+}

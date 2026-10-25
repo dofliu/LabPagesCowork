@@ -1,0 +1,65 @@
+{
+  "id": "sr2026-rag-transfer",
+  "kicker": "SCIENTIFIC REPORTS · 2026",
+  "title_zh": [
+    "工業 RAG 的",
+    "跨來源檢索遷移"
+  ],
+  "title_en": "Asymmetric cross-source retrieval transfer reveals the role of corpus semantic richness in industrial RAG systems for wind-turbine maintenance",
+  "hook": "語意更豐富的語料，比同領域資料更有用",
+  "problem": {
+    "heading": "工業 RAG 缺訓練資料",
+    "items": [
+      [
+        "🏭",
+        "目標廠牌資料往往不足"
+      ],
+      [
+        "📚",
+        "各廠牌技術文件差異大"
+      ],
+      [
+        "❓",
+        "哪種語料最能幫檢索？"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "3 × 4 因子實驗",
+    "steps": [
+      "風機技術文件",
+      "12 組嵌入設定",
+      "跨廠牌微調",
+      "檢索評估"
+    ],
+    "note": "另比較 5 種多來源混合策略與 3 個單一廠牌基準"
+  },
+  "results": {
+    "heading": "非對稱遷移現象",
+    "items": [
+      {
+        "value": "0.790",
+        "label": "跨來源微調 MRR（vs 0.701）"
+      },
+      {
+        "value": "+48.2%",
+        "label": "安全關鍵查詢提升"
+      },
+      {
+        "value": "混合≠更好",
+        "label": "直接合併多來源反而退步"
+      }
+    ],
+    "note": "作者註：此為兩廠牌基準中觀察到的現象，普遍性仍待驗證"
+  },
+  "cta": {
+    "venue": "Scientific Reports · 2026",
+    "authors": "Jui-Hung Liu, Peng-Jen Chen, Jr-Rung Chen",
+    "doi": "10.1038/s41598-026-59616-2",
+    "chips": [
+      "🔎 RAG 檢索",
+      "🌬️ 風機運維",
+      "📈 嵌入微調"
+    ]
+  }
+}

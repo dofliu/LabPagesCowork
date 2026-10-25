@@ -1,0 +1,66 @@
+{
+  "id": "wes2026-pca-scada-preprint",
+  "kicker": "WIND ENERGY SCIENCE DISCUSSIONS · 2026",
+  "title_zh": [
+    "時序校準 PCA",
+    "SCADA 健康監測基準"
+  ],
+  "title_en": "Chronologically calibrated PCA for wind-turbine SCADA health monitoring: a leakage-controlled CARE v6 benchmark",
+  "hook": "嚴格避免資料洩漏，公平評估風機異常偵測",
+  "problem": {
+    "heading": "異常偵測評估易失真",
+    "items": [
+      [
+        "💧",
+        "訓練測試資料洩漏"
+      ],
+      [
+        "🎯",
+        "門檻常用測試資料調"
+      ],
+      [
+        "⚖️",
+        "方法比較不公平"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "鎖定測試集的評估流程",
+    "steps": [
+      "CARE v6",
+      "先鎖測試集",
+      "PCA 重建誤差",
+      "保形門檻",
+      "叢集 Bootstrap"
+    ],
+    "note": "36 部風機、3 座風場、約 524 萬筆 10 分鐘資料"
+  },
+  "results": {
+    "heading": "鎖定測試集結果",
+    "items": [
+      {
+        "value": "0.506",
+        "label": "CARE 分數（對照 0.252）"
+      },
+      {
+        "value": "17→4",
+        "label": "誤報事件"
+      },
+      {
+        "value": "5 / 18",
+        "label": "偵測到的異常事件"
+      }
+    ],
+    "note": "預印本，非正式期刊出版；作者註：不代表 PCA 普遍優於其他方法"
+  },
+  "cta": {
+    "venue": "Wind Energy Science Discussions（預印本）· 2026",
+    "authors": "Jui-Hung Liu, Jien-Chen Chen, Chun-Chieh Wang",
+    "doi": "10.5194/wes-2026-145",
+    "chips": [
+      "📊 SCADA",
+      "🔍 異常偵測",
+      "⚖️ 公平基準"
+    ]
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "jcsme2026-power-law-reliability",
+  "kicker": "JCSME · 2026",
+  "title_zh": [
+    "冪次法則過程",
+    "風場可靠度分析"
+  ],
+  "title_en": "Application of the Power Law Process in the Reliability Analysis of a Wind Farm: A Case Study Approach",
+  "hook": "用警報紀錄算出哪部風機最可靠、哪部最需要關注",
+  "problem": {
+    "heading": "大型風機需要失效分析",
+    "items": [
+      [
+        "🌬️",
+        "風電成為主要電源"
+      ],
+      [
+        "🚨",
+        "警報資料量大難判讀"
+      ],
+      [
+        "❓",
+        "整座風場可靠度如何？"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "從警報到可靠度",
+    "steps": [
+      "SCADA 資料",
+      "警報紀錄",
+      "故障診斷",
+      "冪次法則模型",
+      "可靠度排序"
+    ]
+  },
+  "results": {
+    "heading": "風場可靠度正在下降",
+    "items": [
+      {
+        "value": "可靠度排名",
+        "label": "找出最／最不可靠機組"
+      },
+      {
+        "value": "短期內",
+        "label": "失效機率偏高"
+      },
+      {
+        "value": "定期維護",
+        "label": "監測與保養的重要性"
+      }
+    ]
+  },
+  "cta": {
+    "venue": "Journal of the Chinese Society of Mechanical Engineers · Vol. 47 No. 3",
+    "authors": "Jui-Hung Liu, Nelson T. Corbita Jr., Glenn B. Paclijan, Jave Rahayne A. Bantuas",
+    "doi": "10.29979/JCSME.202606_47(3).0004",
+    "chips": [
+      "📉 可靠度",
+      "🚨 警報分析",
+      "🌬️ 風場案例"
+    ]
+  }
+}

@@ -11,7 +11,8 @@
       "source_url": "https://journal.csme.org.tw/vol_file.aspx?fid=20260831115953&lang=en",
       "verification": "publisher_verified",
       "index": "SCIE",
-      "metric": ""
+      "metric": "",
+      "video_id": "jcsme2026-cmm-directional"
     },
     {
       "year": "2026",
@@ -24,7 +25,8 @@
       "source_url": "https://www.nature.com/articles/s41598-026-59616-2",
       "verification": "publisher_verified",
       "index": "SCIE",
-      "metric": ""
+      "metric": "",
+      "video_id": "sr2026-rag-transfer"
     },
     {
       "year": "2026",
@@ -37,7 +39,8 @@
       "doi": "https://doi.org/10.1177/16878132261464392",
       "status": "published",
       "source_url": "https://journals.sagepub.com/doi/10.1177/16878132261464392",
-      "verification": "publisher_verified"
+      "verification": "publisher_verified",
+      "video_id": "ame2026-main-bearing-scada"
     },
     {
       "year": "2026",
@@ -50,7 +53,8 @@
       "doi": "https://doi.org/10.1007/s40684-026-00902-9",
       "status": "published",
       "source_url": "https://link.springer.com/article/10.1007/s40684-026-00902-9",
-      "verification": "publisher_verified"
+      "verification": "publisher_verified",
+      "video_id": "ijpem2026-pitch-early-warning"
     },
     {
       "year": "2026",
@@ -63,7 +67,8 @@
       "doi": "https://doi.org/10.29979/JCSME.202604_47(2).0001",
       "status": "published",
       "source_url": "https://journal.csme.org.tw/vol_file.aspx?fid=20260429102651&lang=en",
-      "verification": "publisher_verified"
+      "verification": "publisher_verified",
+      "video_id": "jcsme2026-hub-pin-lock"
     },
     {
       "year": "2026",
@@ -76,7 +81,8 @@
       "doi": "https://doi.org/10.29979/JCSME.202606_47(3).0004",
       "status": "published",
       "source_url": "https://journal.csme.org.tw/vol_file.aspx?fid=20260629140919&lang=en",
-      "verification": "publisher_verified"
+      "verification": "publisher_verified",
+      "video_id": "jcsme2026-power-law-reliability"
     },
     {
       "year": "2025",
@@ -89,7 +95,8 @@
       "doi": "https://doi.org/10.1016/j.engfailanal.2025.109945",
       "status": "published",
       "source_url": "https://doi.org/10.1016/j.engfailanal.2025.109945",
-      "verification": "publisher_metadata_verified"
+      "verification": "publisher_metadata_verified",
+      "video_id": "efa2025-main-bearing-multiphysics"
     },
     {
       "year": "2024",
@@ -117,7 +124,8 @@
       "doi": "https://doi.org/10.18494/SAM4668",
       "status": "published",
       "source_url": "https://sites.google.com/view/jui-hung-liu/著作發表/期刊論文-journal-articles",
-      "verification": "personal_site_record"
+      "verification": "personal_site_record",
+      "video_id": "sam2023-ar-maintenance"
     },
     {
       "year": "2023",
@@ -130,7 +138,8 @@
       "doi": "https://doi.org/10.1080/23311916.2023.2167345",
       "status": "published",
       "source_url": "https://sites.google.com/view/jui-hung-liu/著作發表/期刊論文-journal-articles",
-      "verification": "publisher_metadata_verified"
+      "verification": "publisher_metadata_verified",
+      "video_id": "cogent2023-turbulence-ml"
     },
     {
       "year": "2023",
@@ -143,7 +152,8 @@
       "doi": "https://doi.org/10.3390/app13031381",
       "status": "published",
       "source_url": "https://sites.google.com/view/jui-hung-liu/著作發表/期刊論文-journal-articles",
-      "verification": "personal_site_record"
+      "verification": "personal_site_record",
+      "video_id": "applsci2023-tower-climbing-robot"
     },
     {
       "year": "2023",
@@ -1551,7 +1561,8 @@
       "doi": "https://doi.org/10.5194/wes-2026-145",
       "status": "preprint",
       "source_url": "https://wes.copernicus.org/preprints/wes-2026-145/",
-      "verification": "publisher_verified"
+      "verification": "publisher_verified",
+      "video_id": "wes2026-pca-scada-preprint"
     }
   ],
   "accepted": [],

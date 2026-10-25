@@ -37,11 +37,13 @@ def main() -> int:
     ap.add_argument("--id", required=True, help="專案 id（小寫英數與 -）")
     ap.add_argument("--cover-at", type=float, default=4.5, help="封面取第幾秒的畫面")
     ap.add_argument("--crf", type=int, default=27)
+    ap.add_argument("--dir", default="showcase", help="輸出到 assets/<dir>/（專案 showcase、論文 papers）")
     a = ap.parse_args()
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]{1,60}", a.id):
         sys.exit("id 只能用小寫英數與 -，例如 windai-lab")
-    OUT.mkdir(parents=True, exist_ok=True)
-    mp4, jpg = OUT / f"{a.id}.mp4", OUT / f"{a.id}.jpg"
+    out = ROOT / "assets" / a.dir
+    out.mkdir(parents=True, exist_ok=True)
+    mp4, jpg = out / f"{a.id}.mp4", out / f"{a.id}.jpg"
     audio = ["-c:a", "aac", "-b:a", "128k"] if has_audio(a.master) else ["-an"]
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(a.master),
          "-vf", "scale=1280:720:flags=lanczos", "-c:v", "libx264", "-preset", "veryfast",

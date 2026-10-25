@@ -15,7 +15,7 @@ description: 更新個人網站 doflab.cc（repo dofliu/LabPagesCowork）。(1) 
 | 公告 | `announcements.json` | 首頁「最新公告」前 4 則 + news.html |
 
 工具都在 `tools/showcase/`：`render_scenes.py`（HTML 場景逐格渲染）、`assemble_video.py`（轉場串接）、
-`prep_assets.py`（素材圖正規化）、`make_music.py`（原創背景配樂合成）、`add_music.py`（替已上線影片補／換配樂）、`make_web.py`（轉網頁影片＋封面）、`site_update.py`（寫 JSON）、
+`prep_assets.py`（素材圖正規化）、`make_music.py`（原創背景配樂合成）、`add_music.py`（替已上線影片補／換配樂）、`make_web.py`（轉網頁影片＋封面，`--dir papers` 給論文）、`make_paper_scenes.py`（論文 JSON → 5 景）、`preview_scenes.py`（快速排版預覽）、`batch_render.sh`（批次出片）、`site_update.py`（寫 JSON）、
 `scene_template.html`（品牌場景模板）。範例成品：`tools/showcase/projects/windai-lab/`。
 
 ## 0. 準備網站 repo（每次都做）
@@ -113,20 +113,49 @@ python3 tools/showcase/site_update.py project add --id <id> --title "<標題>" -
 封面若取到轉場或空畫面，換 `--cover-at`（例 5.5）重跑 make_web。
 同一個 id 再跑一次＝更新（影片、封面、文字一起換）。下架：`site_update.py project remove --id <id>`。
 
-## B. 研究發表
+## B. 研究發表（新增論文＝同時製作 30 秒動畫說明）
 
-整理成一筆 JSON（欄位比照 publications.json 既有條目），有 DOI 先 WebFetch 出版社頁核對書目：
+發表頁每篇有動畫的論文，條目右側會出現小封面，點開播放（`publications.json` 的 `video_id` →
+`assets/papers/<video_id>.mp4/.jpg`）。**新增期刊、預印本、已接受論文時一律一起做動畫**；
+研討會論文、專利、獲獎只有在使用者提供全文或摘要時才做（只有題目就不做，避免編造內容）。
 
+### B1. 核對書目並讀摘要
+有 DOI：WebSearch 標題 → WebFetch 出版社頁，核對作者、卷期、日期，並讀摘要。
+使用者上傳 PDF 就直接讀 PDF。動畫裡的數字與方法名稱**只能用摘要／全文明列的**；
+作者自己寫的限制（「初步結果」「普遍性待驗證」）要放進結果景的 note。預印本要標「預印本，非正式期刊出版」。
+
+### B2. 寫 paper.json → 自動產生 5 景
 ```bash
-python3 tools/showcase/site_update.py pub add --group journal --json '{
+P=tools/showcase/papers/<id>; mkdir -p $P      # id 例：sr2026-rag-transfer（期刊縮寫＋年份＋主題）
+# 寫 $P/paper.json（欄位說明見 make_paper_scenes.py 開頭；範例：tools/showcase/papers/*/paper.json）
+python3 tools/showcase/make_paper_scenes.py $P/paper.json
+python3 tools/showcase/preview_scenes.py $P/storyboard.json --out <scratchpad>/pv   # 3 秒／景的排版預覽
+```
+5 景固定：開場（中文說明標題＋原文標題）→ 研究問題（3 卡）→ 研究方法（3–5 步驟依序點亮）→
+主要發現（2–3 個數字／結論）→ 結尾（期刊、作者、DOI）。**Read 預覽總覽圖**，有溢出就縮短文字重產。
+
+### B3. 出片（配樂預設 tech）
+```bash
+bash tools/showcase/batch_render.sh papers <scratchpad>/papers tech <id> [<id2> ...]
+# 多篇時平行兩支：printf "%s\n" id1 id2 id3 | xargs -P2 -n1 bash tools/showcase/batch_render.sh papers <W> tech
+# 會超過 10 分鐘 → 用 nohup … & 背景執行，定期看 log
+```
+完成後 Read `<W>/<id>/check_*.png` 抽查。
+
+### B4. 寫入發表資料
+```bash
+python3 tools/showcase/site_update.py pub add --group journal --video-id <id> --json '{
   "year":"2026","title":"...","authors":"Jui-Hung Liu, ...","venue":"期刊名",
   "detail":"Vol. X, Article Y · 日期","doi":"https://doi.org/...","source_url":"https://...",
   "index":"SCIE","metric":""}'
+# 已在清單上的論文補動畫：
+python3 tools/showcase/site_update.py pub video --group journal --match "標題關鍵字" --id <id>
 ```
 - group：journal（已正式出版）／accepted（已接受待刊）／preprint／conference／patent／award。
 - 審查中、投稿中、草稿 **不上網站**（腳本會拒絕）；每筆必須有公開 `source_url`。
 - 中文研討會論文可只給 `citation` 全文引文字串（同既有格式），title 填同一段。
 - 首頁「期刊著作紀錄／研討會論文紀錄」數字會自動更新。
+- 論文影片換配樂或音量：`python3 tools/showcase/add_music.py --dir papers --id <id> --mood calm`。
 
 ## C. 公告
 
@@ -152,5 +181,5 @@ git fetch origin main && git rebase origin/main && git push origin HEAD:main
 ## 交付
 
 一兩句說明上線了什麼（含用了哪種配樂），附連結：專案 `https://doflab.cc/projects.html#<id>`（直接開啟該動畫）、
-公告 `https://doflab.cc/news.html`、著作 `https://doflab.cc/publications.html`。
+公告 `https://doflab.cc/news.html`、著作 `https://doflab.cc/publications.html#<video_id>`（直接開啟論文動畫）。
 GitHub Pages 約 1–2 分鐘後生效。把成品 MP4 也用 SendUserFile 給使用者一份。

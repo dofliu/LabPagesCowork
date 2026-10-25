@@ -1,0 +1,64 @@
+{
+  "id": "sam2023-ar-maintenance",
+  "kicker": "SENSORS AND MATERIALS · 2023",
+  "title_zh": [
+    "AR 擴增實境",
+    "風機維修輔助平台"
+  ],
+  "title_en": "Design and Implementation of an Augmented Reality-based Interactive and Real-time Wind Turbine Maintenance Auxiliary Platform System",
+  "hook": "用 AR 即時看見風機狀態，遠端專家一起修",
+  "problem": {
+    "heading": "風機故障維修的痛點",
+    "items": [
+      [
+        "🚚",
+        "停機等專家，交通成本高"
+      ],
+      [
+        "📖",
+        "依賴紙本手冊與經驗"
+      ],
+      [
+        "🖥️",
+        "螢幕教學難對照實物"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "AR 維修輔助系統",
+    "steps": [
+      "Unity3D",
+      "Vuforia 辨識",
+      "IoT 即時資料",
+      "故障提示",
+      "遠端專家"
+    ]
+  },
+  "results": {
+    "heading": "降低運維成本與時間",
+    "items": [
+      {
+        "value": "即時監測",
+        "label": "運轉資料與狀態"
+      },
+      {
+        "value": "互動控制",
+        "label": "控制與維修風機"
+      },
+      {
+        "value": "遠端連線",
+        "label": "經驗專家即時支援"
+      }
+    ]
+  },
+  "cta": {
+    "venue": "Sensors and Materials · Vol. 35 No. 11 · 2023",
+    "authors": "Jui-Hung Liu, Chen-Yi Tsai, Jia-Zhou Li, Chun-Chieh Wang",
+    "doi": "10.18494/SAM4668",
+    "chips": [
+      "🥽 擴增實境",
+      "🛠️ 維修輔助",
+      "📡 物聯網"
+    ]
+  }
+}

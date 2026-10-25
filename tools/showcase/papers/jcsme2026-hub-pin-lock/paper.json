@@ -1,0 +1,64 @@
+{
+  "id": "jcsme2026-hub-pin-lock",
+  "kicker": "JCSME · 2026",
+  "title_zh": [
+    "風機輪轂插銷鎖",
+    "設計改良與強度分析"
+  ],
+  "title_en": "Design Improvement and Strength Analysis of a Pin Lock Structure for Wind Turbine Hub",
+  "hook": "讓運轉 15 年的 2 MW 風機關鍵鎖件更耐用",
+  "problem": {
+    "heading": "插銷鎖長期受極端風況",
+    "items": [
+      [
+        "🌪️",
+        "15 年極端風況累積"
+      ],
+      [
+        "⚠️",
+        "插銷支座發生故障"
+      ],
+      [
+        "🛑",
+        "造成停機與維修成本"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "從建模到疲勞驗證",
+    "steps": [
+      "3D 建模",
+      "結構強度分析",
+      "多風況負載模擬",
+      "Miner 疲勞分析"
+    ],
+    "note": "針對 2 MW 風機輪轂的插銷支座重新設計"
+  },
+  "results": {
+    "heading": "結構可靠、壽命延長",
+    "items": [
+      {
+        "value": "遠低於門檻",
+        "label": "累積疲勞損傷"
+      },
+      {
+        "value": "循環負載",
+        "label": "多種風況下皆通過"
+      },
+      {
+        "value": "↓ 停機",
+        "label": "降低維修成本"
+      }
+    ]
+  },
+  "cta": {
+    "venue": "Journal of the Chinese Society of Mechanical Engineers · Vol. 47 No. 2",
+    "authors": "Rong-Mao Lee, Jien-Chen Chen, Nelson T. Corbita Jr., Jui-Hung Liu",
+    "doi": "10.29979/JCSME.202604_47(2).0001",
+    "chips": [
+      "🔩 結構設計",
+      "📐 強度分析",
+      "🔁 疲勞壽命"
+    ]
+  }
+}

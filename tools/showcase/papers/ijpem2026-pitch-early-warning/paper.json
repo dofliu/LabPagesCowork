@@ -1,0 +1,65 @@
+{
+  "id": "ijpem2026-pitch-early-warning",
+  "kicker": "IJPEM-GT · 2026",
+  "title_zh": [
+    "離岸風機旋角系統",
+    "故障提前預警"
+  ],
+  "title_en": "Early Fault Warning Framework for Offshore Wind Turbine Pitch Systems Using Relief Feature Selection and SSA-Optimized SABiLSTM",
+  "hook": "在 SCADA 故障紀錄出現前數天就發出警告",
+  "problem": {
+    "heading": "旋角系統故障頻繁",
+    "items": [
+      [
+        "🌊",
+        "風載多變、動作頻繁"
+      ],
+      [
+        "🔧",
+        "離岸維修成本高"
+      ],
+      [
+        "⏰",
+        "現有方法預警時間短"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "三段式預警框架",
+    "steps": [
+      "Relief 選特徵",
+      "SSA 調參",
+      "SABiLSTM 預測",
+      "KDE 動態門檻"
+    ],
+    "note": "台灣海峽六部 5.2 MW 離岸風機 SCADA 資料驗證"
+  },
+  "results": {
+    "heading": "提早 4.5–5.5 天",
+    "items": [
+      {
+        "value": "109–132 h",
+        "label": "早於 SCADA 故障紀錄"
+      },
+      {
+        "value": "24–72 h",
+        "label": "近期文獻的預警時間"
+      },
+      {
+        "value": "30–50×",
+        "label": "早期異常時預測誤差升幅"
+      }
+    ],
+    "note": "兩起旋角馬達編碼器故障案例；作者註：結果為初步，需更多故障資料驗證"
+  },
+  "cta": {
+    "venue": "Int. J. of Precision Eng. and Manufacturing-Green Technology",
+    "authors": "Yu-Jen Chen, Nong-Xiu Sun, Jui-Hung Liu",
+    "doi": "10.1007/s40684-026-00902-9",
+    "chips": [
+      "🌊 離岸風電",
+      "🧠 深度學習",
+      "🚨 故障預警"
+    ]
+  }
+}

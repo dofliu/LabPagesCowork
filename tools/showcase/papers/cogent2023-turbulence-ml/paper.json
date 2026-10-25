@@ -1,0 +1,63 @@
+{
+  "id": "cogent2023-turbulence-ml",
+  "kicker": "COGENT ENGINEERING · 2023",
+  "title_zh": [
+    "紊流對風機性能",
+    "的機器學習分析"
+  ],
+  "title_en": "Analysis and Comparison of Turbulence Models on Wind Turbine Performance using SCADA Data and Machine Learning Technique",
+  "hook": "用風場 SCADA 資料比較紊流模型，看紊流怎麼影響風機",
+  "problem": {
+    "heading": "紊流影響疲勞負載",
+    "items": [
+      [
+        "🌀",
+        "紊流造成疲勞負載"
+      ],
+      [
+        "📊",
+        "SCADA 資料量大"
+      ],
+      [
+        "❓",
+        "哪種模型最準確？"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "五種模型比較",
+    "steps": [
+      "風場 SCADA",
+      "資料前處理",
+      "建立 5 種模型",
+      "誤差比較"
+    ]
+  },
+  "results": {
+    "heading": "紊流主導轉子性能",
+    "items": [
+      {
+        "value": "二次迴歸",
+        "label": "誤差最低的模型"
+      },
+      {
+        "value": "機艙系統",
+        "label": "轉速與葉片角使誤差較高"
+      },
+      {
+        "value": "紊流",
+        "label": "主要影響轉子性能"
+      }
+    ]
+  },
+  "cta": {
+    "venue": "Cogent Engineering · Vol. 10 No. 1 · 2023",
+    "authors": "Jui-Hung Liu, Jien-Chen Chen, Nelson T. Corbita Jr.",
+    "doi": "10.1080/23311916.2023.2167345",
+    "chips": [
+      "🌀 紊流",
+      "🤖 機器學習",
+      "📊 SCADA"
+    ]
+  }
+}

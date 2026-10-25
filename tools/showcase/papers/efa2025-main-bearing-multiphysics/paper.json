@@ -1,0 +1,66 @@
+{
+  "id": "efa2025-main-bearing-multiphysics",
+  "kicker": "ENG. FAILURE ANALYSIS · 2025",
+  "title_zh": [
+    "MW 級風機主軸承",
+    "失效分析與設計優化"
+  ],
+  "title_en": "Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines: A Multi-Physics Coupling Theoretical Framework",
+  "hook": "找出主軸承提早失效的根因，並提出改善設計",
+  "problem": {
+    "heading": "設計 20 年，5 年就壞",
+    "items": [
+      [
+        "📉",
+        "5 年內失效率約 30%"
+      ],
+      [
+        "🧮",
+        "單一物理分析低估 40–60%"
+      ],
+      [
+        "🔍",
+        "根本失效機制不明"
+      ]
+    ]
+  },
+  "method": {
+    "heading": "多物理耦合分析",
+    "steps": [
+      "失效軸承解剖",
+      "有限元素分析",
+      "摩潤分析",
+      "λ 比分析",
+      "設計優化"
+    ],
+    "note": "以失效的 2 MW 風機軸承實物檢驗"
+  },
+  "results": {
+    "heading": "雙列錐形滾子軸承",
+    "items": [
+      {
+        "value": "λ 2.1→4.2",
+        "label": "進入完全彈流潤滑"
+      },
+      {
+        "value": "2.1→8.7 年",
+        "label": "預測使用壽命"
+      },
+      {
+        "value": "−76%",
+        "label": "軸承失效率"
+      }
+    ],
+    "note": "最大應力降低 39%；現場驗證誤差 12.3% 以內"
+  },
+  "cta": {
+    "venue": "Engineering Failure Analysis · 2025",
+    "authors": "Rong-Mao Lee, Jien-Chen Chen, Jui-Hung Liu",
+    "doi": "10.1016/j.engfailanal.2025.109945",
+    "chips": [
+      "⚙️ 主軸承",
+      "🧪 多物理",
+      "🛢️ 潤滑"
+    ]
+  }
+}

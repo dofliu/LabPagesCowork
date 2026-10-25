@@ -31,8 +31,9 @@ def main() -> int:
     ap.add_argument("--mood", choices=["tech", "calm", "epic"], default="tech")
     ap.add_argument("--music", type=Path, help="改用指定音樂檔（不合成）")
     ap.add_argument("--loudness", type=float, default=-18)
+    ap.add_argument("--dir", default="showcase", help="showcase（專案）或 papers（論文）")
     a = ap.parse_args()
-    mp4 = ROOT / "assets" / "showcase" / f"{a.id}.mp4"
+    mp4 = ROOT / "assets" / a.dir / f"{a.id}.mp4"
     if not mp4.exists():
         sys.exit(f"找不到 {mp4.relative_to(ROOT)}")
     dur = float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration",

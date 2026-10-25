@@ -13,6 +13,18 @@
     .pub-line > div{min-width:0}.pub-line__t,.pub-line__m{overflow-wrap:anywhere}
     .tab:disabled{cursor:wait;opacity:.6}
     .updated-note{ font-size:.82rem; color:var(--muted); margin-top:1rem; }
+    .pub-line--vid{ grid-template-columns:70px 1fr 132px; }
+    .pub-vid{ position:relative; align-self:center; width:132px; aspect-ratio:16/9; padding:0; border:1px solid var(--line); border-radius:10px;
+      overflow:hidden; cursor:pointer; background:#15110d; box-shadow:var(--shadow); transition:transform .25s, box-shadow .25s; }
+    .pub-vid img{ width:100%; height:100%; object-fit:cover; }
+    .pub-vid:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lift); }
+    .pub-vid:focus-visible{ outline:3px solid var(--rust); outline-offset:3px; }
+    .pub-vid__play{ position:absolute; left:6px; bottom:6px; width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+      background:rgba(250,246,239,.94); color:var(--rust); box-shadow:0 3px 10px rgba(0,0,0,.3); }
+    .pub-vid__play svg{ width:10px; height:10px; margin-left:1px; fill:currentColor; }
+    .pub-vid__lbl{ position:absolute; right:5px; bottom:5px; font-size:.62rem; font-weight:700; color:#fff; background:rgba(0,0,0,.6); padding:.1rem .4rem; border-radius:4px; }
+    .vid-legend{ display:inline-flex; align-items:center; gap:.4rem; font-size:.85rem; color:var(--ink-soft); margin-top:.6rem; }
+    @media (max-width:680px){ .pub-line--vid{ grid-template-columns:52px 1fr; } .pub-vid{ grid-column:2; width:150px; margin-top:.4rem; } }
   </style>
 </head>
 <body id="top">
@@ -57,9 +69,21 @@
         <button disabled class="tab" data-filter="award">獲獎</button>
       </div>
 
+      <p class="vid-legend" id="vidLegend" hidden>▶ 附縮圖的論文可點開觀看 30 秒動畫說明</p>
       <div id="pubContainer"><p style="color:var(--muted)">載入著作資料中…</p></div>
     </div>
   </section>
+
+  <dialog class="sc-modal" id="sc-modal" aria-label="論文動畫說明">
+    <button type="button" class="sc-modal__close" aria-label="關閉"><svg viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    <div class="sc-modal__box">
+      <video controls playsinline preload="none"></video>
+      <div class="sc-modal__meta">
+        <div><h2></h2><p></p></div>
+        <a class="read-more sc-modal__src" target="_blank" rel="noopener">閱讀論文 ↗</a>
+      </div>
+    </div>
+  </dialog>
 
   <footer class="footer">
     <div class="wrap">
@@ -85,12 +109,18 @@
       { key:'award',      label:'代表性競賽紀錄 Selected Awards', icon:'fa-trophy' }
     ];
     function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    const VIDS = {};
     function lineHTML(p){
       const url = p.doi || p.source_url;
       const idx = p.index ? `<span class="scie">${esc(p.index)}</span>` : '';
       const authors = !p.citation && p.authors ? `${esc(p.authors.replace(/<[^>]*>/g, ''))} · ` : '';
       const note = p.status_label || (p.status === 'preprint' ? '預印本' : p.status === 'accepted' ? '已接受／待刊' : '');
-      return `<article class="pub-line">
+      const vid = p.video_id ? `<button type="button" class="pub-vid" data-vid="${esc(p.video_id)}" aria-label="觀看 30 秒動畫說明：${esc(p.title)}">
+          <img src="assets/papers/${esc(p.video_id)}.jpg" alt="" loading="lazy" width="960" height="540">
+          <span class="pub-vid__play" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 1.8v12.4c0 .6.7 1 1.2.6l9.6-6.2c.5-.3.5-1 0-1.3L4.2 1.2C3.7.9 3 1.2 3 1.8z"/></svg></span>
+          <span class="pub-vid__lbl">動畫 0:30</span></button>` : '';
+      VIDS[p.video_id || ''] = p;
+      return `<article class="pub-line${vid ? ' pub-line--vid' : ''}">
         <div class="pub-line__yr">${esc(p.year)}</div>
         <div>
           <div class="pub-line__t">${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(p.citation || p.title)} ↗</a>` : esc(p.citation || p.title)}${idx}</div>
@@ -98,6 +128,7 @@
           ${note ? `<p class="updated-note">${esc(note)}</p>` : ''}
           ${p.source_url && p.source_url !== url ? `<p class="updated-note"><a href="${esc(p.source_url)}" target="_blank" rel="noopener">來源紀錄 ↗</a></p>` : ''}
         </div>
+        ${vid}
       </article>`;
     }
     fetch('publications.json?v=20261025').then(r=>r.json()).then(data=>{
@@ -120,6 +151,25 @@
         </div>`;
       }).join('');
       document.querySelectorAll('#pub-tabs .tab').forEach(button=>button.disabled=false);
+      // 論文動畫
+      const dlg = document.getElementById('sc-modal'), v = dlg.querySelector('video');
+      if (document.querySelector('.pub-vid')) document.getElementById('vidLegend').hidden = false;
+      function openVid(id){
+        const p = VIDS[id]; if(!p) return;
+        v.poster = `assets/papers/${id}.jpg`; v.src = `assets/papers/${id}.mp4`;
+        dlg.querySelector('h2').textContent = p.title;
+        dlg.querySelector('p').textContent = [p.venue, p.year].filter(Boolean).join(' · ');
+        dlg.querySelector('.sc-modal__src').href = p.doi || p.source_url;
+        if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+        history.replaceState(null,'','#'+id);
+        const pr = v.play(); if (pr && pr.catch) pr.catch(()=>{});
+      }
+      function closeVid(){ v.pause(); v.removeAttribute('src'); v.load(); if (dlg.open && dlg.close) dlg.close(); else dlg.removeAttribute('open'); history.replaceState(null,'',location.pathname); }
+      document.getElementById('pubContainer').addEventListener('click', e=>{ const b=e.target.closest('.pub-vid'); if(b) openVid(b.dataset.vid); });
+      dlg.querySelector('.sc-modal__close').addEventListener('click', closeVid);
+      dlg.addEventListener('click', e=>{ if(e.target===dlg) closeVid(); });
+      dlg.addEventListener('cancel', e=>{ e.preventDefault(); closeVid(); });
+      if (location.hash.length>1 && VIDS[location.hash.slice(1)]) openVid(location.hash.slice(1));
       // 篩選
       const tabs = document.getElementById('pub-tabs');
       tabs.addEventListener('click', e=>{
