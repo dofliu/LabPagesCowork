@@ -1,0 +1,93 @@
+<!doctype html>
+<!-- doflab.cc 專案動畫 · 場景模板（品牌版：暖墨底 + 燒赭/暖金/深林綠）
+     規則：1920×1080 固定；動畫從頁面載入 t=0 起算；禁止外連資源（file:// 離線渲染）。
+     本地圖片放同層 assets/，用相對路徑 <img src="assets/shot_01.png">。
+     每景只改 <title>、.stage 的 --dur、以及 <div class="stage"> 內的內容。 -->
+<html lang="zh-Hant"><head><meta charset="utf-8"><title>Scene04 outputs</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#15110d}
+body{font-family:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#f6efe3;position:relative}
+/* 品牌色 */
+:root{--paper:#faf6ef;--rust:#d2602f;--rust-deep:#b4451f;--gold:#d9ad5b;--forest:#5f9e86;--ink:#15110d}
+/* ── 背景：暖墨底 + 燒赭/暖金光暈 + 紙紋格線 + 暗角 ── */
+.bg{position:absolute;inset:0;background:
+ radial-gradient(1200px 800px at 22% 18%,rgba(210,96,47,.17),transparent 62%),
+ radial-gradient(1100px 760px at 80% 84%,rgba(217,173,91,.14),transparent 60%),
+ linear-gradient(160deg,#241c15 0%,#15110d 58%,#0d0a07 100%)}
+.aur{position:absolute;width:1500px;height:1500px;border-radius:50%;filter:blur(90px);opacity:.45;mix-blend-mode:screen}
+.aur.a{background:radial-gradient(circle,rgba(210,96,47,.30),transparent 62%);left:-460px;top:-560px;animation:drift1 22s ease-in-out infinite alternate}
+.aur.b{background:radial-gradient(circle,rgba(95,158,134,.26),transparent 62%);right:-520px;bottom:-620px;animation:drift2 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(150px,90px) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-130px,-80px) scale(1.08)}}
+.vig{position:absolute;inset:0;background:radial-gradient(1600px 1000px at 50% 46%,transparent 58%,rgba(0,0,0,.5) 100%);pointer-events:none}
+.grid{position:absolute;inset:0;opacity:.045;background-image:linear-gradient(rgba(246,239,227,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(246,239,227,.5) 1px,transparent 1px);background-size:64px 64px}
+/* 左下品牌浮水印（每景都在，維持系列感） */
+.mark{position:absolute;left:64px;bottom:48px;z-index:4;font-size:26px;font-weight:700;letter-spacing:.08em;color:rgba(246,239,227,.55)}
+.mark b{color:var(--rust)}
+/* ── 鏡頭慢推（--dur 設成本景秒數） ── */
+.stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ --dur:7s;animation:cam var(--dur) ease-in-out both}
+@keyframes cam{from{transform:scale(1)}to{transform:scale(1.05)}}
+/* ── 字體系統 ── */
+.kicker{font-size:30px;font-weight:700;letter-spacing:.5em;text-indent:.5em;color:var(--gold);text-transform:uppercase}
+.h1{font-size:112px;font-weight:900;line-height:1.14;text-align:center;letter-spacing:.01em;
+ background:linear-gradient(100deg,#fff8ec 18%,#f0c98a 52%,#e58a5c 84%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(210,96,47,.22))}
+.sub{font-size:40px;font-weight:400;color:rgba(246,239,227,.8);text-align:center;line-height:1.6}
+.accent{color:var(--gold);font-weight:700}
+/* ── 元件 ── */
+.chip{display:inline-flex;align-items:center;gap:16px;padding:20px 38px;border-radius:999px;font-size:36px;font-weight:700;white-space:nowrap;
+ background:rgba(40,31,23,.85);border:1.5px solid rgba(217,173,91,.28);box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06)}
+.card{background:linear-gradient(165deg,rgba(44,34,25,.94),rgba(24,19,14,.95));border:1.5px solid rgba(217,173,91,.22);
+ border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:12px 26px;border-radius:12px;font-size:28px;font-weight:700;white-space:nowrap;
+ background:rgba(210,96,47,.15);border:1.5px solid rgba(210,96,47,.5);color:#f3a57e}
+.badge.g{background:rgba(95,158,134,.15);border-color:rgba(95,158,134,.5);color:#9fd6c1}
+/* ── 真實素材版位 ── */
+.shot{width:1400px;max-height:760px;border-radius:22px;overflow:hidden;background:#100c09;
+ border:1.5px solid rgba(217,173,91,.25);box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.shot img{display:block;width:100%;height:auto}
+.frame{width:480px;height:480px;border-radius:26px;overflow:hidden;background:#100c09;border:1.5px solid rgba(217,173,91,.22);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.frame img{display:block;width:100%;height:100%;object-fit:cover}
+.logo{height:130px;width:auto;object-fit:contain;filter:drop-shadow(0 10px 30px rgba(0,0,0,.5))}
+.hero-img{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);opacity:.36;filter:saturate(.8) contrast(.95)}
+.scrim{position:absolute;inset:0;z-index:1;pointer-events:none;--scrim:.78;
+ background:radial-gradient(1400px 900px at 50% 46%,rgba(13,10,7,calc(var(--scrim)*.55)),transparent 70%),
+ linear-gradient(180deg,rgba(21,17,13,calc(var(--scrim)*.9)),rgba(13,10,7,var(--scrim)))}
+/* ── 進場動畫工具類（--d 控延遲；注意：結尾 transform 會蓋掉 translate 置中） ── */
+.in{opacity:0;animation:rise 1s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(56px)}to{opacity:1;transform:none}}
+.pop{opacity:0;animation:pop .8s cubic-bezier(.2,1.4,.35,1) both;animation-delay:var(--d,0s)}
+@keyframes pop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.glow{animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 18px rgba(210,96,47,.25))}50%{filter:drop-shadow(0 0 42px rgba(210,96,47,.55))}}
+.in.glow{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+.pop.glow{animation:pop .8s cubic-bezier(.2,1.4,.35,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+/* ▼▼ 本景專屬 CSS ▼▼ */
+
+.ttl{font-size:76px;font-weight:900}
+.ocs{margin-top:60px;display:flex;gap:40px}
+.oc{width:480px;height:400px;padding:44px 40px;display:flex;flex-direction:column}
+.oi{font-size:82px}
+.oa{margin-top:22px;font-size:46px;font-weight:900;white-space:nowrap}
+.ob{margin-top:16px;font-size:32px;color:var(--gold);font-weight:700;white-space:nowrap}
+.od{margin-top:12px;font-size:28px;color:rgba(246,239,227,.68);line-height:1.5}
+.claim{margin-top:56px;font-size:40px;font-weight:700;padding:22px 48px;border-radius:999px;white-space:nowrap;
+ background:rgba(95,158,134,.14);border:1.5px solid rgba(95,158,134,.55);color:#bfe6d6}
+
+/* ▲▲ 本景專屬 CSS ▲▲ */
+</style></head>
+<body>
+<div class="bg"></div><div class="aur a"></div><div class="aur b"></div><div class="grid"></div>
+<div class="stage" style="z-index:2;--dur:6.5s">
+
+ <div class="ttl in" style="--d:.1s">看趨勢、看燈號、收警戒</div>
+ <div class="ocs"><div class="oc card in" style="--d:0.70s"><div class="oi">📈</div><div class="oa">發電趨勢圖</div><div class="ob">近 24 時／近 7 天／全部</div><div class="od">可切換總發電或任一能源別</div></div><div class="oc card in" style="--d:1.05s"><div class="oi">🚦</div><div class="oa">備轉容量燈號</div><div class="ob">全國供電狀態一目了然</div><div class="od">退回每日備援時標示非即時</div></div><div class="oc card in" style="--d:1.40s"><div class="oi">🔔</div><div class="oa">供電警戒通知</div><div class="ob">App 背景定時檢查</div><div class="od">惡化進入警戒才提醒一次</div></div></div>
+ <div class="claim pop" style="--d:2.4s">誠實原則：辨識不了就揭露，不寫猜測值</div>
+
+</div>
+<div class="mark">DOF Lab<b>.</b> · doflab.cc</div>
+<div class="vig" style="z-index:3"></div>
+</body></html>

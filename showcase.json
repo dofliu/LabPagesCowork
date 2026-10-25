@@ -3,6 +3,25 @@
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
     {
+      "id": "taiwanpowerwatch",
+      "title": "台灣電力情報站",
+      "tagline": "全能源別即時發電與備轉容量率",
+      "category": "wind_energy",
+      "date": "2026-10-25",
+      "video": "assets/showcase/taiwanpowerwatch.mp4",
+      "cover": "assets/showcase/taiwanpowerwatch.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/taiwanPowerWatch",
+      "tech": [
+        "Python",
+        "GitHub Actions",
+        "JavaScript",
+        "Capacitor"
+      ],
+      "repo": "dofliu/taiwanPowerWatch",
+      "duration": 30.1
+    },
+    {
       "id": "ai-unknown-device-lab",
       "title": "AI 接手陌生設備實驗室",
       "tagline": "讀手冊寫驅動，AI 自主完成取放任務",
