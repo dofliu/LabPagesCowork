@@ -15,7 +15,7 @@ description: 更新個人網站 doflab.cc（repo dofliu/LabPagesCowork）。(1) 
 | 公告 | `announcements.json` | 首頁「最新公告」前 4 則 + news.html |
 
 工具都在 `tools/showcase/`：`render_scenes.py`（HTML 場景逐格渲染）、`assemble_video.py`（轉場串接）、
-`prep_assets.py`（素材圖正規化）、`make_music.py`（原創背景配樂合成）、`make_web.py`（轉網頁影片＋封面）、`site_update.py`（寫 JSON）、
+`prep_assets.py`（素材圖正規化）、`make_music.py`（原創背景配樂合成）、`add_music.py`（替已上線影片補／換配樂）、`make_web.py`（轉網頁影片＋封面）、`site_update.py`（寫 JSON）、
 `scene_template.html`（品牌場景模板）。範例成品：`tools/showcase/projects/windai-lab/`。
 
 ## 0. 準備網站 repo（每次都做）
@@ -107,8 +107,9 @@ python3 tools/showcase/site_update.py project add --id <id> --title "<標題>" -
 出片後確認有音軌與響度：
 `ffprobe -v error -show_entries stream=codec_type -of csv=p=0 assets/showcase/<id>.mp4`（要有 audio）、
 `ffmpeg -i assets/showcase/<id>.mp4 -af ebur128 -f null - 2>&1 | grep "I:" | tail -1`（約 -18）。
-只換配樂或音量時**不必重渲場景**：場景 MP4 還在 `$W` 就直接重跑 assemble + make_web（秒級）；
-`$W` 已清掉才需要重跑 A4。
+只換配樂或音量時**不必重渲場景**，直接改已上線的影片（秒級，影像原樣保留）：
+`python3 tools/showcase/add_music.py --id <id> --mood calm`（或 `--music 檔案.mp3`、`--loudness -16`）。
+舊的無聲影片也用這支補配樂。
 封面若取到轉場或空畫面，換 `--cover-at`（例 5.5）重跑 make_web。
 同一個 id 再跑一次＝更新（影片、封面、文字一起換）。下架：`site_update.py project remove --id <id>`。
 
