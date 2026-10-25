@@ -105,6 +105,7 @@ def project_add(a) -> None:
         "source_type": a.source_type,
         "source_url": check_url(a.source_url),
         "tech": a.tech or [],
+        "repo": a.repo or "",
         "duration": video_duration(ROOT / "assets" / "showcase" / f"{a.id}.mp4"),
     }
     if a.featured:
@@ -247,6 +248,7 @@ def main() -> int:
     p.add_argument("--category", choices=CATEGORIES, default="other")
     p.add_argument("--source-type", choices=SOURCE_TYPES, default="repo")
     p.add_argument("--source-url"); p.add_argument("--date")
+    p.add_argument("--repo", help="owner/repo（私人 repo 不放 source-url 時，靠這欄判斷已做過）")
     p.add_argument("--tech", action="append"); p.add_argument("--featured", action="store_true")
     p.set_defaults(fn=project_add)
     p = pr.add_parser("remove"); p.add_argument("--id", required=True); p.set_defaults(fn=project_remove)

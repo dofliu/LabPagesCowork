@@ -19,7 +19,8 @@
         "Firmata",
         "Python"
       ],
-      "duration": 30.1
+      "duration": 30.1,
+      "repo": "dofliu/controlBoardTwin"
     },
     {
       "id": "windai-lab",
@@ -37,7 +38,8 @@
         "React",
         "LLM Agents"
       ],
-      "duration": 30.1
+      "duration": 30.1,
+      "repo": "dofliu/windAI-Lab"
     }
   ]
 }

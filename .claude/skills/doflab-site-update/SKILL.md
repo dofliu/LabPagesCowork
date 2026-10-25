@@ -49,6 +49,11 @@ python3 -c "import playwright" && which ffmpeg   # 動畫模式才需要
 **內容紅線（網站驗證腳本會擋）**：不放未經核實的效能數字（F1、R²、準確率百分比等）；
 不放本機路徑、內部 STATUS 欄位、未公開資料；照片含人臉／學生個資先問使用者。
 
+**私人 repo（使用者同意製作，但「不放連結」）**：
+- `site_update.py project add` 不給 `--source-url`，改給 `--repo owner/repo`（卡片與彈窗就不會出現連結）；結尾景不寫 github 網址，改寫「研究室內部專案」。
+- 動畫只講「解決什麼問題、功能概念、應用情境」，不放程式碼、檔名路徑、API 金鑰／帳號、內部網址、真實截圖、客戶或合作廠商名稱、未發表的數據。
+- 涉及個資的專案（點名、健康、招生評選、成績、監視器等）：只呈現系統概念與流程示意，絕不出現任何真實姓名、學號、紀錄樣本。
+
 ### A2. 分鏡（固定 5 景 ≈ 30 秒）
 
 | 景 | 內容 | 秒 | 轉場 |
@@ -156,6 +161,21 @@ python3 tools/showcase/site_update.py pub video --group journal --match "標題�
 - 中文研討會論文可只給 `citation` 全文引文字串（同既有格式），title 填同一段。
 - 首頁「期刊著作紀錄／研討會論文紀錄」數字會自動更新。
 - 論文影片換配樂或音量：`python3 tools/showcase/add_music.py --dir papers --id <id> --mood calm`。
+
+## A6. 每日自動模式（排程用：從最近有活動的 repo 挑一個還沒做的）
+
+```bash
+# 1) 用 list_repos 工具（limit 200）取得 repo 清單，把回傳 JSON 原樣寫到 <scratchpad>/repos.json
+python3 tools/showcase/auto_pick.py <scratchpad>/repos.json --list 5     # 檢視候選
+python3 tools/showcase/auto_pick.py <scratchpad>/repos.json              # {"next": "dofliu/xxx", "visibility": ...}
+```
+- 排除：showcase.json 已有的（比對 `repo` 欄與 `source_url`）、fork、`tools/showcase/auto_skip.json`。依 pushed_at 由新到舊。
+- 取 `next` → add_repo（public 用 read；private 用 push）→ clone → 照 A1–A5 製作（私人 repo 套用上面的私人規則）。
+- **內容不足**（README 幾乎空白、只有範本、無法說清楚做什麼）→
+  `python3 tools/showcase/auto_pick.py --skip dofliu/xxx --reason "<原因>"`，再挑下一個；一次執行最多試 3 個。
+- 一次只做 **1 支**。`id` 用 repo 名轉小寫（非英數換成 -）。用 `batch_render.sh projects <W> <mood> <id>` 背景渲染。
+- 完成後照 D 驗證、commit（`showcase: add <id> 30s video (auto)`）、push main；最後回覆交代做了哪個 repo、剩幾個候選、有沒有跳過哪些。
+- `next` 為 null（全部做完）→ 不做任何變更，回覆建議停用排程。
 
 ## C. 公告
 
