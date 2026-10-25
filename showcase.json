@@ -3,6 +3,26 @@
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
     {
+      "id": "windfarmtaiwan",
+      "title": "風電風情：台灣與全球風電",
+      "tagline": "台灣風電即時出力 × 全球45年",
+      "category": "wind_energy",
+      "date": "2026-10-25",
+      "video": "assets/showcase/windfarmtaiwan.mp4",
+      "cover": "assets/showcase/windfarmtaiwan.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/windfarmTaiwan",
+      "tech": [
+        "JavaScript",
+        "Three.js",
+        "Leaflet",
+        "Python",
+        "GitHub Actions"
+      ],
+      "repo": "dofliu/windfarmTaiwan",
+      "duration": 30.1
+    },
+    {
       "id": "controlboardtwin",
       "title": "DofLab 控制板數位孿生",
       "tagline": "3D 接線、積木行為到真機同步",
