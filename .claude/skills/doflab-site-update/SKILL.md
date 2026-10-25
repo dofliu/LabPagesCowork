@@ -15,7 +15,7 @@ description: 更新個人網站 doflab.cc（repo dofliu/LabPagesCowork）。(1) 
 | 公告 | `announcements.json` | 首頁「最新公告」前 4 則 + news.html |
 
 工具都在 `tools/showcase/`：`render_scenes.py`（HTML 場景逐格渲染）、`assemble_video.py`（轉場串接）、
-`prep_assets.py`（素材圖正規化）、`make_web.py`（轉網頁影片＋封面）、`site_update.py`（寫 JSON）、
+`prep_assets.py`（素材圖正規化）、`make_music.py`（原創背景配樂合成）、`make_web.py`（轉網頁影片＋封面）、`site_update.py`（寫 JSON）、
 `scene_template.html`（品牌場景模板）。範例成品：`tools/showcase/projects/windai-lab/`。
 
 ## 0. 準備網站 repo（每次都做）
@@ -42,7 +42,9 @@ python3 -c "import playwright" && which ffmpeg   # 動畫模式才需要
 
 萃取：**一句話定位**、**3 個觀眾有感的重點**、**一個最敢說的主張**、**連結**（公開 https 才放）。
 另外決定：`id`（小寫英數與 -，例：`windai-lab`）、卡片標題（≤16 字）、**卡片簡介 ≤20 字**、
-分類（wind_energy / industrial_ai / rag_knowledge / edtech / mcp_tools / personal_tools / other）。
+分類（wind_energy / industrial_ai / rag_knowledge / edtech / mcp_tools / personal_tools / other）、
+**配樂曲風**：`tech`（系統／AI／工具，預設）、`calm`（教育、研究介紹、文件型成果）、`epic`（大型平台、能源、重大成果）。
+使用者有指定曲風或給了音樂檔就照他的。
 
 **內容紅線（網站驗證腳本會擋）**：不放未經核實的效能數字（F1、R²、準確率百分比等）；
 不放本機路徑、內部 STATUS 欄位、未公開資料；照片含人臉／學生個資先問使用者。
@@ -81,15 +83,33 @@ nohup python3 tools/showcase/render_scenes.py $P/storyboard.json --workdir $W > 
 **逐張 Read `$W/check_*.png`**：文字溢出、元素相撞、置中跑位、節點壓到標題。
 有問題改該景 HTML，用 `--only <scene_stem>` 單景重渲。沒看過抽查格不准出片。
 
-### A5. 出片 → 上網站
+### A5. 配樂 → 出片 → 上網站（每支動畫都要有背景配樂）
+
+配樂來源優先順序：
+1. 使用者這次給的音樂檔。
+2. `tools/showcase/music/` 裡檔名開頭與曲風相符的檔案（例 `tech-*.mp3`；使用者自備的免版稅音樂）。
+3. 以上都沒有 → 用 `make_music.py` 合成原創配樂（無版權問題，約 4 秒完成）：
 
 ```bash
-python3 tools/showcase/assemble_video.py $P/storyboard.json --workdir $W --out $W/master.mp4   # 預設無聲
-python3 tools/showcase/make_web.py $W/master.mp4 --id <id> --cover-at 4.5   # 1280×720 MP4（約 1 MB）＋封面
+DUR=$(python3 -c "import json;s=json.load(open('$P/storyboard.json'));print(sum(x['duration'] for x in s['scenes'])-s.get('xfade',.6)*(len(s['scenes'])-1))")
+python3 tools/showcase/make_music.py --out $W/bgm.wav --duration $DUR --mood tech --seed <id>
+```
+合成配樂的結構對齊五景分鏡：開場約 6 秒只有鋪底與琶音 → 低音與輕鼓進場 → 最後約 4 秒鼓組退場、和弦延音淡出。
+`--seed` 填專案 id，每支專案的琶音型都不同。
+
+```bash
+python3 tools/showcase/assemble_video.py $P/storyboard.json --workdir $W --out $W/master.mp4 \
+    --music $W/bgm.wav --loudness -18          # -18 LUFS＝背景音樂感；使用者嫌小聲用 -16，嫌吵用 -20
+python3 tools/showcase/make_web.py $W/master.mp4 --id <id> --cover-at 4.5   # 1280×720 MP4（約 1.3 MB，含 AAC 音軌）＋封面
 python3 tools/showcase/site_update.py project add --id <id> --title "<標題>" --tagline "<≤20字>" \
     --category <分類> --source-type repo|document|link|other [--source-url https://...] --tech X --tech Y
 ```
-使用者有給背景音樂才加 `--music bgm.mp3`。封面若取到轉場或空畫面，換 `--cover-at`（例 5.5）重跑 make_web。
+出片後確認有音軌與響度：
+`ffprobe -v error -show_entries stream=codec_type -of csv=p=0 assets/showcase/<id>.mp4`（要有 audio）、
+`ffmpeg -i assets/showcase/<id>.mp4 -af ebur128 -f null - 2>&1 | grep "I:" | tail -1`（約 -18）。
+只換配樂或音量時**不必重渲場景**：場景 MP4 還在 `$W` 就直接重跑 assemble + make_web（秒級）；
+`$W` 已清掉才需要重跑 A4。
+封面若取到轉場或空畫面，換 `--cover-at`（例 5.5）重跑 make_web。
 同一個 id 再跑一次＝更新（影片、封面、文字一起換）。下架：`site_update.py project remove --id <id>`。
 
 ## B. 研究發表
@@ -130,6 +150,6 @@ git fetch origin main && git rebase origin/main && git push origin HEAD:main
 
 ## 交付
 
-一兩句說明上線了什麼，附連結：專案 `https://doflab.cc/projects.html#<id>`（直接開啟該動畫）、
+一兩句說明上線了什麼（含用了哪種配樂），附連結：專案 `https://doflab.cc/projects.html#<id>`（直接開啟該動畫）、
 公告 `https://doflab.cc/news.html`、著作 `https://doflab.cc/publications.html`。
 GitHub Pages 約 1–2 分鐘後生效。把成品 MP4 也用 SendUserFile 給使用者一份。
