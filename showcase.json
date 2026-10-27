@@ -1,7 +1,28 @@
 {
-  "updated": "2026-10-26",
+  "updated": "2026-10-27",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "creative-wind-rotor-lab",
+      "title": "創意風機設計平台",
+      "tagline": "任意形狀小型風機的分析比較與最佳化",
+      "category": "wind_energy",
+      "date": "2026-10-27",
+      "video": "assets/showcase/creative-wind-rotor-lab.mp4",
+      "cover": "assets/showcase/creative-wind-rotor-lab.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "Python",
+        "Streamlit",
+        "GPU CFD",
+        "BEM/DMST",
+        "貝氏最佳化"
+      ],
+      "repo": "",
+      "repo_hash": "b319628164e1e157",
+      "duration": 30.1
+    },
     {
       "id": "doflab-courses",
       "title": "研究室互動課程平台",

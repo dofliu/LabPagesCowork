@@ -177,7 +177,7 @@ window.DOFShowcase = (function () {
 
   function render(gridSel, tabsSel) {
     const grid = document.querySelector(gridSel), tabs = document.querySelector(tabsSel);
-    return fetch('showcase.json?v=20261026', { cache: 'no-cache' }).then(r => r.json()).then(data => {
+    return fetch('showcase.json?v=20261027', { cache: 'no-cache' }).then(r => r.json()).then(data => {
       items = data.items || [];
       if (!items.length) { grid.innerHTML = '<p class="sc-empty">專案動畫製作中，敬請期待。</p>'; tabs.hidden = true; return items; }
       grid.innerHTML = items.map(card).join('');
