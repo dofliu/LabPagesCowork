@@ -4,7 +4,7 @@
       "full_name": "dofliu/windfarmTaiwan",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T19:03:44Z"
+      "pushed_at": "2026-10-28T18:31:17Z"
     },
     {
       "full_name": "dofliu/controlBoardTwin",
@@ -16,7 +16,7 @@
       "full_name": "dofliu/taiwanPowerWatch",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T18:13:08Z"
+      "pushed_at": "2026-10-28T14:28:49Z"
     },
     {
       "full_name": "dofliu/windMindOM",
@@ -34,19 +34,19 @@
       "full_name": "dofliu/LabPagesCowork",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T19:14:10Z"
+      "pushed_at": "2026-10-27T19:14:48Z"
     },
     {
       "full_name": "dofliu/AnyDocument",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T04:11:00Z"
+      "pushed_at": "2026-10-28T16:38:05Z"
     },
     {
       "full_name": "dofliu/PLC_ST_Auto",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-26T21:00:13Z"
+      "pushed_at": "2026-10-27T21:00:21Z"
     },
     {
       "full_name": "dofliu/windAI-Lab",
@@ -58,13 +58,13 @@
       "full_name": "dofliu/ai-stock-prediction",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T07:16:50Z"
+      "pushed_at": "2026-10-28T07:54:30Z"
     },
     {
       "full_name": "dofliu/bladeDesignNumericalTools",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T17:52:28Z"
+      "pushed_at": "2026-10-28T13:37:00Z"
     },
     {
       "full_name": "dofliu/cleanyourtv",
@@ -76,13 +76,13 @@
       "full_name": "dofliu/dofLab-courses",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-27T18:31:00Z"
+      "pushed_at": "2026-10-28T18:30:45Z"
     },
     {
       "full_name": "dofliu/ragTutor",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-26T21:43:27Z"
+      "pushed_at": "2026-10-27T21:48:21Z"
     },
     {
       "full_name": "dofliu/activityTracker",
@@ -290,5 +290,5 @@
     }
   ],
   "updated": "2026-10-26",
-  "refreshed": "2026-10-27T19:14:25Z"
+  "refreshed": "2026-10-28T18:56:22Z"
 }
