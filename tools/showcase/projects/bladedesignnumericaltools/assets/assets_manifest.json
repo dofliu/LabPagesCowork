@@ -1,0 +1,23 @@
+[
+  {
+    "source": "blade_hawt.jpg",
+    "file": "asset_01.jpg",
+    "width": 1440,
+    "height": 900,
+    "shape": "wide"
+  },
+  {
+    "source": "tunnel.jpg",
+    "file": "asset_02.jpg",
+    "width": 1440,
+    "height": 900,
+    "shape": "wide"
+  },
+  {
+    "source": "report.jpg",
+    "file": "asset_03.jpg",
+    "width": 1440,
+    "height": 900,
+    "shape": "wide"
+  }
+]

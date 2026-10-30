@@ -4,7 +4,7 @@
       "full_name": "dofliu/windfarmTaiwan",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T19:02:44Z"
+      "pushed_at": "2026-10-30T18:01:43Z"
     },
     {
       "full_name": "dofliu/controlBoardTwin",
@@ -16,7 +16,7 @@
       "full_name": "dofliu/taiwanPowerWatch",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T16:31:27Z"
+      "pushed_at": "2026-10-30T14:29:34Z"
     },
     {
       "full_name": "dofliu/windMindOM",
@@ -28,25 +28,25 @@
       "full_name": "dofliu/renewable-energy-animations",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T12:33:26Z"
+      "pushed_at": "2026-10-30T12:30:25Z"
     },
     {
       "full_name": "dofliu/LabPagesCowork",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T19:03:28Z"
+      "pushed_at": "2026-10-29T19:03:59Z"
     },
     {
       "full_name": "dofliu/AnyDocument",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T16:09:17Z"
+      "pushed_at": "2026-10-30T15:57:56Z"
     },
     {
       "full_name": "dofliu/PLC_ST_Auto",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-28T21:01:13Z"
+      "pushed_at": "2026-10-29T21:00:48Z"
     },
     {
       "full_name": "dofliu/windAI-Lab",
@@ -58,13 +58,13 @@
       "full_name": "dofliu/ai-stock-prediction",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T08:00:00Z"
+      "pushed_at": "2026-10-30T08:02:21Z"
     },
     {
       "full_name": "dofliu/bladeDesignNumericalTools",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-28T13:37:00Z"
+      "pushed_at": "2026-10-30T13:26:47Z"
     },
     {
       "full_name": "dofliu/cleanyourtv",
@@ -76,13 +76,13 @@
       "full_name": "dofliu/dofLab-courses",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-29T18:30:20Z"
+      "pushed_at": "2026-10-30T01:44:45Z"
     },
     {
       "full_name": "dofliu/ragTutor",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-10-28T21:33:00Z"
+      "pushed_at": "2026-10-29T21:41:30Z"
     },
     {
       "full_name": "dofliu/activityTracker",
@@ -290,5 +290,5 @@
     }
   ],
   "updated": "2026-10-26",
-  "refreshed": "2026-10-29T19:03:40Z"
+  "refreshed": "2026-10-30T18:48:12Z"
 }
