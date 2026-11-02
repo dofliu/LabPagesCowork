@@ -1,7 +1,27 @@
 {
-  "updated": "2026-11-01",
+  "updated": "2026-11-02",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "face-attendance-ai",
+      "title": "AI 人臉點名系統",
+      "tagline": "教室合照一拍，全班出缺席自動完成",
+      "category": "edtech",
+      "date": "2026-11-02",
+      "video": "assets/showcase/face-attendance-ai.mp4",
+      "cover": "assets/showcase/face-attendance-ai.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "InsightFace",
+        "Streamlit",
+        "OpenCV",
+        "ONNX"
+      ],
+      "repo": "",
+      "repo_hash": "05f9c20f18a5bcdb",
+      "duration": 30.1
+    },
     {
       "id": "plc-st-auto",
       "title": "PLC ST Auto",
