@@ -1,7 +1,27 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-03",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "ragtutor",
+      "title": "RAG 動畫教室",
+      "tagline": "每天一堂，動畫看懂 RAG 技術",
+      "category": "edtech",
+      "date": "2026-11-03",
+      "video": "assets/showcase/ragtutor.mp4",
+      "cover": "assets/showcase/ragtutor.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/ragTutor",
+      "tech": [
+        "HTML",
+        "SVG",
+        "JavaScript",
+        "Python",
+        "GitHub Pages"
+      ],
+      "repo": "dofliu/ragTutor",
+      "duration": 30.1
+    },
     {
       "id": "face-attendance-ai",
       "title": "AI 人臉點名系統",
