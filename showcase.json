@@ -1,7 +1,28 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "rag-research-platform",
+      "title": "RAG 評測研究平台",
+      "tagline": "多種檢索技術並排評測與知識庫問答",
+      "category": "rag_knowledge",
+      "date": "2026-11-04",
+      "video": "assets/showcase/rag-research-platform.mp4",
+      "cover": "assets/showcase/rag-research-platform.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "React",
+        "TypeScript",
+        "FastAPI",
+        "向量資料庫",
+        "RAGAS"
+      ],
+      "repo": "",
+      "repo_hash": "1f72da6b094542a3",
+      "duration": 30.1
+    },
     {
       "id": "ragtutor",
       "title": "RAG 動畫教室",
