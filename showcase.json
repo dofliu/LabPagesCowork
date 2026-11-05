@@ -1,7 +1,26 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "activitytracker",
+      "title": "OmniContext 工作中樞",
+      "tagline": "本機優先的個人工作上下文記憶中樞",
+      "category": "personal_tools",
+      "date": "2026-11-05",
+      "video": "assets/showcase/activitytracker.mp4",
+      "cover": "assets/showcase/activitytracker.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/activityTracker",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "SQLite",
+        "RAG"
+      ],
+      "repo": "dofliu/activityTracker",
+      "duration": 30.1
+    },
     {
       "id": "rag-research-platform",
       "title": "RAG 評測研究平台",
