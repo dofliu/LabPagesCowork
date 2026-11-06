@@ -1,7 +1,28 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "ai-coding-desk",
+      "title": "CC Desk AI 程式桌面",
+      "tagline": "命令列 AI 程式代理的桌面工作台",
+      "category": "personal_tools",
+      "date": "2026-11-06",
+      "video": "assets/showcase/ai-coding-desk.mp4",
+      "cover": "assets/showcase/ai-coding-desk.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "Electron",
+        "TypeScript",
+        "React",
+        "Agent SDK",
+        "MCP"
+      ],
+      "repo": "",
+      "repo_hash": "987bd595fe6dc651",
+      "duration": 30.1
+    },
     {
       "id": "activitytracker",
       "title": "OmniContext 工作中樞",
