@@ -2,6 +2,7 @@
 """把渲染好的母片轉成網站用影片與封面。
 
   python tools/showcase/make_web.py master.mp4 --id windai-lab [--cover-at 4.5]
+  python tools/showcase/make_web.py master_en.mp4 --id windai-lab --lang en      # 英文版 → <id>.en.mp4 / .en.jpg
 
 輸出（相對於網站根目錄）：
   assets/showcase/<id>.mp4   1280×720、H.264、faststart（網頁邊下載邊播）
@@ -38,12 +39,14 @@ def main() -> int:
     ap.add_argument("--cover-at", type=float, default=4.5, help="封面取第幾秒的畫面")
     ap.add_argument("--crf", type=int, default=27)
     ap.add_argument("--dir", default="showcase", help="輸出到 assets/<dir>/（專案 showcase、論文 papers）")
+    ap.add_argument("--lang", default="zh", choices=("zh", "en"), help="en → 檔名加 .en（<id>.en.mp4）")
     a = ap.parse_args()
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]{1,60}", a.id):
         sys.exit("id 只能用小寫英數與 -，例如 windai-lab")
     out = ROOT / "assets" / a.dir
     out.mkdir(parents=True, exist_ok=True)
-    mp4, jpg = out / f"{a.id}.mp4", out / f"{a.id}.jpg"
+    stem = a.id if a.lang == "zh" else f"{a.id}.en"
+    mp4, jpg = out / f"{stem}.mp4", out / f"{stem}.jpg"
     audio = ["-c:a", "aac", "-b:a", "128k"] if has_audio(a.master) else ["-an"]
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(a.master),
          "-vf", "scale=1280:720:flags=lanczos", "-c:v", "libx264", "-preset", "veryfast",

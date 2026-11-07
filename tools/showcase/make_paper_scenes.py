@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """論文動畫：由一份內容 JSON 自動產生 5 景 HTML ＋ storyboard.json（約 30 秒）。
 
-  python tools/showcase/make_paper_scenes.py tools/showcase/papers/<id>/paper.json
+  python tools/showcase/make_paper_scenes.py tools/showcase/papers/<id>/paper.json            # 中文 5 景
+  python tools/showcase/make_paper_scenes.py tools/showcase/papers/<id>/paper.json --lang en  # 英文 5 景 → <id>/en/
+
+英文版欄位（同一份 paper.json，缺的欄位會退回中文）：title_lines_en（大標 1–2 行，每行 ≤ 26 字元）、hook_en、
+problem_en / method_en / results_en（結構同中文欄位）、cta.chips_en、cta.venue_en。
 
 paper.json 欄位（文字一律繁體中文、短句；數字只放出版社頁面明列的）：
 {
@@ -26,10 +30,27 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 TEMPLATE = (HERE / "scene_template.html").read_text(encoding="utf-8")
 e = html.escape
+LANG = "zh"
+LABELS = {
+    "zh": {"paper": "研究論文", "problem": "THE PROBLEM · 研究問題", "method": "THE METHOD · 研究方法",
+           "results": "KEY FINDINGS · 主要發現", "cta": "DOF LAB · 研究發表",
+           "by": "國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室",
+           "t1": "開場", "t2": "問題", "t3": "方法", "t4": "結果", "t5": "結尾"},
+    "en": {"paper": "RESEARCH PAPER", "problem": "THE PROBLEM", "method": "THE METHOD",
+           "results": "KEY FINDINGS", "cta": "DOF LAB · PUBLICATION",
+           "by": "Dept. of Intelligent Automation Engineering · National Chin-Yi University of Technology",
+           "t1": "Open", "t2": "Problem", "t3": "Method", "t4": "Results", "t5": "Close"},
+}
+
+
+def L(k: str) -> str:
+    return LABELS[LANG][k]
 
 
 def scene(title: str, dur: float, css: str, body: str, particles: bool = True) -> str:
     t = TEMPLATE.replace("<title>SceneXX</title>", f"<title>{e(title)}</title>")
+    if LANG == "en":
+        t = t.replace('<html lang="zh-Hant">', '<html lang="en">', 1)
     t = t.replace("/* ▼▼ 本景專屬 CSS ▼▼ */\n", "/* ▼▼ 本景專屬 CSS ▼▼ */\n" + css + "\n")
     a = t.index("<!-- ▼▼ 本景內容 ▼▼ -->")
     b = t.index("<!-- ▲▲ 本景內容 ▲▲ -->") + len("<!-- ▲▲ 本景內容 ▲▲ -->")
@@ -49,8 +70,8 @@ HEAD = """
 
 
 def s1(p: dict) -> str:
-    lines = p["title_zh"] if isinstance(p["title_zh"], list) else [p["title_zh"]]
-    size = 128 if max(len(x) for x in lines) <= 9 else 108
+    lines = title_lines(p)
+    size = (128 if max(len(x) for x in lines) <= 9 else 108) if LANG == "zh" else (104 if max(len(x) for x in lines) <= 16 else 84)
     tl = "".join(f'<div class="h1 pop" style="--d:{0.5 + i * 0.25:.2f}s;font-size:{size}px">{e(x)}</div>' for i, x in enumerate(lines))
     css = """
 .ring{position:absolute;left:50%;top:50%;width:980px;height:980px;margin:-490px 0 0 -490px;border-radius:50%;
@@ -64,12 +85,12 @@ def s1(p: dict) -> str:
 """
     body = f"""
  <div class="ring"></div>
- <div class="paper in" style="--d:.1s">📄 研究論文 · {e(p['kicker'])}</div>
+ <div class="paper in" style="--d:.1s">📄 {e(L("paper"))} · {e(p['kicker'])}</div>
  <div style="margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:6px">{tl}</div>
  <div class="hook in" style="--d:1.4s">{e(p['hook'])}</div>
  <div class="en in" style="--d:1.9s">{e(p['title_en'])}</div>
 """
-    return scene("開場", 7, css, body)
+    return scene(L("t1"), 7, css, body)
 
 
 def s2(p: dict) -> str:
@@ -82,13 +103,13 @@ def s2(p: dict) -> str:
 .pc{width:500px;min-height:330px;padding:48px 42px;display:flex;flex-direction:column;align-items:flex-start;gap:26px}
 .pc .ic{font-size:76px;line-height:1}
 .pc .tx{font-size:42px;font-weight:700;line-height:1.4;text-wrap:balance;word-break:keep-all}
-"""
+""" + ("" if LANG == "zh" else ".pc .tx{font-size:36px;word-break:normal}\n")
     body = f"""
- <div class="hd"><div class="kicker in" style="--d:.1s">THE PROBLEM · 研究問題</div>
+ <div class="hd"><div class="kicker in" style="--d:.1s">{e(L("problem"))}</div>
  <div class="h1 in" style="--d:.3s">{e(p['problem']['heading'])}</div></div>
  <div class="row">{cards}</div>
 """
-    return scene("問題", 6.5, css, body, particles=False)
+    return scene(L("t2"), 6.5, css, body, particles=False)
 
 
 def s3(p: dict) -> str:
@@ -114,14 +135,14 @@ def s3(p: dict) -> str:
 .ar:after{content:"";position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;animation:fill .35s ease-out forwards;animation-delay:var(--l)}
 @keyframes fill{to{transform:scaleX(1)}}
 .note{font-size:36px;color:rgba(246,239,227,.78);margin-top:80px;text-align:center;max-width:1500px}
-"""
+""" + ("" if LANG == "zh" else ".st{font-size:32px;word-break:normal;padding:30px 14px}.note{font-size:32px}\n")
     body = f"""
- <div class="hd"><div class="kicker in" style="--d:.1s">THE METHOD · 研究方法</div>
+ <div class="hd"><div class="kicker in" style="--d:.1s">{e(L("method"))}</div>
  <div class="h1 in" style="--d:.3s">{e(p['method']['heading'])}</div></div>
  <div class="pipe in" style="--d:.8s">{''.join(parts)}</div>
  {nt}
 """
-    return scene("方法", 6.5, css, body, particles=False)
+    return scene(L("t3"), 6.5, css, body, particles=False)
 
 
 def vsize(v: str) -> int:
@@ -145,24 +166,25 @@ def s4(p: dict) -> str:
  background:linear-gradient(100deg,#fff8ec 10%,#f0c98a 50%,#e58a5c 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .rc .lb{font-size:38px;font-weight:700;line-height:1.35;color:rgba(246,239,227,.9);text-wrap:balance}
 .note{font-size:32px;color:rgba(246,239,227,.62);margin-top:60px;text-align:center;max-width:1560px}
-"""
+""" + ("" if LANG == "zh" else ".rc .lb{font-size:33px}.note{font-size:30px}\n")
     body = f"""
- <div class="hd"><div class="kicker in" style="--d:.1s">KEY FINDINGS · 主要發現</div>
+ <div class="hd"><div class="kicker in" style="--d:.1s">{e(L("results"))}</div>
  <div class="h1 in" style="--d:.3s">{e(p['results']['heading'])}</div></div>
  <div class="row">{cards}</div>
  {nt}
 """
-    return scene("結果", 6.5, css, body, particles=False)
+    return scene(L("t4"), 6.5, css, body, particles=False)
 
 
 def s5(p: dict) -> str:
     c = p["cta"]
-    chips = "".join(f'<div class="chip in" style="--d:{1.0 + i * 0.2:.1f}s">{e(x)}</div>' for i, x in enumerate(c["chips"][:3]))
-    lines = p["title_zh"] if isinstance(p["title_zh"], list) else [p["title_zh"]]
+    chips_src = (c.get("chips_en") or c["chips"]) if LANG == "en" else c["chips"]
+    chips = "".join(f'<div class="chip in" style="--d:{1.0 + i * 0.2:.1f}s">{e(x)}</div>' for i, x in enumerate(chips_src[:3]))
+    lines = title_lines(p)
     full = lines[0]
     for x in lines[1:]:
         full += (" " if (full[-1:].isascii() and full[-1:].isalnum() and x[:1].isascii()) else "") + x
-    tsize = 104 if len(full) <= 14 else 88 if len(full) <= 18 else 76
+    tsize = (104 if len(full) <= 14 else 88 if len(full) <= 18 else 76) if LANG == "zh" else (88 if len(full) <= 28 else 72 if len(full) <= 40 else 60)
     css = """
 .chips{display:flex;gap:26px;margin-top:50px}
 .venue{margin-top:56px;font-size:38px;font-weight:700;color:var(--gold);text-align:center;max-width:1600px}
@@ -172,21 +194,49 @@ def s5(p: dict) -> str:
 .by{margin-top:24px;font-size:28px;color:rgba(246,239,227,.5)}
 """
     body = f"""
- <div class="kicker in" style="--d:.1s">DOF LAB · 研究發表</div>
+ <div class="kicker in" style="--d:.1s">{e(L("cta"))}</div>
  <div class="h1 pop glow" style="--d:.4s;margin-top:26px;font-size:{tsize}px;max-width:1700px">{e(full)}</div>
  <div class="chips">{chips}</div>
- <div class="venue in" style="--d:1.7s">{e(c['venue'])}</div>
+ <div class="venue in" style="--d:1.7s">{e((c.get("venue_en") if LANG == "en" else None) or c['venue'])}</div>
  <div class="au in" style="--d:1.9s">{e(c['authors'])}</div>
  <div class="doi in" style="--d:2.1s">doi.org/<b>{e(c['doi'])}</b></div>
- <div class="by in" style="--d:2.3s">國立勤益科技大學 智慧自動化工程系 · 風電運維自動化技術研究室</div>
+ <div class="by in" style="--d:2.3s">{e(L("by"))}</div>
 """
-    return scene("結尾", 6, css, body)
+    return scene(L("t5"), 6, css, body)
+
+
+def title_lines(p: dict) -> list:
+    if LANG == "en":
+        tl = p.get("title_lines_en")
+        if tl:
+            return tl if isinstance(tl, list) else [tl]
+        return [p["title_en"]]
+    return p["title_zh"] if isinstance(p["title_zh"], list) else [p["title_zh"]]
+
+
+def localize(p: dict) -> dict:
+    """英文版：把 *_en 欄位蓋到主欄位上（缺的保留中文），開場小字仍顯示原文標題。"""
+    if LANG != "en":
+        return p
+    q = dict(p)
+    for k in ("hook", "problem", "method", "results"):
+        if p.get(k + "_en"):
+            q[k] = p[k + "_en"]
+    return q
 
 
 def main() -> int:
-    spec_path = Path(sys.argv[1])
-    p = json.loads(spec_path.read_text(encoding="utf-8"))
-    out = spec_path.parent
+    global LANG
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if "--lang" in sys.argv:
+        LANG = sys.argv[sys.argv.index("--lang") + 1]
+        args = [a for a in args if a != LANG]
+    if LANG not in LABELS:
+        sys.exit("--lang 只支援 zh / en")
+    spec_path = Path(args[0])
+    p = localize(json.loads(spec_path.read_text(encoding="utf-8")))
+    out = spec_path.parent if LANG == "zh" else spec_path.parent / "en"
+    out.mkdir(parents=True, exist_ok=True)
     files = [("scene01_open.html", s1, 7, "fade"), ("scene02_problem.html", s2, 6.5, "smoothleft"),
              ("scene03_method.html", s3, 6.5, "circleopen"), ("scene04_results.html", s4, 6.5, "fade"),
              ("scene05_cta.html", s5, 6, None)]

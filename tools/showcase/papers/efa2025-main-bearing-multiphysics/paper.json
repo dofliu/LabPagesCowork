@@ -6,7 +6,12 @@
     "失效分析與設計優化"
   ],
   "title_en": "Advanced Analysis of Main Bearing Failure Modes and Design Optimization in MW-sized Wind Turbines: A Multi-Physics Coupling Theoretical Framework",
+  "title_lines_en": [
+    "MW Turbine Main Bearing",
+    "Failure Study & Redesign"
+  ],
   "hook": "找出主軸承提早失效的根因，並提出改善設計",
+  "hook_en": "Find why main bearings fail early and fix the design",
   "problem": {
     "heading": "設計 20 年，5 年就壞",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Built for 20 Years, Dead in 5",
+    "items": [
+      [
+        "📉",
+        "~30% fail within 5 years"
+      ],
+      [
+        "🧮",
+        "Single-physics underrates 40–60%"
+      ],
+      [
+        "🔍",
+        "Root failure mechanism unclear"
+      ]
+    ]
+  },
   "method": {
     "heading": "多物理耦合分析",
     "steps": [
@@ -34,6 +56,17 @@
       "設計優化"
     ],
     "note": "以失效的 2 MW 風機軸承實物檢驗"
+  },
+  "method_en": {
+    "heading": "Multi-Physics Coupled Analysis",
+    "steps": [
+      "Teardown",
+      "Finite element",
+      "Tribology",
+      "λ-ratio check",
+      "Optimization"
+    ],
+    "note": "Physical inspection of a failed 2 MW turbine bearing"
   },
   "results": {
     "heading": "雙列錐形滾子軸承",
@@ -53,6 +86,24 @@
     ],
     "note": "最大應力降低 39%；現場驗證誤差 12.3% 以內"
   },
+  "results_en": {
+    "heading": "Double-Row Tapered Rollers",
+    "items": [
+      {
+        "value": "λ 2.1→4.2",
+        "label": "Reaches full EHL lubrication"
+      },
+      {
+        "value": "2.1→8.7 yrs",
+        "label": "Predicted service life"
+      },
+      {
+        "value": "−76%",
+        "label": "Bearing failure rate"
+      }
+    ],
+    "note": "Peak stress down 39%; field validation error within 12.3%"
+  },
   "cta": {
     "venue": "Engineering Failure Analysis · 2025",
     "authors": "Rong-Mao Lee, Jien-Chen Chen, Jui-Hung Liu",
@@ -61,6 +112,11 @@
       "⚙️ 主軸承",
       "🧪 多物理",
       "🛢️ 潤滑"
+    ],
+    "chips_en": [
+      "⚙️ Main bearing",
+      "🧪 Multi-physics",
+      "🛢️ Lubrication"
     ]
   }
 }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DOF Lab 研究日誌 — 風能 AI、RAG 架構、MCP 工具鏈、SCADA 與工業 AI 的每日研究進展與技術心得。">
   <title>研究日誌 ｜ DOF Lab</title>
+  <script src="assets/i18n.js?v=20261106"></script>
   <link rel="stylesheet" href="assets/editorial.css?v=20261025">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
@@ -47,7 +48,9 @@
     <div class="wrap">
       <p class="kicker">Research Journal · 研究日誌</p>
       <h1>研究日誌</h1>
-      <p class="lede">記錄每日研究進展與技術心得，涵蓋風能 AI、RAG 架構、MCP 工具鏈、SCADA 與工業 AI。共 <strong id="post-count">…</strong> 篇。</p>
+      <p class="lede">記錄每日研究進展與技術心得，涵蓋風能 AI、RAG 架構、MCP 工具鏈、SCADA 與工業 AI。</p>
+      <p class="lede" id="post-count-line" data-i18n-skip>共 <strong id="post-count">…</strong> 篇。</p>
+      <p class="updated-note" data-i18n-skip hidden id="post-lang-note" style="font-size:.86rem;color:var(--muted);margin-top:.6rem">Journal entries are written in Traditional Chinese; the interface below is in English.</p>
     </div>
   </header>
 
@@ -208,14 +211,15 @@
     const dateFromFile = (f) => (f.match(/^(\d{4}-\d{2}-\d{2})/) || [])[1] || '';
 
     // 由檔名推導分類標籤
+    const T = (zh, en) => DOFI18n.t(zh, en);
     const categorize = (f) => {
       const s = f.toLowerCase();
       if (/rag|graphrag|hybridrag|retrieval|openscholar|scite/.test(s)) return 'RAG';
-      if (/windmindom|z72|scada|wind|turbine|offshore|windai|yaw|curtailment/.test(s)) return '風能 AI';
+      if (/windmindom|z72|scada|wind|turbine|offshore|windai|yaw|curtailment/.test(s)) return T('風能 AI', 'Wind AI');
       if (/mcp|webmcp/.test(s)) return 'MCP';
-      if (/induspect|inspection|industrial|fault|diagnosis|ocr/.test(s)) return '工業 AI';
-      if (/agent|claude|gemini|llm|gpt|foundation|neuromorphic|samsung|sarvam|bharatgen|deepmind|nvidia/.test(s)) return 'AI 前沿';
-      return '研究筆記';
+      if (/induspect|inspection|industrial|fault|diagnosis|ocr/.test(s)) return T('工業 AI', 'Industrial AI');
+      if (/agent|claude|gemini|llm|gpt|foundation|neuromorphic|samsung|sarvam|bharatgen|deepmind|nvidia/.test(s)) return T('AI 前沿', 'AI Frontier');
+      return T('研究筆記', 'Research Notes');
     };
 
     const parseHtmlPost = (text, url, filename) => {
@@ -242,7 +246,7 @@
 
     const renderPosts = (posts) => {
       if (!posts.length) {
-        postListEl.innerHTML = '<div class="empty-state">找不到符合的文章。</div>';
+        postListEl.innerHTML = '<div class="empty-state">' + DOFI18n.t('找不到符合的文章。', 'No matching posts.') + '</div>';
         return;
       }
       postListEl.innerHTML = posts.map((p) => `
@@ -259,10 +263,13 @@
     const renderStats = (posts) => {
       const total = posts.length;
       countEl.textContent = total;
+      const line = document.getElementById('post-count-line');
+      if (line) line.innerHTML = DOFI18n.t(`共 <strong>${total}</strong> 篇。`, `<strong>${total}</strong> posts in total.`);
+      const note = document.getElementById('post-lang-note'); if (note) note.hidden = !DOFI18n.en;
       globalStatsEl.innerHTML = `
-        <li><span>文章總數</span><strong>${total}</strong></li>
-        <li><span>最新文章</span><strong>${dateFromFile(posts[0]?.url.split('/').pop() || '') || '—'}</strong></li>
-        <li><span>最早文章</span><strong>${dateFromFile(posts[posts.length-1]?.url.split('/').pop() || '') || '—'}</strong></li>`;
+        <li><span>${DOFI18n.t('文章總數', 'Total posts')}</span><strong>${total}</strong></li>
+        <li><span>${DOFI18n.t('最新文章', 'Latest post')}</span><strong>${dateFromFile(posts[0]?.url.split('/').pop() || '') || '—'}</strong></li>
+        <li><span>${DOFI18n.t('最早文章', 'Earliest post')}</span><strong>${dateFromFile(posts[posts.length-1]?.url.split('/').pop() || '') || '—'}</strong></li>`;
       const counts = posts.reduce((a, p) => { a[p.category] = (a[p.category]||0)+1; return a; }, {});
       topicListEl.innerHTML = Object.entries(counts).sort((a,b)=>b[1]-a[1])
         .map(([c,n]) => `<li><span>${c}</span><span class="count">${n}</span></li>`).join('');

@@ -6,7 +6,12 @@
     "風場可靠度分析"
   ],
   "title_en": "Application of the Power Law Process in the Reliability Analysis of a Wind Farm: A Case Study Approach",
+  "title_lines_en": [
+    "Power Law Process for",
+    "Wind Farm Reliability"
+  ],
   "hook": "用警報紀錄算出哪部風機最可靠、哪部最需要關注",
+  "hook_en": "Alarm logs reveal the most and least reliable turbines",
   "problem": {
     "heading": "大型風機需要失效分析",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Turbines need failure analysis",
+    "items": [
+      [
+        "🌬️",
+        "Wind is now a major power source"
+      ],
+      [
+        "🚨",
+        "Huge alarm logs, hard to read"
+      ],
+      [
+        "❓",
+        "How reliable is the whole farm?"
+      ]
+    ]
+  },
   "method": {
     "heading": "從警報到可靠度",
     "steps": [
@@ -32,6 +54,16 @@
       "故障診斷",
       "冪次法則模型",
       "可靠度排序"
+    ]
+  },
+  "method_en": {
+    "heading": "From alarms to reliability",
+    "steps": [
+      "SCADA data",
+      "Alarm records",
+      "Diagnostics",
+      "Power law fit",
+      "Rank turbines"
     ]
   },
   "results": {
@@ -51,6 +83,23 @@
       }
     ]
   },
+  "results_en": {
+    "heading": "Farm reliability is declining",
+    "items": [
+      {
+        "value": "Ranking",
+        "label": "Most vs least reliable units"
+      },
+      {
+        "value": "Short term",
+        "label": "Higher failure probability"
+      },
+      {
+        "value": "Maintenance",
+        "label": "Monitoring and upkeep matter"
+      }
+    ]
+  },
   "cta": {
     "venue": "Journal of the Chinese Society of Mechanical Engineers · Vol. 47 No. 3",
     "authors": "Jui-Hung Liu, Nelson T. Corbita Jr., Glenn B. Paclijan, Jave Rahayne A. Bantuas",
@@ -59,6 +108,11 @@
       "📉 可靠度",
       "🚨 警報分析",
       "🌬️ 風場案例"
+    ],
+    "chips_en": [
+      "📉 Reliability",
+      "🚨 Alarm analysis",
+      "🌬️ Case study"
     ]
   }
 }

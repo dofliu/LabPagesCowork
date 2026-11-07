@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DOF Lab 研究專案全集 — 風能 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈。">
   <title>專案成果 ｜ DOF Lab</title>
+  <script src="assets/i18n.js?v=20261106"></script>
   <link rel="stylesheet" href="assets/editorial.css?v=20261025">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
@@ -32,7 +33,8 @@
     <div class="wrap">
       <p class="kicker">Projects · 專案成果</p>
       <h1>研究與開發專案<br>30 秒看懂一個專案。</h1>
-      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈。每個專案附一支 30 秒動畫導覽，點開卡片即可播放。<span id="projectCount"></span></p>
+      <p class="lede">橫跨風力發電 AI、工業 AI 巡檢、RAG 知識管理、教育科技與工具鏈。每個專案附一支 30 秒動畫導覽，點開卡片即可播放。</p>
+      <p class="lede" id="projectCount" data-i18n-skip hidden></p>
     </div>
   </header>
 
@@ -88,7 +90,8 @@
   <script src="assets/editorial.js?v=20261025"></script>
   <script>
     DOFShowcase.render('#proj-grid', '#cat-tabs').then(function (ps) {
-      if (ps && ps.length) document.getElementById('projectCount').textContent = ` 目前收錄 ${ps.length} 支專案動畫。`;
+      const c = document.getElementById('projectCount');
+      if (ps && ps.length && c) { c.textContent = DOFI18n.t(`目前收錄 ${ps.length} 支專案動畫。`, `${ps.length} project videos so far.`); c.hidden = false; }
     });
   </script>
 </body>

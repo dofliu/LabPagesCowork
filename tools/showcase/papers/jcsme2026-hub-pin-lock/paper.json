@@ -6,7 +6,12 @@
     "設計改良與強度分析"
   ],
   "title_en": "Design Improvement and Strength Analysis of a Pin Lock Structure for Wind Turbine Hub",
+  "title_lines_en": [
+    "Wind Turbine Hub Pin Lock",
+    "Redesign & Strength Study"
+  ],
   "hook": "讓運轉 15 年的 2 MW 風機關鍵鎖件更耐用",
+  "hook_en": "A tougher critical lock part for 15-year-old 2 MW turbines",
   "problem": {
     "heading": "插銷鎖長期受極端風況",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Pin lock faces extreme winds",
+    "items": [
+      [
+        "🌪️",
+        "15 years of extreme wind loads"
+      ],
+      [
+        "⚠️",
+        "Pin support failures occur"
+      ],
+      [
+        "🛑",
+        "Downtime and repair costs"
+      ]
+    ]
+  },
   "method": {
     "heading": "從建模到疲勞驗證",
     "steps": [
@@ -33,6 +55,16 @@
       "Miner 疲勞分析"
     ],
     "note": "針對 2 MW 風機輪轂的插銷支座重新設計"
+  },
+  "method_en": {
+    "heading": "From modeling to fatigue proof",
+    "steps": [
+      "3D modeling",
+      "Strength check",
+      "Wind load sims",
+      "Miner fatigue"
+    ],
+    "note": "Redesigned pin support for a 2 MW wind turbine hub"
   },
   "results": {
     "heading": "結構可靠、壽命延長",
@@ -51,6 +83,23 @@
       }
     ]
   },
+  "results_en": {
+    "heading": "Robust design, longer life",
+    "items": [
+      {
+        "value": "Below limit",
+        "label": "Cumulative fatigue damage"
+      },
+      {
+        "value": "Cyclic loads",
+        "label": "Passes all wind cases"
+      },
+      {
+        "value": "↓ Downtime",
+        "label": "Lower maintenance cost"
+      }
+    ]
+  },
   "cta": {
     "venue": "Journal of the Chinese Society of Mechanical Engineers · Vol. 47 No. 2",
     "authors": "Rong-Mao Lee, Jien-Chen Chen, Nelson T. Corbita Jr., Jui-Hung Liu",
@@ -59,6 +108,11 @@
       "🔩 結構設計",
       "📐 強度分析",
       "🔁 疲勞壽命"
+    ],
+    "chips_en": [
+      "🔩 Structural",
+      "📐 Strength",
+      "🔁 Fatigue life"
     ]
   }
 }

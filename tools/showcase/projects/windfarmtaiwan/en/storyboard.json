@@ -1,0 +1,32 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "xfade": 0.6,
+  "scenes": [
+    {
+      "file": "scene01_open.html",
+      "duration": 7,
+      "transition": "fade"
+    },
+    {
+      "file": "scene02_live.html",
+      "duration": 6.5,
+      "transition": "smoothleft"
+    },
+    {
+      "file": "scene03_globe.html",
+      "duration": 6.5,
+      "transition": "circleopen"
+    },
+    {
+      "file": "scene04_outputs.html",
+      "duration": 6.5,
+      "transition": "fade"
+    },
+    {
+      "file": "scene05_cta.html",
+      "duration": 6
+    }
+  ]
+}

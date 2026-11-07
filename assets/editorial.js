@@ -71,19 +71,25 @@
    Projects renderer — used by projects.html (data.json driven)
    ========================================================================= */
 window.DOFProjects = (function () {
+  const I = window.DOFI18n || { en: false, t: (a) => a, f: (o, k) => (o && o[k]) || '' };
   const CAT = {
-    wind_energy:    { zh: '風力發電 AI',  cover: 'feat__cover--forest', ico: 'fa-wind' },
-    industrial_ai:  { zh: '工業 AI 巡檢', cover: 'feat__cover--rust',   ico: 'fa-industry' },
-    rag_knowledge:  { zh: 'RAG 知識',     cover: '',                    ico: 'fa-diagram-project' },
-    edtech:         { zh: '教育科技',     cover: 'feat__cover--gold',   ico: 'fa-graduation-cap' },
-    mcp_tools:      { zh: 'MCP 工具鏈',   cover: 'feat__cover--forest', ico: 'fa-plug' },
-    personal_tools: { zh: '生產力工具',   cover: '',                    ico: 'fa-toolbox' },
-    _other:         { zh: '其他',         cover: '',                    ico: 'fa-cube' },
+    wind_energy:    { zh: '風力發電 AI',  en: 'Wind Energy AI',           cover: 'feat__cover--forest', ico: 'fa-wind' },
+    industrial_ai:  { zh: '工業 AI 巡檢', en: 'Industrial AI Inspection', cover: 'feat__cover--rust',   ico: 'fa-industry' },
+    rag_knowledge:  { zh: 'RAG 知識',     en: 'RAG Knowledge',            cover: '',                    ico: 'fa-diagram-project' },
+    edtech:         { zh: '教育科技',     en: 'EdTech',                   cover: 'feat__cover--gold',   ico: 'fa-graduation-cap' },
+    mcp_tools:      { zh: 'MCP 工具鏈',   en: 'MCP Toolchain',            cover: 'feat__cover--forest', ico: 'fa-plug' },
+    personal_tools: { zh: '生產力工具',   en: 'Productivity Tools',       cover: '',                    ico: 'fa-toolbox' },
+    _other:         { zh: '其他',         en: 'Other',                    cover: '',                    ico: 'fa-cube' },
   };
-  const STATUS = {
+  const STATUS_ZH = {
     production: '營運中', active: '進行中', planning: '規劃中',
     planned: '規劃中', pending: '待啟動', completed: '已完成', development:'開發中', pilot:'教學試用', catalogued: '專案紀錄', research: '研究進行中', prototype: '研究原型', preprint: '預印本', published: '相關論文已發表'
   };
+  const STATUS_EN = {
+    production: 'In production', active: 'Active', planning: 'Planning',
+    planned: 'Planning', pending: 'Pending', completed: 'Completed', development: 'In development', pilot: 'Classroom pilot', catalogued: 'Catalogued', research: 'Research in progress', prototype: 'Research prototype', preprint: 'Preprint', published: 'Paper published'
+  };
+  const STATUS = I.en ? STATUS_EN : STATUS_ZH;
 
   function esc(s) { return String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
@@ -91,19 +97,19 @@ window.DOFProjects = (function () {
     const c = CAT[p.category] || CAT._other;
     const tags = (p.technologies || []).slice(0, 3).map(t => `<span class="tag tag--ink">${esc(t)}</span>`).join('');
     const source = p.source_url || p.repository_url;
-    const note = p.source_note || (p.last_updated ? `紀錄日期：${p.last_updated}` : '');
+    const note = I.f(p, 'source_note') || (p.last_updated ? I.t('紀錄日期：', 'Recorded: ') + p.last_updated : '');
     return `
     <article class="feat feat--third" data-cat="${p.category || '_other'}" data-reveal>
       <div class="feat__cover ${c.cover}">
         <i class="fas ${c.ico} ico"></i>
         <span class="badge">${STATUS[p.status] || p.status || ''}</span>
       </div>
-      <div class="feat__tags"><span class="tag">${c.zh}</span>${tags}</div>
-      <h3>${esc(p.name_zh || p.name)}</h3>
-      <p class="feat__desc">${esc(p.description_zh || p.description || '')}</p>
+      <div class="feat__tags"><span class="tag">${I.en ? c.en : c.zh}</span>${tags}</div>
+      <h3>${esc(I.en ? (p.name || p.name_zh) : (p.name_zh || p.name))}</h3>
+      <p class="feat__desc">${esc(I.en ? (p.description || p.description_zh || '') : (p.description_zh || p.description || ''))}</p>
       <div class="feat__foot">
         <span class="feat__prog">${esc(note)}</span>
-        ${source ? `<a href="${esc(source)}" class="read-more" target="_blank" rel="noopener">公開來源 ↗</a>` : ''}
+        ${source ? `<a href="${esc(source)}" class="read-more" target="_blank" rel="noopener">${I.t('公開來源', 'Public source')} ↗</a>` : ''}
       </div>
     </article>`;
   }
@@ -121,7 +127,7 @@ window.DOFProjects = (function () {
       return ps;
     }).catch(err => {
       const el = document.querySelector(target);
-      if (el) el.innerHTML = '<p style="color:var(--muted)">專案資料載入失敗，請於 doflab.cc 線上瀏覽。</p>';
+      if (el) el.innerHTML = '<p style="color:var(--muted)">' + I.t('專案資料載入失敗，請於 doflab.cc 線上瀏覽。', 'Could not load project data. Please view it online at doflab.cc.') + '</p>';
       console.error(err);
     });
   }
@@ -133,23 +139,33 @@ window.DOFProjects = (function () {
    Showcase renderer — projects.html（showcase.json：封面＋短句，點開播動畫）
    ========================================================================= */
 window.DOFShowcase = (function () {
-  const CAT = {
+  const I = window.DOFI18n || { en: false, t: (a) => a, f: (o, k) => (o && o[k]) || '' };
+  const CAT = I.en ? {
+    wind_energy: 'Wind Energy AI', industrial_ai: 'Industrial AI Inspection', rag_knowledge: 'RAG Knowledge',
+    edtech: 'EdTech', mcp_tools: 'MCP Toolchain', personal_tools: 'Productivity Tools', other: 'Other'
+  } : {
     wind_energy: '風力發電 AI', industrial_ai: '工業 AI 巡檢', rag_knowledge: 'RAG 知識',
     edtech: '教育科技', mcp_tools: 'MCP 工具鏈', personal_tools: '生產力工具', other: '其他'
   };
-  const SRC = { repo: 'GitHub Repo', document: '成果文件', link: '專案連結', other: '相關連結' };
+  const SRC = I.en ? { repo: 'GitHub Repo', document: 'Document', link: 'Project link', other: 'Related link' }
+                   : { repo: 'GitHub Repo', document: '成果文件', link: '專案連結', other: '相關連結' };
+  // 英文介面：有英文版影片（video_en／cover_en）就用英文版，否則退回中文版
+  const vid = p => (I.en && p.video_en) ? p.video_en : p.video;
+  const cov = p => (I.en && p.cover_en) ? p.cover_en : p.cover;
+  const title = p => I.f(p, 'title'), tagline = p => I.f(p, 'tagline');
+  const tech = p => (I.en && p.tech_en && p.tech_en.length) ? p.tech_en : (p.tech || []);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let items = [];
   const fmt = s => { s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 
   function card(p) {
-    return `<button type="button" class="sc-card" data-id="${esc(p.id)}" data-cat="${esc(p.category)}" aria-label="播放：${esc(p.title)}">
-      <span class="sc-card__cover"><img src="${esc(p.cover)}" alt="" loading="lazy" width="960" height="540">
+    return `<button type="button" class="sc-card" data-id="${esc(p.id)}" data-cat="${esc(p.category)}" aria-label="${I.t('播放：', 'Play: ')}${esc(title(p))}">
+      <span class="sc-card__cover"><img src="${esc(cov(p))}" alt="" loading="lazy" width="960" height="540">
         <span class="sc-card__play" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 1.8v12.4c0 .6.7 1 1.2.6l9.6-6.2c.5-.3.5-1 0-1.3L4.2 1.2C3.7.9 3 1.2 3 1.8z"/></svg></span>
         ${p.duration ? `<span class="sc-card__dur">${fmt(p.duration)}</span>` : ''}</span>
       <span class="sc-card__body"><span class="tag">${esc(CAT[p.category] || CAT.other)}</span>
-        <span class="sc-card__title">${esc(p.title)}</span>
-        <span class="sc-card__tagline">${esc(p.tagline)}</span></span>
+        <span class="sc-card__title">${esc(title(p))}</span>
+        <span class="sc-card__tagline">${esc(tagline(p))}</span></span>
     </button>`;
   }
 
@@ -157,10 +173,10 @@ window.DOFShowcase = (function () {
     const p = items.find(x => x.id === id); if (!p) return;
     const dlg = document.getElementById('sc-modal');
     const v = dlg.querySelector('video');
-    v.poster = p.cover; v.src = p.video;
-    dlg.querySelector('h2').textContent = p.title;
-    dlg.querySelector('p').textContent = p.tagline;
-    dlg.querySelector('.sc-modal__tech').innerHTML = (p.tech || []).map(t => `<span class="tag tag--ink">${esc(t)}</span>`).join('');
+    v.poster = cov(p); v.src = vid(p);
+    dlg.querySelector('h2').textContent = title(p);
+    dlg.querySelector('p').textContent = tagline(p);
+    dlg.querySelector('.sc-modal__tech').innerHTML = tech(p).map(t => `<span class="tag tag--ink">${esc(t)}</span>`).join('');
     const a = dlg.querySelector('.sc-modal__src');
     if (p.source_url) { a.href = p.source_url; a.innerHTML = `${SRC[p.source_type] || SRC.other} ↗`; a.hidden = false; } else { a.hidden = true; }
     if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
@@ -179,11 +195,11 @@ window.DOFShowcase = (function () {
     const grid = document.querySelector(gridSel), tabs = document.querySelector(tabsSel);
     return fetch('showcase.json?v=20261106', { cache: 'no-cache' }).then(r => r.json()).then(data => {
       items = data.items || [];
-      if (!items.length) { grid.innerHTML = '<p class="sc-empty">專案動畫製作中，敬請期待。</p>'; tabs.hidden = true; return items; }
+      if (!items.length) { grid.innerHTML = '<p class="sc-empty">' + I.t('專案動畫製作中，敬請期待。', 'Project videos are in production. Stay tuned.') + '</p>'; tabs.hidden = true; return items; }
       grid.innerHTML = items.map(card).join('');
       const cats = [...new Set(items.map(p => p.category))];
       if (cats.length < 2) tabs.hidden = true;
-      else tabs.innerHTML = '<button class="tab active" data-filter="all">全部</button>' +
+      else tabs.innerHTML = '<button class="tab active" data-filter="all">' + I.t('全部', 'All') + '</button>' +
         cats.map(c => `<button class="tab" data-filter="${esc(c)}">${esc(CAT[c] || CAT.other)}</button>`).join('');
       tabs.addEventListener('click', e => {
         const b = e.target.closest('.tab'); if (!b) return;
@@ -199,7 +215,7 @@ window.DOFShowcase = (function () {
       if (location.hash.length > 1) open(decodeURIComponent(location.hash.slice(1)));
       return items;
     }).catch(err => {
-      grid.innerHTML = '<p class="sc-empty">專案資料載入失敗，請稍後再試。</p>'; console.error(err);
+      grid.innerHTML = '<p class="sc-empty">' + I.t('專案資料載入失敗，請稍後再試。', 'Could not load project data. Please try again later.') + '</p>'; console.error(err);
     });
   }
   return { render, open, close };
@@ -209,13 +225,17 @@ window.DOFShowcase = (function () {
    Announcements renderer — 首頁（前 N 則）與 news.html（全部）
    ========================================================================= */
 window.DOFNews = (function () {
+  const I = window.DOFI18n || { en: false, t: (a) => a, f: (o, k) => (o && o[k]) || '' };
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const TAG_EN = { '公告': 'Notice', '活動': 'Event', '招生': 'Recruitment', '獲獎': 'Award', '成果': 'Release', '網站': 'Website' };
   function row(n) {
-    const t = n.link ? `<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)} ↗</a>` : esc(n.title);
+    const title = I.f(n, 'title'), body = I.f(n, 'body');
+    const tag = n.tag || '公告';
+    const t = n.link ? `<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(title)} ↗</a>` : esc(title);
     return `<article class="news-row${n.pinned ? ' news-row--pinned' : ''}">
       <time class="news-row__date" datetime="${esc(n.date)}">${esc(n.date.replace(/-/g, '.'))}</time>
-      <div><div class="news-row__title">${t}</div>${n.body ? `<p class="news-row__body">${esc(n.body)}</p>` : ''}</div>
-      <span class="tag">${esc(n.tag || '公告')}</span></article>`;
+      <div><div class="news-row__title">${t}</div>${body ? `<p class="news-row__body">${esc(body)}</p>` : ''}</div>
+      <span class="tag">${esc(I.en ? (n.tag_en || TAG_EN[tag] || tag) : tag)}</span></article>`;
   }
   function render(target, opts) {
     opts = opts || {};
@@ -223,7 +243,7 @@ window.DOFNews = (function () {
     return fetch('announcements.json?v=20261025', { cache: 'no-cache' }).then(r => r.json()).then(data => {
       let list = (data.items || []).slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || b.date.localeCompare(a.date));
       if (opts.limit) list = list.slice(0, opts.limit);
-      if (!list.length) { if (opts.hideEmpty) opts.hideEmpty.hidden = true; else el.innerHTML = '<p style="color:var(--muted)">目前沒有公告。</p>'; return list; }
+      if (!list.length) { if (opts.hideEmpty) opts.hideEmpty.hidden = true; else el.innerHTML = '<p style="color:var(--muted)">' + I.t('目前沒有公告。', 'No announcements yet.') + '</p>'; return list; }
       el.innerHTML = list.map(row).join('');
       return list;
     }).catch(err => { if (opts.hideEmpty) opts.hideEmpty.hidden = true; console.error(err); });

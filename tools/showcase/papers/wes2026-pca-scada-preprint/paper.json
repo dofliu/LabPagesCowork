@@ -6,7 +6,12 @@
     "SCADA 健康監測基準"
   ],
   "title_en": "Chronologically calibrated PCA for wind-turbine SCADA health monitoring: a leakage-controlled CARE v6 benchmark",
+  "title_lines_en": [
+    "Chrono-Calibrated PCA for",
+    "SCADA Health Monitoring"
+  ],
   "hook": "嚴格避免資料洩漏，公平評估風機異常偵測",
+  "hook_en": "Leakage-free, fair evaluation of turbine anomaly detection",
   "problem": {
     "heading": "異常偵測評估易失真",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Anomaly evals easily distorted",
+    "items": [
+      [
+        "💧",
+        "Train/test data leakage"
+      ],
+      [
+        "🎯",
+        "Thresholds tuned on test data"
+      ],
+      [
+        "⚖️",
+        "Unfair method comparisons"
+      ]
+    ]
+  },
   "method": {
     "heading": "鎖定測試集的評估流程",
     "steps": [
@@ -34,6 +56,17 @@
       "叢集 Bootstrap"
     ],
     "note": "36 部風機、3 座風場、約 524 萬筆 10 分鐘資料"
+  },
+  "method_en": {
+    "heading": "Test-set-locked evaluation",
+    "steps": [
+      "CARE v6",
+      "Lock test set",
+      "PCA residuals",
+      "Conformal cut",
+      "Bootstrap CIs"
+    ],
+    "note": "36 turbines, 3 wind farms, ~5.24 million 10-min records"
   },
   "results": {
     "heading": "鎖定測試集結果",
@@ -53,14 +86,38 @@
     ],
     "note": "預印本，非正式期刊出版；作者註：不代表 PCA 普遍優於其他方法"
   },
+  "results_en": {
+    "heading": "Locked test-set results",
+    "items": [
+      {
+        "value": "0.506",
+        "label": "CARE score (vs 0.252)"
+      },
+      {
+        "value": "17→4",
+        "label": "False-alarm events"
+      },
+      {
+        "value": "5 / 18",
+        "label": "Anomaly events detected"
+      }
+    ],
+    "note": "Preprint, not a formal journal publication · Authors' note: PCA is not generally superior"
+  },
   "cta": {
     "venue": "Wind Energy Science Discussions（預印本）· 2026",
+    "venue_en": "Wind Energy Science Discussions (Preprint) · 2026",
     "authors": "Jui-Hung Liu, Jien-Chen Chen, Chun-Chieh Wang",
     "doi": "10.5194/wes-2026-145",
     "chips": [
       "📊 SCADA",
       "🔍 異常偵測",
       "⚖️ 公平基準"
+    ],
+    "chips_en": [
+      "📊 SCADA",
+      "🔍 Anomalies",
+      "⚖️ Fair eval"
     ]
   }
 }

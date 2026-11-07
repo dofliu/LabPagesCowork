@@ -6,7 +6,12 @@
     "的機器學習分析"
   ],
   "title_en": "Analysis and Comparison of Turbulence Models on Wind Turbine Performance using SCADA Data and Machine Learning Technique",
+  "title_lines_en": [
+    "Turbulence vs. Turbine",
+    "Performance via ML"
+  ],
   "hook": "用風場 SCADA 資料比較紊流模型，看紊流怎麼影響風機",
+  "hook_en": "Farm SCADA + ML: how turbulence affects turbines",
   "problem": {
     "heading": "紊流影響疲勞負載",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Turbulence Drives Fatigue Load",
+    "items": [
+      [
+        "🌀",
+        "Turbulence causes fatigue loads"
+      ],
+      [
+        "📊",
+        "SCADA data is massive"
+      ],
+      [
+        "❓",
+        "Which model is most accurate?"
+      ]
+    ]
+  },
   "method": {
     "heading": "五種模型比較",
     "steps": [
@@ -31,6 +53,15 @@
       "資料前處理",
       "建立 5 種模型",
       "誤差比較"
+    ]
+  },
+  "method_en": {
+    "heading": "Comparing Five Models",
+    "steps": [
+      "Farm SCADA",
+      "Preprocessing",
+      "Build 5 models",
+      "Error compare"
     ]
   },
   "results": {
@@ -50,6 +81,23 @@
       }
     ]
   },
+  "results_en": {
+    "heading": "Turbulence Rules Rotor Output",
+    "items": [
+      {
+        "value": "Quadratic",
+        "label": "Regression with lowest error"
+      },
+      {
+        "value": "Nacelle",
+        "label": "Speed & pitch raise the error"
+      },
+      {
+        "value": "Turbulence",
+        "label": "Main driver of rotor output"
+      }
+    ]
+  },
   "cta": {
     "venue": "Cogent Engineering · Vol. 10 No. 1 · 2023",
     "authors": "Jui-Hung Liu, Jien-Chen Chen, Nelson T. Corbita Jr.",
@@ -57,6 +105,11 @@
     "chips": [
       "🌀 紊流",
       "🤖 機器學習",
+      "📊 SCADA"
+    ],
+    "chips_en": [
+      "🌀 Turbulence",
+      "🤖 ML models",
       "📊 SCADA"
     ]
   }
