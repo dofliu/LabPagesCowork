@@ -452,5 +452,5 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.1; lett
 .lang-toggle:hover { border-color: var(--rust); color: var(--ink); }
 .lang-toggle .sep { opacity: .4; }
 .lang-toggle .on { color: var(--rust); }
-@media (max-width: 880px) { .nav__lang { width: 100%; padding: .8rem 0; } }
+@media (max-width: 880px) { .nav__lang { width: 100%; padding: .8rem 0; justify-content: center; } }
 html[data-lang="en"] .brand small { letter-spacing: .14em; }
