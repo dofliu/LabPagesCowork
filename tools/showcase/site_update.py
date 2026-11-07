@@ -241,11 +241,17 @@ def pub_video(a) -> None:
     p = hits[0]
     if a.remove:
         p.pop("video_id", None)
+        p.pop("video_en", None)
     else:
         for ext in ("mp4", "jpg"):
             if not (ROOT / "assets" / "papers" / f"{a.id}.{ext}").exists():
                 sys.exit(f"找不到 assets/papers/{a.id}.{ext}")
         p["video_id"] = a.id
+        # 英文版旗標跟著新影片重算（有 .en.mp4 + .en.jpg 才算有）
+        if all((ROOT / "assets" / "papers" / f"{a.id}.en.{ext}").exists() for ext in ("mp4", "jpg")):
+            p["video_en"] = True
+        else:
+            p.pop("video_en", None)
     data["_updated"] = TODAY
     save("publications.json", data)
     print(("－ 移除" if a.remove else "▶ 掛上") + f"動畫：{p['title'][:60]}")

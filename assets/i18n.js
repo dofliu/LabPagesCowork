@@ -112,8 +112,11 @@
   function reveal() { var s = document.getElementById('i18n-hide'); if (s) s.parentNode.removeChild(s); }
 
   function switchTo(next) {
-    try { localStorage.setItem(KEY, next); } catch (e) {}
-    var u = new URL(location.href); u.searchParams.delete('lang');
+    var saved = false;
+    try { localStorage.setItem(KEY, next); saved = localStorage.getItem(KEY) === next; } catch (e) {}
+    var u = new URL(location.href);
+    // localStorage 不可用（隱私模式／被封鎖）時改用網址參數記住語言
+    if (saved) u.searchParams.delete('lang'); else u.searchParams.set('lang', next);
     if (u.toString() === location.href) location.reload(); else location.href = u.toString();
   }
 
