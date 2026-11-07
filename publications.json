@@ -12,7 +12,8 @@
       "verification": "publisher_verified",
       "index": "SCIE",
       "metric": "",
-      "video_id": "jcsme2026-cmm-directional"
+      "video_id": "jcsme2026-cmm-directional",
+      "video_en": true
     },
     {
       "year": "2026",
@@ -26,7 +27,8 @@
       "verification": "publisher_verified",
       "index": "SCIE",
       "metric": "",
-      "video_id": "sr2026-rag-transfer"
+      "video_id": "sr2026-rag-transfer",
+      "video_en": true
     },
     {
       "year": "2026",
@@ -40,7 +42,8 @@
       "status": "published",
       "source_url": "https://journals.sagepub.com/doi/10.1177/16878132261464392",
       "verification": "publisher_verified",
-      "video_id": "ame2026-main-bearing-scada"
+      "video_id": "ame2026-main-bearing-scada",
+      "video_en": true
     },
     {
       "year": "2026",
@@ -54,7 +57,8 @@
       "status": "published",
       "source_url": "https://link.springer.com/article/10.1007/s40684-026-00902-9",
       "verification": "publisher_verified",
-      "video_id": "ijpem2026-pitch-early-warning"
+      "video_id": "ijpem2026-pitch-early-warning",
+      "video_en": true
     },
     {
       "year": "2026",
@@ -68,7 +72,8 @@
       "status": "published",
       "source_url": "https://journal.csme.org.tw/vol_file.aspx?fid=20260429102651&lang=en",
       "verification": "publisher_verified",
-      "video_id": "jcsme2026-hub-pin-lock"
+      "video_id": "jcsme2026-hub-pin-lock",
+      "video_en": true
     },
     {
       "year": "2026",
@@ -82,7 +87,8 @@
       "status": "published",
       "source_url": "https://journal.csme.org.tw/vol_file.aspx?fid=20260629140919&lang=en",
       "verification": "publisher_verified",
-      "video_id": "jcsme2026-power-law-reliability"
+      "video_id": "jcsme2026-power-law-reliability",
+      "video_en": true
     },
     {
       "year": "2025",
@@ -96,7 +102,8 @@
       "status": "published",
       "source_url": "https://doi.org/10.1016/j.engfailanal.2025.109945",
       "verification": "publisher_metadata_verified",
-      "video_id": "efa2025-main-bearing-multiphysics"
+      "video_id": "efa2025-main-bearing-multiphysics",
+      "video_en": true
     },
     {
       "year": "2024",
@@ -125,7 +132,8 @@
       "status": "published",
       "source_url": "https://sites.google.com/view/jui-hung-liu/著作發表/期刊論文-journal-articles",
       "verification": "personal_site_record",
-      "video_id": "sam2023-ar-maintenance"
+      "video_id": "sam2023-ar-maintenance",
+      "video_en": true
     },
     {
       "year": "2023",
@@ -139,7 +147,8 @@
       "status": "published",
       "source_url": "https://sites.google.com/view/jui-hung-liu/著作發表/期刊論文-journal-articles",
       "verification": "publisher_metadata_verified",
-      "video_id": "cogent2023-turbulence-ml"
+      "video_id": "cogent2023-turbulence-ml",
+      "video_en": true
     },
     {
       "year": "2023",
@@ -153,7 +162,8 @@
       "status": "published",
       "source_url": "https://sites.google.com/view/jui-hung-liu/著作發表/期刊論文-journal-articles",
       "verification": "personal_site_record",
-      "video_id": "applsci2023-tower-climbing-robot"
+      "video_id": "applsci2023-tower-climbing-robot",
+      "video_en": true
     },
     {
       "year": "2023",
@@ -1562,11 +1572,12 @@
       "status": "preprint",
       "source_url": "https://wes.copernicus.org/preprints/wes-2026-145/",
       "verification": "publisher_verified",
-      "video_id": "wes2026-pca-scada-preprint"
+      "video_id": "wes2026-pca-scada-preprint",
+      "video_en": true
     }
   ],
   "accepted": [],
-  "_updated": "2026-10-10",
+  "_updated": "2026-11-07",
   "_source": "https://sites.google.com/view/jui-hung-liu/著作發表",
   "_note": "正式出版、預印本分開列示；個人網站紀錄不代表各篇均已獨立查核出版社書目。IF與分區未附統計年度，不作即時排名。歷年中文著作及研討會保留完整引文。",
   "_note_en": "Formal publications and preprints are listed separately; personal-site records do not imply that every entry was independently checked against publisher bibliographic data. Impact factors and quartiles are not shown without a statistics year, so no live ranking is given. Chinese-language publications and conference papers keep their full citations."

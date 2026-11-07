@@ -136,7 +136,7 @@
         ${vid}
       </article>`;
     }
-    fetch('publications.json?v=20261025').then(r=>r.json()).then(data=>{
+    fetch('publications.json?v=20261107').then(r=>r.json()).then(data=>{
       // 更新日期
       if(data._updated) document.getElementById('updatedNote').innerHTML = EN
         ? `<i class="fas fa-rotate"></i> Data updated ${esc(data._updated)}. ${esc(data._note_en || '')} (Source: <a href="${esc(data._source)}" target="_blank" rel="noopener">publication site ↗</a>)`
