@@ -7,6 +7,8 @@ description: 更新個人網站 doflab.cc（repo dofliu/LabPagesCowork）。(1) 
 
 網站 repo：`dofliu/LabPagesCowork`（GitHub Pages，CNAME = doflab.cc）。
 頁面全部由 JSON 驅動，本技能只改資料檔與 `assets/showcase/`，不手改 HTML。
+網站有**中／英切換**（`assets/i18n.js`＋字典 `assets/i18n/en.js`）：資料檔用 `*_en` 欄位，影片用 `<id>.en.mp4`；
+**每支新動畫都要同時做中、英兩版**（流程見 `tools/showcase/EN_SCENES.md`）。
 
 | 要更新什麼 | 資料檔 | 呈現頁面 |
 |---|---|---|
@@ -42,6 +44,7 @@ python3 -c "import playwright" && which ffmpeg   # 動畫模式才需要
 
 萃取：**一句話定位**、**3 個觀眾有感的重點**、**一個最敢說的主張**、**連結**（公開 https 才放）。
 另外決定：`id`（小寫英數與 -，例：`windai-lab`）、卡片標題（≤16 字）、**卡片簡介 ≤20 字**、
+**英文卡片標題（≤40 字元）與英文簡介（≤60 字元）**、
 分類（wind_energy / industrial_ai / rag_knowledge / edtech / mcp_tools / personal_tools / other）、
 **配樂曲風**：`tech`（系統／AI／工具，預設）、`calm`（教育、研究介紹、文件型成果）、`epic`（大型平台、能源、重大成果）。
 使用者有指定曲風或給了音樂檔就照他的。
@@ -77,6 +80,8 @@ P=tools/showcase/projects/<id>; mkdir -p $P/assets
 素材圖：`python3 tools/showcase/prep_assets.py --out $P/assets <圖檔...>`，HTML 用相對路徑引用。
 寫 `$P/storyboard.json`（格式同 windai-lab）。**動手前先讀 `references/scene_design.md` 的陷阱清單。**
 文字：繁體中文，標題 ≤14 字、chip ≤8 字；不得外連（file:// 離線渲染）。
+中文 5 景預覽沒問題後，**再做英文版** `$P/en/`（複製 5 景＋storyboard.json，翻譯所有看得到的文字、圖片路徑改 `../assets/`，
+規則與固定用語見 `tools/showcase/EN_SCENES.md`），同樣跑 `preview_scenes.py $P/en/storyboard.json` 並 Read 總覽圖。
 
 ### A4. 渲染（每景約 1.5–2 分鐘，整支會超過單一指令 10 分鐘上限 → 背景執行）
 
@@ -84,6 +89,7 @@ P=tools/showcase/projects/<id>; mkdir -p $P/assets
 W=<scratchpad>/<id>; mkdir -p $W
 nohup python3 tools/showcase/render_scenes.py $P/storyboard.json --workdir $W > $W/render.log 2>&1 &
 # 每隔一段時間檢查：tail -2 $W/render.log；出現「完成」才往下
+# 英文版同法：render_scenes.py $P/en/storyboard.json --workdir $W/en（或直接用 batch_render.sh，會兩版一起出）
 ```
 **逐張 Read `$W/check_*.png`**：文字溢出、元素相撞、置中跑位、節點壓到標題。
 有問題改該景 HTML，用 `--only <scene_stem>` 單景重渲。沒看過抽查格不准出片。
@@ -106,8 +112,12 @@ python3 tools/showcase/make_music.py --out $W/bgm.wav --duration $DUR --mood tec
 python3 tools/showcase/assemble_video.py $P/storyboard.json --workdir $W --out $W/master.mp4 \
     --music $W/bgm.wav --loudness -18          # -18 LUFS＝背景音樂感；使用者嫌小聲用 -16，嫌吵用 -20
 python3 tools/showcase/make_web.py $W/master.mp4 --id <id> --cover-at 4.5   # 1280×720 MP4（約 1.3 MB，含 AAC 音軌）＋封面
+# 英文版：同一首配樂，assemble 英文 workdir 後 make_web 加 --lang en → assets/showcase/<id>.en.mp4/.en.jpg
+python3 tools/showcase/assemble_video.py $P/en/storyboard.json --workdir $W/en --out $W/en/master.mp4 --music $W/bgm.wav --loudness -18
+python3 tools/showcase/make_web.py $W/en/master.mp4 --id <id> --cover-at 4.5 --lang en
 python3 tools/showcase/site_update.py project add --id <id> --title "<標題>" --tagline "<≤20字>" \
-    --category <分類> --source-type repo|document|link|other [--source-url https://...] --tech X --tech Y
+    --category <分類> --source-type repo|document|link|other [--source-url https://...] --tech X --tech Y \
+    --title-en "<English title>" --tagline-en "<English tagline>" [--tech-en ...]   # 有 <id>.en.mp4 會自動掛上 video_en
 ```
 出片後確認有音軌與響度：
 `ffprobe -v error -show_entries stream=codec_type -of csv=p=0 assets/showcase/<id>.mp4`（要有 audio）、
@@ -133,15 +143,17 @@ python3 tools/showcase/site_update.py project add --id <id> --title "<標題>" -
 ```bash
 P=tools/showcase/papers/<id>; mkdir -p $P      # id 例：sr2026-rag-transfer（期刊縮寫＋年份＋主題）
 # 寫 $P/paper.json（欄位說明見 make_paper_scenes.py 開頭；範例：tools/showcase/papers/*/paper.json）
-python3 tools/showcase/make_paper_scenes.py $P/paper.json
-python3 tools/showcase/preview_scenes.py $P/storyboard.json --out <scratchpad>/pv   # 3 秒／景的排版預覽
+# 中文欄位之外一併寫 *_en 欄位（title_lines_en、hook_en、problem_en、method_en、results_en、cta.chips_en）
+python3 tools/showcase/make_paper_scenes.py $P/paper.json              # 中文 5 景
+python3 tools/showcase/make_paper_scenes.py $P/paper.json --lang en    # 英文 5 景 → $P/en/
+python3 tools/showcase/preview_scenes.py $P/storyboard.json $P/en/storyboard.json --out <scratchpad>/pv   # 3 秒／景的排版預覽
 ```
 5 景固定：開場（中文說明標題＋原文標題）→ 研究問題（3 卡）→ 研究方法（3–5 步驟依序點亮）→
 主要發現（2–3 個數字／結論）→ 結尾（期刊、作者、DOI）。**Read 預覽總覽圖**，有溢出就縮短文字重產。
 
 ### B3. 出片（配樂預設 tech）
 ```bash
-bash tools/showcase/batch_render.sh papers <scratchpad>/papers tech <id> [<id2> ...]
+bash tools/showcase/batch_render.sh papers <scratchpad>/papers tech <id> [<id2> ...]   # 有 en/ 就會連英文版一起出（<id>.en.mp4）
 # 多篇時平行兩支：printf "%s\n" id1 id2 id3 | xargs -P2 -n1 bash tools/showcase/batch_render.sh papers <W> tech
 # 會超過 10 分鐘 → 用 nohup … & 背景執行，定期看 log
 ```
@@ -161,6 +173,7 @@ python3 tools/showcase/site_update.py pub video --group journal --match "標題�
 - 中文研討會論文可只給 `citation` 全文引文字串（同既有格式），title 填同一段。
 - 首頁「期刊著作紀錄／研討會論文紀錄」數字會自動更新。
 - 論文影片換配樂或音量：`python3 tools/showcase/add_music.py --dir papers --id <id> --mood calm`。
+- 英文版影片出好後：`python3 tools/showcase/site_update.py en-sync`（把 `video_en` 旗標寫進 publications.json／showcase.json）。
 
 ## A6. 每日自動模式（排程用：從最近有活動的 repo 挑一個還沒做的）
 
@@ -181,7 +194,9 @@ python3 tools/showcase/auto_pick.py --refresh --private "<...>" --list 5        
   私人 repo 用 `--private-repo owner/repo`（只存雜湊），**不給** `--repo`、`--source-url`。
   **任何公開檔案（commit 訊息、showcase.json、場景 HTML、影片）都不得出現私人 repo 的名稱**；commit 訊息用卡片 id。
   私人 repo 的 `id` 與卡片標題要依功能另取（例：`wind-blade-design-lab`），不要直接用 repo 名。
-- 一次只做 **1 支**；`batch_render.sh projects <W> <mood> <id>` 背景渲染；完成後照 D 驗證、commit（`showcase: add <id> 30s video (auto)`）、push main。
+- 一次只做 **1 支**（中、英兩版算同一支）；先寫中文 5 景，再依 `EN_SCENES.md` 做 `en/`，兩邊都 Read 過預覽圖；
+  `batch_render.sh projects <W> <mood> <id>` 背景渲染（兩版一起，約 25 分鐘）；`site_update.py project add` 給 `--title-en --tagline-en`；
+  完成後照 D 驗證、commit（`showcase: add <id> 30s video (auto)`）、push main。
 - `next` 為 null（全部做完）→ 不做任何變更，回覆建議停用排程。
 - 互動 session（有 list_repos 工具）更新公開名冊：list_repos 輸出存檔後 `auto_pick.py --merge <檔案>`（私人 repo 會自動略過）。
   新建立的**私人** repo 要重建排程任務（附加＋寫進指示）才會被納入。
@@ -190,7 +205,8 @@ python3 tools/showcase/auto_pick.py --refresh --private "<...>" --list 5        
 
 ```bash
 python3 tools/showcase/site_update.py news add --title "<標題>" --body "<一兩句說明>" \
-    [--date YYYY-MM-DD] [--tag 活動|招生|獲獎|成果|網站] [--link https://...] [--pinned]
+    [--date YYYY-MM-DD] [--tag 活動|招生|獲獎|成果|網站] [--link https://...] [--pinned] \
+    --title-en "<English title>" --body-en "<English body>"
 python3 tools/showcase/site_update.py news list      # 查 id
 python3 tools/showcase/site_update.py news remove --id <id>
 ```
@@ -201,6 +217,8 @@ python3 tools/showcase/site_update.py news remove --id <id>
 
 ```bash
 python3 scripts/validate_public_content.py          # 必須 PASS
+# 有改 HTML 頁面文字時：node tools/i18n/extract_keys.js && python3 tools/i18n/check_missing.py，缺的英文用 tools/i18n/dict.py set 補進字典
+# 確認英文版影片都有音軌：for f in assets/showcase/<id>.mp4 assets/showcase/<id>.en.mp4; do ffprobe -v error -show_entries stream=codec_type -of csv=p=0 $f; done
 git add -A showcase.json announcements.json publications.json index.html *.html assets/ tools/
 git commit -m "<動詞>: <內容>"                        # 例：showcase: add windai-lab 30s video
 git fetch origin main && git rebase origin/main && git push origin HEAD:main
@@ -209,6 +227,6 @@ git fetch origin main && git rebase origin/main && git push origin HEAD:main
 
 ## 交付
 
-一兩句說明上線了什麼（含用了哪種配樂），附連結：專案 `https://doflab.cc/projects.html#<id>`（直接開啟該動畫）、
+一兩句說明上線了什麼（含用了哪種配樂、中英兩版都有），附連結：專案 `https://doflab.cc/projects.html#<id>`（直接開啟該動畫；英文介面 `?lang=en`）、
 公告 `https://doflab.cc/news.html`、著作 `https://doflab.cc/publications.html#<video_id>`（直接開啟論文動畫）。
 GitHub Pages 約 1–2 分鐘後生效。把成品 MP4 也用 SendUserFile 給使用者一份。

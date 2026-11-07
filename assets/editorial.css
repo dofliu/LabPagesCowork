@@ -441,3 +441,16 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.1; lett
   .news-row { grid-template-columns: 1fr; gap: .3rem; }
   .news-row .tag { justify-self: start; order: -1; }
 }
+
+/* =========================================================================
+   Language toggle (中 / EN) — injected by assets/i18n.js
+   ========================================================================= */
+.nav__lang { display: flex; align-items: center; }
+.lang-toggle { display: inline-flex; align-items: center; gap: .3rem; border: 1.5px solid var(--line-strong); border-radius: 100px;
+  background: var(--card); padding: .3rem .7rem; font-family: var(--sans); font-size: .78rem; font-weight: 600; letter-spacing: .06em;
+  color: var(--muted); cursor: pointer; line-height: 1; transition: border-color .2s, color .2s; }
+.lang-toggle:hover { border-color: var(--rust); color: var(--ink); }
+.lang-toggle .sep { opacity: .4; }
+.lang-toggle .on { color: var(--rust); }
+@media (max-width: 880px) { .nav__lang { width: 100%; padding: .8rem 0; justify-content: center; } }
+html[data-lang="en"] .brand small { letter-spacing: .14em; }

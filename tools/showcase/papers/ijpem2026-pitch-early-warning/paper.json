@@ -6,7 +6,12 @@
     "故障提前預警"
   ],
   "title_en": "Early Fault Warning Framework for Offshore Wind Turbine Pitch Systems Using Relief Feature Selection and SSA-Optimized SABiLSTM",
+  "title_lines_en": [
+    "Offshore Pitch System",
+    "Early Fault Warning"
+  ],
   "hook": "在 SCADA 故障紀錄出現前數天就發出警告",
+  "hook_en": "Warn days before the fault shows up in SCADA logs",
   "problem": {
     "heading": "旋角系統故障頻繁",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Pitch Systems Fail Often",
+    "items": [
+      [
+        "🌊",
+        "Variable wind, frequent actuation"
+      ],
+      [
+        "🔧",
+        "Offshore repairs are costly"
+      ],
+      [
+        "⏰",
+        "Existing methods: short lead time"
+      ]
+    ]
+  },
   "method": {
     "heading": "三段式預警框架",
     "steps": [
@@ -33,6 +55,16 @@
       "KDE 動態門檻"
     ],
     "note": "台灣海峽六部 5.2 MW 離岸風機 SCADA 資料驗證"
+  },
+  "method_en": {
+    "heading": "Three-Stage Warning Framework",
+    "steps": [
+      "Relief select",
+      "SSA tuning",
+      "SABiLSTM model",
+      "KDE threshold"
+    ],
+    "note": "Validated on SCADA from six 5.2 MW turbines in the Taiwan Strait"
   },
   "results": {
     "heading": "提早 4.5–5.5 天",
@@ -52,6 +84,24 @@
     ],
     "note": "兩起旋角馬達編碼器故障案例；作者註：結果為初步，需更多故障資料驗證"
   },
+  "results_en": {
+    "heading": "4.5–5.5 Days Earlier",
+    "items": [
+      {
+        "value": "109–132 h",
+        "label": "Ahead of SCADA fault logs"
+      },
+      {
+        "value": "24–72 h",
+        "label": "Lead time in recent literature"
+      },
+      {
+        "value": "30–50×",
+        "label": "Prediction error jump at onset"
+      }
+    ],
+    "note": "Two pitch motor encoder fault cases; authors note results are preliminary and need more fault data"
+  },
   "cta": {
     "venue": "Int. J. of Precision Eng. and Manufacturing-Green Technology",
     "authors": "Yu-Jen Chen, Nong-Xiu Sun, Jui-Hung Liu",
@@ -60,6 +110,11 @@
       "🌊 離岸風電",
       "🧠 深度學習",
       "🚨 故障預警"
+    ],
+    "chips_en": [
+      "🌊 Offshore wind",
+      "🧠 Deep learning",
+      "🚨 Early warning"
     ]
   }
 }

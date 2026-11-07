@@ -9,8 +9,12 @@
       --title "風力發電 AI 研究協作平台" --tagline "多代理串起 SCADA 到論文報告" \
       --category wind_energy --source-type repo --source-url https://github.com/dofliu/windAI-Lab \
       --tech Python --tech "LLM Agents" [--date 2026-10-25] [--featured]
+      [--title-en "Wind Energy AI Research Platform" --tagline-en "Multi-agent workflows from SCADA to reports" --tech-en ...]
   python tools/showcase/site_update.py project remove --id windai-lab
   python tools/showcase/site_update.py project list
+
+英文版影片（網站英文介面優先播放 <id>.en.mp4；見 tools/showcase/EN_SCENES.md）
+  python tools/showcase/site_update.py en-sync        # 掃描 assets/showcase、assets/papers 的 *.en.mp4，寫入 video_en／cover_en 旗標
 
 研究發表（publications.json）
   python tools/showcase/site_update.py pub add --group journal --json '{"year":"2026","title":"...", ...}'
@@ -20,7 +24,7 @@
 
 公告訊息（announcements.json）
   python tools/showcase/site_update.py news add --title "..." --body "..." \
-      [--date 2026-10-25] [--tag 活動] [--link https://...] [--pinned]
+      [--date 2026-10-25] [--tag 活動] [--link https://...] [--pinned] [--title-en "..." --body-en "..."]
   python tools/showcase/site_update.py news remove --id 2026-10-25-xxxx
   python tools/showcase/site_update.py news list
 """
@@ -110,6 +114,15 @@ def project_add(a) -> None:
            if a.private_repo else {}),
         "duration": video_duration(ROOT / "assets" / "showcase" / f"{a.id}.mp4"),
     }
+    if a.title_en:
+        item["title_en"] = a.title_en
+    if a.tagline_en:
+        item["tagline_en"] = a.tagline_en
+    if a.tech_en:
+        item["tech_en"] = a.tech_en
+    if (ROOT / "assets" / "showcase" / f"{a.id}.en.mp4").exists():
+        item["video_en"] = f"assets/showcase/{a.id}.en.mp4"
+        item["cover_en"] = f"assets/showcase/{a.id}.en.jpg"
     if a.featured:
         item["featured"] = True
     items = [p for p in data["items"] if p["id"] != a.id]
@@ -135,7 +148,43 @@ def project_remove(a) -> None:
 
 def project_list(a) -> None:
     for p in load("showcase.json")["items"]:
-        print(f"{p['date']}  {p['id']:<28} {p['title']} — {p['tagline']}")
+        print(f"{p['date']}  {p['id']:<28} {'EN ' if p.get('video_en') else '   '}{p['title']} — {p['tagline']}")
+
+
+def en_sync(a) -> None:
+    """掃描 *.en.mp4，把英文版旗標寫進 showcase.json（video_en／cover_en）與 publications.json（video_en: true）。"""
+    data = load("showcase.json")
+    n = 0
+    for p in data["items"]:
+        mp4 = ROOT / "assets" / "showcase" / f"{p['id']}.en.mp4"
+        want = {"video_en": f"assets/showcase/{p['id']}.en.mp4", "cover_en": f"assets/showcase/{p['id']}.en.jpg"} if mp4.exists() and mp4.with_suffix(".jpg").exists() else {}
+        cur = {k: p[k] for k in ("video_en", "cover_en") if k in p}
+        if cur != want:
+            for k in ("video_en", "cover_en"):
+                p.pop(k, None)
+            p.update(want)
+            n += 1
+    if n:
+        data["updated"] = TODAY
+        save("showcase.json", data)
+    print(f"showcase.json：{n} 筆更新，{sum(1 for p in data['items'] if p.get('video_en'))}/{len(data['items'])} 支有英文版")
+    pubs = load("publications.json")
+    m = 0
+    for g in PUB_GROUPS:
+        for p in pubs[g]:
+            if not p.get("video_id"):
+                continue
+            has = (ROOT / "assets" / "papers" / f"{p['video_id']}.en.mp4").exists() and (ROOT / "assets" / "papers" / f"{p['video_id']}.en.jpg").exists()
+            if bool(p.get("video_en")) != has:
+                if has:
+                    p["video_en"] = True
+                else:
+                    p.pop("video_en", None)
+                m += 1
+    if m:
+        pubs["_updated"] = TODAY
+        save("publications.json", pubs)
+    print(f"publications.json：{m} 筆更新")
 
 
 # ───────────────────────── 研究發表 ─────────────────────────
@@ -192,11 +241,17 @@ def pub_video(a) -> None:
     p = hits[0]
     if a.remove:
         p.pop("video_id", None)
+        p.pop("video_en", None)
     else:
         for ext in ("mp4", "jpg"):
             if not (ROOT / "assets" / "papers" / f"{a.id}.{ext}").exists():
                 sys.exit(f"找不到 assets/papers/{a.id}.{ext}")
         p["video_id"] = a.id
+        # 英文版旗標跟著新影片重算（有 .en.mp4 + .en.jpg 才算有）
+        if all((ROOT / "assets" / "papers" / f"{a.id}.en.{ext}").exists() for ext in ("mp4", "jpg")):
+            p["video_en"] = True
+        else:
+            p.pop("video_en", None)
     data["_updated"] = TODAY
     save("publications.json", data)
     print(("－ 移除" if a.remove else "▶ 掛上") + f"動畫：{p['title'][:60]}")
@@ -214,6 +269,10 @@ def news_add(a) -> None:
     data = load("announcements.json")
     item = {"id": nid, "date": date, "title": a.title, "body": a.body or "",
             "tag": a.tag or "公告", "link": check_url(a.link)}
+    if a.title_en:
+        item["title_en"] = a.title_en
+    if a.body_en:
+        item["body_en"] = a.body_en
     if a.pinned:
         item["pinned"] = True
     items = [n for n in data["items"] if n["id"] != nid]
@@ -253,6 +312,8 @@ def main() -> int:
     p.add_argument("--repo", help="公開 repo 的 owner/repo")
     p.add_argument("--private-repo", help="私人 repo 的 owner/repo：只存雜湊（repo_hash），名稱不寫進公開網站")
     p.add_argument("--tech", action="append"); p.add_argument("--featured", action="store_true")
+    p.add_argument("--title-en", help="英文卡片標題（英文介面用）"); p.add_argument("--tagline-en", help="英文簡介，≤ 60 字元")
+    p.add_argument("--tech-en", action="append", help="技術標籤英文版（中文標籤含中文時才需要）")
     p.set_defaults(fn=project_add)
     p = pr.add_parser("remove"); p.add_argument("--id", required=True); p.set_defaults(fn=project_remove)
     pr.add_parser("list").set_defaults(fn=project_list)
@@ -270,7 +331,9 @@ def main() -> int:
     nw = sub.add_parser("news").add_subparsers(dest="op", required=True)
     p = nw.add_parser("add"); p.add_argument("--title", required=True); p.add_argument("--body")
     p.add_argument("--date"); p.add_argument("--tag"); p.add_argument("--link")
+    p.add_argument("--title-en"); p.add_argument("--body-en")
     p.add_argument("--pinned", action="store_true"); p.set_defaults(fn=news_add)
+    sub.add_parser("en-sync", help="掃描英文版影片並更新 JSON 旗標").set_defaults(fn=en_sync)
     p = nw.add_parser("remove"); p.add_argument("--id", required=True); p.set_defaults(fn=news_remove)
     nw.add_parser("list").set_defaults(fn=news_list)
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06",
+  "updated": "2026-11-07",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
     {
@@ -21,7 +21,11 @@
       ],
       "repo": "",
       "repo_hash": "987bd595fe6dc651",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "CC Desk · AI Coding Desktop",
+      "tagline_en": "A desktop workbench for command-line AI coding agents",
+      "video_en": "assets/showcase/ai-coding-desk.en.mp4",
+      "cover_en": "assets/showcase/ai-coding-desk.en.jpg"
     },
     {
       "id": "activitytracker",
@@ -40,7 +44,11 @@
         "RAG"
       ],
       "repo": "dofliu/activityTracker",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "OmniContext Work Hub",
+      "tagline_en": "A local-first memory hub for your personal work context",
+      "video_en": "assets/showcase/activitytracker.en.mp4",
+      "cover_en": "assets/showcase/activitytracker.en.jpg"
     },
     {
       "id": "rag-research-platform",
@@ -61,7 +69,18 @@
       ],
       "repo": "",
       "repo_hash": "1f72da6b094542a3",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "RAG Benchmark Platform",
+      "tagline_en": "Side-by-side evaluation of retrieval techniques and knowledge-base Q&A",
+      "tech_en": [
+        "React",
+        "TypeScript",
+        "FastAPI",
+        "Vector DB",
+        "RAGAS"
+      ],
+      "video_en": "assets/showcase/rag-research-platform.en.mp4",
+      "cover_en": "assets/showcase/rag-research-platform.en.jpg"
     },
     {
       "id": "ragtutor",
@@ -81,7 +100,11 @@
         "GitHub Pages"
       ],
       "repo": "dofliu/ragTutor",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "RAG Animated Classroom",
+      "tagline_en": "One lesson a day: understand RAG through animation",
+      "video_en": "assets/showcase/ragtutor.en.mp4",
+      "cover_en": "assets/showcase/ragtutor.en.jpg"
     },
     {
       "id": "face-attendance-ai",
@@ -101,7 +124,11 @@
       ],
       "repo": "",
       "repo_hash": "05f9c20f18a5bcdb",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "AI Face Attendance",
+      "tagline_en": "One classroom photo, attendance for the whole class",
+      "video_en": "assets/showcase/face-attendance-ai.en.mp4",
+      "cover_en": "assets/showcase/face-attendance-ai.en.jpg"
     },
     {
       "id": "plc-st-auto",
@@ -121,7 +148,11 @@
         "PLCopen"
       ],
       "repo": "dofliu/PLC_ST_Auto",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "PLC ST Auto",
+      "tagline_en": "From one requirement sentence to PLC-ready code",
+      "video_en": "assets/showcase/plc-st-auto.en.mp4",
+      "cover_en": "assets/showcase/plc-st-auto.en.jpg"
     },
     {
       "id": "ai-stock-prediction",
@@ -141,7 +172,18 @@
         "蒙地卡羅"
       ],
       "repo": "dofliu/ai-stock-prediction",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "AI Stock Prediction Framework",
+      "tagline_en": "An honest forecasting tool that exposes backtest illusions",
+      "tech_en": [
+        "Python",
+        "pandas",
+        "scikit-learn",
+        "Walk-forward",
+        "Monte Carlo"
+      ],
+      "video_en": "assets/showcase/ai-stock-prediction.en.mp4",
+      "cover_en": "assets/showcase/ai-stock-prediction.en.jpg"
     },
     {
       "id": "bladedesignnumericaltools",
@@ -160,7 +202,11 @@
         "three.js"
       ],
       "repo": "dofliu/bladeDesignNumericalTools",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "Blade Design & Virtual Wind Tunnel",
+      "tagline_en": "Design blades and run a virtual wind tunnel in the browser",
+      "video_en": "assets/showcase/bladedesignnumericaltools.en.mp4",
+      "cover_en": "assets/showcase/bladedesignnumericaltools.en.jpg"
     },
     {
       "id": "renewable-energy-animations",
@@ -179,7 +225,11 @@
         "GitHub Pages"
       ],
       "repo": "dofliu/renewable-energy-animations",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "Renewable Energy Animation Gallery",
+      "tagline_en": "Ten energy topics explained with storyboard animations",
+      "video_en": "assets/showcase/renewable-energy-animations.en.mp4",
+      "cover_en": "assets/showcase/renewable-energy-animations.en.jpg"
     },
     {
       "id": "anydocument",
@@ -199,7 +249,11 @@
         "pypdf"
       ],
       "repo": "dofliu/AnyDocument",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "AnyDocument",
+      "tagline_en": "One system to open and convert every document format",
+      "video_en": "assets/showcase/anydocument.en.mp4",
+      "cover_en": "assets/showcase/anydocument.en.jpg"
     },
     {
       "id": "creative-wind-rotor-lab",
@@ -220,7 +274,18 @@
       ],
       "repo": "",
       "repo_hash": "b319628164e1e157",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "Creative Wind Rotor Lab",
+      "tagline_en": "Analyze, compare and optimize small wind rotors of any shape",
+      "tech_en": [
+        "Python",
+        "Streamlit",
+        "GPU CFD",
+        "BEM/DMST",
+        "Bayesian optimization"
+      ],
+      "video_en": "assets/showcase/creative-wind-rotor-lab.en.mp4",
+      "cover_en": "assets/showcase/creative-wind-rotor-lab.en.jpg"
     },
     {
       "id": "doflab-courses",
@@ -239,7 +304,11 @@
         "Python"
       ],
       "repo": "dofliu/dofLab-courses",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "Interactive Lab Courses",
+      "tagline_en": "Interactive lessons in engineering math, mechanics and AI",
+      "video_en": "assets/showcase/doflab-courses.en.mp4",
+      "cover_en": "assets/showcase/doflab-courses.en.jpg"
     },
     {
       "id": "taiwanpowerwatch",
@@ -258,7 +327,11 @@
         "Capacitor"
       ],
       "repo": "dofliu/taiwanPowerWatch",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "Taiwan Power Watch",
+      "tagline_en": "Real-time generation by source and operating reserve margin",
+      "video_en": "assets/showcase/taiwanpowerwatch.en.mp4",
+      "cover_en": "assets/showcase/taiwanpowerwatch.en.jpg"
     },
     {
       "id": "ai-unknown-device-lab",
@@ -278,7 +351,17 @@
       ],
       "repo": "",
       "repo_hash": "faa2e28f52d3fba9",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "AI Takes On Unknown Devices",
+      "tagline_en": "Read the manual, write the driver, complete pick-and-place autonomously",
+      "tech_en": [
+        "Large language models",
+        "Driver generation",
+        "Visual servo control",
+        "Safety-gate verification"
+      ],
+      "video_en": "assets/showcase/ai-unknown-device-lab.en.mp4",
+      "cover_en": "assets/showcase/ai-unknown-device-lab.en.jpg"
     },
     {
       "id": "windfarmtaiwan",
@@ -298,7 +381,11 @@
         "GitHub Actions"
       ],
       "repo": "dofliu/windfarmTaiwan",
-      "duration": 30.1
+      "duration": 30.1,
+      "title_en": "Taiwan Wind Watch",
+      "tagline_en": "Taiwan's live wind output × 45 years of global wind power",
+      "video_en": "assets/showcase/windfarmtaiwan.en.mp4",
+      "cover_en": "assets/showcase/windfarmtaiwan.en.jpg"
     },
     {
       "id": "controlboardtwin",
@@ -318,7 +405,11 @@
         "Python"
       ],
       "duration": 30.1,
-      "repo": "dofliu/controlBoardTwin"
+      "repo": "dofliu/controlBoardTwin",
+      "title_en": "DofLab Control Board Digital Twin",
+      "tagline_en": "From 3D wiring and block behaviors to real-board sync",
+      "video_en": "assets/showcase/controlboardtwin.en.mp4",
+      "cover_en": "assets/showcase/controlboardtwin.en.jpg"
     },
     {
       "id": "windai-lab",
@@ -337,7 +428,11 @@
         "LLM Agents"
       ],
       "duration": 30.1,
-      "repo": "dofliu/windAI-Lab"
+      "repo": "dofliu/windAI-Lab",
+      "title_en": "Wind Energy AI Research Platform",
+      "tagline_en": "Multi-agent collaboration from SCADA to research reports",
+      "video_en": "assets/showcase/windai-lab.en.mp4",
+      "cover_en": "assets/showcase/windai-lab.en.jpg"
     }
   ]
 }

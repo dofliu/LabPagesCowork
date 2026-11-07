@@ -6,7 +6,12 @@
     "故障預測框架"
   ],
   "title_en": "Predictive framework for detecting main bearing faults in direct-drive horizontal-axis wind turbines using SCADA",
+  "title_lines_en": [
+    "Direct-Drive Main Bearing",
+    "Fault Prediction via SCADA"
+  ],
   "hook": "不靠昂貴振動監測，用 SCADA 及早發現軸承故障",
+  "hook_en": "Catch bearing faults early from SCADA, no vibration sensors",
   "problem": {
     "heading": "主軸承故障代價高",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Main Bearing Failure Is Costly",
+    "items": [
+      [
+        "⚙️",
+        "Main and generator bearing in one"
+      ],
+      [
+        "⏱️",
+        "Failures cause long downtime"
+      ],
+      [
+        "💸",
+        "Vibration monitoring is expensive"
+      ]
+    ]
+  },
   "method": {
     "heading": "以溫度建立正常模型",
     "steps": [
@@ -34,6 +56,17 @@
       "月度健康分數"
     ],
     "note": "Pearson 相關挑出 6 個預測發電機軸承溫度的變數"
+  },
+  "method_en": {
+    "heading": "Normal-Behavior Temp. Model",
+    "steps": [
+      "Data cleaning",
+      "Corr. features",
+      "4 regressors",
+      "±2σ deviation",
+      "Monthly health"
+    ],
+    "note": "Pearson correlation picks 6 predictors of generator bearing temp"
   },
   "results": {
     "heading": "持續偏離＝早期警訊",
@@ -52,6 +85,23 @@
       }
     ]
   },
+  "results_en": {
+    "heading": "Sustained Drift = Warning",
+    "items": [
+      {
+        "value": "Healthy",
+        "label": "Always inside predicted band"
+      },
+      {
+        "value": "Faulty",
+        "label": "Unit keeps drifting beyond ±2σ"
+      },
+      {
+        "value": "Monthly",
+        "label": "Score flags faults before logs"
+      }
+    ]
+  },
   "cta": {
     "venue": "Advances in Mechanical Engineering · 2026",
     "authors": "Jui-Hung Liu, Nelson T. Corbita Jr., Glenn B. Paclijan",
@@ -60,6 +110,11 @@
       "⚙️ 主軸承",
       "📊 SCADA",
       "🛠️ 預知保養"
+    ],
+    "chips_en": [
+      "⚙️ Main bearing",
+      "📊 SCADA",
+      "🛠️ Maintenance"
     ]
   }
 }

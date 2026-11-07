@@ -6,7 +6,12 @@
     "方向一致性評估框架"
   ],
   "title_en": "A Directional Consistency Analysis Framework for Performance Assessment of CMMs",
+  "title_lines_en": [
+    "CMM Directional",
+    "Consistency Framework"
+  ],
   "hook": "找出 CMM 在哪個量測方向出了問題",
+  "hook_en": "Find which measuring direction a CMM is failing in",
   "problem": {
     "heading": "校正報告看不出方向誤差",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Reports Hide Directional Error",
+    "items": [
+      [
+        "📄",
+        "Certificates report only totals"
+      ],
+      [
+        "📊",
+        "Gage R&R is an aggregate metric"
+      ],
+      [
+        "🧭",
+        "Per-direction bias gets averaged"
+      ]
+    ]
+  },
   "method": {
     "heading": "七個方向逐一比對",
     "steps": [
@@ -34,6 +56,17 @@
       "方向指標"
     ],
     "note": "400 mm 規塊＋30 mm 標準球，留一法同儕比對"
+  },
+  "method_en": {
+    "heading": "Compare All Seven Directions",
+    "steps": [
+      "Five CMMs",
+      "Block & sphere",
+      "3 runs per dir",
+      "Peer compare",
+      "Dir. indicator"
+    ],
+    "note": "400 mm gauge block + 30 mm sphere, leave-one-out peer comparison"
   },
   "results": {
     "heading": "精準定位異常方向",
@@ -53,6 +86,24 @@
     ],
     "note": "篩選帶在 ±2.0～±3.5 µm 間變動，維護優先順序不變"
   },
+  "results_en": {
+    "heading": "Pinpoints the Faulty Direction",
+    "items": [
+      {
+        "value": "12.23 µm",
+        "label": "Error span of monitored CMM"
+      },
+      {
+        "value": "42.9%",
+        "label": "Readings past screening limit"
+      },
+      {
+        "value": "3 of 7",
+        "label": "Directions alerted: Y, ZX±45°"
+      }
+    ],
+    "note": "Screening band varies ±2.0–±3.5 µm; maintenance priority unchanged"
+  },
   "cta": {
     "venue": "Journal of the Chinese Society of Mechanical Engineers · Vol. 47 No. 4",
     "authors": "Jr-Rung Chen, Jui-Hung Liu, Sheng-Hsiang Hung, Ming-Xian Lin",
@@ -61,6 +112,11 @@
       "📐 量測品質",
       "🧭 方向診斷",
       "🔧 維護優先"
+    ],
+    "chips_en": [
+      "📐 Meas. quality",
+      "🧭 Directional",
+      "🔧 Priorities"
     ]
   }
 }

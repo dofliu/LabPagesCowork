@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="劉瑞弘副教授學術著作 — 期刊論文、研討會、專利與代表性競賽獲獎紀錄。">
   <title>研究發表 ｜ DOF Lab</title>
+  <script src="assets/i18n.js?v=20261106"></script>
   <link rel="stylesheet" href="assets/editorial.css?v=20261025">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
@@ -110,34 +111,39 @@
     ];
     function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     const VIDS = {};
+    const EN = !!(window.DOFI18n && DOFI18n.en);
+    const T = (zh, en) => EN ? en : zh;
+    // 英文介面且該論文有英文版動畫（video_en: true）→ assets/papers/<id>.en.mp4
+    const vidFile = (p, ext) => `assets/papers/${p.video_id}${EN && p.video_en ? '.en' : ''}.${ext}`;
     function lineHTML(p){
       const url = p.doi || p.source_url;
       const idx = p.index ? `<span class="scie">${esc(p.index)}</span>` : '';
       const authors = !p.citation && p.authors ? `${esc(p.authors.replace(/<[^>]*>/g, ''))} · ` : '';
-      const note = p.status_label || (p.status === 'preprint' ? '預印本' : p.status === 'accepted' ? '已接受／待刊' : '');
-      const vid = p.video_id ? `<button type="button" class="pub-vid" data-vid="${esc(p.video_id)}" aria-label="觀看 30 秒動畫說明：${esc(p.title)}">
-          <img src="assets/papers/${esc(p.video_id)}.jpg" alt="" loading="lazy" width="960" height="540">
+      const note = (EN && p.status_label_en) || p.status_label || (p.status === 'preprint' ? T('預印本', 'Preprint') : p.status === 'accepted' ? T('已接受／待刊', 'Accepted / In press') : '');
+      const vid = p.video_id ? `<button type="button" class="pub-vid" data-vid="${esc(p.video_id)}" aria-label="${T('觀看 30 秒動畫說明：', 'Watch the 30-second summary: ')}${esc(p.title)}">
+          <img src="${esc(vidFile(p, 'jpg'))}" alt="" loading="lazy" width="960" height="540">
           <span class="pub-vid__play" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 1.8v12.4c0 .6.7 1 1.2.6l9.6-6.2c.5-.3.5-1 0-1.3L4.2 1.2C3.7.9 3 1.2 3 1.8z"/></svg></span>
-          <span class="pub-vid__lbl">動畫 0:30</span></button>` : '';
+          <span class="pub-vid__lbl">${T('動畫 0:30', 'Video 0:30')}</span></button>` : '';
       VIDS[p.video_id || ''] = p;
       return `<article class="pub-line${vid ? ' pub-line--vid' : ''}">
         <div class="pub-line__yr">${esc(p.year)}</div>
         <div>
-          <div class="pub-line__t">${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(p.citation || p.title)} ↗</a>` : esc(p.citation || p.title)}${idx}</div>
-          ${!p.citation ? `<div class="pub-line__m">${authors}<span class="jn">${esc(p.venue)}</span> ${p.detail ? '· '+esc(p.detail) : ''}</div>` : ''}
+          <div class="pub-line__t">${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc((EN && p.title_en) || p.citation || p.title)} ↗</a>` : esc((EN && p.title_en) || p.citation || p.title)}${idx}</div>
+          ${!p.citation ? `<div class="pub-line__m">${authors}<span class="jn">${esc((EN && p.venue_en) || p.venue)}</span> ${p.detail ? '· '+esc((EN && p.detail_en) || p.detail) : ''}</div>` : ''}
           ${note ? `<p class="updated-note">${esc(note)}</p>` : ''}
-          ${p.source_url && p.source_url !== url ? `<p class="updated-note"><a href="${esc(p.source_url)}" target="_blank" rel="noopener">來源紀錄 ↗</a></p>` : ''}
+          ${p.source_url && p.source_url !== url ? `<p class="updated-note"><a href="${esc(p.source_url)}" target="_blank" rel="noopener">${T('來源紀錄', 'Source record')} ↗</a></p>` : ''}
         </div>
         ${vid}
       </article>`;
     }
-    fetch('publications.json?v=20261025').then(r=>r.json()).then(data=>{
+    fetch('publications.json?v=20261107').then(r=>r.json()).then(data=>{
       // 更新日期
-      if(data._updated) document.getElementById('updatedNote').innerHTML =
-        `<i class="fas fa-rotate"></i> 資料更新：${esc(data._updated)}；${esc(data._note || '')}（來源：<a href="${esc(data._source)}" target="_blank" rel="noopener">個人著作網站 ↗</a>）`;
+      if(data._updated) document.getElementById('updatedNote').innerHTML = EN
+        ? `<i class="fas fa-rotate"></i> Data updated ${esc(data._updated)}. ${esc(data._note_en || '')} (Source: <a href="${esc(data._source)}" target="_blank" rel="noopener">publication site ↗</a>)`
+        : `<i class="fas fa-rotate"></i> 資料更新：${esc(data._updated)}；${esc(data._note || '')}（來源：<a href="${esc(data._source)}" target="_blank" rel="noopener">個人著作網站 ↗</a>）`;
       // 統計
       const counts = GROUPS.map(g => (data[g.key]||[]).length);
-      const labels = ['期刊著作紀錄','研討會論文','預印本','已接受／待刊','專利','代表性獲獎'];
+      const labels = EN ? ['Journal papers','Conference papers','Preprints','Accepted / In press','Patents','Selected awards'] : ['期刊著作紀錄','研討會論文','預印本','已接受／待刊','專利','代表性獲獎'];
       document.getElementById('pubStrip').innerHTML = GROUPS.map((g,i)=>
         `<div class="pub-stat"><b>${counts[i]}</b><span>${labels[i]}</span></div>`).filter((_,i)=>counts[i]>0).join('');
       GROUPS.forEach((g,i)=>{ if(!counts[i]) document.querySelector(`[data-filter="${g.key}"]`).hidden = true; });
@@ -156,9 +162,9 @@
       if (document.querySelector('.pub-vid')) document.getElementById('vidLegend').hidden = false;
       function openVid(id){
         const p = VIDS[id]; if(!p) return;
-        v.poster = `assets/papers/${id}.jpg`; v.src = `assets/papers/${id}.mp4`;
-        dlg.querySelector('h2').textContent = p.title;
-        dlg.querySelector('p').textContent = [p.venue, p.year].filter(Boolean).join(' · ');
+        v.poster = vidFile(p, 'jpg'); v.src = vidFile(p, 'mp4');
+        dlg.querySelector('h2').textContent = (EN && p.title_en) || p.title;
+        dlg.querySelector('p').textContent = [(EN && p.venue_en) || p.venue, p.year].filter(Boolean).join(' · ');
         dlg.querySelector('.sc-modal__src').href = p.doi || p.source_url;
         if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
         history.replaceState(null,'','#'+id);
@@ -183,7 +189,7 @@
       });
     }).catch(err=>{
       document.getElementById('pubContainer').innerHTML =
-        '<p style="color:var(--muted)">著作資料載入失敗，請於 doflab.cc 線上瀏覽。</p>';
+        '<p style="color:var(--muted)">' + T('著作資料載入失敗，請於 doflab.cc 線上瀏覽。', 'Could not load publication data. Please view it online at doflab.cc.') + '</p>';
       console.error(err);
     });
   </script>

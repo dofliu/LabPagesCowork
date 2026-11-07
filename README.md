@@ -17,6 +17,14 @@
 ## 🎯 當前任務
 請參考 Issue 列表，領取你的「S 級任務」！
 
+## 🌐 中／英雙語介面
+
+- 原始頁面一律是繁體中文；英文由 `assets/i18n.js` 在瀏覽器端套用 `assets/i18n/en.js` 字典（key = 元素的中文 innerHTML）。導覽列右側的「中 / EN」切換會記在 localStorage，也可用 `?lang=en` 直接開英文版。
+- 資料檔用 `*_en` 欄位（`showcase.json` 的 `title_en`／`tagline_en`／`tech_en`、`announcements.json` 的 `title_en`／`body_en`、`publications.json` 的 `_note_en`／`status_label_en`）；沒有英文欄位時英文介面會退回中文，不會壞頁。
+- 專案與論文動畫各有英文版 `assets/showcase/<id>.en.mp4`、`assets/papers/<id>.en.mp4`（英文介面優先播放）；製作流程見 `tools/showcase/EN_SCENES.md`，`tools/showcase/site_update.py en-sync` 會自動掛上 `video_en` 旗標。
+- 改過 HTML 文字後：`node tools/i18n/extract_keys.js && python3 tools/i18n/check_missing.py` 列出缺英文的字串，用 `python3 tools/i18n/dict.py set "中文" "English"` 補進字典。
+- 研究日誌（posts/）內容維持中文；英文介面會註明。
+
 ## 公開內容資料與檢查
 
 - `publications.json`：正式期刊、研討會、預印本、已接受待刊、專利與代表性獲獎分組，保留每筆公開來源。`verification` 區分出版社核對與個人著作網站紀錄。

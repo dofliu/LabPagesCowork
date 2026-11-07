@@ -6,7 +6,12 @@
     "風機維修輔助平台"
   ],
   "title_en": "Design and Implementation of an Augmented Reality-based Interactive and Real-time Wind Turbine Maintenance Auxiliary Platform System",
+  "title_lines_en": [
+    "AR-Assisted Wind Turbine",
+    "Maintenance Platform"
+  ],
   "hook": "用 AR 即時看見風機狀態，遠端專家一起修",
+  "hook_en": "See turbine status live in AR, repair with remote experts",
   "problem": {
     "heading": "風機故障維修的痛點",
     "items": [
@@ -24,6 +29,23 @@
       ]
     ]
   },
+  "problem_en": {
+    "heading": "Turbine repair pain points",
+    "items": [
+      [
+        "🚚",
+        "Downtime waiting; costly travel"
+      ],
+      [
+        "📖",
+        "Paper manuals and experience"
+      ],
+      [
+        "🖥️",
+        "On-screen guides vs real parts"
+      ]
+    ]
+  },
   "method": {
     "heading": "AR 維修輔助系統",
     "steps": [
@@ -32,6 +54,16 @@
       "IoT 即時資料",
       "故障提示",
       "遠端專家"
+    ]
+  },
+  "method_en": {
+    "heading": "AR maintenance assist system",
+    "steps": [
+      "Unity3D",
+      "Vuforia detect",
+      "IoT live data",
+      "Fault hints",
+      "Remote experts"
     ]
   },
   "results": {
@@ -51,6 +83,23 @@
       }
     ]
   },
+  "results_en": {
+    "heading": "Lower O&M cost and time",
+    "items": [
+      {
+        "value": "Live monitor",
+        "label": "Operating data and status"
+      },
+      {
+        "value": "Interactive",
+        "label": "Control and repair turbines"
+      },
+      {
+        "value": "Remote link",
+        "label": "Expert support in real time"
+      }
+    ]
+  },
   "cta": {
     "venue": "Sensors and Materials · Vol. 35 No. 11 · 2023",
     "authors": "Jui-Hung Liu, Chen-Yi Tsai, Jia-Zhou Li, Chun-Chieh Wang",
@@ -59,6 +108,11 @@
       "🥽 擴增實境",
       "🛠️ 維修輔助",
       "📡 物聯網"
+    ],
+    "chips_en": [
+      "🥽 AR",
+      "🛠️ Maintenance",
+      "📡 IoT"
     ]
   }
 }

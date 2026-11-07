@@ -8,7 +8,9 @@
       "title": "專案成果頁改版：每個專案附 30 秒動畫介紹",
       "body": "專案成果頁改為影片卡片，點開即可觀看各專案的 30 秒動畫導覽，後續將陸續加入更多專案。",
       "tag": "網站",
-      "link": ""
+      "link": "",
+      "title_en": "Projects page redesign: every project now has a 30-second animated intro",
+      "body_en": "The projects page now uses video cards. Click any card to watch a 30-second animated tour of the project; more projects will be added over time."
     }
   ]
 }
