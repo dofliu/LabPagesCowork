@@ -4,7 +4,7 @@
       "full_name": "dofliu/windfarmTaiwan",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T17:31:53Z"
+      "pushed_at": "2026-11-07T18:31:08Z"
     },
     {
       "full_name": "dofliu/controlBoardTwin",
@@ -16,7 +16,7 @@
       "full_name": "dofliu/taiwanPowerWatch",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T15:52:49Z"
+      "pushed_at": "2026-11-07T01:09:48Z"
     },
     {
       "full_name": "dofliu/windMindOM",
@@ -28,13 +28,13 @@
       "full_name": "dofliu/renewable-energy-animations",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T12:27:18Z"
+      "pushed_at": "2026-11-07T12:22:06Z"
     },
     {
       "full_name": "dofliu/LabPagesCowork",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T19:02:22Z"
+      "pushed_at": "2026-11-07T02:52:55Z"
     },
     {
       "full_name": "dofliu/AnyDocument",
@@ -46,7 +46,7 @@
       "full_name": "dofliu/PLC_ST_Auto",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T15:08:16Z"
+      "pushed_at": "2026-11-07T15:05:26Z"
     },
     {
       "full_name": "dofliu/windAI-Lab",
@@ -58,13 +58,13 @@
       "full_name": "dofliu/ai-stock-prediction",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T08:55:18Z"
+      "pushed_at": "2026-11-07T08:18:28Z"
     },
     {
       "full_name": "dofliu/bladeDesignNumericalTools",
       "visibility": "public",
       "fork": false,
-      "pushed_at": "2026-11-06T13:24:03Z"
+      "pushed_at": "2026-11-07T13:19:12Z"
     },
     {
       "full_name": "dofliu/cleanyourtv",
@@ -290,5 +290,5 @@
     }
   ],
   "updated": "2026-10-26",
-  "refreshed": "2026-11-06T19:02:37Z"
+  "refreshed": "2026-11-07T18:45:26Z"
 }

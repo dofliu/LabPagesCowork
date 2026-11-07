@@ -3,6 +3,36 @@
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
     {
+      "id": "offshore-wind-farm-sim",
+      "title": "離岸風場建置模擬遊戲",
+      "tagline": "回合制3D建置離岸風場與維運決策",
+      "category": "edtech",
+      "date": "2026-11-07",
+      "video": "assets/showcase/offshore-wind-farm-sim.mp4",
+      "cover": "assets/showcase/offshore-wind-farm-sim.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "3D 遊戲",
+        "回合制模擬",
+        "天候窗規劃",
+        "教學管理"
+      ],
+      "repo": "",
+      "repo_hash": "1a644e5e6de19bbf",
+      "duration": 30.1,
+      "title_en": "Offshore Wind Farm Sim Game",
+      "tagline_en": "Turn-based 3D game for wind farm build & O&M",
+      "tech_en": [
+        "3D game",
+        "Turn-based sim",
+        "Weather windows",
+        "Teaching tools"
+      ],
+      "video_en": "assets/showcase/offshore-wind-farm-sim.en.mp4",
+      "cover_en": "assets/showcase/offshore-wind-farm-sim.en.jpg"
+    },
+    {
       "id": "ai-coding-desk",
       "title": "CC Desk AI 程式桌面",
       "tagline": "命令列 AI 程式代理的桌面工作台",
