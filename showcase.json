@@ -1,7 +1,30 @@
 {
-  "updated": "2026-11-07",
+  "updated": "2026-11-08",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "windmindom",
+      "title": "風心智離岸風場運維平台",
+      "tagline": "監控派工成本報表，一個平台管風場運維",
+      "category": "wind_energy",
+      "date": "2026-11-08",
+      "video": "assets/showcase/windmindom.mp4",
+      "cover": "assets/showcase/windmindom.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/windMindOM",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "React",
+        "OPC UA"
+      ],
+      "repo": "dofliu/windMindOM",
+      "duration": 30.1,
+      "title_en": "windMindOM Offshore Wind O&M Platform",
+      "tagline_en": "Monitoring, work orders, cost and reports in one",
+      "video_en": "assets/showcase/windmindom.en.mp4",
+      "cover_en": "assets/showcase/windmindom.en.jpg"
+    },
     {
       "id": "offshore-wind-farm-sim",
       "title": "離岸風場建置模擬遊戲",
