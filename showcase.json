@@ -1,7 +1,35 @@
 {
-  "updated": "2026-11-08",
+  "updated": "2026-11-09",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "med-identity-check",
+      "title": "藥品身分核對原型",
+      "tagline": "手機核對藥品身分，有來源才給資訊",
+      "category": "other",
+      "date": "2026-11-09",
+      "video": "assets/showcase/med-identity-check.mp4",
+      "cover": "assets/showcase/med-identity-check.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "JavaScript",
+        "Node.js",
+        "手機優先介面"
+      ],
+      "repo": "",
+      "repo_hash": "75bac7beaa625a03",
+      "duration": 30.1,
+      "title_en": "Medication Identity Check",
+      "tagline_en": "Verify a medicine field by field; info only with sources",
+      "tech_en": [
+        "JavaScript",
+        "Node.js",
+        "Mobile-first UI"
+      ],
+      "video_en": "assets/showcase/med-identity-check.en.mp4",
+      "cover_en": "assets/showcase/med-identity-check.en.jpg"
+    },
     {
       "id": "windmindom",
       "title": "風心智離岸風場運維平台",
