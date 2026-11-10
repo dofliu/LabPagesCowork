@@ -1,7 +1,31 @@
 {
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "highway-cctv-vision",
+      "title": "國道 CCTV 車流判讀",
+      "tagline": "AI 數車對照偵測器，判讀國道路況",
+      "category": "industrial_ai",
+      "date": "2026-11-10",
+      "video": "assets/showcase/highway-cctv-vision.mp4",
+      "cover": "assets/showcase/highway-cctv-vision.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "YOLO11",
+        "ONNX Runtime",
+        "Python",
+        "Android"
+      ],
+      "repo": "",
+      "repo_hash": "1fddbc863d007b91",
+      "duration": 30.1,
+      "title_en": "Highway CCTV Traffic Vision",
+      "tagline_en": "AI car counts checked against road detectors",
+      "video_en": "assets/showcase/highway-cctv-vision.en.mp4",
+      "cover_en": "assets/showcase/highway-cctv-vision.en.jpg"
+    },
     {
       "id": "med-identity-check",
       "title": "藥品身分核對原型",
