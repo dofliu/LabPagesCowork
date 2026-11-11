@@ -193,7 +193,7 @@ window.DOFShowcase = (function () {
 
   function render(gridSel, tabsSel) {
     const grid = document.querySelector(gridSel), tabs = document.querySelector(tabsSel);
-    return fetch('showcase.json?v=20261110', { cache: 'no-cache' }).then(r => r.json()).then(data => {
+    return fetch('showcase.json?v=20261111', { cache: 'no-cache' }).then(r => r.json()).then(data => {
       items = data.items || [];
       if (!items.length) { grid.innerHTML = '<p class="sc-empty">' + I.t('專案動畫製作中，敬請期待。', 'Project videos are in production. Stay tuned.') + '</p>'; tabs.hidden = true; return items; }
       grid.innerHTML = items.map(card).join('');

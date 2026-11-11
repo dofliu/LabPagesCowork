@@ -1,7 +1,37 @@
 {
-  "updated": "2026-11-10",
+  "updated": "2026-11-11",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "wind-gearbox-rag-diagnosis",
+      "title": "風機齒輪箱 AI 診斷解釋",
+      "tagline": "異常偵測之上，用 RAG 說清楚原因",
+      "category": "wind_energy",
+      "date": "2026-11-11",
+      "video": "assets/showcase/wind-gearbox-rag-diagnosis.mp4",
+      "cover": "assets/showcase/wind-gearbox-rag-diagnosis.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "SCADA",
+        "正常行為模型",
+        "RAG",
+        "LLM"
+      ],
+      "repo": "",
+      "repo_hash": "dd41c306b818d69c",
+      "duration": 30.1,
+      "title_en": "Wind Gearbox Diagnosis with RAG",
+      "tagline_en": "Explaining SCADA anomalies with evidence-grounded RAG",
+      "tech_en": [
+        "SCADA",
+        "Normal-behavior model",
+        "RAG",
+        "LLM"
+      ],
+      "video_en": "assets/showcase/wind-gearbox-rag-diagnosis.en.mp4",
+      "cover_en": "assets/showcase/wind-gearbox-rag-diagnosis.en.jpg"
+    },
     {
       "id": "highway-cctv-vision",
       "title": "國道 CCTV 車流判讀",
