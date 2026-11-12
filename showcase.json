@@ -1,7 +1,39 @@
 {
-  "updated": "2026-11-11",
+  "updated": "2026-11-12",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "ocean-wave-plc-twin",
+      "title": "波浪能源PLC數位分身",
+      "tagline": "波浪與浮式風電模擬到PLC驗證一站完成",
+      "category": "wind_energy",
+      "date": "2026-11-12",
+      "video": "assets/showcase/ocean-wave-plc-twin.mp4",
+      "cover": "assets/showcase/ocean-wave-plc-twin.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "海洋物理模擬",
+        "Three.js",
+        "PLC SCL",
+        "Modbus TCP",
+        "SIL/HIL"
+      ],
+      "repo": "",
+      "repo_hash": "99527f578189cb08",
+      "duration": 30.1,
+      "title_en": "Wave Energy PLC Digital Twin",
+      "tagline_en": "Wave & floating-wind simulation to PLC validation",
+      "tech_en": [
+        "Ocean physics",
+        "Three.js",
+        "PLC SCL",
+        "Modbus TCP",
+        "SIL/HIL"
+      ],
+      "video_en": "assets/showcase/ocean-wave-plc-twin.en.mp4",
+      "cover_en": "assets/showcase/ocean-wave-plc-twin.en.jpg"
+    },
     {
       "id": "wind-gearbox-rag-diagnosis",
       "title": "風機齒輪箱 AI 診斷解釋",

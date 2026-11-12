@@ -1,0 +1,145 @@
+<!doctype html>
+<!-- doflab.cc 專案動畫 · 場景模板（品牌版：暖墨底 + 燒赭/暖金/深林綠）
+     規則：1920×1080 固定；動畫從頁面載入 t=0 起算；禁止外連資源（file:// 離線渲染）。
+     本地圖片放同層 assets/，用相對路徑 <img src="assets/shot_01.png">。
+     每景只改 <title>、.stage 的 --dur、以及 <div class="stage"> 內的內容。 -->
+<html lang="en"><head><meta charset="utf-8"><title>Control room</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#15110d}
+body{font-family:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#f6efe3;position:relative}
+/* 品牌色 */
+:root{--paper:#faf6ef;--rust:#d2602f;--rust-deep:#b4451f;--gold:#d9ad5b;--forest:#5f9e86;--ink:#15110d}
+/* ── 背景：暖墨底 + 燒赭/暖金光暈 + 紙紋格線 + 暗角 ── */
+.bg{position:absolute;inset:0;background:
+ radial-gradient(1200px 800px at 22% 18%,rgba(210,96,47,.17),transparent 62%),
+ radial-gradient(1100px 760px at 80% 84%,rgba(217,173,91,.14),transparent 60%),
+ linear-gradient(160deg,#241c15 0%,#15110d 58%,#0d0a07 100%)}
+.aur{position:absolute;width:1500px;height:1500px;border-radius:50%;filter:blur(90px);opacity:.45;mix-blend-mode:screen}
+.aur.a{background:radial-gradient(circle,rgba(210,96,47,.30),transparent 62%);left:-460px;top:-560px;animation:drift1 22s ease-in-out infinite alternate}
+.aur.b{background:radial-gradient(circle,rgba(95,158,134,.26),transparent 62%);right:-520px;bottom:-620px;animation:drift2 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(150px,90px) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-130px,-80px) scale(1.08)}}
+.vig{position:absolute;inset:0;background:radial-gradient(1600px 1000px at 50% 46%,transparent 58%,rgba(0,0,0,.5) 100%);pointer-events:none}
+.grid{position:absolute;inset:0;opacity:.045;background-image:linear-gradient(rgba(246,239,227,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(246,239,227,.5) 1px,transparent 1px);background-size:64px 64px}
+/* 左下品牌浮水印（每景都在，維持系列感） */
+.mark{position:absolute;left:64px;bottom:48px;z-index:4;font-size:26px;font-weight:700;letter-spacing:.08em;color:rgba(246,239,227,.55)}
+.mark b{color:var(--rust)}
+/* ── 鏡頭慢推（--dur 設成本景秒數） ── */
+.stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ --dur:7s;animation:cam var(--dur) ease-in-out both}
+@keyframes cam{from{transform:scale(1)}to{transform:scale(1.05)}}
+/* ── 字體系統 ── */
+.kicker{font-size:30px;font-weight:700;letter-spacing:.5em;text-indent:.5em;color:var(--gold);text-transform:uppercase}
+.h1{font-size:112px;font-weight:900;line-height:1.14;text-align:center;letter-spacing:.01em;
+ background:linear-gradient(100deg,#fff8ec 18%,#f0c98a 52%,#e58a5c 84%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(210,96,47,.22))}
+.sub{font-size:40px;font-weight:400;color:rgba(246,239,227,.8);text-align:center;line-height:1.6}
+.accent{color:var(--gold);font-weight:700}
+/* ── 元件 ── */
+.chip{display:inline-flex;align-items:center;gap:16px;padding:20px 38px;border-radius:999px;font-size:36px;font-weight:700;white-space:nowrap;
+ background:rgba(40,31,23,.85);border:1.5px solid rgba(217,173,91,.28);box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06)}
+.card{background:linear-gradient(165deg,rgba(44,34,25,.94),rgba(24,19,14,.95));border:1.5px solid rgba(217,173,91,.22);
+ border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:12px 26px;border-radius:12px;font-size:28px;font-weight:700;white-space:nowrap;
+ background:rgba(210,96,47,.15);border:1.5px solid rgba(210,96,47,.5);color:#f3a57e}
+.badge.g{background:rgba(95,158,134,.15);border-color:rgba(95,158,134,.5);color:#9fd6c1}
+/* ── 真實素材版位 ── */
+.shot{width:1400px;max-height:760px;border-radius:22px;overflow:hidden;background:#100c09;
+ border:1.5px solid rgba(217,173,91,.25);box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.shot img{display:block;width:100%;height:auto}
+.frame{width:480px;height:480px;border-radius:26px;overflow:hidden;background:#100c09;border:1.5px solid rgba(217,173,91,.22);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.frame img{display:block;width:100%;height:100%;object-fit:cover}
+.logo{height:130px;width:auto;object-fit:contain;filter:drop-shadow(0 10px 30px rgba(0,0,0,.5))}
+.hero-img{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);opacity:.36;filter:saturate(.8) contrast(.95)}
+.scrim{position:absolute;inset:0;z-index:1;pointer-events:none;--scrim:.78;
+ background:radial-gradient(1400px 900px at 50% 46%,rgba(13,10,7,calc(var(--scrim)*.55)),transparent 70%),
+ linear-gradient(180deg,rgba(21,17,13,calc(var(--scrim)*.9)),rgba(13,10,7,var(--scrim)))}
+/* ── 進場動畫工具類（--d 控延遲；注意：結尾 transform 會蓋掉 translate 置中） ── */
+.in{opacity:0;animation:rise 1s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(56px)}to{opacity:1;transform:none}}
+.pop{opacity:0;animation:pop .8s cubic-bezier(.2,1.4,.35,1) both;animation-delay:var(--d,0s)}
+@keyframes pop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.glow{animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 18px rgba(210,96,47,.25))}50%{filter:drop-shadow(0 0 42px rgba(210,96,47,.55))}}
+.in.glow{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+.pop.glow{animation:pop .8s cubic-bezier(.2,1.4,.35,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+/* ▼▼ 本景專屬 CSS ▼▼ */
+
+/* ── 海洋配色覆寫（本專案）── */
+:root{--rust:#ef8a5b;--gold:#f0c879;--forest:#3cc4b8;--aqua:#7fd8e6}
+html,body{background:#06141c}
+.bg{background:
+ radial-gradient(1200px 800px at 20% 16%,rgba(60,196,184,.18),transparent 62%),
+ radial-gradient(1100px 760px at 82% 86%,rgba(240,200,121,.12),transparent 60%),
+ linear-gradient(170deg,#0b2a38 0%,#06141c 58%,#030b10 100%)}
+.aur.a{background:radial-gradient(circle,rgba(60,196,184,.32),transparent 62%)}
+.aur.b{background:radial-gradient(circle,rgba(70,120,210,.28),transparent 62%)}
+.grid{opacity:.04}
+.kicker{color:var(--aqua)}
+.h1{background:linear-gradient(100deg,#f2fbff 15%,#9fe6ea 50%,#f0c879 88%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(60,196,184,.25))}
+.accent{color:var(--gold)}
+.mark b{color:var(--forest)}
+.chip{background:rgba(10,40,52,.88);border-color:rgba(127,216,230,.32)}
+.card{background:linear-gradient(165deg,rgba(14,48,62,.94),rgba(6,22,30,.95));border-color:rgba(127,216,230,.24)}
+.badge{background:rgba(239,138,91,.14);border-color:rgba(239,138,91,.5);color:#f5ab86}
+.badge.g{background:rgba(60,196,184,.15);border-color:rgba(60,196,184,.55);color:#9fe6dc}
+/* 底部海浪帶 */
+.sea{position:absolute;left:0;right:0;bottom:0;height:300px;z-index:1;overflow:hidden;pointer-events:none}
+.sea svg{position:absolute;left:0;bottom:0;width:3840px;height:300px}
+.sea .w1{animation:sw 9s linear infinite;opacity:.30}
+.sea .w2{animation:sw 6s linear infinite reverse;opacity:.20;bottom:-30px}
+.sea .w3{animation:sw 13s linear infinite;opacity:.14;bottom:30px}
+@keyframes sw{from{transform:translateX(0)}to{transform:translateX(-1920px)}}
+.t{font-size:var(--tf,70px);font-weight:900;text-align:center;line-height:1.2;
+ background:linear-gradient(100deg,#f2fbff 20%,#9fe6ea 60%,#f0c879 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.dash{display:flex;gap:34px;margin-top:44px}
+.vp{width:960px;height:560px;position:relative;overflow:hidden;padding:0}
+.vp .lb{position:absolute;left:26px;top:20px;font-size:24px;color:rgba(233,251,255,.75);white-space:nowrap;z-index:3}
+.vp svg.sea2{position:absolute;left:0;bottom:0;width:1920px;height:260px;animation:sw2 6s linear infinite}
+@keyframes sw2{from{transform:translateX(0)}to{transform:translateX(-960px)}}
+.vp .fl{position:absolute;left:400px;bottom:170px;width:160px;height:120px;animation:bob2 3s ease-in-out infinite;z-index:2}
+@keyframes bob2{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-30px) rotate(6deg)}}
+.vp .pto{position:absolute;left:476px;bottom:20px;width:8px;height:170px;background:repeating-linear-gradient(180deg,#f0c879 0 10px,transparent 10px 18px);opacity:.7}
+.side{width:620px;display:flex;flex-direction:column;gap:24px}
+.kp{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.kt{padding:20px 22px}
+.kt .n{font-size:24px;color:rgba(233,251,255,.75);white-space:nowrap}
+.kt svg{width:100%;height:60px;margin-top:8px}
+.kt path{stroke-dasharray:1000;stroke-dashoffset:1000;animation:dr 2.2s ease-out forwards;animation-delay:var(--d)}
+@keyframes dr{to{stroke-dashoffset:0}}
+.ioc{padding:22px 26px}
+.ioc .n{font-size:25px;font-weight:700;color:#e9fbff;white-space:nowrap}
+.lights{display:flex;gap:18px;margin-top:16px}
+.lt{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;white-space:nowrap}
+.lt i{width:22px;height:22px;border-radius:50%;display:inline-block;animation:bl 1.6s ease-in-out infinite}
+@keyframes bl{50%{opacity:.35}}
+.cb{margin-top:34px;font-size:28px;color:rgba(233,251,255,.85);white-space:nowrap}
+
+
+/* ▲▲ 本景專屬 CSS ▲▲ */
+</style></head>
+<body>
+<div class="bg"></div><div class="aur a"></div><div class="aur b"></div><div class="grid"></div>
+<div class="stage" style="z-index:2;--dur:6.5s">
+<!-- ▼▼ 本景內容 ▼▼ -->
+<div class="t in" style="--d:.1s;--tf:58px">3D control room: see it, control it</div>
+<div class="dash">
+ <div class="card vp in" style="--d:.5s"><div class="lb">3D viewport · sea surface / cutaway</div>
+  <svg class="sea2" viewBox="0 0 1920 260"><path d="M0,260 L0,70.0 L20,76.1 L40,81.3 L60,84.8 L80,86.0 L100,84.8 L120,81.3 L140,76.1 L160,70.0 L180,63.9 L200,58.7 L220,55.2 L240,54.0 L260,55.2 L280,58.7 L300,63.9 L320,70.0 L340,76.1 L360,81.3 L380,84.8 L400,86.0 L420,84.8 L440,81.3 L460,76.1 L480,70.0 L500,63.9 L520,58.7 L540,55.2 L560,54.0 L580,55.2 L600,58.7 L620,63.9 L640,70.0 L660,76.1 L680,81.3 L700,84.8 L720,86.0 L740,84.8 L760,81.3 L780,76.1 L800,70.0 L820,63.9 L840,58.7 L860,55.2 L880,54.0 L900,55.2 L920,58.7 L940,63.9 L960,70.0 L980,76.1 L1000,81.3 L1020,84.8 L1040,86.0 L1060,84.8 L1080,81.3 L1100,76.1 L1120,70.0 L1140,63.9 L1160,58.7 L1180,55.2 L1200,54.0 L1220,55.2 L1240,58.7 L1260,63.9 L1280,70.0 L1300,76.1 L1320,81.3 L1340,84.8 L1360,86.0 L1380,84.8 L1400,81.3 L1420,76.1 L1440,70.0 L1460,63.9 L1480,58.7 L1500,55.2 L1520,54.0 L1540,55.2 L1560,58.7 L1580,63.9 L1600,70.0 L1620,76.1 L1640,81.3 L1660,84.8 L1680,86.0 L1700,84.8 L1720,81.3 L1740,76.1 L1760,70.0 L1780,63.9 L1800,58.7 L1820,55.2 L1840,54.0 L1860,55.2 L1880,58.7 L1900,63.9 L1920,70.0 L1920,260 Z" fill="#1f6f8f" opacity=".75"/></svg>
+  <div class="pto"></div>
+  <svg class="fl" viewBox="0 0 160 120"><ellipse cx="80" cy="70" rx="72" ry="34" fill="#ef8a5b"/><rect x="74" y="0" width="12" height="44" fill="#f0c879"/><ellipse cx="80" cy="62" rx="60" ry="14" fill="#f2fbff" opacity=".5"/></svg>
+ </div>
+ <div class="side"><div class="kp"><div class="card kt pop" style="--d:1.20s"><div class="n">Power</div><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 40 Q30 15 60 35 T120 30 T180 35 T240 25 T300 30" fill="none" stroke="#7fd8e6" stroke-width="4" style="--d:1.60s"/></svg></div><div class="card kt pop" style="--d:1.45s"><div class="n">Efficiency</div><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 50 L50 40 L100 42 L150 30 L200 28 L250 22 L300 20" fill="none" stroke="#3cc4b8" stroke-width="4" style="--d:1.85s"/></svg></div><div class="card kt pop" style="--d:1.70s"><div class="n">Wave height Hs</div><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 30 Q25 5 50 30 T100 30 T150 30 T200 30 T250 30 T300 30" fill="none" stroke="#f0c879" stroke-width="4" style="--d:2.10s"/></svg></div><div class="card kt pop" style="--d:1.95s"><div class="n">Energy</div><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 55 L60 50 L120 42 L180 33 L240 22 L300 8" fill="none" stroke="#ef8a5b" stroke-width="4" style="--d:2.35s"/></svg></div></div>
+  <div class="card ioc pop" style="--d:2.4s"><div class="n">PLC I/O signal quality</div><div class="lights"><span class="lt"><i style="background:#3cc4b8;animation-delay:0.0s"></i>GOOD</span><span class="lt"><i style="background:#f0c879;animation-delay:0.4s"></i>UNCERTAIN</span><span class="lt"><i style="background:#ef8a5b;animation-delay:0.8s"></i>BAD</span></div></div>
+ </div>
+</div>
+<div class="cb in" style="--d:3.4s">⚡ Energy chain: wave → float → PTO → generator → grid</div>
+<!-- ▲▲ 本景內容 ▲▲ -->
+</div>
+<div class="mark">DOF Lab<b>.</b> · doflab.cc</div>
+<div class="vig" style="z-index:3"></div>
+</body></html>

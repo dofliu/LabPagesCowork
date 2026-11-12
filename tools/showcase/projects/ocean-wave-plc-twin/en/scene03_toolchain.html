@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- doflab.cc 專案動畫 · 場景模板（品牌版：暖墨底 + 燒赭/暖金/深林綠）
+     規則：1920×1080 固定；動畫從頁面載入 t=0 起算；禁止外連資源（file:// 離線渲染）。
+     本地圖片放同層 assets/，用相對路徑 <img src="assets/shot_01.png">。
+     每景只改 <title>、.stage 的 --dur、以及 <div class="stage"> 內的內容。 -->
+<html lang="en"><head><meta charset="utf-8"><title>Toolchain</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#15110d}
+body{font-family:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#f6efe3;position:relative}
+/* 品牌色 */
+:root{--paper:#faf6ef;--rust:#d2602f;--rust-deep:#b4451f;--gold:#d9ad5b;--forest:#5f9e86;--ink:#15110d}
+/* ── 背景：暖墨底 + 燒赭/暖金光暈 + 紙紋格線 + 暗角 ── */
+.bg{position:absolute;inset:0;background:
+ radial-gradient(1200px 800px at 22% 18%,rgba(210,96,47,.17),transparent 62%),
+ radial-gradient(1100px 760px at 80% 84%,rgba(217,173,91,.14),transparent 60%),
+ linear-gradient(160deg,#241c15 0%,#15110d 58%,#0d0a07 100%)}
+.aur{position:absolute;width:1500px;height:1500px;border-radius:50%;filter:blur(90px);opacity:.45;mix-blend-mode:screen}
+.aur.a{background:radial-gradient(circle,rgba(210,96,47,.30),transparent 62%);left:-460px;top:-560px;animation:drift1 22s ease-in-out infinite alternate}
+.aur.b{background:radial-gradient(circle,rgba(95,158,134,.26),transparent 62%);right:-520px;bottom:-620px;animation:drift2 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(150px,90px) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-130px,-80px) scale(1.08)}}
+.vig{position:absolute;inset:0;background:radial-gradient(1600px 1000px at 50% 46%,transparent 58%,rgba(0,0,0,.5) 100%);pointer-events:none}
+.grid{position:absolute;inset:0;opacity:.045;background-image:linear-gradient(rgba(246,239,227,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(246,239,227,.5) 1px,transparent 1px);background-size:64px 64px}
+/* 左下品牌浮水印（每景都在，維持系列感） */
+.mark{position:absolute;left:64px;bottom:48px;z-index:4;font-size:26px;font-weight:700;letter-spacing:.08em;color:rgba(246,239,227,.55)}
+.mark b{color:var(--rust)}
+/* ── 鏡頭慢推（--dur 設成本景秒數） ── */
+.stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ --dur:7s;animation:cam var(--dur) ease-in-out both}
+@keyframes cam{from{transform:scale(1)}to{transform:scale(1.05)}}
+/* ── 字體系統 ── */
+.kicker{font-size:30px;font-weight:700;letter-spacing:.5em;text-indent:.5em;color:var(--gold);text-transform:uppercase}
+.h1{font-size:112px;font-weight:900;line-height:1.14;text-align:center;letter-spacing:.01em;
+ background:linear-gradient(100deg,#fff8ec 18%,#f0c98a 52%,#e58a5c 84%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(210,96,47,.22))}
+.sub{font-size:40px;font-weight:400;color:rgba(246,239,227,.8);text-align:center;line-height:1.6}
+.accent{color:var(--gold);font-weight:700}
+/* ── 元件 ── */
+.chip{display:inline-flex;align-items:center;gap:16px;padding:20px 38px;border-radius:999px;font-size:36px;font-weight:700;white-space:nowrap;
+ background:rgba(40,31,23,.85);border:1.5px solid rgba(217,173,91,.28);box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06)}
+.card{background:linear-gradient(165deg,rgba(44,34,25,.94),rgba(24,19,14,.95));border:1.5px solid rgba(217,173,91,.22);
+ border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:12px 26px;border-radius:12px;font-size:28px;font-weight:700;white-space:nowrap;
+ background:rgba(210,96,47,.15);border:1.5px solid rgba(210,96,47,.5);color:#f3a57e}
+.badge.g{background:rgba(95,158,134,.15);border-color:rgba(95,158,134,.5);color:#9fd6c1}
+/* ── 真實素材版位 ── */
+.shot{width:1400px;max-height:760px;border-radius:22px;overflow:hidden;background:#100c09;
+ border:1.5px solid rgba(217,173,91,.25);box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.shot img{display:block;width:100%;height:auto}
+.frame{width:480px;height:480px;border-radius:26px;overflow:hidden;background:#100c09;border:1.5px solid rgba(217,173,91,.22);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.frame img{display:block;width:100%;height:100%;object-fit:cover}
+.logo{height:130px;width:auto;object-fit:contain;filter:drop-shadow(0 10px 30px rgba(0,0,0,.5))}
+.hero-img{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);opacity:.36;filter:saturate(.8) contrast(.95)}
+.scrim{position:absolute;inset:0;z-index:1;pointer-events:none;--scrim:.78;
+ background:radial-gradient(1400px 900px at 50% 46%,rgba(13,10,7,calc(var(--scrim)*.55)),transparent 70%),
+ linear-gradient(180deg,rgba(21,17,13,calc(var(--scrim)*.9)),rgba(13,10,7,var(--scrim)))}
+/* ── 進場動畫工具類（--d 控延遲；注意：結尾 transform 會蓋掉 translate 置中） ── */
+.in{opacity:0;animation:rise 1s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(56px)}to{opacity:1;transform:none}}
+.pop{opacity:0;animation:pop .8s cubic-bezier(.2,1.4,.35,1) both;animation-delay:var(--d,0s)}
+@keyframes pop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.glow{animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 18px rgba(210,96,47,.25))}50%{filter:drop-shadow(0 0 42px rgba(210,96,47,.55))}}
+.in.glow{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+.pop.glow{animation:pop .8s cubic-bezier(.2,1.4,.35,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+/* ▼▼ 本景專屬 CSS ▼▼ */
+
+/* ── 海洋配色覆寫（本專案）── */
+:root{--rust:#ef8a5b;--gold:#f0c879;--forest:#3cc4b8;--aqua:#7fd8e6}
+html,body{background:#06141c}
+.bg{background:
+ radial-gradient(1200px 800px at 20% 16%,rgba(60,196,184,.18),transparent 62%),
+ radial-gradient(1100px 760px at 82% 86%,rgba(240,200,121,.12),transparent 60%),
+ linear-gradient(170deg,#0b2a38 0%,#06141c 58%,#030b10 100%)}
+.aur.a{background:radial-gradient(circle,rgba(60,196,184,.32),transparent 62%)}
+.aur.b{background:radial-gradient(circle,rgba(70,120,210,.28),transparent 62%)}
+.grid{opacity:.04}
+.kicker{color:var(--aqua)}
+.h1{background:linear-gradient(100deg,#f2fbff 15%,#9fe6ea 50%,#f0c879 88%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(60,196,184,.25))}
+.accent{color:var(--gold)}
+.mark b{color:var(--forest)}
+.chip{background:rgba(10,40,52,.88);border-color:rgba(127,216,230,.32)}
+.card{background:linear-gradient(165deg,rgba(14,48,62,.94),rgba(6,22,30,.95));border-color:rgba(127,216,230,.24)}
+.badge{background:rgba(239,138,91,.14);border-color:rgba(239,138,91,.5);color:#f5ab86}
+.badge.g{background:rgba(60,196,184,.15);border-color:rgba(60,196,184,.55);color:#9fe6dc}
+/* 底部海浪帶 */
+.sea{position:absolute;left:0;right:0;bottom:0;height:300px;z-index:1;overflow:hidden;pointer-events:none}
+.sea svg{position:absolute;left:0;bottom:0;width:3840px;height:300px}
+.sea .w1{animation:sw 9s linear infinite;opacity:.30}
+.sea .w2{animation:sw 6s linear infinite reverse;opacity:.20;bottom:-30px}
+.sea .w3{animation:sw 13s linear infinite;opacity:.14;bottom:30px}
+@keyframes sw{from{transform:translateX(0)}to{transform:translateX(-1920px)}}
+.t{font-size:var(--tf,70px);font-weight:900;text-align:center;line-height:1.2;
+ background:linear-gradient(100deg,#f2fbff 20%,#9fe6ea 60%,#f0c879 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.pipe{position:relative;display:flex;gap:26px;margin-top:70px}
+.pipe .line{position:absolute;left:120px;right:120px;top:84px;height:6px;border-radius:3px;background:rgba(127,216,230,.15);overflow:hidden}
+.pipe .line::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#3cc4b8,#7fd8e6,#f0c879);transform-origin:left;transform:scaleX(0);animation:fl 3.6s linear .5s forwards}
+@keyframes fl{to{transform:scaleX(1)}}
+.st{position:relative;width:262px;padding:30px 14px 28px;text-align:center;opacity:.25;animation:lit .5s ease-out forwards}
+@keyframes lit{to{opacity:1;border-color:rgba(127,216,230,.7);box-shadow:0 0 40px rgba(60,196,184,.35),0 30px 80px rgba(0,0,0,.55)}}
+.st .ic{font-size:64px}
+.st .nm{font-size:30px;font-weight:900;margin-top:12px;white-space:nowrap;color:#e9fbff}
+.st .ds{font-size:23px;margin-top:10px;color:rgba(233,251,255,.7);white-space:nowrap}
+.note{margin-top:64px;font-size:32px;padding:20px 40px;border-radius:18px;background:rgba(239,138,91,.12);border:1.5px solid rgba(239,138,91,.45);color:#ffd9c4}
+.note b{color:#ffb38f}
+
+
+/* ▲▲ 本景專屬 CSS ▲▲ */
+</style></head>
+<body>
+<div class="bg"></div><div class="aur a"></div><div class="aur b"></div><div class="grid"></div>
+<div class="sea"><svg class="w3" viewBox="0 0 3840 300"><path d="M0,300 L0,120.0 L20,124.3 L40,128.4 L60,132.2 L80,135.6 L100,138.3 L120,140.3 L140,141.6 L160,142.0 L180,141.6 L200,140.3 L220,138.3 L240,135.6 L260,132.2 L280,128.4 L300,124.3 L320,120.0 L340,115.7 L360,111.6 L380,107.8 L400,104.4 L420,101.7 L440,99.7 L460,98.4 L480,98.0 L500,98.4 L520,99.7 L540,101.7 L560,104.4 L580,107.8 L600,111.6 L620,115.7 L640,120.0 L660,124.3 L680,128.4 L700,132.2 L720,135.6 L740,138.3 L760,140.3 L780,141.6 L800,142.0 L820,141.6 L840,140.3 L860,138.3 L880,135.6 L900,132.2 L920,128.4 L940,124.3 L960,120.0 L980,115.7 L1000,111.6 L1020,107.8 L1040,104.4 L1060,101.7 L1080,99.7 L1100,98.4 L1120,98.0 L1140,98.4 L1160,99.7 L1180,101.7 L1200,104.4 L1220,107.8 L1240,111.6 L1260,115.7 L1280,120.0 L1300,124.3 L1320,128.4 L1340,132.2 L1360,135.6 L1380,138.3 L1400,140.3 L1420,141.6 L1440,142.0 L1460,141.6 L1480,140.3 L1500,138.3 L1520,135.6 L1540,132.2 L1560,128.4 L1580,124.3 L1600,120.0 L1620,115.7 L1640,111.6 L1660,107.8 L1680,104.4 L1700,101.7 L1720,99.7 L1740,98.4 L1760,98.0 L1780,98.4 L1800,99.7 L1820,101.7 L1840,104.4 L1860,107.8 L1880,111.6 L1900,115.7 L1920,120.0 L1940,124.3 L1960,128.4 L1980,132.2 L2000,135.6 L2020,138.3 L2040,140.3 L2060,141.6 L2080,142.0 L2100,141.6 L2120,140.3 L2140,138.3 L2160,135.6 L2180,132.2 L2200,128.4 L2220,124.3 L2240,120.0 L2260,115.7 L2280,111.6 L2300,107.8 L2320,104.4 L2340,101.7 L2360,99.7 L2380,98.4 L2400,98.0 L2420,98.4 L2440,99.7 L2460,101.7 L2480,104.4 L2500,107.8 L2520,111.6 L2540,115.7 L2560,120.0 L2580,124.3 L2600,128.4 L2620,132.2 L2640,135.6 L2660,138.3 L2680,140.3 L2700,141.6 L2720,142.0 L2740,141.6 L2760,140.3 L2780,138.3 L2800,135.6 L2820,132.2 L2840,128.4 L2860,124.3 L2880,120.0 L2900,115.7 L2920,111.6 L2940,107.8 L2960,104.4 L2980,101.7 L3000,99.7 L3020,98.4 L3040,98.0 L3060,98.4 L3080,99.7 L3100,101.7 L3120,104.4 L3140,107.8 L3160,111.6 L3180,115.7 L3200,120.0 L3220,124.3 L3240,128.4 L3260,132.2 L3280,135.6 L3300,138.3 L3320,140.3 L3340,141.6 L3360,142.0 L3380,141.6 L3400,140.3 L3420,138.3 L3440,135.6 L3460,132.2 L3480,128.4 L3500,124.3 L3520,120.0 L3540,115.7 L3560,111.6 L3580,107.8 L3600,104.4 L3620,101.7 L3640,99.7 L3660,98.4 L3680,98.0 L3700,98.4 L3720,99.7 L3740,101.7 L3760,104.4 L3780,107.8 L3800,111.6 L3820,115.7 L3840,120.0 L3840,300 Z" fill="#3cc4b8"/></svg><svg class="w1" viewBox="0 0 3840 300"><path d="M0,300 L0,170.0 L20,173.9 L40,177.8 L60,181.5 L80,185.0 L100,188.3 L120,191.2 L140,193.8 L160,196.0 L180,197.7 L200,199.0 L220,199.7 L240,200.0 L260,199.7 L280,199.0 L300,197.7 L320,196.0 L340,193.8 L360,191.2 L380,188.3 L400,185.0 L420,181.5 L440,177.8 L460,173.9 L480,170.0 L500,166.1 L520,162.2 L540,158.5 L560,155.0 L580,151.7 L600,148.8 L620,146.2 L640,144.0 L660,142.3 L680,141.0 L700,140.3 L720,140.0 L740,140.3 L760,141.0 L780,142.3 L800,144.0 L820,146.2 L840,148.8 L860,151.7 L880,155.0 L900,158.5 L920,162.2 L940,166.1 L960,170.0 L980,173.9 L1000,177.8 L1020,181.5 L1040,185.0 L1060,188.3 L1080,191.2 L1100,193.8 L1120,196.0 L1140,197.7 L1160,199.0 L1180,199.7 L1200,200.0 L1220,199.7 L1240,199.0 L1260,197.7 L1280,196.0 L1300,193.8 L1320,191.2 L1340,188.3 L1360,185.0 L1380,181.5 L1400,177.8 L1420,173.9 L1440,170.0 L1460,166.1 L1480,162.2 L1500,158.5 L1520,155.0 L1540,151.7 L1560,148.8 L1580,146.2 L1600,144.0 L1620,142.3 L1640,141.0 L1660,140.3 L1680,140.0 L1700,140.3 L1720,141.0 L1740,142.3 L1760,144.0 L1780,146.2 L1800,148.8 L1820,151.7 L1840,155.0 L1860,158.5 L1880,162.2 L1900,166.1 L1920,170.0 L1940,173.9 L1960,177.8 L1980,181.5 L2000,185.0 L2020,188.3 L2040,191.2 L2060,193.8 L2080,196.0 L2100,197.7 L2120,199.0 L2140,199.7 L2160,200.0 L2180,199.7 L2200,199.0 L2220,197.7 L2240,196.0 L2260,193.8 L2280,191.2 L2300,188.3 L2320,185.0 L2340,181.5 L2360,177.8 L2380,173.9 L2400,170.0 L2420,166.1 L2440,162.2 L2460,158.5 L2480,155.0 L2500,151.7 L2520,148.8 L2540,146.2 L2560,144.0 L2580,142.3 L2600,141.0 L2620,140.3 L2640,140.0 L2660,140.3 L2680,141.0 L2700,142.3 L2720,144.0 L2740,146.2 L2760,148.8 L2780,151.7 L2800,155.0 L2820,158.5 L2840,162.2 L2860,166.1 L2880,170.0 L2900,173.9 L2920,177.8 L2940,181.5 L2960,185.0 L2980,188.3 L3000,191.2 L3020,193.8 L3040,196.0 L3060,197.7 L3080,199.0 L3100,199.7 L3120,200.0 L3140,199.7 L3160,199.0 L3180,197.7 L3200,196.0 L3220,193.8 L3240,191.2 L3260,188.3 L3280,185.0 L3300,181.5 L3320,177.8 L3340,173.9 L3360,170.0 L3380,166.1 L3400,162.2 L3420,158.5 L3440,155.0 L3460,151.7 L3480,148.8 L3500,146.2 L3520,144.0 L3540,142.3 L3560,141.0 L3580,140.3 L3600,140.0 L3620,140.3 L3640,141.0 L3660,142.3 L3680,144.0 L3700,146.2 L3720,148.8 L3740,151.7 L3760,155.0 L3780,158.5 L3800,162.2 L3820,166.1 L3840,170.0 L3840,300 Z" fill="#2a8fb0"/></svg><svg class="w2" viewBox="0 0 3840 300"><path d="M0,300 L0,220.0 L20,224.7 L40,229.0 L60,232.7 L80,235.6 L100,237.4 L120,238.0 L140,237.4 L160,235.6 L180,232.7 L200,229.0 L220,224.7 L240,220.0 L260,215.3 L280,211.0 L300,207.3 L320,204.4 L340,202.6 L360,202.0 L380,202.6 L400,204.4 L420,207.3 L440,211.0 L460,215.3 L480,220.0 L500,224.7 L520,229.0 L540,232.7 L560,235.6 L580,237.4 L600,238.0 L620,237.4 L640,235.6 L660,232.7 L680,229.0 L700,224.7 L720,220.0 L740,215.3 L760,211.0 L780,207.3 L800,204.4 L820,202.6 L840,202.0 L860,202.6 L880,204.4 L900,207.3 L920,211.0 L940,215.3 L960,220.0 L980,224.7 L1000,229.0 L1020,232.7 L1040,235.6 L1060,237.4 L1080,238.0 L1100,237.4 L1120,235.6 L1140,232.7 L1160,229.0 L1180,224.7 L1200,220.0 L1220,215.3 L1240,211.0 L1260,207.3 L1280,204.4 L1300,202.6 L1320,202.0 L1340,202.6 L1360,204.4 L1380,207.3 L1400,211.0 L1420,215.3 L1440,220.0 L1460,224.7 L1480,229.0 L1500,232.7 L1520,235.6 L1540,237.4 L1560,238.0 L1580,237.4 L1600,235.6 L1620,232.7 L1640,229.0 L1660,224.7 L1680,220.0 L1700,215.3 L1720,211.0 L1740,207.3 L1760,204.4 L1780,202.6 L1800,202.0 L1820,202.6 L1840,204.4 L1860,207.3 L1880,211.0 L1900,215.3 L1920,220.0 L1940,224.7 L1960,229.0 L1980,232.7 L2000,235.6 L2020,237.4 L2040,238.0 L2060,237.4 L2080,235.6 L2100,232.7 L2120,229.0 L2140,224.7 L2160,220.0 L2180,215.3 L2200,211.0 L2220,207.3 L2240,204.4 L2260,202.6 L2280,202.0 L2300,202.6 L2320,204.4 L2340,207.3 L2360,211.0 L2380,215.3 L2400,220.0 L2420,224.7 L2440,229.0 L2460,232.7 L2480,235.6 L2500,237.4 L2520,238.0 L2540,237.4 L2560,235.6 L2580,232.7 L2600,229.0 L2620,224.7 L2640,220.0 L2660,215.3 L2680,211.0 L2700,207.3 L2720,204.4 L2740,202.6 L2760,202.0 L2780,202.6 L2800,204.4 L2820,207.3 L2840,211.0 L2860,215.3 L2880,220.0 L2900,224.7 L2920,229.0 L2940,232.7 L2960,235.6 L2980,237.4 L3000,238.0 L3020,237.4 L3040,235.6 L3060,232.7 L3080,229.0 L3100,224.7 L3120,220.0 L3140,215.3 L3160,211.0 L3180,207.3 L3200,204.4 L3220,202.6 L3240,202.0 L3260,202.6 L3280,204.4 L3300,207.3 L3320,211.0 L3340,215.3 L3360,220.0 L3380,224.7 L3400,229.0 L3420,232.7 L3440,235.6 L3460,237.4 L3480,238.0 L3500,237.4 L3520,235.6 L3540,232.7 L3560,229.0 L3580,224.7 L3600,220.0 L3620,215.3 L3640,211.0 L3660,207.3 L3680,204.4 L3700,202.6 L3720,202.0 L3740,202.6 L3760,204.4 L3780,207.3 L3800,211.0 L3820,215.3 L3840,220.0 L3840,300 Z" fill="#7fd8e6"/></svg></div>
+<div class="stage" style="z-index:2;--dur:6.5s">
+<!-- ▼▼ 本景內容 ▼▼ -->
+<div class="t in" style="--d:.1s;--tf:60px">From model to controller, one chain</div>
+<div class="pipe"><div class="line"></div><div class="card st" style="animation-delay:0.5s"><div class="ic">📦</div><div class="nm">Import</div><div class="ds">Model package</div></div><div class="card st" style="animation-delay:1.1s"><div class="ic">🔍</div><div class="nm">Review</div><div class="ds">Hash-bound record</div></div><div class="card st" style="animation-delay:1.7s"><div class="ic">🧊</div><div class="nm">3D Twin</div><div class="ds">Sea & cutaway</div></div><div class="card st" style="animation-delay:2.3s"><div class="ic">🧠</div><div class="nm">AI Coding</div><div class="ds">Text → PLC</div></div><div class="card st" style="animation-delay:2.9s"><div class="ic">🔁</div><div class="nm">In-the-Loop</div><div class="ds">SIL / HIL</div></div><div class="card st" style="animation-delay:3.5s"><div class="ic">📑</div><div class="nm">Delivery</div><div class="ds">Gated handoff</div></div></div>
+<div class="note in" style="--d:4.3s">🔒 Safety gates are <b>fail-closed</b>: unclear means no-go</div>
+<!-- ▲▲ 本景內容 ▲▲ -->
+</div>
+<div class="mark">DOF Lab<b>.</b> · doflab.cc</div>
+<div class="vig" style="z-index:3"></div>
+</body></html>
