@@ -1,7 +1,39 @@
 {
-  "updated": "2026-11-12",
+  "updated": "2026-11-13",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "traffic-cam-3d-map",
+      "title": "路況攝影機 3D 地圖",
+      "tagline": "點地圖找最近攝影機，看即時路況",
+      "category": "personal_tools",
+      "date": "2026-11-13",
+      "video": "assets/showcase/traffic-cam-3d-map.mp4",
+      "cover": "assets/showcase/traffic-cam-3d-map.jpg",
+      "source_type": "repo",
+      "source_url": "",
+      "tech": [
+        "MapLibre",
+        "OpenStreetMap 向量圖磚",
+        "公開交通資料",
+        "Python",
+        "Capacitor Android"
+      ],
+      "repo": "",
+      "repo_hash": "836befa0a3180bfc",
+      "duration": 30.1,
+      "title_en": "Traffic Cam 3D Map",
+      "tagline_en": "Tap the map, see the nearest live traffic camera",
+      "tech_en": [
+        "MapLibre",
+        "OpenStreetMap vector tiles",
+        "Open traffic data",
+        "Python",
+        "Capacitor Android"
+      ],
+      "video_en": "assets/showcase/traffic-cam-3d-map.en.mp4",
+      "cover_en": "assets/showcase/traffic-cam-3d-map.en.jpg"
+    },
     {
       "id": "ocean-wave-plc-twin",
       "title": "波浪能源PLC數位分身",
