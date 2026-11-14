@@ -1,7 +1,36 @@
 {
-  "updated": "2026-11-13",
+  "updated": "2026-11-14",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "karatube",
+      "title": "KaraTube 隨選 KTV",
+      "tagline": "貼上 YouTube 網址就能開唱",
+      "category": "personal_tools",
+      "date": "2026-11-14",
+      "video": "assets/showcase/karatube.mp4",
+      "cover": "assets/showcase/karatube.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/KaraTube",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "Demucs",
+        "Web Audio"
+      ],
+      "repo": "dofliu/KaraTube",
+      "duration": 30.1,
+      "title_en": "KaraTube On-Demand KTV",
+      "tagline_en": "Paste a YouTube link and start singing",
+      "tech_en": [
+        "Python",
+        "FastAPI",
+        "Demucs",
+        "Web Audio"
+      ],
+      "video_en": "assets/showcase/karatube.en.mp4",
+      "cover_en": "assets/showcase/karatube.en.jpg"
+    },
     {
       "id": "traffic-cam-3d-map",
       "title": "路況攝影機 3D 地圖",
