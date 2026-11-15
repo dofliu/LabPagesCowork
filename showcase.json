@@ -1,7 +1,36 @@
 {
-  "updated": "2026-11-14",
+  "updated": "2026-11-15",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "windfarm-go",
+      "title": "離岸風場・運維傳說",
+      "tagline": "大航海風格的離岸風電運維教學遊戲",
+      "category": "edtech",
+      "date": "2026-11-15",
+      "video": "assets/showcase/windfarm-go.mp4",
+      "cover": "assets/showcase/windfarm-go.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/windFarm-Go",
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "PWA"
+      ],
+      "repo": "dofliu/windFarm-Go",
+      "duration": 30.1,
+      "title_en": "Offshore O&M Legend",
+      "tagline_en": "Age-of-sail style game for offshore wind O&M training",
+      "tech_en": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "PWA"
+      ],
+      "video_en": "assets/showcase/windfarm-go.en.mp4",
+      "cover_en": "assets/showcase/windfarm-go.en.jpg"
+    },
     {
       "id": "karatube",
       "title": "KaraTube 隨選 KTV",

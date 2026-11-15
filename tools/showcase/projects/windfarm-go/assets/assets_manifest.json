@@ -1,0 +1,44 @@
+[
+  {
+    "source": "01-hub.png",
+    "file": "asset_01.jpg",
+    "width": 1920,
+    "height": 1066,
+    "shape": "wide"
+  },
+  {
+    "source": "02-market.png",
+    "file": "asset_02.jpg",
+    "width": 1920,
+    "height": 1082,
+    "shape": "wide"
+  },
+  {
+    "source": "03-sail.png",
+    "file": "asset_03.jpg",
+    "width": 1920,
+    "height": 1056,
+    "shape": "wide"
+  },
+  {
+    "source": "04-repair.png",
+    "file": "asset_04.jpg",
+    "width": 1920,
+    "height": 1056,
+    "shape": "wide"
+  },
+  {
+    "source": "comic_harbor.jpg",
+    "file": "asset_05.jpg",
+    "width": 554,
+    "height": 460,
+    "shape": "square"
+  },
+  {
+    "source": "comic_sailing.jpg",
+    "file": "asset_06.jpg",
+    "width": 1280,
+    "height": 720,
+    "shape": "wide"
+  }
+]
