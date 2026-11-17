@@ -1,0 +1,16 @@
+[
+  {
+    "source": "SCN044.webp",
+    "file": "asset_01.png",
+    "width": 1278,
+    "height": 548,
+    "shape": "wide"
+  },
+  {
+    "source": "SCN084.webp",
+    "file": "asset_02.png",
+    "width": 1278,
+    "height": 548,
+    "shape": "wide"
+  }
+]
