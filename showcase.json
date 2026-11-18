@@ -1,7 +1,31 @@
 {
-  "updated": "2026-11-17",
+  "updated": "2026-11-18",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "robotman",
+      "title": "robotMan 人形機器人模擬",
+      "tagline": "人形機器人設計篩選與教學模擬原型",
+      "category": "edtech",
+      "date": "2026-11-18",
+      "video": "assets/showcase/robotman.mp4",
+      "cover": "assets/showcase/robotman.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/robotMan",
+      "tech": [
+        "MuJoCo",
+        "FastAPI",
+        "React",
+        "Three.js",
+        "PPO"
+      ],
+      "repo": "dofliu/robotMan",
+      "duration": 30.1,
+      "title_en": "robotMan Humanoid Simulation",
+      "tagline_en": "Humanoid design screening & teaching simulation prototype",
+      "video_en": "assets/showcase/robotman.en.mp4",
+      "cover_en": "assets/showcase/robotman.en.jpg"
+    },
     {
       "id": "windfarmomii",
       "title": "離岸風電運維大師",
