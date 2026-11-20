@@ -1,7 +1,31 @@
 {
-  "updated": "2026-11-19",
+  "updated": "2026-11-20",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "edustudio",
+      "title": "eduStudio 教學工作站",
+      "tagline": "素材變旁白教學影片，AI 產出人工把關",
+      "category": "edtech",
+      "date": "2026-11-20",
+      "video": "assets/showcase/edustudio.mp4",
+      "cover": "assets/showcase/edustudio.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/eduStudio",
+      "tech": [
+        "FastAPI",
+        "React",
+        "Gemini",
+        "F5-TTS",
+        "ffmpeg"
+      ],
+      "repo": "dofliu/eduStudio",
+      "duration": 30.1,
+      "title_en": "eduStudio Teaching Content Studio",
+      "tagline_en": "Course materials to narrated videos, human-reviewed",
+      "video_en": "assets/showcase/edustudio.en.mp4",
+      "cover_en": "assets/showcase/edustudio.en.jpg"
+    },
     {
       "id": "induspect",
       "title": "InduSpect AI 智慧巡檢",
