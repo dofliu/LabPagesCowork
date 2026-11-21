@@ -1,7 +1,31 @@
 {
-  "updated": "2026-11-20",
+  "updated": "2026-11-21",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "ipassai",
+      "title": "iPassAI 靛藍題庫工坊",
+      "tagline": "離線優先的考照題庫與全真模考",
+      "category": "edtech",
+      "date": "2026-11-21",
+      "video": "assets/showcase/ipassai.mp4",
+      "cover": "assets/showcase/ipassai.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/iPassAI",
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "TailwindCSS",
+        "Capacitor"
+      ],
+      "repo": "dofliu/iPassAI",
+      "duration": 30.1,
+      "title_en": "iPassAI Exam Prep Studio",
+      "tagline_en": "Offline-first question bank & full mock exams",
+      "video_en": "assets/showcase/ipassai.en.mp4",
+      "cover_en": "assets/showcase/ipassai.en.jpg"
+    },
     {
       "id": "edustudio",
       "title": "eduStudio 教學工作站",
