@@ -1,7 +1,31 @@
 {
-  "updated": "2026-11-23",
+  "updated": "2026-11-24",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "nihonlearn",
+      "title": "日本語の道 日語學習 App",
+      "tagline": "聽說讀三軌，每天十分鐘學日語",
+      "category": "edtech",
+      "date": "2026-11-24",
+      "video": "assets/showcase/nihonlearn.mp4",
+      "cover": "assets/showcase/nihonlearn.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/nihonLearn",
+      "tech": [
+        "TypeScript",
+        "React",
+        "FSRS",
+        "Capacitor",
+        "Gemini"
+      ],
+      "repo": "dofliu/nihonLearn",
+      "duration": 30.1,
+      "title_en": "Nihongo no Michi: Japanese Learning App",
+      "tagline_en": "Listen, speak, read — ten minutes of Japanese a day",
+      "video_en": "assets/showcase/nihonlearn.en.mp4",
+      "cover_en": "assets/showcase/nihonlearn.en.jpg"
+    },
     {
       "id": "scanmail-plus",
       "title": "ScanMail+ 智慧文件處理",
