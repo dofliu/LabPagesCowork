@@ -1,7 +1,31 @@
 {
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "csi-sense",
+      "title": "CSI Sense 無線姿態感測",
+      "tagline": "用 Wi-Fi 訊號偵測動作與跌倒",
+      "category": "industrial_ai",
+      "date": "2026-11-25",
+      "video": "assets/showcase/csi-sense.mp4",
+      "cover": "assets/showcase/csi-sense.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/CSI_Sense",
+      "tech": [
+        "Kotlin",
+        "Jetpack Compose",
+        "ESP32",
+        "Wi-Fi CSI",
+        "PyTorch"
+      ],
+      "repo": "dofliu/CSI_Sense",
+      "duration": 30.1,
+      "title_en": "CSI Sense: Wi-Fi Motion Sensing",
+      "tagline_en": "Detect motion and falls with Wi-Fi signals, no wearables",
+      "video_en": "assets/showcase/csi-sense.en.mp4",
+      "cover_en": "assets/showcase/csi-sense.en.jpg"
+    },
     {
       "id": "nihonlearn",
       "title": "日本語の道 日語學習 App",

@@ -1,0 +1,130 @@
+<!doctype html>
+<!-- doflab.cc 專案動畫 · 場景模板（品牌版：暖墨底 + 燒赭/暖金/深林綠）
+     規則：1920×1080 固定；動畫從頁面載入 t=0 起算；禁止外連資源（file:// 離線渲染）。
+     本地圖片放同層 assets/，用相對路徑 <img src="assets/shot_01.png">。
+     每景只改 <title>、.stage 的 --dur、以及 <div class="stage"> 內的內容。 -->
+<html lang="zh-Hant"><head><meta charset="utf-8"><title>即時頻譜</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#15110d}
+body{font-family:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#f6efe3;position:relative}
+/* 品牌色 */
+:root{--paper:#faf6ef;--rust:#d2602f;--rust-deep:#b4451f;--gold:#d9ad5b;--forest:#5f9e86;--ink:#15110d}
+/* ── 背景：暖墨底 + 燒赭/暖金光暈 + 紙紋格線 + 暗角 ── */
+.bg{position:absolute;inset:0;background:
+ radial-gradient(1200px 800px at 22% 18%,rgba(210,96,47,.17),transparent 62%),
+ radial-gradient(1100px 760px at 80% 84%,rgba(217,173,91,.14),transparent 60%),
+ linear-gradient(160deg,#241c15 0%,#15110d 58%,#0d0a07 100%)}
+.aur{position:absolute;width:1500px;height:1500px;border-radius:50%;filter:blur(90px);opacity:.45;mix-blend-mode:screen}
+.aur.a{background:radial-gradient(circle,rgba(210,96,47,.30),transparent 62%);left:-460px;top:-560px;animation:drift1 22s ease-in-out infinite alternate}
+.aur.b{background:radial-gradient(circle,rgba(95,158,134,.26),transparent 62%);right:-520px;bottom:-620px;animation:drift2 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(150px,90px) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-130px,-80px) scale(1.08)}}
+.vig{position:absolute;inset:0;background:radial-gradient(1600px 1000px at 50% 46%,transparent 58%,rgba(0,0,0,.5) 100%);pointer-events:none}
+.grid{position:absolute;inset:0;opacity:.045;background-image:linear-gradient(rgba(246,239,227,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(246,239,227,.5) 1px,transparent 1px);background-size:64px 64px}
+/* 左下品牌浮水印（每景都在，維持系列感） */
+.mark{position:absolute;left:64px;bottom:48px;z-index:4;font-size:26px;font-weight:700;letter-spacing:.08em;color:rgba(246,239,227,.55)}
+.mark b{color:var(--rust)}
+/* ── 鏡頭慢推（--dur 設成本景秒數） ── */
+.stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ --dur:6.5s;animation:cam var(--dur) ease-in-out both}
+@keyframes cam{from{transform:scale(1)}to{transform:scale(1.05)}}
+/* ── 字體系統 ── */
+.kicker{font-size:30px;font-weight:700;letter-spacing:.5em;text-indent:.5em;color:var(--gold);text-transform:uppercase}
+.h1{font-size:112px;font-weight:900;line-height:1.14;text-align:center;letter-spacing:.01em;
+ background:linear-gradient(100deg,#fff8ec 18%,#f0c98a 52%,#e58a5c 84%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(210,96,47,.22))}
+.sub{font-size:40px;font-weight:400;color:rgba(246,239,227,.8);text-align:center;line-height:1.6}
+.accent{color:var(--gold);font-weight:700}
+/* ── 元件 ── */
+.chip{display:inline-flex;align-items:center;gap:16px;padding:20px 38px;border-radius:999px;font-size:36px;font-weight:700;white-space:nowrap;
+ background:rgba(40,31,23,.85);border:1.5px solid rgba(217,173,91,.28);box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06)}
+.card{background:linear-gradient(165deg,rgba(44,34,25,.94),rgba(24,19,14,.95));border:1.5px solid rgba(217,173,91,.22);
+ border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:12px 26px;border-radius:12px;font-size:28px;font-weight:700;white-space:nowrap;
+ background:rgba(210,96,47,.15);border:1.5px solid rgba(210,96,47,.5);color:#f3a57e}
+.badge.g{background:rgba(95,158,134,.15);border-color:rgba(95,158,134,.5);color:#9fd6c1}
+/* ── 真實素材版位 ── */
+.shot{width:1400px;max-height:760px;border-radius:22px;overflow:hidden;background:#100c09;
+ border:1.5px solid rgba(217,173,91,.25);box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.shot img{display:block;width:100%;height:auto}
+.frame{width:480px;height:480px;border-radius:26px;overflow:hidden;background:#100c09;border:1.5px solid rgba(217,173,91,.22);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.frame img{display:block;width:100%;height:100%;object-fit:cover}
+.logo{height:130px;width:auto;object-fit:contain;filter:drop-shadow(0 10px 30px rgba(0,0,0,.5))}
+.hero-img{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);opacity:.36;filter:saturate(.8) contrast(.95)}
+.scrim{position:absolute;inset:0;z-index:1;pointer-events:none;--scrim:.78;
+ background:radial-gradient(1400px 900px at 50% 46%,rgba(13,10,7,calc(var(--scrim)*.55)),transparent 70%),
+ linear-gradient(180deg,rgba(21,17,13,calc(var(--scrim)*.9)),rgba(13,10,7,var(--scrim)))}
+/* ── 進場動畫工具類（--d 控延遲；注意：結尾 transform 會蓋掉 translate 置中） ── */
+.in{opacity:0;animation:rise 1s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(56px)}to{opacity:1;transform:none}}
+.pop{opacity:0;animation:pop .8s cubic-bezier(.2,1.4,.35,1) both;animation-delay:var(--d,0s)}
+@keyframes pop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.glow{animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 18px rgba(210,96,47,.25))}50%{filter:drop-shadow(0 0 42px rgba(210,96,47,.55))}}
+.in.glow{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+.pop.glow{animation:pop .8s cubic-bezier(.2,1.4,.35,1) var(--d,0s) both,glow 2.6s ease-in-out infinite}
+/* ▼▼ 本景專屬 CSS ▼▼ */
+
+:root{--vio:#8f7bff;--vio2:#b9a8ff;--em:#3fd6a0;--red:#ff5a6a;--gold:#b9a8ff;--rust:#8f7bff}
+html,body{background:#0b0a1c}
+.bg{background:radial-gradient(1200px 800px at 20% 16%,rgba(143,123,255,.20),transparent 62%),
+ radial-gradient(1100px 760px at 82% 86%,rgba(63,214,160,.14),transparent 60%),
+ linear-gradient(165deg,#1b1740 0%,#0f0d26 55%,#070614 100%)}
+.aur.a{background:radial-gradient(circle,rgba(143,123,255,.30),transparent 62%)}
+.aur.b{background:radial-gradient(circle,rgba(63,214,160,.20),transparent 62%)}
+.grid{opacity:.05;background-image:linear-gradient(rgba(185,168,255,.7) 1px,transparent 1px),linear-gradient(90deg,rgba(185,168,255,.7) 1px,transparent 1px);background-size:60px 60px}
+.kicker{color:var(--em)}
+.h1{background:linear-gradient(100deg,#ffffff 12%,#b9a8ff 50%,#3fd6a0 92%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 8px 40px rgba(143,123,255,.35))}
+.mark b{color:var(--em)}
+.accent{color:var(--em)}
+.card{background:linear-gradient(165deg,rgba(34,30,78,.94),rgba(16,14,40,.96));border:1.5px solid rgba(185,168,255,.24)}
+.chip{background:rgba(24,21,58,.9);border:1.5px solid rgba(185,168,255,.38)}
+.sec{font-size:30px;font-weight:700;letter-spacing:.32em;text-indent:.32em;color:var(--em);white-space:nowrap}
+.h2{font-size:76px;font-weight:900;color:#f4f1ff;white-space:nowrap;line-height:1.2}
+.h2 em{font-style:normal;color:var(--vio2)}
+.note{font-size:30px;color:rgba(236,232,255,.7);white-space:nowrap}
+
+.panel{width:1500px;margin-top:40px;padding:30px 44px 34px}
+.ph{display:flex;justify-content:space-between;align-items:center;font-size:28px;color:rgba(236,232,255,.72);white-space:nowrap}
+.live{display:flex;align-items:center;gap:12px;color:#3fd6a0;font-weight:700;letter-spacing:.12em}
+.live b{width:16px;height:16px;border-radius:50%;background:#3fd6a0;animation:blink 1s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.bars{height:300px;display:flex;align-items:flex-end;gap:6px;margin-top:22px;border-bottom:2px solid rgba(185,168,255,.3)}
+.bars i{flex:1;height:100%;transform-origin:bottom;border-radius:4px 4px 0 0;
+ background:linear-gradient(180deg,#b9a8ff,#6a55e8);transform:scaleY(0);
+ animation:grow .6s cubic-bezier(.16,1,.3,1) var(--d) both,calm var(--u) ease-in-out 1.6s 3 alternate,wild var(--u) ease-in-out 3.4s infinite alternate,hot .5s ease 3.4s both}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(var(--c))}}
+@keyframes calm{from{transform:scaleY(var(--c))}to{transform:scaleY(var(--c2))}}
+@keyframes wild{from{transform:scaleY(var(--w))}to{transform:scaleY(var(--w2))}}
+@keyframes hot{to{background:linear-gradient(180deg,#ff8f9a,#e23a55)}}
+.states{display:flex;gap:26px;margin-top:36px}
+.stt{padding:18px 40px;border-radius:999px;font-size:34px;font-weight:700;white-space:nowrap;background:rgba(24,21,58,.9);border:2px solid rgba(185,168,255,.3);color:rgba(236,232,255,.6)}
+.stt.on1{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d) both,on1 1.8s ease 1.5s both}
+.stt.on2{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d) both,on2 .9s ease 2.6s both}
+.stt.on3{animation:rise 1s cubic-bezier(.16,1,.3,1) var(--d) both,on3 .5s ease 3.5s both}
+@keyframes on1{0%,100%{border-color:rgba(185,168,255,.3);color:rgba(236,232,255,.6)}20%,70%{border-color:#3fd6a0;color:#3fd6a0}}
+@keyframes on2{0%,100%{border-color:rgba(185,168,255,.3);color:rgba(236,232,255,.6)}20%,75%{border-color:#b9a8ff;color:#d8ceff}}
+@keyframes on3{to{border-color:#ff5a6a;color:#fff;background:rgba(255,90,106,.28);box-shadow:0 0 44px rgba(255,90,106,.5)}}
+.note{margin-top:30px;font-size:30px}
+
+/* ▲▲ 本景專屬 CSS ▲▲ */
+</style></head>
+<body>
+<div class="bg"></div><div class="aur a"></div><div class="aur b"></div><div class="grid"></div>
+<!-- 粒子層：開場/結尾景保留，功能景可刪 -->
+<div class="stage" style="z-index:2">
+<!-- ▼▼ 本景內容 ▼▼ -->
+ <div class="sec in" style="--d:.1s">重點一 · 即時頻譜</div>
+ <div class="h2 in" style="--d:.3s;margin-top:14px;font-size:76px">人一動，<em>訊號就變了</em></div>
+ <div class="card panel in" style="--d:.6s"><div class="ph"><span>64 個子載波振幅</span><span class="live"><b></b>LIVE</span></div>
+ <div class="bars"><i style="--c:27%;--c2:22%;--w:49%;--w2:82%;--d:0.90s;--u:0.55s"></i><i style="--c:36%;--c2:29%;--w:75%;--w2:75%;--d:0.91s;--u:0.62s"></i><i style="--c:29%;--c2:23%;--w:72%;--w2:67%;--d:0.92s;--u:0.69s"></i><i style="--c:22%;--c2:18%;--w:44%;--w2:57%;--d:0.94s;--u:0.76s"></i><i style="--c:28%;--c2:22%;--w:39%;--w2:47%;--d:0.95s;--u:0.83s"></i><i style="--c:32%;--c2:25%;--w:69%;--w2:35%;--d:0.96s;--u:0.55s"></i><i style="--c:29%;--c2:23%;--w:87%;--w2:36%;--d:0.97s;--u:0.62s"></i><i style="--c:32%;--c2:26%;--w:65%;--w2:47%;--d:0.98s;--u:0.69s"></i><i style="--c:38%;--c2:30%;--w:37%;--w2:58%;--d:1.00s;--u:0.76s"></i><i style="--c:29%;--c2:23%;--w:36%;--w2:67%;--d:1.01s;--u:0.83s"></i><i style="--c:14%;--c2:11%;--w:41%;--w2:75%;--d:1.02s;--u:0.55s"></i><i style="--c:13%;--c2:10%;--w:31%;--w2:82%;--d:1.03s;--u:0.62s"></i><i style="--c:17%;--c2:14%;--w:38%;--w2:87%;--d:1.04s;--u:0.69s"></i><i style="--c:14%;--c2:12%;--w:34%;--w2:89%;--d:1.06s;--u:0.76s"></i><i style="--c:13%;--c2:10%;--w:41%;--w2:90%;--d:1.07s;--u:0.83s"></i><i style="--c:19%;--c2:16%;--w:70%;--w2:88%;--d:1.08s;--u:0.55s"></i><i style="--c:19%;--c2:15%;--w:84%;--w2:85%;--d:1.09s;--u:0.62s"></i><i style="--c:7%;--c2:6%;--w:60%;--w2:79%;--d:1.10s;--u:0.69s"></i><i style="--c:6%;--c2:5%;--w:37%;--w2:71%;--d:1.12s;--u:0.76s"></i><i style="--c:18%;--c2:14%;--w:52%;--w2:63%;--d:1.13s;--u:0.83s"></i><i style="--c:25%;--c2:20%;--w:79%;--w2:52%;--d:1.14s;--u:0.55s"></i><i style="--c:25%;--c2:20%;--w:73%;--w2:42%;--d:1.15s;--u:0.62s"></i><i style="--c:31%;--c2:25%;--w:45%;--w2:30%;--d:1.16s;--u:0.69s"></i><i style="--c:36%;--c2:29%;--w:32%;--w2:41%;--d:1.18s;--u:0.76s"></i><i style="--c:28%;--c2:22%;--w:35%;--w2:52%;--d:1.19s;--u:0.83s"></i><i style="--c:21%;--c2:17%;--w:34%;--w2:62%;--d:1.20s;--u:0.55s"></i><i style="--c:29%;--c2:23%;--w:46%;--w2:71%;--d:1.21s;--u:0.62s"></i><i style="--c:36%;--c2:29%;--w:40%;--w2:79%;--d:1.22s;--u:0.69s"></i><i style="--c:32%;--c2:25%;--w:35%;--w2:84%;--d:1.24s;--u:0.76s"></i><i style="--c:28%;--c2:22%;--w:58%;--w2:88%;--d:1.25s;--u:0.83s"></i><i style="--c:28%;--c2:23%;--w:87%;--w2:90%;--d:1.26s;--u:0.55s"></i><i style="--c:20%;--c2:16%;--w:78%;--w2:89%;--d:1.27s;--u:0.62s"></i><i style="--c:7%;--c2:6%;--w:45%;--w2:87%;--d:1.28s;--u:0.69s"></i><i style="--c:9%;--c2:7%;--w:39%;--w2:82%;--d:1.30s;--u:0.76s"></i><i style="--c:19%;--c2:15%;--w:64%;--w2:76%;--d:1.31s;--u:0.83s"></i><i style="--c:18%;--c2:15%;--w:73%;--w2:67%;--d:1.32s;--u:0.55s"></i><i style="--c:13%;--c2:10%;--w:52%;--w2:58%;--d:1.33s;--u:0.62s"></i><i style="--c:15%;--c2:12%;--w:33%;--w2:47%;--d:1.34s;--u:0.69s"></i><i style="--c:16%;--c2:13%;--w:31%;--w2:36%;--d:1.36s;--u:0.76s"></i><i style="--c:10%;--c2:8%;--w:37%;--w2:35%;--d:1.37s;--u:0.83s"></i><i style="--c:12%;--c2:10%;--w:53%;--w2:46%;--d:1.38s;--u:0.55s"></i><i style="--c:27%;--c2:22%;--w:51%;--w2:57%;--d:1.39s;--u:0.62s"></i><i style="--c:36%;--c2:28%;--w:36%;--w2:67%;--d:1.40s;--u:0.69s"></i><i style="--c:31%;--c2:25%;--w:45%;--w2:75%;--d:1.42s;--u:0.76s"></i><i style="--c:29%;--c2:24%;--w:79%;--w2:82%;--d:1.43s;--u:0.83s"></i><i style="--c:33%;--c2:26%;--w:90%;--w2:86%;--d:1.44s;--u:0.55s"></i><i style="--c:28%;--c2:22%;--w:61%;--w2:89%;--d:1.45s;--u:0.62s"></i><i style="--c:22%;--c2:18%;--w:36%;--w2:90%;--d:1.46s;--u:0.69s"></i><i style="--c:30%;--c2:24%;--w:48%;--w2:88%;--d:1.48s;--u:0.76s"></i><i style="--c:37%;--c2:30%;--w:66%;--w2:85%;--d:1.49s;--u:0.83s"></i><i style="--c:29%;--c2:23%;--w:56%;--w2:79%;--d:1.50s;--u:0.55s"></i><i style="--c:18%;--c2:14%;--w:36%;--w2:72%;--d:1.51s;--u:0.62s"></i><i style="--c:16%;--c2:13%;--w:30%;--w2:63%;--d:1.52s;--u:0.69s"></i><i style="--c:14%;--c2:11%;--w:36%;--w2:53%;--d:1.54s;--u:0.76s"></i><i style="--c:7%;--c2:5%;--w:56%;--w2:42%;--d:1.55s;--u:0.83s"></i><i style="--c:10%;--c2:8%;--w:64%;--w2:31%;--d:1.56s;--u:0.55s"></i><i style="--c:22%;--c2:17%;--w:46%;--w2:40%;--d:1.57s;--u:0.62s"></i><i style="--c:20%;--c2:16%;--w:37%;--w2:51%;--d:1.58s;--u:0.69s"></i><i style="--c:11%;--c2:9%;--w:63%;--w2:62%;--d:1.60s;--u:0.76s"></i><i style="--c:12%;--c2:9%;--w:91%;--w2:71%;--d:1.61s;--u:0.83s"></i><i style="--c:19%;--c2:15%;--w:77%;--w2:78%;--d:1.62s;--u:0.55s"></i><i style="--c:19%;--c2:15%;--w:43%;--w2:84%;--d:1.63s;--u:0.62s"></i><i style="--c:22%;--c2:18%;--w:37%;--w2:88%;--d:1.64s;--u:0.69s"></i><i style="--c:35%;--c2:28%;--w:53%;--w2:90%;--d:1.66s;--u:0.76s"></i></div></div>
+ <div class="states"><span class="stt in on1" style="--d:1.0s">🧍 靜止</span><span class="stt in on2" style="--d:1.15s">🚶 行走</span><span class="stt in on3" style="--d:1.3s">⚠️ 跌倒</span></div>
+ <div class="note in" style="--d:4.2s">人體反射改變無線電波的振幅與相位 → 變成可判讀的特徵</div>
+<!-- ▲▲ 本景內容 ▲▲ -->
+</div>
+<div class="mark">DOF Lab<b>.</b> · doflab.cc</div>
+<div class="vig" style="z-index:3"></div>
+</body></html>
