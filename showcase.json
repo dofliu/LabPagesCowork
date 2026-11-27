@@ -1,7 +1,29 @@
 {
-  "updated": "2026-11-26",
+  "updated": "2026-11-27",
   "_note": "專案動畫展示；每筆對應 assets/showcase/<id>.mp4 與封面。由 tools/showcase/site_update.py 維護。",
   "items": [
+    {
+      "id": "light-saber",
+      "title": "Light Saber 體感光劍",
+      "tagline": "用 webcam 徒手揮光劍的體感遊戲",
+      "category": "other",
+      "date": "2026-11-27",
+      "video": "assets/showcase/light-saber.mp4",
+      "cover": "assets/showcase/light-saber.jpg",
+      "source_type": "repo",
+      "source_url": "https://github.com/dofliu/light-saber",
+      "tech": [
+        "Python",
+        "OpenCV",
+        "MediaPipe Hands"
+      ],
+      "repo": "dofliu/light-saber",
+      "duration": 30.1,
+      "title_en": "Light Saber: Hand-Tracking Game",
+      "tagline_en": "Swing a light saber bare-handed in front of a webcam",
+      "video_en": "assets/showcase/light-saber.en.mp4",
+      "cover_en": "assets/showcase/light-saber.en.jpg"
+    },
     {
       "id": "windfarm-battle",
       "title": "風場大戰 WindFarm Battle",
